@@ -1,1 +1,162 @@
-<h1>It works!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="./include/header.html">
+<!-- Currently, anything here will be overwritten -->
+</head>
+<body>
+<div class="include" file="./include/warningbanner.html"></div>
+<div class="container">
+
+    <!-- nav header -->
+    <div class="masthead">
+        <div class="row">
+            <div class="col-md-3 vcenter" id="logo-cont">
+                <a href="/doc/demos/demo_isgram.php"><img src="./img/ltfatlogo.png" alt="LTFAT logo"></a>
+            </div><!--
+        --><div class="col-md-9 vcenter" id="title-cont">
+                <h1 class="text-muted title">The Large Time-Frequency Analysis Toolbox</h1>
+                <div class="subtitle"> -All your <a href="http://youtu.be/qItugh-fFgg">frame</a> are belong to
+                    us -</div>
+            </div>
+        </div>
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href=".">Home</a></li>
+                <li><a href="./download.php">Download</a></li>
+                <li><a href="./contact.php">Contact</a></li>
+                <li><a href="./doc/start">Documentation</a></li>
+                <li><a href="./notes">Notes</a></li>
+                <li><a href="./development.php">Development</a></li>
+                <li><a href="./team.php">Team</a></li>
+                <li><a href="./related.php">Related</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="jumbotron">
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <p><img src="img/jumbotron/greasy_3_1.png"></p>
+                </div>
+
+                <div class="item">
+                    <p><img src="img/jumbotron/resgram_1_1.png"></p>
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+        <p class="lead">
+        The Large Time/Frequency Analysis Toolbox (LTFAT) is a Matlab/Octave toolbox
+        for working with time-frequency analysis and synthesis. It is intended both as an
+        educational and a computational tool. The toolbox provides a large number of linear transforms including Gabor and wavelet transforms along with routines for constructing
+        windows (filter prototypes) and routines for manipulating coefficients</p>
+
+        <p>LTFAT is developed at <a href="http://www.dtu.dk/centre/cahr/English.aspx">CAHR</a>, Technical University of Denmark, <a href="http://www.kfs.oeaw.ac.at/">ARI</a>, Austrian Academy of Sciences and <a href="http://www.latp.univ-mrs.fr/">LATP</a>, Universite de Provence.</p>
+
+        <p>The toolbox is <a title="definitions of free and non-free software"
+            href="http://www.gnu.org/philosophy/categories.html">Free</a>
+        software, released under the GNU General Public License (GPLv3).</p>
+
+        <a class="btn btn-large btn-success" href="https://sourceforge.net/projects/ltfat/files/latest/download?source=files">Download LTFAT</a>
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <h2 class="titlepage"><a name="features">Features</A></h2>
+
+            <ul>
+                <li>Fast TF-transforms with a linear time-frequency scale: Gabor (STFT), Wilson and windowed MDCT</li>
+                <li>Wavelet transforms: dyadic and general trees, decimated/undecimated and wavelet packet transforms</li> 
+                <li>Filterbanks</li>
+                <li>Non-stationary (time-evolving) Gabor systems</li>
+                <li>An object oriented framework for describing algorithms that work on frames in general</li>
+                <li>Basic Fourier and TF-analysis (unitary DFT, involution, twisted conv., symplectic Fourier transformation)</li>
+                <li>All transforms have methods for generating perfect reconstruction systems</li>
+                <li>Operators: Frame multipliers and spreading representation</li>
+                <li>A <a href="doc/mulaclab.php">GUI</a> in Matlab to modify signals in the time-frequency domain</li>
+                <li>Sparse regression in the Gabor and WMDCT domain</li>
+                <li>Windows and filter prototypes: Gauss, Hanning etc. Canonical dual and tight windows and many different types of wavelets</li>
+                <li>Spectrogram and reassigned spectrogram plots, and plotting routines for each transform</li>
+                <li>Simple tools for working with coefficients (thresholding, N-term approx.)</li>
+                <li>Demos demonstrating the use of the toolbox</li>
+                <li>Works in Matlab/Octave with a backend in C for greater speed</li>
+                <li>The toolbox is <a title="definitions of free and non-free software"
+                    href="http://www.gnu.org/philosophy/categories.html">Free</a>
+                software, released under the GNU General Public License (GPLv3)</li>
+            </ul>
+
+        </div><!--</col-md-4>-->
+
+        <div class="col-md-4">
+
+            <h2 class="titlepage"><a name="documentation">Documentation</a></h2>
+
+            You can read the <a href="documentation.php">documentation included in the M-files online</a> or download the entire documentation as a single <a href="doc/ltfat.pdf">pdf file</a>.<p>
+            The following pdfs provide more information:
+            <ul>
+                <li>The lastest overview paper of the
+                toolbox: <a href="notes/ltfatnote030.pdf">ltfatnote030.pdf</a></li>
+                <li>The lastest poster: <a href="notes/ltfatnote033.pdf">ltfatnote033.pdf</a></li>
+                <li>The lastest presentation: <a href="notes/ltfatnote025.pdf">ltfatnote025.pdf</a></li>
+                <li>A description of the DGT algorithms in the toolbox: <a href="notes/ltfatnote011.pdf">ltfatnote11.pdf</a></li>
+                <li>An overview of the non-stationary Gabor frames: <a href="notes/ltfatnote018.pdf">ltfatnote018.pdf</a></li>
+                <li>An overview of the frames: <a href="notes/ltfatnote032.pdf">ltfatnote032.pdf</a></li>
+                <!-- <li>An overview of the wavelets: <a href="notes/ltfatnote021.pdf">ltfatnote021.pdf</a></li> -->
+
+                <li>The design document: <a href="notes/ltfatnote014.pdf">ltfatnote014.pdf</a></li>
+
+            </ul>
+
+        </div><!--</col-md-4>-->
+
+        <div class="col-md-4">
+
+            <h2 class="titlepage"><a name="publication">Publications</a></h2>
+
+            If you use the toolbox in a scientic work, please cite:
+            <blockquote>
+                Zdeněk Průša, Peter L. Søndergaard, Nicki Holighaus, Christoph Wiesmeyr, Peter Balazs <i>The Large Time-Frequency Analysis Toolbox 2.0</i>. Sound, Music, and Motion, Lecture Notes in Computer Science 2014, pp 419-442 <a href="http://ltfat.sourceforge.net/notes/ltfatnote030.bib">[bibtex]</a></blockquote>
+            available from <a href="notes/ltfatnote030.pdf">here</a> and/or cite:
+
+            <blockquote>
+                Peter L. Søndergaard, Bruno Torrésani, Peter Balazs. <i>The Linear Time-Frequency Analysis Toolbox</i>. International Journal of Wavelets, Multiresolution Analysis and Information Processing, 10(4), 2012. <a href="http://ltfat.sourceforge.net/notes/ltfatnote015.bib">[bibtex]</a></blockquote>
+
+            available from <a href="notes/ltfatnote015.pdf">here</a> or one of the available <a href="notes/">notes</a> if relevant to your work. This will help in
+            securing a continued development of the toolbox.<p>
+
+        </div><!--</col-md-4>-->
+
+    </div><!--</row-fluid>-->
+
+    <div class="include" file="./include/footer.html"></div>
+</div><!--</container>-->
+
+<!-- Include scripts, these must stay here as they are required to load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="js/ltfat.js" type="text/javascript"></script>
+</body>
+</html>

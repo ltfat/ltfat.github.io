@@ -1,0 +1,267 @@
+/* Style file for LTFAT */
+/* This uses bootstrap as a template, see: http://twitter.github.io/bootstrap/ */
+/* AUTHOR: Hagen Wierstorf */
+body {
+  padding-top: 20px;
+  padding-bottom: 60px;
+}
+/* Typography */
+h1 {
+  font-size: 24.5px;
+}
+
+h1.title { margin-bottom: 0; }
+
+h2 {
+  font-size: 17.5px;
+}
+
+h3 {
+  font-size: 14px;
+}
+
+h4 {
+  font-size: 14px;
+}
+h2.titlepage {
+  font-size: 31.5px;
+}
+
+.vcenter{
+   display: inline-block;
+   vertical-align: top;
+   float: none;
+}
+
+#logo-cont { 
+text-align:right; 
+margin-top: 20px;
+}
+
+#title-cont { text-align:left; padding: 0; }
+
+.subtitle { 
+  font-size: small;
+  font-style: italic;
+  text-align: left;
+}
+
+/* Custom container */
+.container {
+  margin: 0 auto;
+  max-width: 1000px;
+}
+.container > hr {
+  margin: 60px 0;
+}
+/*
+nav.navbar {
+margin: 0;
+padding: 0;
+}
+*/
+/* Customize the navbar links to be fill the entire space of the .navbar */
+
+.navbar {
+margin-top: 20px;
+margin-bottom: 20px;
+min-height: 20px;
+}
+
+.nav li {
+ /* width: 1%;*/
+ /* float: none;*/
+}
+
+.nav li a {
+  font-weight: bold;
+  text-align: center;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255,255,255,.75);
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+
+nav > .nav .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+nav > .nav .navbar-collapse {
+  text-align: center;
+}
+
+/*
+.nav > .active > a {
+  border-left: 1px solid rgba(222,222,222,.126);
+}
+*/
+
+.nav li:first-child a {
+  border-left: 0;
+  border-radius: 3px 0 0 3px;
+}
+.nav li:last-child a {
+  border-right: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: transparent;
+}
+.jumbotron h1 {
+  font-size: 100px;
+  line-height: 1;
+}
+.jumbotron .lead {
+  font-size: 24px;
+  line-height: 1.25;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+/* side bar on the documentation page */
+.doc-sidenav {
+  margin-top: 15px;
+  padding: 0;
+  background-color: #fff;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+          box-shadow: 0 1px 4px rgba(0,0,0,.065);
+}
+.doc-sidenav > li > a {
+  display: block;
+  margin: 0 0 -1px;
+  padding: 5px 14px;
+  border: 1px solid #e5e5e5;
+}
+.doc-sidenav > li:first-child > a {
+  -webkit-border-radius: 6px 6px 0 0;
+     -moz-border-radius: 6px 6px 0 0;
+          border-radius: 6px 6px 0 0;
+}
+.doc-sidenav > li:last-child > a {
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+}
+.doc-sidenav > .active > a {
+  position: relative;
+  z-index: 2;
+  padding: 9px 15px;
+  border: 0;
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+     -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+          box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+}
+/* Chevrons */
+.doc-sidenav .icon-chevron-right {
+  float: right;
+  margin-top: 2px;
+  margin-right: -6px;
+  opacity: .25;
+}
+.doc-sidenav .icon-chevron-left {
+  float: left;
+  margin-top: 2px;
+  margin-left: -6px;
+  opacity: .25;
+}
+.doc-sidenav > li > a:hover {
+  background-color: #f5f5f5;
+}
+.doc-sidenav a:hover .icon-chevron-right,
+.doc-sidenav a:hover .icon-chevron-left {
+  opacity: .5;
+}
+.doc-sidenav .active .icon-chevron-right,
+.doc-sidenav .active a:hover .icon-chevron-right,
+.doc-sidenav .active .icon-chevron-left,
+.doc-sidenav .active a:hover .icon-chevron-left {
+  background-image: url(../img/glyphicons-halflings-white.png);
+  opacity: 1;
+}
+.doc-sidenav.affix {
+  top: 40px;
+}
+.doc-sidenav.affix-bottom {
+  position: absolute;
+  top: auto;
+  bottom: 270px;
+}
+/* fix the span size for the documentation site */
+.row-fluid .span2-doc { 
+  width: 16.53%; 
+  min-width: 120px;
+}
+.row-fluid .span10-doc { 
+  width: 79%; 
+  margin-left: 4.47%;
+}
+.text-left .span2-doc { 
+  min-width: 120px;
+  width: 16.53%;
+  margin-left: 0px;
+}
+/* FORM */
+.input-prepend form {
+  margin-left: 0px;
+}
+select { 
+  width: 100%; 
+  float: right;
+}
+.input-prepend .add-on {
+  float: left;
+  color: #555;
+  min-width: 100px;
+}
+/* Notes Table */
+notes_author {
+  text-size: 6px;
+}
+table > hr {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+/* Bootstrap link in the footer */
+.muted a {
+  color: #999;
+  font-weight: bold;
+}
+.muted small {
+  font-size: 70%;
+}
+
+.thumbnail { height: 400px; }
+
+.thumbnails .span3:first-child { margin-left: 7px; }
+
+.thumbnails .span3 {
+                margin-left: 7px;
+                margin-right: 7px;
+}
+
+/* Fix a problem with reStructuredText where nested environment had a
+larger fontsize. */
+blockquote p { font-size: 100%; } 
+
+blockquote { font-size: 100%;}
+
+.carousel-control.left {
+    background-image: none;
+}
+.carousel-control.right {
+    background-image: none;
+}
+
