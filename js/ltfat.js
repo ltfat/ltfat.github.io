@@ -1,5 +1,4 @@
 var baseurl = "."
-$('body').hide();
 
 $(document).ready(function() {
     includefile();
