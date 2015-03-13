@@ -1,10 +1,17 @@
 var baseurl = "."
+
 $(document).ready(function() {
     includefile();
 });
 
 function includefile(){
     var inLen = $('.include[file]').length;
+    if(inLen == 0)
+    {
+        // just make body visible and exit
+        $('body').css({display:'block'});
+    }
+
     $('.include[file]').each(function (idx, el) {
         var included_file = $(this).attr('file');
         //console.log(included_file);
