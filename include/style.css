@@ -74,7 +74,7 @@ margin-top: 20px;
     padding-left: 10px;
     padding-right: 10px;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
 }
 .nav-justified > li > a:hover{
     color: #222;
@@ -239,6 +239,11 @@ table > hr {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+
+th, td {
+    padding: 5px;
+}
+
 /* Bootstrap link in the footer */
 .muted a {
   color: #999;
@@ -248,7 +253,7 @@ table > hr {
   font-size: 70%;
 }
 
-.thumbnail { height: 400px; }
+.thumbnail { height: 440px; }
 
 .thumbnails .span3:first-child { margin-left: 7px; }
 
