@@ -27,7 +27,7 @@ new author("zp","Zdeněk Průša","http://www.kfs.oeaw.ac.at/index.php?option=co
 new author("np","Nathanaël Perraudin","http://people.epfl.ch/nathanael.perraudin",
            "Worked on the <a href='http://mat2doc.sourceforge.net'>mat2doc</a> documentation system and the webpage."),
 new author("pb","Peter Balazs","http://www.kfs.oeaw.ac.at/index.php?option=com_content&view=article&id=51:dr-peter-balazs&catid=42&Itemid=634&lang=en",
-           "Worked on the <a href='http://mat2doc.sourceforge.net'>mat2doc</a> documentation system and the webpage."),
+           "One of the original founders and has worked on demos and frames."),
 new author("nh","Nicki Holighaus","http://www.kfs.oeaw.ac.at/index.php?option=com_content&view=article&id=660:holighaus-di-nicki&catid=13&Itemid=419&lang=en",
            "Worked on non-stationary and non-separable Gabor systems, CQT, ERBlets, warped filterbanks and filterbank reassignment."),
 new author("bt","Bruno Torrésani","http://www.cmi.univ-mrs.fr/~torresan/",
