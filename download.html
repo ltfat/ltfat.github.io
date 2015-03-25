@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="./include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab, octave"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="include/style.css" type="text/css">
+<link rel="stylesheet" href="include/highlight.css" type="text/css">
+<title>The Large Time-Frequency Analysis Toolbox</title>
+</head>
+
+<body style="display:none;">
+
+<div class="container">
+    <div class="masthead include" file="./include/mainnav.html"> </div>
+    <!-- main page -->
+    <div class="row-fluid">
+
+        <div class="span12">
+            <br/>
+
+            <h1>Download LTFAT</h1>
+            <p class="pull-right">
+            <a href="https://sourceforge.net/projects/ltfat/files/latest/download?source=files"><button class="btn btn-large btn-success">Get the latest version</button></a>
+            </p>
+            <p>You can have a look at the Sourceforge <a href="http://sourceforge.net/projects/ltfat/files/">download page</a> to see all available versions,
+            or just download the latest one by clicking on the button.</p>
+
+            <br/>
+
+
+
+            <h2>Installation</h2>
+            To install, simply unpack the package. The toolbox is contained in the 'ltfat' directory and in all the subdirectories. To use the toolbox, start Octave/Matlab, change to the 'ltfat' directory and run the <pre>ltfatstart</pre> command. This will set up the necessary paths and perform the necessary initializations.<p>
+
+            <p>If you have downloaded a binary package for Windows 7 or MacOS, compiled mex files for 64 bit Matlab are included in the package. Otherwise, you can compile the mex interfaces yourself.</p>
+
+            <p>To compile the mex/oct interfaces for faster execution of the toolbox, type the command: <pre>ltfatmex</pre>Further installation instructions can be found in the files INSTALL-Matlab and INSTALL-Octave. The currently supported platforms are:
+            <ul>
+                <li>Octave 3.4 and higher on Linux. Tested on 32/64 bit Intel/AMD platforms.</li>
+                <li>Octave 3.4 and higher on Windows XP, Vista, Windows 7 (Windows 8 has not been tested).</li>
+                <li>Octave 3.4 and higher on Mac OS X. Has not been tested, but should work out of the box.</li>
+                <li>Matlab 2009b and later on 32/64 bit Windows (mexext=mexw32 and mexext=mexw64).</li>
+                <li>Matlab 2009b and later on 32/64 bit Linux (mexext=mexglx and mexext=mexa64).</li>
+                <li>Matlab 2009b and later on Mac OS X (mexext=mexmaci and mexext=mexmaci64). </li>
+
+            </ul></p>
+
+        </div><!--</span12>-->
+    </div><!--</row-fluid>-->
+
+
+
+    <div class="include" file="./include/footer.html"></div>
+</div><!--</container>-->
+
+<!-- These two have to be here to dynamically load the rest of the header -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="js/ltfat.js" type="text/javascript"></script>
+</body>
+</html>
