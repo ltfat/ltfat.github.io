@@ -1,0 +1,144 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FILTERBANK - Apply filterbank</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="filterbank.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/filterbank/ufilterbank.html">ufilterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/ifilterbank.html">ifilterbank</a></li>
+<li><a href="#BASEURL#/doc/sigproc/pfilt.html">pfilt</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FILTERBANK - Apply filterbank</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">filterbank</span><span class="p">(</span>f,g,a,varargin<span class="p">)</span><span class="w">  </span>
+<span class="c">%FILTERBANK   Apply filterbank</span>
+<span class="c">%   Usage:  c=filterbank(f,g,a);</span>
+<span class="c">%</span>
+<span class="c">%   FILTERBANK(f,g,a) applies the filters given in g to the signal</span>
+<span class="c">%   f. Each subband will be subsampled by a factor of a (the</span>
+<span class="c">%   hop-size). In contrast to UFILTERBANK, a can be a vector so the</span>
+<span class="c">%   hop-size can be channel-dependant. If f is a matrix, the</span>
+<span class="c">%   transformation is applied to each column.</span>
+<span class="c">%</span>
+<span class="c">%   The filters g must be a cell-array, where each entry in the cell</span>
+<span class="c">%   array corresponds to an FIR filter.</span>
+<span class="c">%</span>
+<span class="c">%   The output coefficients are stored a cell array. More precisely, the</span>
+<span class="c">%   n&#39;th cell of c, c{m}, is a 2D matrix of size M(n) xW and</span>
+<span class="c">%   containing the output from the m&#39;th channel subsampled at a rate of</span>
+<span class="c">%   a(m).  c{m}(n,l) is thus the value of the coefficient for time index</span>
+<span class="c">%   n, frequency index m and signal channel l.</span>
+<span class="c">%</span>
+<span class="c">%   The coefficients c computed from the signal f and the filterbank</span>
+<span class="c">%   with windows g_m are defined by</span>
+<span class="c">%</span>
+<span class="c">%                 L-1</span>
+<span class="c">%      c_m(n+1) = sum f(l+1) * g_m (a(m)n-l+1)</span>
+<span class="c">%                 l=0</span>
+<span class="c">%</span>
+<span class="c">%   where an-l is computed modulo L.</span>
+<span class="c">%</span>
+<span class="c">%   See also: ufilterbank, ifilterbank, pfilt</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     H. Bölcskei, F. Hlawatsch, and H. G. Feichtinger. Frame-theoretic</span>
+<span class="c">%     analysis of oversampled filter banks. Signal Processing, IEEE</span>
+<span class="c">%     Transactions on, 46(12):3256-3268, 2002.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/filterbank/filterbank.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+    
+<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;pfilt&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;FILTERBANK&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  
+<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: a must be non-empty numeric.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span><span class="p">;</span>
+  
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+   <span class="n">L</span><span class="p">=</span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">]=</span><span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
+
+<span class="c">%  if size(a,1)&gt;1 </span>
+<span class="c">%    if  size(a,1)~= numel(g);</span>
+<span class="c">%      error([&#39;%s: The number of entries in &quot;a&quot; must match the number of &#39; ...</span>
+<span class="c">%             &#39;filters.&#39;],upper(mfilename));</span>
+<span class="c">%    end;</span>
+<span class="c">%  end;</span>
+
+<span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+<span class="n">g</span><span class="p">=</span><span class="n">comp_filterbank_pre</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">crossover</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">comp_filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">);</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

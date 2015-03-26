@@ -1,0 +1,115 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>DEMO_AUDITORYFILTERBANK - Construct an auditory filterbank</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="demo_auditoryfilterbank_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></li>
+<li><a href="#BASEURL#/doc/auditory/gammatonefir.html">gammatonefir</a></li>
+<li><a href="#BASEURL#/doc/filterbank/ufilterbank.html">ufilterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/filterbankrealdual.html">filterbankrealdual</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_AUDITORYFILTERBANK - Construct an auditory filterbank</h1>
+<h2 class="subtitle" id="xxxdescription">Description</h2>
+
+<p>In this file we construct a uniform filterbank using a the impulse
+response of a 4th order gammatone for each channel. The center frequencies
+are equidistantly spaced on an ERB-scale, and the width of the filter are
+choosen to match the auditory filter bandwidth as determined by Moore.</p>
+<p>Each channel is subsampled by a factor of 8 (a=8), and to generate a
+nice plot, 4 channels per Erb has been used.</p>
+<p>The filterbank covers only the positive frequencies, so we must use
+<span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankrealdual.html">filterbankrealdual</a></span> and <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankrealbounds.html">filterbankrealbounds</a></span>.</p>
+<div class="figure align-center">
+<img alt="demo_auditoryfilterbank_1.png" src="demo_auditoryfilterbank_1.png" />
+<p class="caption">Classic spectrogram</p>
+<div class="legend">
+A classic spectrogram of the spoken sentense. The dynamic range has
+been set to 50 dB, to highlight the most important features.</div>
+</div>
+<div class="figure align-center">
+<img alt="demo_auditoryfilterbank_2.png" src="demo_auditoryfilterbank_2.png" />
+<p class="caption">Auditory filterbank representation</p>
+<div class="legend">
+Auditory filterbank representation of the spoken sentense using
+gammatone filters on an Erb scale.  The dynamic range has been set to
+50 dB, to highlight the most important features.</div>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Frame bound ratio for gammatone filterbank, should be close to 1 if the filters are choosen correctly.
+
+ans =
+
+   1.598850055103133
+
+Relative error in reconstruction, should be close to zero.
+
+ans =
+
+     6.351688463339131e-05
+
+Relative error in interative reconstruction, should be close to zero.
+
+ans =
+
+     1.883372435594799e-10
+</pre>
+<H2>References:</H2>
+
+
+
+<p><a name="glasberg1990daf"></a>
+
+B.&nbsp;R. Glasberg and B.&nbsp;Moore.
+ Derivation of auditory filter shapes from notched-noise data.
+ <em>Hearing Research</em>, 47(1-2):103, 1990.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

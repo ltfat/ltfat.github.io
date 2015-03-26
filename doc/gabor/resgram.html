@@ -1,0 +1,177 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>RESGRAM - Reassigned spectrogram plot</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="resgram_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/sgram.html">sgram</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">RESGRAM - Reassigned spectrogram plot</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+resgram(f,op1,op2, ... );
+resgram(f,fs,op1,op2, ... );
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">resgram(f)</tt> plots a reassigned spectrogram of <em>f</em>.</p>
+<p><tt class="docutils literal">resgram(f,fs)</tt> does the same for a signal with sampling rate <em>fs</em>
+(sampled with <em>fs</em> samples per second).</p>
+<p>Because reassigned spectrograms can have an extreme dynamical range,
+consider always using the <tt class="docutils literal">'dynrange'</tt> or <tt class="docutils literal">'clim'</tt> options (see below)
+in conjunction with the <tt class="docutils literal">'db'</tt> option (on by default). An example:</p>
+<pre class="literal-block">
+resgram(greasy,16000,'dynrange',70);
+</pre>
+<img alt="resgram_1_1.png" class="align-center" src="resgram_1_1.png" />
+<p>This will produce a reassigned spectrogram of the <span class="linkrole"><a href="#BASEURL#/doc/signals/greasy.html">greasy</a></span> signal
+without drowning the interesting features in noise.</p>
+<p><tt class="docutils literal">C=resgram(f, ... )</tt> returns the image to be displayed as a matrix. Use this
+in conjunction with <tt class="docutils literal">imwrite</tt> etc. These coefficients are <strong>only</strong> intended to
+be used by post-processing image tools. Reassignment should be done
+using the <span class="linkrole"><a href="#BASEURL#/doc/gabor/gabreassign.html">gabreassign</a></span> function instead.</p>
+<p><tt class="docutils literal">resgram</tt> accepts the following additional arguments:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'dynrange',<var>r</var></span></kbd></td>
+<td>Limit the dynamical range to <em>r</em> by using a colormap in
+the interval <span class="math">\([chigh-r,chigh]\)</span>, where <em>chigh</em> is the highest
+value in the plot. The default value of <tt class="docutils literal">[]</tt> means to not
+limit the dynamical range.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'db'</span></kbd></td>
+<td>Apply <tt class="docutils literal">20*log10</tt> to the coefficients. This makes it possible to
+see very weak phenomena, but it might show too much noise. A
+logarithmic scale is more adapted to perception of sound.
+This is the default.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'sharp',<var>alpha</var></span></kbd></td>
+<td>Set the sharpness of the plot. If <span class="math">\(alpha=0\)</span> the regular
+spectrogram is obtained. <span class="math">\(alpha=1\)</span> means full
+reassignment. Anything in between will produce a partially
+sharpened picture. Default is <span class="math">\(alpha=1\)</span>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'lin'</span></kbd></td>
+<td>Show the energy of the coefficients on a linear scale.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'tfr',<var>v</var></span></kbd></td>
+<td>Set the ratio of frequency resolution to time resolution.
+A value <span class="math">\(v=1\)</span> is the default. Setting <span class="math">\(v&gt;1\)</span> will give better
+frequency resolution at the expense of a worse time
+resolution. A value of <span class="math">\(0&lt;v&lt;1\)</span> will do the opposite.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'wlen',<var>s</var></span></kbd></td>
+<td>Window length. Specifies the length of the window
+measured in samples. See help of <span class="linkrole"><a href="#BASEURL#/doc/fourier/pgauss.html">pgauss</a></span> on the exact
+details of the window length.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'posfreq'</span></kbd></td>
+<td>Display only the positive frequencies. This is the
+default for real-valued signals.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nf'</span></kbd></td>
+<td>Display negative frequencies, with the zero-frequency
+centered in the middle. For real signals, this will just
+mirror the upper half plane. This is standard for complex
+signals.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'tc'</span></kbd></td>
+<td>Time centering. Move the beginning of the signal to the
+middle of the plot. This is useful for visualizing the
+window functions of the toolbox.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'image'</span></kbd></td>
+<td>Use <tt class="docutils literal">imagesc</tt> to display the spectrogram. This is the
+default.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'clim',<var>clim</var></span></kbd></td>
+<td>Use a colormap ranging from <span class="math">\(clim(1)\)</span> to <span class="math">\(clim(2)\)</span>. These
+values are passed to <tt class="docutils literal">imagesc</tt>. See the help on <tt class="docutils literal">imagesc</tt>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'thr',<var>r</var></span></kbd></td>
+<td>Keep only the largest fraction <em>r</em> of the coefficients, and
+set the rest to zero.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'fmax',<var>y</var></span></kbd></td>
+<td>Display <em>y</em> as the highest frequency. Default value of <tt class="docutils literal">[]</tt>
+means to use the Nyquist frequency.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'xres',<var>xres</var></span></kbd></td>
+<td>Approximate number of pixels along x-axis / time.
+The default value is 800</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'yres',<var>yres</var></span></kbd></td>
+<td>Approximate number of pixels along y-axis / frequency
+The default value is 600</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'contour'</span></kbd></td>
+<td>Do a contour plot to display the spectrogram.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'surf'</span></kbd></td>
+<td>Do a surf plot to display the spectrogram.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'mesh'</span></kbd></td>
+<td>Do a mesh plot to display the spectrogram.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'colorbar'</span></kbd></td>
+<td>Display the colorbar. This is the default.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nocolorbar'</span></kbd></td>
+<td>Do not display the colorbar.</td></tr>
+</tbody>
+</table>
+<p>In addition to these parameters, <tt class="docutils literal">sgram</tt> accepts any of the flags from
+<span class="linkrole"><a href="#BASEURL#/doc/sigproc/normalize.html">normalize</a></span>. The window used to calculate the spectrogram will be
+normalized as specified.</p>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

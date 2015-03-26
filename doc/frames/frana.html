@@ -1,0 +1,93 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FRANA - Frame analysis operator</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="frana_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
+<li><a href="#BASEURL#/doc/frames/framepair.html">framepair</a></li>
+<li><a href="#BASEURL#/doc/frames/frsyn.html">frsyn</a></li>
+<li><a href="#BASEURL#/doc/frames/plotframe.html">plotframe</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FRANA - Frame analysis operator</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+c=frana(F,f);
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">c=frana(F,f)</tt> computes the frame coefficients <em>c</em> of the input
+signal <em>f</em> using the frame <em>F</em>. The frame object <em>F</em> must have been
+created using <span class="linkrole"><a href="#BASEURL#/doc/frames/frame.html">frame</a></span> or <span class="linkrole"><a href="#BASEURL#/doc/frames/framepair.html">framepair</a></span>.</p>
+<p>If <em>f</em> is a matrix, the transform will be applied along the columns
+of <em>f</em>. If <em>f</em> is an N-D array, the transform will be applied along
+the first non-singleton dimension.</p>
+<p>The output coefficients are stored as columns. This is usually
+<strong>not</strong> the same format as the 'native' format of the frame. As an
+examples, the output from <span class="linkrole"><a href="#BASEURL#/doc/frames/frana.html">frana</a></span> for a gabor frame cannot be
+passed to <span class="linkrole"><a href="#BASEURL#/doc/gabor/idgt.html">idgt</a></span> without a reshape.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples:</h2>
+<p>In the following example the signal <em>bat</em> is analyzed through a wavelet
+frame. The result are the frame coefficients associated with the input
+signal <em>bat</em> and the analysis frame <tt class="docutils literal">'fwt'</tt>:</p>
+<pre class="literal-block">
+f = bat;
+w = 'sym8';
+J = 7;
+F = frame('fwt', w, J);
+c = frana(F, f);
+% A plot of the frame coefficients
+plotframe(F, c, 'dynrange', 100);
+</pre>
+<img alt="frana_1_1.png" class="align-center" src="frana_1_1.png" />
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

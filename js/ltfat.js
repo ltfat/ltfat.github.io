@@ -7,6 +7,10 @@ $(document).ready(function(){
     $('body').css('display','none');
     // Fill in the included parts 
     includefiles();
+
+    $('a[href^="#BASEURL#"]').attr('href',function(i,el){
+        return relativetoabsolute(el);
+    });
 });
 
 function includefiles(){
@@ -64,13 +68,28 @@ function includefiles(){
                 else
                 {
                     // Get rid of the trailing filename
-                    chref = chref.substr(chref,chref.lastIndexOf('/'));
+                    chref = chref.substr(chref,chref.lastIndexOf('/')).toLowerCase();
                     console.log("Current: " + chref);
-                    $("nav .nav li a[href]").filter(function(){
-                        var href = this.href.substr(baseurl.length+1)
+                    
+                    var array = ($("nav .nav li a:not([href$='.html'])").toArray());
+                    var maxmatchel = array[0];
+                    var maxmatch = -1;
+                    var relpaths = $.map(array, function(val,ii){
+                        var href = val.href.substr(baseurl.length+1).toLowerCase();
+                        var tmpmatch = strcmp(href,chref);
+                        if(tmpmatch>maxmatch){
+                            maxmatch = tmpmatch;
+                            maxmatchel = val;
+                        }
+                    });
+                    $(maxmatchel).parent().addClass("active");
+
+                   /* $("nav .nav li a:not([href$='.html'])").filter(function(){
+                        var href = this.href.substr(baseurl.length+1);
+                        if(href.length == 0){ return false;}
                         console.log("Menu:" + href);
                     return chref.indexOf(href,chref.length - href.length) !== -1;
-                    }).last().parent().addClass("active");
+                    }).last().parent().addClass("active");*/
                 }
             }
             $('body').css({display:'block'});
@@ -96,4 +115,15 @@ function relativetoabsolute(v){
         //console.log('New:' + retval);
         return retval;
     }
+}
+
+function strcmp(a, b) {
+    // retval is index of last matching character in strings
+    // -1 means do not match at all
+    a = a.toString(), b = b.toString();
+    var retval = -1;
+    for (;retval<Math.min(a.length, b.length);++retval){
+        if(a.charAt(retval+1) !== b.charAt(retval+1)) return retval;
+    }
+    return retval;
 }

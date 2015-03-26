@@ -1,0 +1,92 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>GABIMAGEPARS - Find Gabor parameters to generate image</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="gabimagepars_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></li>
+<li><a href="#BASEURL#/doc/gabor/sgram.html">sgram</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">GABIMAGEPARS - Find Gabor parameters to generate image</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+[a,M,L,N,Ngood]=gabimagepars(Ls,x,y);
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal"><span class="pre">[a,M,L,N,Ngood]=gabimagepars(Ls,x,y)</span></tt> will compute a reasonable set of
+parameters <em>a</em>, <em>M</em> and <em>L</em> to produce a nice Gabor 'image' of a signal
+of length <em>Ls</em>. The approximate number of pixels in the time direction is
+given as <em>x</em> and the number of pixels in the frequency direction is given
+as <em>y</em>.</p>
+<p>The output parameter <em>Ngood</em> contains the number of time steps (columns
+in the coefficients matrix) that contains relevant information. The
+columns from <em>Ngood</em> until <em>N</em> only contains information from a
+zero-extension of the signal.</p>
+<p>If you use this function to calculate a grid size for analysis of a
+real-valued signal (using <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></span>), please input twice of the desired
+size <em>y</em>. This is because <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></span> only returns half as many
+coefficients in the frequency direction as <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span>.</p>
+<p>An example: We wish to compute a Gabor image of a real valued signal <em>f</em>
+of length <span class="math">\(7500\)</span>. The image should have an approximate resolution of
+<span class="math">\(800 \times 600\)</span> pixels:</p>
+<pre class="literal-block">
+[f,fs]=linus; f=f(4001:4000+7500);
+[a,M,L,N,Ngood] = gabimagepars(7500,800,2*600);
+c = dgtreal(f,'gauss',a,M);
+plotdgtreal(c,a,M,fs,90);
+</pre>
+<img alt="gabimagepars_1_1.png" class="align-center" src="gabimagepars_1_1.png" />
+<p>The size of c is <span class="math">\(N \times (M/2)+1\)</span> equal to <span class="math">\(801 \times 600\)</span> pixels.</p>
+<p>For this function to work properly, the specified numbers for <em>x</em> and
+<em>y</em> must not be large prime numbers.</p>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

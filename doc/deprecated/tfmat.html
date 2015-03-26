@@ -1,0 +1,114 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>TFMAT - Matrix of transform / operator</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="tfmat_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/frames/frsynmatrix.html">frsynmatrix</a></li>
+<li><a href="#BASEURL#/doc/operators/operatormatrix.html">operatormatrix</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">TFMAT - Matrix of transform / operator</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+F=tfmat('fourier',L);
+F=tfmat('dcti',L);
+F=tfmat('dgt',g,a,M);
+F=tfmat('dwilt',g,M);
+F=tfmat('wmdct',g,M);
+F=tfmat('zak',L,a);
+F=tfmat('gabmul',sym,a);
+F=tfmat('spread',c);
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">tfmat</tt> has been deprecated. Please construct a frame (using <span class="linkrole"><a href="#BASEURL#/doc/frames/frame.html">frame</a></span>)
+and use <span class="linkrole"><a href="#BASEURL#/doc/frames/frsynmatrix.html">frsynmatrix</a></span>, or construct an operator (using <span class="linkrole"><a href="#BASEURL#/doc/operators/operatornew.html">operatornew</a></span>)
+and use <span class="linkrole"><a href="#BASEURL#/doc/operators/operatormatrix.html">operatormatrix</a></span> instead.</p>
+</div>
+<div class="section" id="original-help">
+<h2>Original help</h2>
+<p><tt class="docutils literal">tfmat</tt> returns a matrix <em>F</em> containing the basis functions / atoms of
+one of the transforms in the toolbox. The atoms are placed as column
+vectors in the matrix. A forward transform (analysis) can be done by:</p>
+<pre class="literal-block">
+c=F'*f;
+</pre>
+<p>and a backwards or adjoint transform (synthesis) can be done by:</p>
+<pre class="literal-block">
+r=F*c;
+</pre>
+<p>The possibilities are:</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('fourier',L)</span></tt> returns the matrix of the unitary Fourier
+transform of length <em>L</em>. See <span class="linkrole"><a href="#BASEURL#/doc/fourier/dft.html">dft</a></span>.</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('dcti',L)</span></tt> returns the matrix of the DCTI transform of length
+<em>L</em>. Similarly for <tt class="docutils literal">'dctii'</tt>, <tt class="docutils literal">'dctiii'</tt>, <tt class="docutils literal">'dctiv'</tt>, <tt class="docutils literal">'dsti'</tt>, <tt class="docutils literal">'dstii'</tt>,
+<tt class="docutils literal">'dstiii'</tt> or <tt class="docutils literal">'dstiv'</tt>.</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('dgt',g,a,M)</span></tt> returns a matrix containing all the atoms of the
+Gabor frame with window g and lattice constants <em>a</em> and <em>M</em>.
+<tt class="docutils literal"><span class="pre">tfmat('dgt',g,a,M,L)</span></tt> will do the same for a FIR window <em>g</em>.</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('dwilt',g,M)</span></tt> returns a matrix containing all the atoms of the
+Wilson  basis with window <em>g</em> and <em>M</em> channels. <tt class="docutils literal">tfmat(g,M,L)</tt> will do the
+same for a FIR window <em>g</em>.</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('wmdct',g,M)</span></tt> and <tt class="docutils literal"><span class="pre">tfmat('wmdct',g,M,L)</span></tt> does the same for an WMDCT
+with <em>M</em> channels.</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('gabmul',sym,a)</span></tt> return the matrix of the Gabor multiplier with
+symbol sym and time shift <em>a</em>. <tt class="docutils literal"><span class="pre">tfmat('gabmul',c,g,a)</span></tt> does the same
+using the window <em>g</em> for both analysis and synthesis.
+<tt class="docutils literal"><span class="pre">tfmat('gabmul',sym,ga,gs,a)</span></tt> does the same using <em>ga</em> as analysis window
+and <em>gs</em> as synthesis window.</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('spread',c)</span></tt> returns the matrix of the spreading operator with
+symbol <em>c</em>.</p>
+<p><tt class="docutils literal"><span class="pre">tfmat('zak',L,a)</span></tt> returns the transform matrix for a Zak transform of
+length <em>L</em> and parameter <em>a</em>.</p>
+<p>This function should mainly be used for educational purposes or for
+experimenting with systems, as the generated matrix can
+become very large.</p>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

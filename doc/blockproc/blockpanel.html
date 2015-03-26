@@ -1,0 +1,104 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>BLOCKPANEL - Control panel</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="blockpanel_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">BLOCKPANEL - Control panel</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+blockpanel(params)
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>params</var></span></kbd></td>
+<td>Cell-array of parameters specifications.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>p</var></span></kbd></td>
+<td>Control panel Java object</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">blockpanel(params)</tt> creates a Java object containing GUI for changing
+parameters during the playback. <tt class="docutils literal">params</tt> should be a cell-array, whose
+elements are another cell array of the following format:</p>
+<blockquote>
+{'var','label',minVal,maxVal,defVal,valCount}</blockquote>
+<p>Example:</p>
+<dl class="docutils">
+<dt>params = {</dt>
+<dd>{'G','Gain',-20,20,0,21}
+}</dd>
+</dl>
+<p>The function takes in the additional optional arguments:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">'location',location</span></tt>:   Window initial position. <tt class="docutils literal">location</tt></dt>
+<dd>has to be 2 element row vector <tt class="docutils literal">[x,y]</tt>
+defining distance from the top-left
+corner of the screen.</dd>
+</dl>
+</blockquote>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

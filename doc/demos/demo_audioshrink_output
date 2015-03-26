@@ -1,0 +1,4 @@
+Percentage of retained coefficients: 10.156250 + 12.988281 = 23.144531
+To play the original, type "soundsc(sig,fs)"
+To play the tonal part, type "soundsc(rec1,fs)"
+To play the transient part, type "soundsc(rec2,fs)"

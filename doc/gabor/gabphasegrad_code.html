@@ -1,0 +1,374 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>GABPHASEGRAD - Phase gradient of the DGT</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="gabphasegrad.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/resgram.html">resgram</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabreassign.html">gabreassign</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">GABPHASEGRAD - Phase gradient of the DGT</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[tgrad,fgrad,c]<span class="p">=</span><span class="nf">gabphasegrad</span><span class="p">(</span>method,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%GABPHASEGRAD   Phase gradient of the DGT</span>
+<span class="c">%   Usage:  [tgrad,fgrad,c] = gabphasegrad(&#39;dgt&#39;,f,g,a,M);</span>
+<span class="c">%           [tgrad,fgrad]   = gabphasegrad(&#39;phase&#39;,cphase,a);</span>
+<span class="c">%           [tgrad,fgrad]   = gabphasegrad(&#39;abs&#39;,s,g,a);</span>
+<span class="c">%</span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(method,...) computes the time-frequency</span>
+<span class="c">%   gradient of the phase of the DGT of a signal. The derivative in time</span>
+<span class="c">%   tgrad is the instantaneous frequency while the frequency derivative</span>
+<span class="c">%   fgrad is the local group delay.</span>
+<span class="c">%</span>
+<span class="c">%   tgrad and fgrad measure the deviation from the current time and</span>
+<span class="c">%   frequency, so a value of zero means that the instantaneous frequency is</span>
+<span class="c">%   equal to the center frequency of the considered channel.</span>
+<span class="c">%</span>
+<span class="c">%   tgrad is scaled such that distances are measured in samples. Similarly,</span>
+<span class="c">%   fgrad is scaled such that the Nyquist frequency (the highest possible</span>
+<span class="c">%   frequency) corresponds to a value of L/2.</span>
+<span class="c">%</span>
+<span class="c">%   The computation of tgrad and fgrad is inaccurate when the absolute</span>
+<span class="c">%   value of the Gabor coefficients is low. This is due to the fact the the</span>
+<span class="c">%   phase of complex numbers close to the machine precision is almost</span>
+<span class="c">%   random. Therefore, tgrad and fgrad may attain very large random values</span>
+<span class="c">%   when abs(c) is close to zero.</span>
+<span class="c">%</span>
+<span class="c">%   The computation can be done using three different methods.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;dgt&#39;    Directly from the signal. This is the default method.</span>
+<span class="c">% </span>
+<span class="c">%     &#39;phase&#39;  From the phase of a DGT of the signal. This is the</span>
+<span class="c">%              classic method used in the phase vocoder.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;abs&#39;    From the absolute value of the DGT. Currently this</span>
+<span class="c">%              method works only for Gaussian windows.</span>
+<span class="c">%</span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;dgt&#39;,f,g,a,M) computes the time-frequency</span>
+<span class="c">%   gradient using a DGT of the signal f. The DGT is computed using the</span>
+<span class="c">%   window g on the lattice specified by the time shift a and the number</span>
+<span class="c">%   of channels M. The algorithm used to perform this calculation computes</span>
+<span class="c">%   several DGTs, and therefore this routine takes the exact same input</span>
+<span class="c">%   parameters as DGT.</span>
+<span class="c">%</span>
+<span class="c">%   The window g may be specified as in DGT. If the window used is</span>
+<span class="c">%   &#39;gauss&#39;, the computation will be done by a faster algorithm.</span>
+<span class="c">%</span>
+<span class="c">%   [tgrad,fgrad,c]=GABPHASEGRAD(&#39;dgt&#39;,f,g,a,M) additionally returns the</span>
+<span class="c">%   Gabor coefficients c, as they are always computed as a byproduct of the</span>
+<span class="c">%   algorithm.</span>
+<span class="c">%</span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;phase&#39;,cphase,a) computes the phase</span>
+<span class="c">%   gradient from the phase cphase of a DGT of the signal. The original DGT</span>
+<span class="c">%   from which the phase is obtained must have been computed using a</span>
+<span class="c">%   time-shift of a.</span>
+<span class="c">%</span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;abs&#39;,s,g,a) computes the phase gradient</span>
+<span class="c">%   from the spectrogram s. The spectrogram must have been computed using</span>
+<span class="c">%   the window g and time-shift a.</span>
+<span class="c">%</span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;abs&#39;,s,g,a,difforder) uses a centered finite</span>
+<span class="c">%   diffence scheme of order difforder to perform the needed numerical</span>
+<span class="c">%   differentiation. Default is to use a 4th order scheme.</span>
+<span class="c">%</span>
+<span class="c">%   Currently the &#39;abs&#39; method only works if the window g is a Gaussian</span>
+<span class="c">%   window specified as a string or cell array.</span>
+<span class="c">%</span>
+<span class="c">%   See also: resgram, gabreassign, dgt</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     F. Auger and P. Flandrin. Improving the readability of time-frequency</span>
+<span class="c">%     and time-scale representations by the reassignment method. IEEE Trans.</span>
+<span class="c">%     Signal Process., 43(5):1068-1089, 1995.</span>
+<span class="c">%     </span>
+<span class="c">%     E. Chassande-Mottin, I. Daubechies, F. Auger, and P. Flandrin.</span>
+<span class="c">%     Differential reassignment. Signal Processing Letters, IEEE,</span>
+<span class="c">%     4(10):293-294, 1997.</span>
+<span class="c">%     </span>
+<span class="c">%     J. Flanagan, D. Meinhart, R. Golden, and M. Sondhi. Phase Vocoder. The</span>
+<span class="c">%     Journal of the Acoustical Society of America, 38:939, 1965.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/gabor/gabphasegrad.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+  
+<span class="c">% AUTHOR: Peter L. Søndergaard, 2008.</span>
+  
+<span class="c">%error(nargchk(4,6,nargin));</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">ischar</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;First argument must be the method name, &quot;dgt&quot;, &quot;phase&quot; or &#39;</span> <span class="c">...</span>
+           <span class="s">&#39;&quot;abs&quot;.&#39;</span><span class="p">]);</span>
+<span class="k">end</span><span class="p">;</span>
+  
+<span class="k">switch</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
+ <span class="k">case</span> <span class="s">&#39;dgt&#39;</span>
+  <span class="c">% ---------------------------  DGT method ------------------------</span>
+
+  <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">]=</span><span class="n">deal</span><span class="p">(</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">});</span>
+  
+  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span>
+  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">minlvl</span><span class="p">=</span><span class="nb">eps</span><span class="p">;</span>
+  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
+  <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">minlvl</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="s">&#39;minlvl&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
+  
+  
+  <span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
+  <span class="c">% Change f to correct shape.</span>
+  <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">wasrow</span><span class="p">,</span><span class="n">remembershape</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+  
+  <span class="c">%% ------ step 2: Verify a, M and L</span>
+  <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+      
+      <span class="c">% ----- step 2b : Verify a, M and get L from the signal length f----------</span>
+      <span class="n">L</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+      
+  <span class="k">else</span>
+      
+      <span class="c">% ----- step 2a : Verify a, M and get L</span>
+      <span class="n">Luser</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+      <span class="k">if</span> <span class="n">Luser</span><span class="o">~=</span><span class="n">L</span>
+          <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect transform length L=%i specified. Next valid length &#39;</span> <span class="c">...</span>
+                 <span class="s">&#39;is L=%i. See the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="c">...</span>
+                <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">Luser</span><span class="p">);</span>
+      <span class="k">end</span><span class="p">;</span>
+      
+  <span class="k">end</span><span class="p">;</span>
+  
+  <span class="c">%% ----- step 3 : Determine the window </span>
+  
+  <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+  
+  <span class="k">if</span> <span class="n">L</span><span class="o">&lt;</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span>
+      <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Window is too long.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+  <span class="k">end</span><span class="p">;</span>
+  
+  <span class="c">%% ----- step 4: final cleanup ---------------</span>
+  
+  <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+  
+  <span class="c">%% ------ algorithm starts --------------------</span>
+  
+  <span class="c">% Compute the time weighted version of the window.</span>
+  <span class="n">hg</span><span class="p">=</span><span class="n">fftindex</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">.*</span><span class="n">g</span><span class="p">;</span>
+  
+  <span class="c">% The computation done this way is insensitive to whether the dgt is</span>
+  <span class="c">% phaselocked or not.</span>
+  <span class="n">c</span>   <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">c_h</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">hg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  
+  <span class="n">c_s</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
+  
+  <span class="c">% Remove small values because we need to divide by c_s</span>
+  <span class="n">c_s</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">c_s</span><span class="p">,</span><span class="n">minlvl</span><span class="o">*</span><span class="n">max</span><span class="p">(</span><span class="n">c_s</span><span class="p">(:)));</span>
+  
+  <span class="c">% Compute the group delay</span>
+  <span class="n">fgrad</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">c_h</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">);</span>
+  
+  <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">gauss</span>
+    <span class="c">% The method used below only works for the Gaussian window, because the</span>
+    <span class="c">% time derivative and the time multiplicative of the Gaussian are identical.</span>
+    <span class="n">tgrad</span><span class="p">=</span><span class="nb">imag</span><span class="p">(</span><span class="n">c_h</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">)</span><span class="o">/</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">;</span>
+  <span class="k">else</span>
+    
+    <span class="c">% The code below works for any window, and not just the Gaussian</span>
+    
+    <span class="n">dg</span>  <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">g</span><span class="p">,[],</span><span class="n">Inf</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+    <span class="n">c_d</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">c_d</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">c_d</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
+    
+    <span class="c">% Compute the instantaneous frequency</span>
+    <span class="n">tgrad</span><span class="p">=</span><span class="o">-</span><span class="nb">imag</span><span class="p">(</span><span class="n">c_d</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
+  
+  
+ <span class="k">case</span> <span class="s">&#39;phase&#39;</span>
+  <span class="c">% ---------------------------  phase method ------------------------</span>
+
+  <span class="p">[</span><span class="n">cphase</span><span class="p">,</span><span class="n">a</span><span class="p">]=</span><span class="n">deal</span><span class="p">(</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">});</span>
+  
+  <span class="k">if</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">cphase</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;Input phase must be real valued. Use the &quot;angle&quot; function to &#39;</span> <span class="c">...</span>
+           <span class="s">&#39;compute the argument of complex numbers.&#39;</span><span class="p">]);</span>
+  <span class="k">end</span><span class="p">;</span>
+  
+  <span class="c">% --- linear method ---</span>
+  <span class="p">[</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">cphase</span><span class="p">);</span>
+  <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+  
+  <span class="k">if</span> <span class="mi">0</span>
+    
+    <span class="c">% This is the classic phase vocoder algorithm by Flanagan.</span>
+    
+    <span class="n">tgrad</span> <span class="p">=</span> <span class="n">cphase</span><span class="o">-</span><span class="nb">circshift</span><span class="p">(</span><span class="n">cphase</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="n">tgrad</span> <span class="p">=</span> <span class="n">tgrad</span><span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">tgrad</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">));</span>
+    <span class="n">tgrad</span> <span class="p">=</span> <span class="o">-</span><span class="n">tgrad</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+    
+    <span class="c">% Phase-lock the angles.</span>
+    <span class="n">TimeInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">FreqInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+    
+    <span class="n">phl</span> <span class="p">=</span> <span class="n">FreqInd</span><span class="o">&#39;*</span><span class="n">TimeInd</span><span class="p">;</span>
+    <span class="n">cphase</span> <span class="p">=</span> <span class="n">cphase</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">.*</span><span class="n">phl</span><span class="p">;</span>
+    
+    <span class="n">fgrad</span> <span class="p">=</span> <span class="n">cphase</span><span class="o">-</span><span class="nb">circshift</span><span class="p">(</span><span class="n">cphase</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="n">fgrad</span> <span class="p">=</span> <span class="n">fgrad</span><span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">fgrad</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">));</span>
+    <span class="n">fgrad</span> <span class="p">=</span> <span class="o">-</span><span class="n">fgrad</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+    
+  <span class="k">end</span><span class="p">;</span>
+  
+  
+  <span class="k">if</span> <span class="mi">1</span>
+    <span class="c">% This is the classic phase vocoder algorithm by Flanagan modified to</span>
+    <span class="c">% yield a second order centered difference approximation.</span>
+    
+    <span class="c">% Forward approximation</span>
+    <span class="n">tgrad_1</span> <span class="p">=</span> <span class="n">cphase</span><span class="o">-</span><span class="nb">circshift</span><span class="p">(</span><span class="n">cphase</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="n">tgrad_1</span> <span class="p">=</span> <span class="n">tgrad_1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">tgrad_1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">));</span>
+    <span class="c">% Backward approximation</span>
+    <span class="n">tgrad_2</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">cphase</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">cphase</span><span class="p">;</span>
+    <span class="n">tgrad_2</span> <span class="p">=</span> <span class="n">tgrad_2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">tgrad_2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">));</span>
+    <span class="c">% Average</span>
+    <span class="n">tgrad</span> <span class="p">=</span> <span class="p">(</span><span class="n">tgrad_1</span><span class="o">+</span><span class="n">tgrad_2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">tgrad</span> <span class="p">=</span> <span class="o">-</span><span class="n">tgrad</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+    
+    <span class="c">% Phase-lock the angles.</span>
+    <span class="n">TimeInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">FreqInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+    
+    <span class="n">phl</span> <span class="p">=</span> <span class="n">FreqInd</span><span class="o">&#39;*</span><span class="n">TimeInd</span><span class="p">;</span>
+    <span class="n">cphase</span> <span class="p">=</span> <span class="n">cphase</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">.*</span><span class="n">phl</span><span class="p">;</span>
+    
+    <span class="c">% Forward approximation</span>
+    <span class="n">fgrad_1</span> <span class="p">=</span> <span class="n">cphase</span><span class="o">-</span><span class="nb">circshift</span><span class="p">(</span><span class="n">cphase</span><span class="p">,[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="n">fgrad_1</span> <span class="p">=</span> <span class="n">fgrad_1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">fgrad_1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">));</span>
+    <span class="c">% Backward approximation</span>
+    <span class="n">fgrad_2</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">cphase</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="n">cphase</span><span class="p">;</span>
+    <span class="n">fgrad_2</span> <span class="p">=</span> <span class="n">fgrad_2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">fgrad_2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">));</span>
+    <span class="c">% Average</span>
+    <span class="n">fgrad</span> <span class="p">=</span> <span class="p">(</span><span class="n">fgrad_1</span><span class="o">+</span><span class="n">fgrad_2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">fgrad</span> <span class="p">=</span> <span class="n">fgrad</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+    
+  <span class="k">end</span><span class="p">;</span>
+  
+  
+ <span class="k">case</span> <span class="s">&#39;abs&#39;</span>
+  <span class="c">% ---------------------------  abs method ------------------------</span>
+
+  <span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">]=</span><span class="n">deal</span><span class="p">(</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">});</span>
+  <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">varargin</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span>
+    <span class="n">difforder</span><span class="p">=</span><span class="n">varargin</span><span class="p">{</span><span class="mi">4</span><span class="p">};</span>
+  <span class="k">else</span>
+    <span class="n">difforder</span><span class="p">=</span><span class="mi">4</span><span class="p">;</span>
+  <span class="k">end</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(:)</span><span class="o">&gt;</span><span class="p">=</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;First input argument must be positive or zero.&#39;</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
+    
+  <span class="p">[</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+  
+  <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">tfr</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
+
+  <span class="c">%g</span>
+  
+  <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="s">&#39;GABPHASEGRAD&#39;</span><span class="p">);</span>
+
+  <span class="c">%info</span>
+  
+  <span class="k">if</span> <span class="o">~</span><span class="n">info</span><span class="p">.</span><span class="n">gauss</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;The window must be a Gaussian window (specified as a string or &#39;</span> <span class="c">...</span>
+           <span class="s">&#39;as a cell array).&#39;</span><span class="p">]);</span>
+  <span class="k">end</span><span class="p">;</span>
+  
+  <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+  <span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+  
+  <span class="c">% We must avoid taking the log of zero.</span>
+  <span class="c">% Therefore we add the smallest possible</span>
+  <span class="c">% number</span>
+  <span class="n">logs</span><span class="p">=</span><span class="nb">log</span><span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="nb">realmin</span><span class="p">);</span>
+  
+  <span class="c">% XXX REMOVE Add a small constant to limit the dynamic range. This should</span>
+  <span class="c">% lessen the problem of errors in the differentiation for points close to</span>
+  <span class="c">% (but not exactly) zeros points.</span>
+  <span class="n">maxmax</span><span class="p">=</span><span class="n">max</span><span class="p">(</span><span class="n">logs</span><span class="p">(:));</span>
+  <span class="n">tt</span><span class="p">=</span><span class="o">-</span><span class="mi">11</span><span class="p">;</span>
+  <span class="n">logs</span><span class="p">(</span><span class="n">logs</span><span class="o">&lt;</span><span class="n">maxmax</span><span class="o">+</span><span class="n">tt</span><span class="p">)=</span><span class="n">tt</span><span class="p">;</span>
+  
+  <span class="n">fgrad</span><span class="p">=</span><span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">;</span>
+  <span class="n">tgrad</span><span class="p">=</span><span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">);</span>
+  
+  
+ <span class="k">otherwise</span>
+  <span class="n">error</span><span class="p">([</span><span class="s">&#39;First argument must be the method name, &quot;dgt&quot;, &quot;phase&quot; or &#39;</span> <span class="c">...</span>
+         <span class="s">&#39;&quot;abs&quot;.&#39;</span><span class="p">]);</span>
+<span class="k">end</span><span class="p">;</span>  
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

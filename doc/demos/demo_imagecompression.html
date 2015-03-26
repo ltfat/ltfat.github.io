@@ -1,0 +1,77 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>DEMO_IMAGECOMPRESSION - Image compression using N-term approximation</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="demo_imagecompression_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_IMAGECOMPRESSION - Image compression using N-term approximation</h1>
+<h2 class="subtitle" id="xxxdescription">Description</h2>
+
+<p>This demo shows how to perform a simple imagecompression using either
+a Wilson basis or a Wavelet. The compression step is done by
+retaining only 5% of the coefficients.</p>
+<div class="figure align-center">
+<img alt="demo_imagecompression_1.png" src="demo_imagecompression_1.png" />
+<p class="caption">Wilson and WMDCT basis</p>
+<div class="legend">
+<p>This right figure shows the image compressed using a <span class="linkrole"><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></span> basis with
+8 channels. This corresponds quite closely to JPEG compression,
+except that the borders between neigbouring blocs are smoother,
+since the <span class="linkrole"><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></span> uses a windowing function.</p>
+<p>The left figure shows the same, now
+using a MDCT basis. The MDCT produces more visible artifacts, as the
+slowest changing frequency in each block has a half-wave
+modulation. This is visible on otherwise smooth backgrounds.</p>
+</div>
+</div>
+<div class="figure align-center">
+<img alt="demo_imagecompression_2.png" src="demo_imagecompression_2.png" />
+<p class="caption">Wavelet</p>
+<div class="legend">
+The Wavelet used is the DB6 with <span class="math">\(J=5\)</span> levels. On the right figure
+the standard layout has been used, on the left the tensor layout
+was used.</div>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

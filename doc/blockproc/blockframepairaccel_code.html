@@ -1,0 +1,130 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>BLOCKFRAMEPAIRACCEL - Precompute structures for block processing</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="blockframepairaccel.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">BLOCKFRAMEPAIRACCEL - Precompute structures for block processing</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[Fao,Fso] <span class="p">=</span><span class="w"> </span><span class="nf">blockframepairaccel</span><span class="p">(</span>Fa, Fs, Lb, varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%BLOCKFRAMEPAIRACCEL Precompute structures for block processing</span>
+<span class="c">%   Usage: F = blockframepairaccel(Fa,Fs,Lb);</span>
+<span class="c">%</span>
+<span class="c">%   [Fao,Fso]=BLOCKFRAMEPAIRACCEL(Fa,Fs,Lb) works similar to </span>
+<span class="c">%   BLOCKFRAMEACCEL with a pair of frames. The only difference from</span>
+<span class="c">%   calling BLOCKFRAMEACCEL separatelly for each frame is correct</span>
+<span class="c">%   default choice of the slicing windows. Frame objects Fa,Fs will be</span>
+<span class="c">%   accelerated for length 2*Lb.</span>
+<span class="c">%</span>
+<span class="c">%   The following optional arguments are recognized:</span>
+<span class="c">%</span>
+<span class="c">%      &#39;anasliwin&#39;,anasliwin  : Analysis slicing window. sliwin have to</span>
+<span class="c">%                                 be a window of length 2Lb or a string </span>
+<span class="c">%                                 accepted by the FIRWIN function. It is</span>
+<span class="c">%                                 used only in the slicing window approach.</span>
+<span class="c">%                                 The default is &#39;hann&#39;.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;synsliwin&#39;,synsliwin  : Synthesis slicing window. The same as the</span>
+<span class="c">%                                 previous one holds. The default is &#39;rect&#39;.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;zpad&#39;,zpad   : Number of zero samples the block will be padded</span>
+<span class="c">%                        after it is windowed by a slicing window. Note the</span>
+<span class="c">%                        frames will be accelerated for length</span>
+<span class="c">%                        2*Lb+2*kv.zpad. </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/blockproc/blockframepairaccel.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;naive&#39;</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;segola&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">anasliwin</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">synsliwin</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">zpad</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="n">isSliProp</span> <span class="p">=</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">)</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="o">~=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">assert</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_sliced</span> <span class="o">&amp;&amp;</span> <span class="n">isSliProp</span><span class="p">),</span><span class="c">...</span>
+   <span class="n">sprintf</span><span class="p">([</span><span class="s">&#39;%s: Definig slicing window properties without setting the&#39;</span><span class="p">,</span><span class="c">...</span>
+            <span class="s">&#39; &#39;&#39;sliced&#39;&#39; flag.&#39;</span><span class="p">],</span> <span class="n">mfilename</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_sliced</span> 
+   <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">)</span>
+      <span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span> <span class="p">=</span> <span class="s">&#39;hann&#39;</span><span class="p">;</span>
+   <span class="k">end</span>
+   
+   <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">)</span>
+      <span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span> <span class="p">=</span> <span class="s">&#39;hann&#39;</span><span class="p">;</span>
+   <span class="k">end</span>
+
+   <span class="n">Fao</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;sliwin&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">,</span><span class="c">...</span>
+                         <span class="s">&#39;zpad&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="p">);</span>
+   <span class="n">Fso</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;sliwin&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">,</span><span class="c">...</span>
+                         <span class="s">&#39;zpad&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="p">);</span>
+<span class="k">else</span>
+   <span class="n">Fao</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span><span class="p">);</span>
+   <span class="n">Fso</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span><span class="p">);</span>
+<span class="k">end</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

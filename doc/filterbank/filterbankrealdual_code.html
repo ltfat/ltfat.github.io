@@ -1,0 +1,190 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FILTERBANKREALDUAL - Dual filters of filterbank for real signals only</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="filterbankrealdual.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/ufilterbank.html">ufilterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/ifilterbank.html">ifilterbank</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FILTERBANKREALDUAL - Dual filters of filterbank for real signals only</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>gdout<span class="p">=</span><span class="nf">filterbankrealdual</span><span class="p">(</span>g,a,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%FILTERBANKREALDUAL  Dual filters of filterbank for real signals only </span>
+<span class="c">%   Usage:  gd=filterbankrealdual(g,a,L);</span>
+<span class="c">%           gd=filterbankrealdual(g,a);</span>
+<span class="c">%</span>
+<span class="c">%   FILTERBANKREALDUAL(g,a,L) computes the canonical dual filters of g*</span>
+<span class="c">%   for a channel subsampling rate of a (hop-size) and a system length L.</span>
+<span class="c">%   L must be compatible with subsampling rate a as </span>
+<span class="c">%   L==filterbanklength(L,a). The dual filters work only for real-valued</span>
+<span class="c">%   signals. Use this function on the common construction where the filters</span>
+<span class="c">%   in g only covers the positive frequencies.</span>
+<span class="c">%</span>
+<span class="c">%   filterabankrealdual(g,a) does the same, but the filters must be FIR</span>
+<span class="c">%   filters, as the transform length is unspecified. L will be set to </span>
+<span class="c">%   next suitable length equal or bigger than the longest impulse response.</span>
+<span class="c">%</span>
+<span class="c">%   The format of the filters g are described in the help of FILTERBANK.</span>
+<span class="c">%</span>
+<span class="c">%   In addition, the function recognizes a &#39;forcepainless&#39; flag which</span>
+<span class="c">%   forces treating the filterbank g and a as a painless case</span>
+<span class="c">%   filterbank.  </span>
+<span class="c">%</span>
+<span class="c">%   To actually invert the output of a filterbank, use the dual filters</span>
+<span class="c">%   together with 2*real(ifilterbank(...)).</span>
+<span class="c">%</span>
+<span class="c">%   REMARK: Perfect reconstruction can be obtained for signals of length</span>
+<span class="c">%   L. In some cases, using dual system calculated for shorter L might</span>
+<span class="c">%   work but check the reconstruction error.</span>
+<span class="c">%</span>
+<span class="c">%   See also: filterbank, ufilterbank, ifilterbank</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/filterbank/filterbankrealdual.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FILTERBANKREALDUAL&#39;</span><span class="p">);</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;filterbankdual&#39;</span><span class="p">};</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> 
+    <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isfir</span>
+        <span class="c">% Pick shortest possible length for FIR filterbank</span>
+        <span class="n">L</span> <span class="p">=</span> <span class="n">filterbanklength</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">longestfilter</span><span class="p">,</span><span class="n">asan</span><span class="p">);</span>
+    <span class="k">else</span>
+        <span class="c">% Just thow an error, nothing reasonable can be done without L</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: L must be specified when not working with FIR &#39;</span><span class="p">,</span><span class="c">...&#39;</span>
+               <span class="s">&#39;filterbanks.&#39;</span><span class="p">],</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">M</span><span class="p">=</span><span class="n">info</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
+
+<span class="c">% Force usage of the painless algorithm </span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_forcepainless</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">L</span><span class="o">~=</span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+     <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Specified length L is incompatible with the length of &#39;</span> <span class="c">...</span>
+            <span class="s">&#39;the time shifts.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="c">% Prioritize painless over uniform algorithm</span>
+<span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span>
+        
+    <span class="c">% Uniform filterbank, use polyphase representation</span>
+    <span class="n">a</span><span class="p">=</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="c">% Transfer functions of individual filters as cols</span>
+    <span class="n">G</span> <span class="p">=</span> <span class="n">filterbankfreqz</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+    <span class="n">thisclass</span> <span class="p">=</span> <span class="n">class</span><span class="p">(</span><span class="n">G</span><span class="p">);</span>
+
+    <span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
+
+      <span class="c">% This is the original code</span>
+      <span class="c">%for k=0:a-1</span>
+      <span class="c">%  Ha(k+1,:) =      G(mod(w-k*N,L)+1,:);</span>
+      <span class="c">%  Hb(k+1,:) = conj(G(mod(k*N-w,L)+1,:));</span>
+      <span class="c">%end;</span>
+    <span class="n">gd</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">thisclass</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="n">w</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">idx_a</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">w</span><span class="o">-</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">idx_b</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="o">-</span><span class="n">w</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">Ha</span> <span class="p">=</span> <span class="n">G</span><span class="p">(</span><span class="n">idx_a</span><span class="p">,:);</span>
+        <span class="n">Hb</span> <span class="p">=</span> <span class="nb">conj</span><span class="p">(</span><span class="n">G</span><span class="p">(</span><span class="n">idx_b</span><span class="p">,:));</span>
+
+        <span class="n">Ha</span><span class="p">=(</span><span class="n">Ha</span><span class="o">*</span><span class="n">Ha</span><span class="o">&#39;+</span><span class="n">Hb</span><span class="o">*</span><span class="n">Hb</span><span class="o">&#39;</span><span class="p">)</span><span class="o">\</span><span class="n">Ha</span><span class="p">;</span>
+
+        <span class="n">gd</span><span class="p">(:,</span><span class="n">idx_a</span><span class="p">)=</span><span class="n">Ha</span><span class="p">.</span><span class="s">&#39;;</span>
+<span class="s">    end;</span>
+<span class="s">    % The gd was created transposed because the indexing gd(:,idx_a)</span>
+<span class="s">    % is much faster than gd(idx_a,:)</span>
+<span class="s">    gd=gd.&#39;</span><span class="p">;</span>
+    <span class="n">gd</span><span class="p">=</span><span class="n">ifft</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+
+    <span class="n">gdout</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">gdEl</span><span class="p">)</span> <span class="n">cast</span><span class="p">(</span><span class="n">gdEl</span><span class="p">,</span><span class="n">thisclass</span><span class="p">),</span> <span class="n">num2cell</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="c">...</span>
+                      <span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="c">% All filters in gdout will be treated as FIR of length L. Convert them</span>
+    <span class="c">% to a struct with .h and .offset format.</span>
+    <span class="n">gdout</span> <span class="p">=</span> <span class="n">filterbankwin</span><span class="p">(</span><span class="n">gdout</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>            
+  
+<span class="k">elseif</span> <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span>
+    <span class="n">gdout</span> <span class="p">=</span> <span class="n">comp_painlessfilterbank</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">else</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The canonical dual frame of this system is not a &#39;</span> <span class="c">...</span>
+               <span class="s">&#39;filterbank. You must call an iterative &#39;</span> <span class="c">...</span>
+               <span class="s">&#39;method to perform the desired inverstion. Please see &#39;</span> <span class="c">...</span>
+               <span class="s">&#39;FRANAITER or FRSYNITER.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>                
+        
+<span class="k">end</span><span class="p">;</span>  
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

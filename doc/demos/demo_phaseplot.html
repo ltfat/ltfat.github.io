@@ -1,0 +1,124 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>DEMO_PHASEPLOT - Give demos of nice phaseplots</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="demo_phaseplot_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_PHASEPLOT - Give demos of nice phaseplots</h1>
+<h2 class="subtitle" id="xxxdescription">Description</h2>
+
+<p>This script creates a synthetic signal and then uses <span class="linkrole"><a href="#BASEURL#/doc/gabor/phaseplot.html">phaseplot</a></span> on it,
+using several of the possible options.</p>
+<p>For real-life signal only small parts should be analyzed. In the chosen
+demo the fundamental frequency of the speaker can be nicely seen.</p>
+<div class="figure align-center">
+<img alt="demo_phaseplot_1.png" src="demo_phaseplot_1.png" />
+<p class="caption">Synthetic signal</p>
+<div class="legend">
+<p>Compare this to the pictures in reference 2 and 3. In
+the first two figures a synthetic signal is analyzed. It consists of a
+sinusoid, a small Delta peak, a periodic triangular function and a
+Gaussian. In the time-invariant version in the first part the periodicity
+of the sinusoid can be nicely seen also in the phase coefficients. Also
+the points of discontinuities can be seen as asymptotic lines approached
+by parabolic shapes. In the third part both properties, periodicity and
+discontinuities can be nicely seen. A comparison to the spectogram shows
+that the rectangular part in the middle of the signal can be seen by the
+phase plot, but not by the spectogram.</p>
+<p>In the frequency-invariant version, the fundamental frequency of the
+sinusoid can still be guessed as the position of an horizontal
+asymptotic line.</p>
+</div>
+</div>
+<div class="figure align-center">
+<img alt="demo_phaseplot_2.png" src="demo_phaseplot_2.png" />
+<p class="caption">Synthetic signal, thresholded.</p>
+<div class="legend">
+This figure shows the same as Figure 1, except that values with low
+magnitude has been removed.</div>
+</div>
+<div class="figure align-center">
+<img alt="demo_phaseplot_3.png" src="demo_phaseplot_3.png" />
+<p class="caption">Speech signal.</p>
+<div class="legend">
+The figure shows a part of the 'linus' signal. The fundamental
+frequency of the speaker can be nicely seen.</div>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Type &quot;help demo_phaseplot&quot; to see a description of how this demo works.
+</pre>
+<H2>References:</H2>
+
+
+
+<p><a name="carmonmultiridge1"></a>
+
+R.&nbsp;Carmona, W.&nbsp;Hwang, and B.&nbsp;Torr&eacute;sani.
+ Multiridge detection and time-frequency reconstruction.
+ <em>IEEE Trans. Signal Process.</em>, 47:480-492, 1999.
+
+</p>
+
+<p><a name="Carmona98practical"></a>
+
+R.&nbsp;Carmona, W.&nbsp;Hwang, and B.&nbsp;Torr&eacute;sani.
+ <em>Practical Time-Frequency Analysis: continuous wavelet and Gabor
+  transforms, with an implementation in S</em>, volume&nbsp;9 of <em>Wavelet Analysis
+  and its Applications</em>.
+ Academic Press, San Diego, 1998.
+
+</p>
+
+<p><a name="gross1"></a>
+
+A.&nbsp;Grossmann, M.&nbsp;Holschneider, R.&nbsp;Kronland-Martinet, and J.&nbsp;Morlet.
+ Detection of abrupt changes in sound signals with the help of wavelet
+  transforms.
+ <em>Inverse Problem</em>, pages 281-306, 1987.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

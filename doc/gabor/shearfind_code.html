@@ -1,0 +1,237 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>SHEARFIND - Shears for transformation of a general lattice to separable</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="shearfind.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/fourier/pchirp.html">pchirp</a></li>
+<li><a href="#BASEURL#/doc/gabor/matrix2latticetype.html">matrix2latticetype</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">SHEARFIND - Shears for transformation of a general lattice to separable</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[s0,s1,X] <span class="p">=</span><span class="w"> </span><span class="nf">shearfind</span><span class="p">(</span>L,a,M,lt<span class="p">)</span><span class="w"></span>
+<span class="c">%SHEARFIND  Shears for transformation of a general lattice to separable</span>
+<span class="c">%   Usage:  [s0,s1,br] = shearfind(L,a,M,lt);</span>
+<span class="c">%</span>
+<span class="c">%   [s0,s1,br]=SHEARFIND(L,a,M,lt) computes three numbers, the first two</span>
+<span class="c">%   represent a frequency and time shear respectively. With the returned</span>
+<span class="c">%   choices of s_0 and s_1 one can transform an initial lattice given by</span>
+<span class="c">%   a, M and lt into a separable (rectangular) lattice given by </span>
+<span class="c">%</span>
+<span class="c">%       ar = a*L/(br*M)  and  Mr = L/br.</span>
+<span class="c">%</span>
+<span class="c">%   If s_0 is non-zero, the transformation from general to separable</span>
+<span class="c">%   lattice requires a frequency-side shear. Similarly, if s_1 is</span>
+<span class="c">%   non-zero, a time-side shear is required.</span>
+<span class="c">%</span>
+<span class="c">%   See also: pchirp, matrix2latticetype</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/gabor/shearfind.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+    
+    
+    <span class="k">if</span> <span class="n">nargin</span> <span class="o">&lt;</span> <span class="mi">4</span> 
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;Too few input arguments&#39;</span><span class="p">);</span>
+    <span class="k">end</span>
+    
+    <span class="n">Ltest</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">lt</span><span class="p">);</span>
+    <span class="k">if</span> <span class="n">Ltest</span><span class="o">~=</span><span class="n">L</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect transform length L=%i specified. &#39;</span><span class="c">...</span>
+               <span class="s">&#39;See the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="c">...</span>
+              <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">);</span>
+    <span class="k">end</span><span class="p">;</span>
+
+    <span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+    <span class="n">s</span><span class="p">=</span><span class="n">b</span><span class="o">*</span><span class="n">lt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+        
+    <span class="p">[</span><span class="n">Labfac</span><span class="p">,</span><span class="n">sfac</span><span class="p">,</span><span class="n">lenLabfac</span><span class="p">]</span> <span class="p">=</span> <span class="n">lattfac</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+    <span class="c">%lenLabfac = size(Labfac,2);</span>
+
+    <span class="k">if</span> <span class="n">s</span><span class="o">/</span><span class="n">a</span> <span class="o">==</span> <span class="nb">round</span><span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">/</span><span class="n">a</span> <span class="o">&lt;</span><span class="p">=</span> <span class="n">b</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">s1</span> <span class="p">=</span> <span class="o">-</span><span class="n">s</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
+        <span class="k">else</span> 
+            <span class="n">s1</span> <span class="p">=</span> <span class="n">b</span><span class="o">-</span><span class="n">s</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
+        <span class="k">end</span>
+        <span class="n">s0</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">X</span> <span class="p">=</span> <span class="n">b</span><span class="p">;</span>
+    <span class="k">elseif</span> <span class="nb">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">lenLabfac</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,:))</span> <span class="o">&lt;</span><span class="p">=</span> <span class="n">sfac</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">s0</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">Y</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">temp</span><span class="p">]</span> <span class="p">=</span> <span class="nb">gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+        <span class="n">s1</span> <span class="p">=</span> <span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="n">Y</span><span class="p">;</span>
+         
+        <span class="n">B</span> <span class="p">=</span> <span class="n">prod</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">.^</span><span class="n">max</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,:)</span><span class="o">-</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="mi">0</span><span class="p">));</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">B</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">s1</span> <span class="p">=</span> <span class="n">s1</span><span class="o">+</span><span class="nb">sign</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">B</span><span class="p">;</span>            
+        <span class="k">end</span>
+        <span class="n">X</span> <span class="p">=</span> <span class="n">b</span><span class="p">;</span>
+        <span class="n">s1</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+    <span class="k">elseif</span> <span class="nb">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">lenLabfac</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span> <span class="o">&lt;</span> <span class="n">sfac</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">s1</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">X</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">temp</span><span class="p">]</span> <span class="p">=</span> <span class="nb">gcd</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mi">0</span>
+            <span class="n">alpha</span> <span class="p">=</span> <span class="n">b</span><span class="o">/</span><span class="n">X</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">;</span>
+        <span class="k">end</span>
+        <span class="n">s0</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="n">X</span><span class="p">,</span><span class="n">a</span><span class="o">*</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+        
+    <span class="k">else</span>
+        <span class="n">s1fac</span> <span class="p">=</span> <span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span> <span class="o">==</span> <span class="n">sfac</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.*</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span> <span class="o">&lt;</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,:));</span>
+        <span class="n">s1</span> <span class="p">=</span> <span class="n">prod</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">.^</span><span class="n">s1fac</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="n">s1</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="n">b</span> <span class="o">==</span> <span class="nb">round</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="n">b</span><span class="p">)</span> 
+            <span class="n">s1</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span> 
+        <span class="k">else</span> 
+           <span class="n">B</span> <span class="p">=</span> <span class="n">prod</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">.^</span><span class="n">max</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,:)</span><span class="o">-</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,:),</span><span class="mi">0</span><span class="p">));</span>
+           <span class="k">if</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">B</span><span class="o">/</span><span class="mi">2</span>
+                <span class="n">s1</span> <span class="p">=</span> <span class="n">s1</span><span class="o">-</span><span class="n">B</span><span class="p">;</span>
+           <span class="k">end</span>   
+        <span class="k">end</span>
+
+        <span class="p">[</span><span class="n">X</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">temp</span><span class="p">]</span> <span class="p">=</span> <span class="nb">gcd</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">a</span><span class="o">+</span><span class="n">s</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mi">0</span>
+            <span class="n">alpha</span> <span class="p">=</span> <span class="n">b</span><span class="o">/</span><span class="n">X</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">;</span>
+        <span class="k">end</span>
+        <span class="n">tempX</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+        <span class="n">tempalph</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">alpha</span><span class="p">);</span>
+
+        <span class="n">Xfac</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">lenLabfac</span><span class="p">));</span>
+        <span class="n">alphfac</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">lenLabfac</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+
+        <span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">lenLabfac</span>
+            <span class="n">Xfac</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">tempX</span> <span class="o">==</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+            <span class="n">tempX</span> <span class="p">=</span> <span class="n">tempX</span><span class="p">(</span><span class="n">tempX</span> <span class="o">~=</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+            <span class="n">alphfac</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">tempalph</span> <span class="o">==</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+            <span class="n">tempalph</span> <span class="p">=</span> <span class="n">tempalph</span><span class="p">(</span><span class="n">tempalph</span> <span class="o">~=</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+        <span class="k">end</span>
+
+        <span class="n">alphfac</span><span class="p">(</span><span class="n">lenLabfac</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">prod</span><span class="p">(</span><span class="n">tempalph</span><span class="p">);</span>
+
+        <span class="n">s0fac</span> <span class="p">=</span> <span class="p">[</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span><span class="o">+</span><span class="n">min</span><span class="p">(</span><span class="n">alphfac</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,:)</span><span class="o">-</span><span class="n">Xfac</span><span class="p">)</span><span class="o">-</span><span class="n">Xfac</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span>
+        <span class="n">pwrs</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,:)</span><span class="o">-</span><span class="n">Xfac</span><span class="o">-</span><span class="n">alphfac</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+        <span class="n">pwrs2</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="o">-</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,:)</span><span class="o">+</span><span class="n">Xfac</span><span class="o">+</span><span class="n">alphfac</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+
+        <span class="n">K</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">alphfac</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="o">.*</span><span class="n">prod</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">.^</span><span class="p">(</span><span class="n">pwrs2</span><span class="o">-</span><span class="n">pwrs</span><span class="p">))</span><span class="o">-</span><span class="p">.</span><span class="mi">5</span><span class="p">);</span>
+
+        <span class="n">s0fac</span><span class="p">(</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">K</span><span class="o">*</span><span class="n">prod</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">.^</span><span class="n">pwrs</span><span class="p">)</span> <span class="o">-</span> <span class="n">alphfac</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="o">.*</span><span class="n">prod</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">.^</span><span class="n">pwrs2</span><span class="p">);</span>
+
+        <span class="n">s0</span> <span class="p">=</span> <span class="n">prod</span><span class="p">(</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">.^</span><span class="n">s0fac</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">s0fac</span><span class="p">(</span><span class="k">end</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="n">s0</span><span class="o">*</span><span class="n">X</span>^<span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="nb">round</span><span class="p">(</span><span class="n">s0</span><span class="o">*</span><span class="n">X</span>^<span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">))</span> 
+            <span class="n">s0</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span> 
+        <span class="k">end</span>
+    <span class="k">end</span>
+    
+    <span class="n">s0</span><span class="p">=</span><span class="nb">rem</span><span class="p">(</span><span class="n">s0</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+    <span class="n">s1</span><span class="p">=</span><span class="nb">rem</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+    
+<span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>[Labfac,sfac,lenLabfac] <span class="p">=</span><span class="w"> </span><span class="nf">lattfac</span><span class="p">(</span>a,b,s,L<span class="p">)</span><span class="w">    </span>
+
+<span class="w">    </span><span class="n">tempL</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+    <span class="n">tempa</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="n">tempa</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">tempa</span> <span class="p">=</span> <span class="p">[];</span>
+    <span class="k">end</span>
+    <span class="n">tempb</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+    <span class="k">if</span> <span class="n">tempb</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">tempb</span> <span class="p">=</span> <span class="p">[];</span>
+    <span class="k">end</span>
+
+    <span class="n">Labfac</span> <span class="p">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">tempL</span><span class="p">);</span>
+    <span class="n">lenLabfac</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">Labfac</span><span class="p">);</span>
+    <span class="n">Labfac</span> <span class="p">=</span> <span class="p">[</span><span class="n">Labfac</span><span class="p">;</span><span class="nb">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">lenLabfac</span><span class="p">)];</span>
+
+    <span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">lenLabfac</span>
+       <span class="n">Labfac</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">kk</span><span class="p">)</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">tempL</span> <span class="o">==</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+       <span class="n">tempL</span> <span class="p">=</span> <span class="n">tempL</span><span class="p">(</span><span class="n">tempL</span> <span class="o">~=</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+       <span class="n">Labfac</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">kk</span><span class="p">)</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">tempa</span> <span class="o">==</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+       <span class="n">tempa</span> <span class="p">=</span> <span class="n">tempa</span><span class="p">(</span><span class="n">tempa</span> <span class="o">~=</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+       <span class="n">Labfac</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">kk</span><span class="p">)</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">tempb</span> <span class="o">==</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+       <span class="n">tempb</span> <span class="p">=</span> <span class="n">tempb</span><span class="p">(</span><span class="n">tempb</span> <span class="o">~=</span> <span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">tempa</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">tempb</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;a and b must be divisors of L&#39;</span><span class="p">);</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">s</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">round</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">));</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;s must be a multiple of a*b/L&#39;</span><span class="p">);</span>
+    <span class="k">end</span>
+
+    <span class="n">temps</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+    <span class="n">sfac</span> <span class="p">=</span> <span class="p">[</span><span class="n">Labfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="mi">0</span><span class="p">;</span><span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">lenLabfac</span><span class="o">+</span><span class="mi">1</span><span class="p">)];</span>
+
+    <span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">lenLabfac</span>
+       <span class="n">sfac</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">kk</span><span class="p">)</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">temps</span> <span class="o">==</span> <span class="n">sfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+       <span class="n">temps</span> <span class="p">=</span> <span class="n">temps</span><span class="p">(</span><span class="n">temps</span> <span class="o">~=</span> <span class="n">sfac</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">kk</span><span class="p">));</span>
+    <span class="k">end</span>
+
+    <span class="n">sfac</span><span class="p">(:,</span><span class="n">lenLabfac</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="p">[</span><span class="n">prod</span><span class="p">(</span><span class="n">temps</span><span class="p">);</span><span class="mi">1</span><span class="p">];</span>
+
+<span class="k">end</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

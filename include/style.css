@@ -205,11 +205,12 @@ margin-top: 20px;
   bottom: 270px;
 }
 /* fix the span size for the documentation site */
-.row-fluid .span2-doc { 
+/*
+.row .span2-doc { 
   width: 16.53%; 
   min-width: 120px;
 }
-.row-fluid .span10-doc { 
+.row .span10-doc { 
   width: 79%; 
   margin-left: 4.47%;
 }
@@ -218,6 +219,7 @@ margin-top: 20px;
   width: 16.53%;
   margin-left: 0px;
 }
+*/
 /* FORM */
 .input-prepend form {
   margin-left: 0px;

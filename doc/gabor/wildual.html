@@ -1,0 +1,118 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>WILDUAL - Wilson dual window</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="wildual_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></li>
+<li><a href="#BASEURL#/doc/gabor/wilwin.html">wilwin</a></li>
+<li><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></li>
+<li><a href="#BASEURL#/doc/gabor/wilorth.html">wilorth</a></li>
+<li><a href="#BASEURL#/doc/fourier/isevenfunction.html">isevenfunction</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">WILDUAL - Wilson dual window</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+gamma=wildual(g,M);
+gamma=wildual(g,M,L);
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>g</var></span></kbd></td>
+<td>Gabor window.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>M</var></span></kbd></td>
+<td>Number of modulations.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>L</var></span></kbd></td>
+<td>Length of window. (optional)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>gamma</var></span></kbd></td>
+<td>Canonical dual window.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">wildual(g,M)</tt> returns the dual window of the Wilson or WMDCT basis with
+window <em>g</em>, parameter <em>M</em> and length equal to the length of the window <em>g</em>.</p>
+<p>The window <em>g</em> may be a vector of numerical values, a text string or a
+cell array. See the help of <span class="linkrole"><a href="#BASEURL#/doc/gabor/wilwin.html">wilwin</a></span> for more details.</p>
+<p>If the length of <em>g</em> is equal to <span class="math">\(2\cdot M\)</span> then the input window is
+assumed to be an FIR window. In this case, the dual window also has
+length of <span class="math">\(2\cdot M\)</span>. Otherwise the smallest possible transform length is
+chosen as the window length.</p>
+<p><tt class="docutils literal">wildual(g,M,L)</tt> does the same, but now <em>L</em> is used as the length of the
+Wilson basis.</p>
+<p>The input window <em>g</em> must be real and whole-point even. If <em>g</em> is not
+whole-point even, then reconstruction using the dual window will not be
+perfect. For a random window <em>g</em>, the window closest to <em>g</em> that satisfies
+these restrictions can be found by</p>
+<pre class="literal-block">
+g_wpe = real(peven(g));
+</pre>
+<p>All windows in the toolbox satisfies these restrictions unless
+clearly stated otherwise.</p>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

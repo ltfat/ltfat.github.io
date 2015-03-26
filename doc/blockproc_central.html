@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>LTFAT - Block Processing Framework</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../include/mainnav.html"> </div>
+
+<!-- main page -->
+<h1>Block processing framework in LTFAT</h1>
+
+<p>
+Allows audio processing in real-time directly from Matlab/Octave without need for any additional toolboxes and
+low-lewel programming. 
+Together with the time-frequency analysis and synthesis capabilities of LTFAT, the 
+framework allows audio processing directly in the transform domain. 
+</p>
+
+<h2>Basic programming flow</h2>
+<p>
+The basic workflow consist of setting up the blockstream source and parameters using <a href="blockproc/block.php">block</a> function and 
+creating the control panel <a href="blockproc/blockpanel.php">blockpanel</a> prior to entering the processing loop.
+Closing the control panel issues breaking from the loop and correctly 
+finalizing the program run. Hitting the Ctrl-C keyboard shorcut to break from the loop skips all code located after the loop. 
+</p>
+<p>
+The following  minimal working example takes an input from a microphone and routes it trough the loop to the speakers 
+allowing setting gain in a range of -20 to 20 dB.
+<pre>
+block('playrec'); 
+p = blockpanel({'GdB','Gain',-20,20,0,21});
+while p.flag 
+   gain = blockpanelget(p,'GdB');
+   f = blockread(); 
+   blockplay(f*10^(gain/20)); 
+end
+blockdone(p);
+</pre>
+Each iteration, function <a href="blockproc/blockread.php">blockread</a>  provides array of samples (1024 by defaut) which are enqueued to be played
+by the <a href="blockproc/blockplay.php">blockplay</a> function. Two parameters of <strong>p</strong> are read each iteration, the slider position
+by <a href="blockproc/blockpanelget.php">blockpanelget</a> and the <strong>p.flag</strong> value, which is set to false when the control panel is closed by the user.
+</p>
+
+<h2>Transform domain block-processing</h2>
+<p>
+The <a href="frames/index.php">Frame framework</a> can be used in conjuction with the block-processing framework to do the blockwise analysis <strong>and</strong>
+synthesis. Frame objects has to be "accelerated" for the chosen block length prior entering the processing loop and the length cannot be changed inside of the loop. The following simple demo shows how the frame objects are used in the block proc. framework in order to achieve real-time DGT coefficient thresholding.
+<pre>
+% Buffer length
+bufLen = 1024;
+% Setup blocktream
+fs=block('playrec','L',bufLen);
+
+
+% Number of frequency channels
+M = 1000;
+% Hop factor
+a = 40;
+% Window length in ms
+winLenms = 20; 
+% Create pair of frames
+[F,Fdual] = framepair('dgtreal',{'hann',floor(fs*winLenms/1e3)},'dual',a,M);
+
+
+p = blockpanel({
+               {'GdB','Gain',-20,20,0,21},...
+               {'Thr','Treshold',0,0.1,0,1000}
+               });
+
+
+% Choose block handling alg. and accelerate 
+[Fa,Fs] = blockframepairaccel(F,Fdual, bufLen,'segola');
+
+flag = 1;
+%Loop until end of the stream (flag) and until panel is opened
+while flag && p.flag
+  % Obtain parameters from the control panel
+  gain = 10^(p.getParam('GdB')/20); % dB -> val
+  thres = p.getParam('Thr');
+
+  % Read block of length bufLen
+  [f,flag] = blockread();
+  % Apply analysis operator of the frame
+  c = blockana(Fa, f*gain); 
+  % Apply thresholding
+  c = thresh(c,thres,'soft');
+  % Apply synthesis operator the dual frame
+  fhat = real(blocksyn(Fs, c, size(f,1)));
+  % Play the block
+  blockplay(fhat);
+end
+blockdone(p);
+</pre>
+
+</p>
+
+<h2>Visualization</h2>
+Currently, there is a sliding spectrogram plot available trough <a href="blockproc/blockfigure.php">blockfigure</a> and  <a href="blockproc/blockplot.php">blockplot</a>, which are wrappers for accesing Java class net.sourceforge.ltfat.SpectFrame. The following screenshot is obtained from
+<pre>
+demo_blockproc_slidingsgram('gspi.wav','loop');
+</pre>
+
+Current features include:
+
+Frequency axis zooming using mouse wheel.
+
+Right-click popup menu for choosing the rolling speed and limits of the coefficients.
+
+<p class="text-center">
+<img src="../img/spectrogram.png" class="img-thumbnail">
+</p>
+
+<h2>What is inside?</h2>
+<p>
+<a href="http://www.portaudio.com/">Portaudio</a> library which is accessed trough the MEX interface
+<a href="http://www.playrec.co.uk/">Playrec</a>, both being free, open-source libraries. Portaudio is a cross-platform library
+that can be compiled and run on many platforms including Windows, Macintosh OS X, and Unix. Recent versions of Matlab contain the Portaudio
+library already compiled in the basic installation which can be checked by using the following command
+<pre>
+dir([matlabroot,filesep,'bin',filesep,computer('arch'),filesep,'*portaudio*'])
+</pre>
+It is however advisable to use a more recent version of Portaudio or build it by yourself, possibly allowing support for additional APIs like
+Steinberg ASIO (on Windows) or <a href="http://jackaudio.org">JACK</a> (multiplatform). Compilation instructions can be found at the Portaudio homepage or 
+you can obtain portaudio using package manager e.g. on Debin/Ubuntu
+<pre>
+sudo apt-get install portaudio19-dev
+</pre>
+
+
+</p>
+
+
+
+<!--	
+<pre>
+block('playrec'); 
+p = blockpanel({'GdB','Gain',-20,20,0,21});
+while p.flag 
+   gain = blockpanelget(p,'GdB');
+   f = blockread(1024); 
+   blockplay(f*10^(gain/20)); 
+end
+p.close();
+</pre>
+
+<pre>
+block(’playrec’);
+
+F = frame(’fwt’,’sym8’,3);
+% Setup GUI control panel containing two sliders.
+p = blockpanel({{’GdB’,’Gain’,-20,20,0,21},...
+                {’Thr’,’Treshold’,0,0.1,0,1000}});
+% Loop until the control panel is not closed.
+while p.flag
+   % Get the current slider values.
+   gain = 10^(p.getParam(’GdB’)/20);
+   thres = p.getParam(’Thr’)
+   % Read 1024 samples of the input.
+   f = blockread(1024);
+   % Apply gain.
+   f = f*gain;
+   % Do block analysis to obtain the coefficients.
+   c = blockana(F, f);
+   % Threshold the coefficients.
+   c = thresh(c,thres,’soft’);
+   % Reconstruct block from the coefficients.
+   fhat = blocksyn(F, c, size(f,1)));
+   % Enqueue the samples to be played.
+   blockplay(fhat);
+end
+p.close();
+</pre>
+-->
+
+
+<h2>Limitations and latency</h2>
+<p>
+The real-time processing capabilities of Matlab/Octave are quite limited
+when compared to the professional low-level solutions like 
+<a href="http://www.steinberg.net/en/products/vst.html">Steinberg VST plugins</a>, 
+therefore we cannot recommend using the block-processing framework in settings where the glitch-less playback is a must. 
+
+The obvious source of latency is the length of the working buffer for a given sampling frequency. 
+The overhead of the data handling in Matlab/Octave does not allow working with small buffer lengths so reasonable default value making a good tradeof is 1024 samples (23ms at 44,1kHz), but
+feel free to experiment since this value is mainly dependent on the processing algorithm complexity. 
+The additional latency and the overal playback performance is operating system, device, device driver and sound API dependent, which is inherited from the 
+Portaudio library. Please refer to the discussion on latency at the Portaudio homepage <a href="https://www.assembla.com/wiki/show/portaudio/BufferingLatencyAndTimingImplementationGuidelines">here</a>.
+</p>
+<p>
+On <strong>Windows</strong> with a general onboard soundcard, we achieved the best performance with the <a href="http://www.asio4all.com/">ASIO4ALL driver</a>.
+
+On <strong>Linux</strong>, the <a href="http://jackaudio.org">JACK</a> seems to be very well suited for a good performance real-time audio.
+</p>
+
+
+
+
+<h2>Related software</h2>
+<h3>Windows</h3>
+<p>
+<ul>
+    <li>
+    <a href="http://software.muzychenko.net/eng/vac.htm">Virtual audio cable</a> a loopback cable. This software creates a virtual soundcard. Set it as a default output device and anything you play in Windows can be routed to Matlab, including youtube video, mp3 player etc. Only downside is that VAC is not free and commertial and only trial version is gratis.
+    </li>
+    <li>
+    <a href="http://vb-audio.pagesperso-orange.fr/Cable/">VB-Cable</a> is another virtual cable. This is not free either, but it is donationware. The same webpage also offers ASIO Bridge, which works similarly, but creates virtual ASIO cable.
+    </li>
+    <li>
+    <a href="http://www.asio4all.com/">ASIO4ALL driver</a> ASIO drivers for non-asio devices. Uses WDM/KS Windows API.
+    </li>
+    <li>
+    <a href="http://jackaudio.org">JACK</a> connect anything to anything. Should be even possible to use it as virtual loopback cable see <a href="http://programminglinuxblog.blogspot.co.at/2011/07/virtual-audio-cable-linux-and-windows.html">here</a>.
+    </li>
+</ul>
+</p>
+
+<h3>Linux</h3>
+<p>
+<a href="http://jackaudio.org">JACK</a> as it is originaly Linux program it should have better support on Linux. 
+</p>
+
+<h3>OS X</h3>
+<p>
+We do not have any experience in doing audio on OS X. Any contribution is welcomed.
+</p>
+
+
+<div class="include" file="../include/footer.html"></div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../js/ltfat.js" type="text/javascript"></script>
+</body>
+</html>

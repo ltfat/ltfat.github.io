@@ -1,0 +1,86 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>DEMO_AUDIOSHRINK - Decomposition into tonal and transient parts</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="demo_audioshrink_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_AUDIOSHRINK - Decomposition into tonal and transient parts</h1>
+<h2 class="subtitle" id="xxxdescription">Description</h2>
+
+<p>This demos shows how to do audio coding and &quot;tonal + transient&quot;
+decomposition using group lasso shrinkage of two <span class="linkrole"><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></span> transforms
+with different time-frequency resolutions.</p>
+<p>The signal is transformed using two orthonormal <span class="linkrole"><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></span> bases.
+Then group lasso shrinkage is applied to the two transforms
+in order to:</p>
+<blockquote>
+<ul class="simple">
+<li>select fixed frequency lines of large <span class="linkrole"><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></span> coefficients on the
+wide window <span class="linkrole"><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></span> transform</li>
+<li>select fixed time lines of large <span class="linkrole"><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></span> coefficients on the
+narrow window <span class="linkrole"><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></span> transform</li>
+</ul>
+</blockquote>
+<p>The corresponding approximated signals are computed with the
+corresponding inverse, <span class="linkrole"><a href="#BASEURL#/doc/gabor/iwmdct.html">iwmdct</a></span>.</p>
+<div class="figure align-center">
+<img alt="demo_audioshrink_1.png" src="demo_audioshrink_1.png" />
+<p class="caption">Plots and time-frequency images</p>
+<div class="legend">
+The upper plots in the figure show the tonal parts of the signal, the
+lower plots show the transients. The TF-plots on the left are the
+corresponding wmdct coefficients found by appropriate group lasso
+shrinkage</div>
+</div>
+<p>Corresponding reconstructed tonal and transient sounds may be
+listened from arrays rec1 and rec2 (sampling rate: 44.1 kHz)</p>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Percentage of retained coefficients: 10.156250 + 12.988281 = 23.144531
+To play the original, type &quot;soundsc(sig,fs)&quot;
+To play the tonal part, type &quot;soundsc(rec1,fs)&quot;
+To play the transient part, type &quot;soundsc(rec2,fs)&quot;
+</pre>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

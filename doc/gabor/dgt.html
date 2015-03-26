@@ -1,0 +1,237 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>DGT - Discrete Gabor transform</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="dgt_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/idgt.html">idgt</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabwin.html">gabwin</a></li>
+<li><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabdual.html">gabdual</a></li>
+<li><a href="#BASEURL#/doc/gabor/phaselock.html">phaselock</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DGT - Discrete Gabor transform</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+c=dgt(f,g,a,M);
+c=dgt(f,g,a,M,L);
+c=dgt(f,g,a,M,'lt',lt);
+[c,Ls]=dgt(...);
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>f</var></span></kbd></td>
+<td>Input data.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>g</var></span></kbd></td>
+<td>Window function.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>a</var></span></kbd></td>
+<td>Length of time shift.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>M</var></span></kbd></td>
+<td>Number of channels.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>L</var></span></kbd></td>
+<td>Length of transform to do.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>lt</var></span></kbd></td>
+<td>Lattice type (for non-separable lattices).</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>c</var></span></kbd></td>
+<td><span class="math">\(M \times N\)</span> array of coefficients.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>Ls</var></span></kbd></td>
+<td>Length of input signal.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">dgt(f,g,a,M)</tt> computes the Gabor coefficients (also known as a windowed
+Fourier transform) of the input signal <em>f</em> with respect to the window
+<em>g</em> and parameters <em>a</em> and <em>M</em>. The output is a vector/matrix in a
+rectangular layout.</p>
+<p>The length of the transform will be the smallest multiple of <em>a</em> and <em>M</em>
+that is larger than the signal. <em>f</em> will be zero-extended to the length of
+the transform. If <em>f</em> is a matrix, the transformation is applied to each
+column. The length of the transform done can be obtained by
+<tt class="docutils literal"><span class="pre">L=size(c,2)*a;</span></tt></p>
+<p>The window <em>g</em> may be a vector of numerical values, a text string or a
+cell array. See the help of <span class="linkrole"><a href="#BASEURL#/doc/gabor/gabwin.html">gabwin</a></span> for more details.</p>
+<p><tt class="docutils literal">dgt(f,g,a,M,L)</tt> computes the Gabor coefficients as above, but does
+a transform of length <em>L</em>. f will be cut or zero-extended to length <em>L</em> before
+the transform is done.</p>
+<p><tt class="docutils literal"><span class="pre">[c,Ls]=dgt(f,g,a,M)</span></tt> or <tt class="docutils literal"><span class="pre">[c,Ls]=dgt(f,g,a,M,L)</span></tt> additionally returns the
+length of the input signal <em>f</em>. This is handy for reconstruction:</p>
+<pre class="literal-block">
+[c,Ls]=dgt(f,g,a,M);
+fr=idgt(c,gd,a,Ls);
+</pre>
+<p>will reconstruct the signal <em>f</em> no matter what the length of <em>f</em> is, provided
+that <em>gd</em> is a dual window of <em>g</em>.</p>
+<p><tt class="docutils literal"><span class="pre">[c,Ls,g]=dgt(...)</span></tt> additionally outputs the window used in the
+transform. This is useful if the window was generated from a description
+in a string or cell array.</p>
+<p>The Discrete Gabor Transform is defined as follows: Consider a window <em>g</em>
+and a one-dimensional signal <em>f</em> of length <em>L</em> and define <span class="math">\(N=L/a\)</span>.
+The output from <tt class="docutils literal">c=dgt(f,g,a,M)</tt> is then given by:</p>
+<!-- L-1
+c(m+1,n+1) = sum f(l+1)*conj(g(l-a*n+1))*exp(-2*pi*i*m*l/M),
+             l=0 -->
+<div class="math">
+\begin{equation*}
+c\left(m+1,n+1\right)=\sum_{l=0}^{L-1}f(l+1)\overline{g(l-an+1)}e^{-2\pi ilm/M}
+\end{equation*}
+</div>
+<p>where <span class="math">\(m=0,\ldots,M-1\)</span> and <span class="math">\(n=0,\ldots,N-1\)</span> and <span class="math">\(l-an\)</span> is computed
+modulo <em>L</em>.</p>
+</div>
+<div class="section" id="non-separable-lattices">
+<h2>Non-separable lattices:</h2>
+<p><tt class="docutils literal"><span class="pre">dgt(f,g,a,M,'lt',lt)</span></tt> computes the DGT for a non-separable lattice
+given by the time-shift <em>a</em>, number of channels <em>M</em> and lattice type
+<em>lt</em>. Please see the help of <span class="linkrole"><a href="#BASEURL#/doc/gabor/matrix2latticetype.html">matrix2latticetype</a></span> for a precise
+description of the parameter <em>lt</em>.</p>
+<p>The non-separable discrete Gabor transform is defined as follows:
+Consider a window <em>g</em> and a one-dimensional signal <em>f</em> of length <em>L</em> and
+define <span class="math">\(N=L/a\)</span>.  The output from <tt class="docutils literal">c=dgt(f,g,a,M,L,lt)</tt> is then given
+by:</p>
+<!-- L-1
+c(m+1,n+1) = sum f(l+1)*conj(g(l-a*n+1))*exp(-2*pi*i*(m+w(n))*l/M),
+             l=0 -->
+<div class="math">
+\begin{equation*}
+c\left(m+1,n+1\right)=\sum_{l=0}^{L-1}f(l+1)\overline{g(l-an+1)}e^{-2\pi il(m+w(n))/M}
+\end{equation*}
+</div>
+<p>where <span class="math">\(m=0,\ldots,M-1\)</span> and <span class="math">\(n=0,\ldots,N-1\)</span> and <span class="math">\(l-an\)</span> are computed
+modulo <em>L</em>.  The additional offset <span class="math">\(w\)</span> is given by <span class="math">\(w(n)=\mod(n\cdot lt_1,lt_2)/lt_2\)</span>
+in the formula above.</p>
+</div>
+<div class="section" id="additional-parameters">
+<h2>Additional parameters:</h2>
+<p><tt class="docutils literal">dgt</tt> takes the following flags at the end of the line of input
+arguments:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'freqinv'</span></kbd></td>
+<td>Compute a DGT using a frequency-invariant phase. This
+is the default convention described above.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'timeinv'</span></kbd></td>
+<td>Compute a DGT using a time-invariant phase. This
+convention is typically used in FIR-filter algorithms.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="examples">
+<h2>Examples:</h2>
+<p>In the following example we create a Hermite function, which is a
+complex-valued function with a circular spectrogram, and visualize
+the coefficients using both <tt class="docutils literal">imagesc</tt> and <span class="linkrole"><a href="#BASEURL#/doc/gabor/plotdgt.html">plotdgt</a></span>:</p>
+<pre class="literal-block">
+a=10;
+M=40;
+L=a*M;
+h=pherm(L,4); % 4th order hermite function.
+c=dgt(h,'gauss',a,M);
+
+% Simple plot: The squared modulus of the coefficients on
+% a linear scale
+figure(1);
+imagesc(abs(c).^2);
+
+% Better plot: zero-frequency is displayed in the middle,
+% and the coefficients are show on a logarithmic scale.
+figure(2);
+plotdgt(c,a,'dynrange',50);
+</pre>
+<img alt="dgt_1_1.png" class="align-center" src="dgt_1_1.png" />
+<img alt="dgt_1_2.png" class="align-center" src="dgt_1_2.png" />
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="gr01"></a>
+
+K.&nbsp;Gr&ouml;chenig.
+ <em>Foundations of Time-Frequency Analysis</em>.
+ Birkh&auml;user, 2001.
+
+</p>
+
+<p><a name="fest98"></a>
+
+H.&nbsp;G. Feichtinger and T.&nbsp;Strohmer, editors.
+ <em>Gabor Analysis and Algorithms</em>.
+ Birkh&auml;user, Boston, 1998.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

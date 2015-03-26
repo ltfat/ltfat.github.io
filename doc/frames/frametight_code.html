@@ -1,0 +1,205 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FRAMETIGHT - Construct the canonical tight frame</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="frametight.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
+<li><a href="#BASEURL#/doc/frames/framepair.html">framepair</a></li>
+<li><a href="#BASEURL#/doc/frames/framedual.html">framedual</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FRAMETIGHT - Construct the canonical tight frame</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>Ft<span class="p">=</span><span class="nf">frametight</span><span class="p">(</span>F<span class="p">);</span>
+<span class="c">%FRAMETIGHT  Construct the canonical tight frame</span>
+<span class="c">%   Usage: Ft=frametight(F);</span>
+<span class="c">%</span>
+<span class="c">%   Ft=FRAMETIGHT(F) returns the canonical tight frame of F.</span>
+<span class="c">%</span>
+<span class="c">%   The canonical tight frame can be used to get perfect reconstruction if</span>
+<span class="c">%   it is used for both analysis and synthesis. This is demonstrated in the</span>
+<span class="c">%   following example:</span>
+<span class="c">%</span>
+<span class="c">%     % Create a frame and its canonical tight</span>
+<span class="c">%     F=frame(&#39;dgt&#39;,&#39;hamming&#39;,32,64);</span>
+<span class="c">%     Ft=frametight(F);</span>
+<span class="c">%</span>
+<span class="c">%     % Compute the frame coefficients and test for perfect</span>
+<span class="c">%     % reconstruction</span>
+<span class="c">%     f=gspi;</span>
+<span class="c">%     c=frana(Ft,f);</span>
+<span class="c">%     r=frsyn(Ft,c);</span>
+<span class="c">%     norm(r(1:length(f))-f)</span>
+<span class="c">%</span>
+<span class="c">%   See also: frame, framepair, framedual</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/frames/frametight.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+  
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;FRAMETIGHT&#39;</span><span class="p">);</span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRAMETIGHT&#39;</span><span class="p">);</span>
+
+<span class="c">% Default operation, works for a lot of frames</span>
+<span class="n">Ft</span><span class="p">=</span><span class="n">F</span><span class="p">;</span>
+
+<span class="c">% Handle the windowed transforms</span>
+<span class="k">switch</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
+  <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">,</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">,</span><span class="c">...</span>
+        <span class="s">&#39;nsdgt&#39;</span><span class="p">,</span><span class="s">&#39;unsdgt&#39;</span><span class="p">,</span><span class="s">&#39;nsdgtreal&#39;</span><span class="p">,</span><span class="s">&#39;unsdgtreal&#39;</span><span class="p">}</span>
+    
+    <span class="n">Ft</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">,{</span><span class="s">&#39;tight&#39;</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">},</span><span class="n">F</span><span class="p">.</span><span class="n">origargs</span><span class="p">{</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">});</span>
+    
+  <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbankreal&#39;</span><span class="p">}</span>
+    <span class="n">Ft</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">,{</span><span class="s">&#39;realtight&#39;</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">},</span><span class="n">F</span><span class="p">.</span><span class="n">origargs</span><span class="p">{</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">});</span>
+    
+  <span class="k">case</span> <span class="s">&#39;gen&#39;</span>
+    <span class="p">[</span><span class="n">U</span><span class="p">,</span><span class="n">sv</span><span class="p">,</span><span class="n">V</span><span class="p">]</span> <span class="p">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;econ&#39;</span><span class="p">);</span>    
+    <span class="n">Ft</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;gen&#39;</span><span class="p">,</span><span class="n">U</span><span class="o">*</span><span class="n">V</span><span class="o">&#39;</span><span class="p">);</span>
+
+  <span class="k">case</span> <span class="s">&#39;tensor&#39;</span>
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">.</span><span class="n">Nframes</span>
+        <span class="n">tight_frames</span><span class="p">{</span><span class="n">ii</span><span class="p">}=</span><span class="n">frametight</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frames</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span>
+    <span class="k">end</span><span class="p">;</span>
+    <span class="n">F</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;tensor&#39;</span><span class="p">,</span><span class="n">tight_frames</span><span class="p">{:});</span>
+
+  <span class="k">case</span> <span class="s">&#39;fusion&#39;</span>
+    <span class="n">tight_w</span><span class="p">=</span><span class="mf">1.</span><span class="o">/</span><span class="n">F</span><span class="p">.</span><span class="n">w</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">.</span><span class="n">Nframes</span>
+        <span class="n">tight_frames</span><span class="p">{</span><span class="n">ii</span><span class="p">}=</span><span class="n">frametight</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frames</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span>
+    <span class="k">end</span><span class="p">;</span>
+    <span class="n">Ft</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;fusion&#39;</span><span class="p">,</span><span class="n">tight_w</span><span class="p">,</span><span class="n">tight_frames</span><span class="p">{:});</span>
+    
+  <span class="k">case</span> <span class="s">&#39;ufwt&#39;</span>
+    <span class="c">% The canonical tight made from ufwt might not keep the iterated</span>
+    <span class="c">% filterbank structure</span>
+    <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">({</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">,</span><span class="s">&#39;dwt&#39;</span><span class="p">});</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">comp_filterbankscale</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
+    
+    <span class="n">Ft</span> <span class="p">=</span> <span class="n">frametight</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
+                 
+  <span class="k">case</span> <span class="s">&#39;uwfbt&#39;</span>
+    <span class="c">% The canonical tight made from uwfbt might not keep the iterated</span>
+    <span class="c">% filterbank structure</span>
+    <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">);</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">comp_filterbankscale</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
+    
+    <span class="n">Ft</span> <span class="p">=</span> <span class="n">frametight</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
+                 
+  <span class="k">case</span> <span class="s">&#39;uwpfbt&#39;</span>               
+    <span class="c">% The canonical tight made from uwpfbt might not keep the iterated</span>
+    <span class="c">% filterbank structure</span>
+    <span class="p">[</span><span class="n">g</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">wpfbt2filterbank</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">interscaling</span><span class="p">);</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">comp_filterbankscale</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
+    
+    <span class="n">Ft</span> <span class="p">=</span> <span class="n">frametight</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
+      
+  <span class="k">case</span> <span class="s">&#39;fwt&#39;</span>
+    <span class="n">is_basis</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">.</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-6</span><span class="p">;</span>
+    <span class="n">is_tight</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="n">istight</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="n">is_basis</span> <span class="o">&amp;&amp;</span> <span class="n">is_tight</span>
+        <span class="n">Ft</span> <span class="p">=</span> <span class="n">F</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Cannot create the canonical tight frame with the &#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;same structure. Consider casting the system to an &#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;uniform filterbank.&#39;</span><span class="p">],</span><span class="c">...</span>
+               <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+    <span class="k">end</span>
+    
+  <span class="k">case</span> <span class="s">&#39;wfbt&#39;</span>
+    <span class="n">is_basis</span> <span class="p">=</span> <span class="n">all</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">nEl</span><span class="p">)</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">nEl</span><span class="p">.</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-6</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">.</span><span class="n">nodes</span><span class="p">));</span>
+    <span class="n">is_tight</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="n">istight</span><span class="p">;</span>               
+    
+    <span class="k">if</span> <span class="n">is_basis</span> <span class="o">&amp;&amp;</span> <span class="n">is_tight</span>
+        <span class="n">Ft</span> <span class="p">=</span> <span class="n">F</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Cannot create the canonical tight frame with the &#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;same structure. Consider casting the system to an &#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;uniform filterbank.&#39;</span><span class="p">],</span><span class="c">...</span>
+               <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+    <span class="k">end</span>
+       
+   <span class="k">case</span> <span class="s">&#39;wpfbt&#39;</span>
+     <span class="c">% WPFBT is too wierd.</span>
+     <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Canonical tight frame of wpfbt might not keep the &#39;</span><span class="p">,</span><span class="c">...</span>
+           <span class="s">&#39;same structure. &#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">))</span>
+
+      
+<span class="k">end</span><span class="p">;</span>
+
+
+<span class="k">switch</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;ufwt&#39;</span><span class="p">,</span><span class="s">&#39;uwfbt&#39;</span><span class="p">,</span><span class="s">&#39;uwpfbt&#39;</span><span class="p">}</span>
+      <span class="n">warning</span><span class="p">(</span><span class="n">sprintf</span><span class="p">([</span><span class="s">&#39;%s: The canonical tight system does not preserve &#39;</span><span class="p">,</span><span class="c">...</span>
+                     <span class="s">&#39;the iterated filterbank structure.&#39;</span><span class="p">],</span><span class="c">...</span>
+                      <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">)));</span>   
+<span class="k">end</span>
+
+
+<span class="c">% Treat the fixed length frames</span>
+<span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;fixedlength&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">F</span><span class="p">.</span><span class="n">fixedlength</span> <span class="o">&amp;&amp;</span> <span class="n">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">)</span>
+   <span class="n">Ft</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">Ft</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">);</span>
+   <span class="n">Ft</span><span class="p">.</span><span class="n">fixedlength</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">end</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

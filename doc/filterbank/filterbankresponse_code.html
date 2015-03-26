@@ -1,0 +1,150 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FILTERBANKRESPONSE - Response of filterbank as function of frequency</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="filterbankresponse.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/filterbankbounds.html">filterbankbounds</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FILTERBANKRESPONSE - Response of filterbank as function of frequency</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>gf<span class="p">=</span><span class="nf">filterbankresponse</span><span class="p">(</span>g,a,L,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%FILTERBANKRESPONSE  Response of filterbank as function of frequency</span>
+<span class="c">%   Usage:  gf=filterbankresponse(g,a,L);</span>
+<span class="c">%      </span>
+<span class="c">%   gf=FILTERBANKRESPONSE(g,a,L) computes the total response in frequency</span>
+<span class="c">%   of a filterbank specified by g and a for a signal length of</span>
+<span class="c">%   L. This corresponds to summing up all channels. The output is a</span>
+<span class="c">%   usefull tool to investigate the behaviour of the windows, as peaks</span>
+<span class="c">%   indicate that a frequency is overrepresented in the filterbank, while</span>
+<span class="c">%   a dip indicates that it is not well represented.</span>
+<span class="c">%</span>
+<span class="c">%   CAUTION: This function computes a sum of squares of modulus of the </span>
+<span class="c">%   frequency responses, which is  also the diagonal of the Fourier </span>
+<span class="c">%   transform of the frame operator.</span>
+<span class="c">%   Use FILTERBANKFREQZ for evaluation or plotting of frequency responses</span>
+<span class="c">%   of filters.</span>
+<span class="c">%</span>
+<span class="c">%   FILTERBANKRESPONSE(g,a,L,&#39;real&#39;) does the same for a filterbank</span>
+<span class="c">%   intended for positive-only filterbank.</span>
+<span class="c">%</span>
+<span class="c">%   FILTERBANKRESPONSE(g,a,L,fs) specifies the sampling rate fs. This</span>
+<span class="c">%   is only used for plotting purposes.</span>
+<span class="c">%</span>
+<span class="c">%   gf=FILTERBANKRESPONSE(g,a,L,&#39;individual&#39;) returns responses </span>
+<span class="c">%   in frequency of individual filters as columns of a matrix. The total</span>
+<span class="c">%   response can be obtained by gf = sum(gf,2). </span>
+<span class="c">%</span>
+<span class="c">%   FILTERBANKRESPONSE takes the following optional parameters:</span>
+<span class="c">%</span>
+<span class="c">%      &#39;fs&#39;,fs    </span>
+<span class="c">%                 Sampling rate, used only for plotting.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;complex&#39;  </span>
+<span class="c">%                 Assume that the filters cover the entire frequency</span>
+<span class="c">%                 range. This is the default.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;real&#39;     </span>
+<span class="c">%                 Assume that the filters only cover the positive</span>
+<span class="c">%                 frequencies (and is intended to work with real-valued</span>
+<span class="c">%                 signals only).</span>
+<span class="c">%</span>
+<span class="c">%      &#39;noplot&#39;   </span>
+<span class="c">%                 Don&#39;t plot the response, just return it.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;plot&#39;     </span>
+<span class="c">%                 Plot the response using PLOTFFTREAL or PLOTFFT.</span>
+<span class="c">%</span>
+<span class="c">%   See also: filterbank, filterbankbounds</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/filterbank/filterbankresponse.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+  
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">ctype</span><span class="p">={</span><span class="s">&#39;complex&#39;</span><span class="p">,</span><span class="s">&#39;real&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">plottype</span><span class="p">={</span><span class="s">&#39;noplot&#39;</span><span class="p">,</span><span class="s">&#39;plot&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">type</span><span class="p">={</span><span class="s">&#39;total&#39;</span><span class="p">,</span><span class="s">&#39;individual&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fs</span><span class="p">=[];</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">]=</span><span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
+<span class="n">M</span><span class="p">=</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
+
+<span class="n">gf</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">m</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span>
+    <span class="n">gf</span><span class="p">(:,</span><span class="n">m</span><span class="p">)</span> <span class="p">=</span> <span class="n">comp_filterbankresponse</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="n">asan</span><span class="p">(</span><span class="n">m</span><span class="p">,:),</span><span class="n">L</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_real</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_total</span>
+    <span class="n">gf</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">gf</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_plot</span>
+    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
+        <span class="n">plotfftreal</span><span class="p">(</span><span class="n">gf</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,:),</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;lin&#39;</span><span class="p">);</span>
+    <span class="k">else</span>
+        <span class="n">plotfft</span><span class="p">(</span><span class="n">gf</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;lin&#39;</span><span class="p">);</span>
+    <span class="k">end</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

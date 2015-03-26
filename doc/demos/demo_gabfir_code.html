@@ -1,0 +1,291 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>DEMO_GABFIR - Working with FIR windows</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="demo_gabfir.html">View the help</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></li>
+<li><a href="#BASEURL#/doc/sigproc/firkaiser.html">firkaiser</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabdual.html">gabdual</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_GABFIR - Working with FIR windows</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="c">%DEMO_GABFIR  Working with FIR windows</span>
+<span class="c">%</span>
+<span class="c">%   This demo demonstrates how to work with FIR windows in Gabor systems.</span>
+<span class="c">%</span>
+<span class="c">%   FIR windows are the windows traditionally used in signal processing.</span>
+<span class="c">%   They are short, much shorter than the signal, and this is used to make</span>
+<span class="c">%   effecient algorithms. They are also the only choice for applications</span>
+<span class="c">%   involving streaming data.</span>
+<span class="c">%</span>
+<span class="c">%   It is very easy to compute a spectrogram or Gabor coefficients using a</span>
+<span class="c">%   FIR window. The hard part is reconstruction, because both the window and</span>
+<span class="c">%   the dual window used for reconstruction must be FIR, and this is hard</span>
+<span class="c">%   to obtain, if the window is longer than the number of channels.</span>
+<span class="c">%</span>
+<span class="c">%   This demo demonstrates two methods:</span>
+<span class="c">%</span>
+<span class="c">%     1) Using a Gabor frame with a simple structure, for which dual/tight</span>
+<span class="c">%        FIR windows are easy to construct. This is a very common</span>
+<span class="c">%        technique in traditional signal processing, but it limits the</span>
+<span class="c">%        choice of windows and lattice parameters.</span>
+<span class="c">%</span>
+<span class="c">%     2) Cutting a canonical dual/tight window. We compute the canonical</span>
+<span class="c">%        dual window of the analysis window, and cut away the parts that</span>
+<span class="c">%        are close to zero. This will work for any analysis window and</span>
+<span class="c">%        any lattice constant, but the reconstruction obtained is not</span>
+<span class="c">%        perfect.</span>
+<span class="c">%</span>
+<span class="c">%   Figure 1: Hanning FIR window</span>
+<span class="c">%</span>
+<span class="c">%      This figure shows the a Hanning window in the time domain and its</span>
+<span class="c">%      magnitude response.</span>
+<span class="c">%</span>
+<span class="c">%   Figure 2: Kaiser-Bessel FIR window</span>
+<span class="c">%</span>
+<span class="c">%      This figure shows a Kaiser Bessel window and its magnitude response,</span>
+<span class="c">%      and the same two plots for the canonical dual of the window.</span>
+<span class="c">%</span>
+<span class="c">%   Figure 3: Gaussian FIR window for low redundancy</span>
+<span class="c">%</span>
+<span class="c">%      This figure shows a truncated Gaussian window and its magnitude</span>
+<span class="c">%      response. The same two plots are show for the truncated canonical</span>
+<span class="c">%      dual window.</span>
+<span class="c">%</span>
+<span class="c">%   Figure 4: Almost tight Gaussian FIR window</span>
+<span class="c">%</span>
+<span class="c">%      This figure shows a tight Gaussian window that has been truncated</span>
+<span class="c">%      and its magnitude response.</span>
+<span class="c">%</span>
+<span class="c">%   See also:  firwin, firkaiser, gabdual</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.sourceforge.net/doc/demos/demo_gabfir.php</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">% -------- first part: Analytically known FIR window ----------------- </span>
+
+<span class="c">% The lattice constants to use.</span>
+<span class="n">a</span><span class="p">=</span><span class="mi">16</span><span class="p">;</span>
+<span class="n">M</span><span class="p">=</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+
+<span class="c">% When working with FIR windows, some routines (gabdualnorm, magresp)</span>
+<span class="c">% require a transform length. Strictly speaking, this should be infinity,</span>
+<span class="c">% but this is not possible in the current implementation. Choosing an</span>
+<span class="c">% LLong that is some high multiple of M provides a very good approximation</span>
+<span class="c">% of the correct result.</span>
+<span class="n">LLong</span><span class="p">=</span><span class="n">M</span><span class="o">*</span><span class="mi">16</span><span class="p">;</span>
+
+<span class="c">% Compute the iterated sine window. This window is a tight window when used</span>
+<span class="c">% with a Gabor system where the number of channels is larger than or</span>
+<span class="c">% equal to the length of the window.</span>
+<span class="n">g</span><span class="p">=</span><span class="n">gabwin</span><span class="p">(</span><span class="s">&#39;itersine&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Reconstruction error using itersine window, should be close to zero:&#39;</span><span class="p">);</span>
+<span class="n">gabdualnorm</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">LLong</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c">% Plot the window in the time-domain.</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;itersine FIR window.&#39;</span><span class="p">);</span>
+
+<span class="c">% Plot the magnitude response of the window (the frequency representation of</span>
+<span class="c">% the window on a dB scale).</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">magresp</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Magnitude response of itersine window.&#39;</span><span class="p">);</span>
+
+<span class="c">% -------- second part: True, short FIR window -------------------------</span>
+
+<span class="c">% If the length of the window is less than or equal to the number of</span>
+<span class="c">% channels M, then the canonical dual and tight windows will have the</span>
+<span class="c">% same support. This case is explicitly supported by gabdual</span>
+
+<span class="c">% Set up a nice Kaiser-Bessel window.</span>
+<span class="n">g</span><span class="p">=</span><span class="n">firkaiser</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="s">&#39;energy&#39;</span><span class="p">);</span>
+
+<span class="c">% Compute the canonical dual window</span>
+<span class="n">gd</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Reconstruction error canonical dual of Kaiser window, should be close to zero:&#39;</span><span class="p">);</span>
+<span class="n">gabdualnorm</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c">% Plot the window in the time-domain.</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Kaiser window.&#39;</span><span class="p">);</span>
+
+<span class="c">% Plot the magnitude response of the window (the frequency representation of</span>
+<span class="c">% the window on a dB scale).</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">magresp</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Magnitude response of Kaiser window.&#39;</span><span class="p">);</span>
+
+<span class="c">% Plot the window in the time-domain.</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gd</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual of Kaiser window.&#39;</span><span class="p">);</span>
+
+<span class="c">% Plot the magnitude response of the window (the frequency representation of</span>
+<span class="c">% the window on a dB scale).</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+<span class="n">magresp</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Magnitude response of dual Kaiser window.&#39;</span><span class="p">);</span>
+
+
+<span class="c">% -------- Third part, cutting a LONG window --------------</span>
+
+<span class="c">% We can now work with any lattice constants and lower redundancies.</span>
+<span class="n">a</span><span class="p">=</span><span class="mi">12</span><span class="p">;</span>
+<span class="n">M</span><span class="p">=</span><span class="mi">18</span><span class="p">;</span>
+
+<span class="c">% LLong plays the same role as in the first part. It must be a multiple of</span>
+<span class="c">% both &#39;a&#39; and M.</span>
+<span class="n">LLong</span><span class="p">=</span><span class="n">M</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="mi">16</span><span class="p">;</span>
+
+<span class="c">% Construct an LONG Gaussian window with optimal time/frequency resolution.</span>
+<span class="n">glong</span><span class="p">=</span><span class="n">pgauss</span><span class="p">(</span><span class="n">LLong</span><span class="p">,</span><span class="n">a</span><span class="o">*</span><span class="n">M</span><span class="o">/</span><span class="n">LLong</span><span class="p">);</span>
+
+<span class="c">% Cut it to a FIR window, preserving the WPE symmetry.</span>
+<span class="c">% The length must be a multiple of M.</span>
+<span class="n">gfir</span><span class="p">=</span><span class="n">long2fir</span><span class="p">(</span><span class="n">glong</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;wp&#39;</span><span class="p">);</span>
+
+<span class="c">% Extend the cutted window, and compute the dual window of this.</span>
+<span class="n">gfirextend</span><span class="p">=</span><span class="n">fir2long</span><span class="p">(</span><span class="n">gfir</span><span class="p">,</span><span class="n">LLong</span><span class="p">);</span>
+<span class="n">gd_long</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">gfirextend</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+
+<span class="c">% Cut it, preserving the WPE symmetry</span>
+<span class="n">gd_fir</span><span class="p">=</span><span class="n">long2fir</span><span class="p">(</span><span class="n">gd_long</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;wp&#39;</span><span class="p">);</span>
+
+<span class="c">% Compute the reconstruction error</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Reconstruction error using cutted dual window.&#39;</span><span class="p">);</span>
+<span class="n">recerr</span> <span class="p">=</span> <span class="n">gabdualnorm</span><span class="p">(</span><span class="n">gfir</span><span class="p">,</span><span class="n">gd_fir</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">LLong</span><span class="p">)</span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;or expressed in dB:&#39;</span><span class="p">);</span>
+<span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">recerr</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="c">% Plot the window in the time-domain.</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gfir</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Gaussian FIR window.&#39;</span><span class="p">);</span>
+
+<span class="c">% Plot the magnitude response of the window (the frequency representation of</span>
+<span class="c">% the window on a dB scale).</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">magresp</span><span class="p">(</span><span class="n">gfir</span><span class="p">,</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Magnitude response of FIR Gaussian.&#39;</span><span class="p">)</span>
+
+<span class="c">% Plot the window in the time-domain.</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gd_fir</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual of Gaussian FIR window.&#39;</span><span class="p">);</span>
+
+<span class="c">% Plot the magnitude response of the window (the frequency representation of</span>
+<span class="c">% the window on a dB scale).</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+<span class="n">magresp</span><span class="p">(</span><span class="n">gd_fir</span><span class="p">,</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Magnitude response.&#39;</span><span class="p">);</span>
+
+<span class="c">% ----- Fourth part, cutting a tight LONG window --------------</span>
+
+<span class="c">% We reuse all the parameters of the previous demo.</span>
+
+<span class="c">% Get a tight window.</span>
+<span class="n">gt_long</span> <span class="p">=</span> <span class="n">gabtight</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">LLong</span><span class="p">);</span>
+
+<span class="c">% Cut it</span>
+<span class="n">gt_fir</span> <span class="p">=</span> <span class="n">long2fir</span><span class="p">(</span><span class="n">gt_long</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">M</span><span class="p">);</span>
+
+<span class="c">% Compute the reconstruction error</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Reconstruction error using cutted tight window.&#39;</span><span class="p">);</span>
+<span class="n">recerr</span> <span class="p">=</span> <span class="n">gabdualnorm</span><span class="p">(</span><span class="n">gt_fir</span><span class="p">,</span><span class="n">gt_fir</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">LLong</span><span class="p">)</span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;or expressed in dB:&#39;</span><span class="p">);</span>
+<span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">recerr</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+
+<span class="c">% Plot the window in the time-domain.</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gt_fir</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Almost tight FIR window.&#39;</span><span class="p">);</span>
+
+<span class="c">% Plot the magnitude response of the window (the frequency representation of</span>
+<span class="c">% the window on a dB scale).</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">magresp</span><span class="p">(</span><span class="n">gt_fir</span><span class="p">,</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Magnitude response.&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

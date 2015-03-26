@@ -1,0 +1,112 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>NONU2UCFMT - Non-uniform to uniform filterbank coefficient format</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="nonu2ucfmt_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/filterbank/nonu2ufilterbank.html">nonu2ufilterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/u2nonucfmt.html">u2nonucfmt</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">NONU2UCFMT - Non-uniform to uniform filterbank coefficient format</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+cu=nonu2ucfmt(c,pk)
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>c</var></span></kbd></td>
+<td>Non-uniform filterbank coefficients.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>cu</var></span></kbd></td>
+<td>Uniform filterbank coefficients.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>p</var></span></kbd></td>
+<td>Numbers of copies of each filter.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">cu = nonu2ucfmt(c,p)</tt> changes the coefficient format from
+non-uniform filterbank coefficients <em>c</em> (<tt class="docutils literal">M=numel(p)</tt> channels) to
+uniform coefficients <em>c</em> (<tt class="docutils literal">sum(p)</tt> channels)  such that each
+channel of <em>cu</em> consinst of de-interleaved samples of channels of <em>c</em>.</p>
+<p>The output <em>cu</em> is a cell-array in any case.</p>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="akkva2003"></a>
+
+S.&nbsp;Akkarakaran and P.&nbsp;Vaidyanathan.
+ Nonuniform filter banks: New results and open problems.
+ In P.&nbsp;M. C.K.&nbsp;Chui and L.&nbsp;Wuytack, editors, <em>Studies in
+  Computational Mathematics: Beyond Wavelets</em>, volume&nbsp;10, pages 259 -301.
+  Elsevier B.V., 2003.
+[&nbsp;<a href="http://dx.doi.org/10.1016/S1570-579X(03)80038-1">DOI</a>&nbsp;]
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

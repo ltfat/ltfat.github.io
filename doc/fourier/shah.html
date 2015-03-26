@@ -1,0 +1,85 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>SHAH - Discrete Shah-distribution</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
+        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="shah_code.html">View the code</a></div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">SHAH - Discrete Shah-distribution</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+f=shah(L,a);
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">shah(L,a)</tt> computes the discrete, normalized Shah-distribution of
+length <em>L</em> with a distance of <em>a</em> between the spikes.</p>
+<p>The Shah distribution is defined by</p>
+<!-- f(n*a+1)=1/sqrt(L/a) -->
+<div class="math">
+\begin{equation*}
+f(n\cdot a+1)=\frac{1}{\sqrt(L/a)}
+\end{equation*}
+</div>
+<p>for integer <em>n</em>, otherwise <em>f</em> is zero.</p>
+<p>This is also known as an impulse train or as the comb function, because
+the shape of the function resembles a comb. It is the sum of unit
+impulses ('diracs') with the distance <em>a</em>.</p>
+<p>If <em>a</em> divides <em>L</em>, then the <span class="linkrole"><a href="#BASEURL#/doc/fourier/dft.html">dft</a></span> of <tt class="docutils literal">shah(L,a)</tt> is <tt class="docutils literal">shah(L,L/a)</tt>.</p>
+<p>The Shah function has an extremely bad time-frequency localization.
+It does not generate a Gabor frame for any <em>L</em> and <em>a</em>.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples:</h2>
+<p>A simple spectrogram of the Shah function (includes the negative
+frequencies to display the whole TF-plane):</p>
+<pre class="literal-block">
+sgram(shah(256,16),'dynrange',80,'nf')
+</pre>
+<img alt="shah_1_1.png" class="align-center" src="shah_1_1.png" />
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
