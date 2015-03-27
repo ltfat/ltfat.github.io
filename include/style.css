@@ -224,12 +224,13 @@ margin-top: 20px;
 .input-prepend form {
   margin-left: 0px;
 }
-select { 
+
+.input-group { 
   width: 100%; 
-  float: right;
+/*  float: right;*/
 }
 .input-prepend .add-on {
-  float: left;
+  float: right;
   color: #555;
   min-width: 100px;
 }

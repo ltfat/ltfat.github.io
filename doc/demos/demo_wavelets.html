@@ -22,11 +22,9 @@ octave"/>
 <div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="pull-right" id="jumplist">This is where navigation should be.</div>
-        <div class="pull-left" id="codeswitch"><div id="menutitle"><a href="demo_wavelets_code.html">View the code</a></div>
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="demo_wavelets_code.html">View the code</a></div>
 </div>
-    </div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
 </div>
 <div class="row">
     <div class="col-md-2">
@@ -65,6 +63,20 @@ The filterbank tree depth is 8 and it is fully decomposed meaning
 both outputs (low-pass and high-pass) of the basic filterbank is
 plot further. This results in 256 bands linearly covering the
 frequency axis.</div>
+</div>
+<div class="figure align-center">
+<img alt="demo_wavelets_4.png" src="demo_wavelets_4.png" />
+<p class="caption">Full Wavelet filterbank tree representation</p>
+<div class="legend">
+The same case as before, but symmetric nearly orthogonal basic
+filterbank is used.</div>
+</div>
+<div class="figure align-center">
+<img alt="demo_wavelets_5.png" src="demo_wavelets_5.png" />
+<p class="caption">Full Dual-tree Wavelet filterbank representation</p>
+<div class="legend">
+This is a 2 times redundant representation using Q-shift dual-tree
+wavelet filters.</div>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>
