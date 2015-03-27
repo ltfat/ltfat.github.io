@@ -278,3 +278,9 @@ blockquote { font-size: 100%;}
     background-image: none;
 }
 
+.docutils kbd {
+background-color: #fff;
+box-shadow: none;
+color: #333;
+}
+
