@@ -102,7 +102,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/mulaclab.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -665,24 +665,29 @@ octave"/>
 <span class="n">supportedFrames</span> <span class="p">=</span> <span class="c">...</span>
 <span class="p">{</span><span class="c">...</span>
   <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;Gabreal&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
-    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;winType&#39;</span><span class="p">,</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="s">&#39;winLen&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="s">&#39;hop&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="mi">256</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span><span class="c">...</span>
-           <span class="s">&#39;nbFreq&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">)),</span><span class="c">... </span>
+    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;winType&#39;</span><span class="p">,</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="s">&#39;winLen&#39;</span><span class="p">,</span><span class="mi">1024</span><span class="p">,</span><span class="s">&#39;hop&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="c">...</span>
+           <span class="s">&#39;nbFreq&#39;</span><span class="p">,</span><span class="mi">2048</span><span class="p">)),</span><span class="c">... </span>
+  <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
+    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="s">&#39;downsampling&#39;</span><span class="p">,</span><span class="s">&#39;fractionaluniform&#39;</span><span class="p">)),</span><span class="c">... </span>
+  <span class="c">...</span>
+  <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
+    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;fmin&#39;</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="s">&#39;fmax&#39;</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="s">&#39;bins&#39;</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="s">&#39;downsampling&#39;</span><span class="p">,</span><span class="s">&#39;uniform&#39;</span><span class="p">)),</span><span class="c">... </span>
   <span class="c">...</span>
   <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;Gabor&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
-    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;winType&#39;</span><span class="p">,</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="s">&#39;winLen&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="s">&#39;hop&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="mi">256</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span><span class="c">...</span>
-           <span class="s">&#39;nbFreq&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">)),</span><span class="c">...</span>
-  <span class="c">...</span>
-  <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;DWT&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
-    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;wavelet&#39;</span><span class="p">,</span><span class="s">&#39;sym10&#39;</span><span class="p">,</span><span class="s">&#39;J&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">)),</span><span class="c">...</span>
-  <span class="c">...</span>
-  <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;UDWT&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
-    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;wavelet&#39;</span><span class="p">,</span><span class="s">&#39;sym10&#39;</span><span class="p">,</span><span class="s">&#39;J&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">)),</span><span class="c">...</span>
-  <span class="c">...</span>
-  <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;WFBT&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
-    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;wavelet&#39;</span><span class="p">,</span><span class="s">&#39;sym10&#39;</span><span class="p">,</span><span class="s">&#39;J&#39;</span><span class="p">,</span><span class="mi">7</span><span class="p">)),</span><span class="c">... </span>
-  <span class="c">...</span>
-  <span class="n">struct</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;UWFBT&#39;</span><span class="p">,</span><span class="s">&#39;def&#39;</span><span class="p">,</span><span class="c">...</span>
-    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;wavelet&#39;</span><span class="p">,</span><span class="s">&#39;sym10&#39;</span><span class="p">,</span><span class="s">&#39;J&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">)),</span><span class="c">...   </span>
+    <span class="n">struct</span><span class="p">(</span><span class="s">&#39;winType&#39;</span><span class="p">,</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="s">&#39;winLen&#39;</span><span class="p">,</span><span class="mi">1024</span><span class="p">,</span><span class="s">&#39;hop&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="c">...</span>
+           <span class="s">&#39;nbFreq&#39;</span><span class="p">,</span><span class="mi">2048</span><span class="p">)),</span><span class="c">...</span>
+<span class="c">%  ...</span>
+<span class="c">%   struct(&#39;type&#39;,&#39;DWT&#39;,&#39;def&#39;,...</span>
+<span class="c">%     struct(&#39;wavelet&#39;,&#39;sym10&#39;,&#39;J&#39;,8)),...</span>
+<span class="c">%   ...</span>
+<span class="c">%   struct(&#39;type&#39;,&#39;UDWT&#39;,&#39;def&#39;,...</span>
+<span class="c">%     struct(&#39;wavelet&#39;,&#39;sym10&#39;,&#39;J&#39;,8)),...</span>
+<span class="c">%   ...</span>
+<span class="c">%   struct(&#39;type&#39;,&#39;WFBT&#39;,&#39;def&#39;,...</span>
+<span class="c">%     struct(&#39;wavelet&#39;,&#39;sym10&#39;,&#39;J&#39;,7)),... </span>
+<span class="c">%   ...</span>
+<span class="c">%   struct(&#39;type&#39;,&#39;UWFBT&#39;,&#39;def&#39;,...</span>
+<span class="c">%     struct(&#39;wavelet&#39;,&#39;sym10&#39;,&#39;J&#39;,4)),...   </span>
 <span class="p">};</span>
 
 <span class="n">iconpath</span><span class="p">=[</span><span class="n">ltfatbasepath</span><span class="p">,</span><span class="s">&#39;mulaclab&#39;</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="s">&#39;icons&#39;</span><span class="p">,</span><span class="n">filesep</span><span class="p">];</span>
@@ -882,7 +887,7 @@ octave"/>
       <span class="s">&#39;Callback&#39;</span><span class="p">,@</span><span class="n">toggleModVisu</span><span class="p">);</span>
     <span class="n">gui</span><span class="p">.</span><span class="n">visuMenu</span><span class="p">.</span><span class="n">showOverviewId</span> <span class="p">=</span> <span class="n">uimenu</span><span class="p">(</span><span class="n">menuVisuId</span><span class="p">,</span><span class="c">...</span>
       <span class="s">&#39;Label&#39;</span><span class="p">,</span><span class="s">&#39;Show overview of original signal&#39;</span><span class="p">,</span><span class="c">...</span>
-      <span class="s">&#39;Checked&#39;</span><span class="p">,</span> <span class="s">&#39;on&#39;</span><span class="p">,</span><span class="c">...</span>
+      <span class="s">&#39;Checked&#39;</span><span class="p">,</span> <span class="s">&#39;off&#39;</span><span class="p">,</span><span class="c">...</span>
       <span class="s">&#39;Callback&#39;</span><span class="p">,@</span><span class="n">toggleOverviewVisu</span><span class="p">);</span>
      
     <span class="c">% intialize visualization</span>
@@ -913,11 +918,14 @@ octave"/>
     <span class="c">% activate the current tool</span>
     <span class="c">% changeTool([], [], gui.curTool);</span>
 
-    <span class="c">% end of initialization, show the interface to the user</span>
-    <span class="n">set</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">mainFigId</span><span class="p">,</span> <span class="s">&#39;Visible&#39;</span><span class="p">,</span> <span class="s">&#39;on&#39;</span><span class="p">);</span>
+
     <span class="n">resetMulaclab</span><span class="p">();</span>
+    <span class="n">toggleOverviewVisu</span><span class="p">();</span> <span class="c">% Do not show te overwiev window</span>
     <span class="n">resetSel</span><span class="p">();</span>
     <span class="n">resetSymbol</span><span class="p">();</span>
+    
+        <span class="c">% end of initialization, show the interface to the user</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">mainFigId</span><span class="p">,</span> <span class="s">&#39;Visible&#39;</span><span class="p">,</span> <span class="s">&#39;on&#39;</span><span class="p">);</span>
   <span class="k">end</span>
 
 <span class="k">  function</span><span class="w"> </span><span class="nf">initializeParameter</span><span class="p">()</span><span class="w"></span>
@@ -1085,6 +1093,8 @@ octave"/>
        <span class="k">case</span> <span class="s">&#39;gabor&#39;</span>
           <span class="n">win</span> <span class="p">=</span> <span class="n">firwin</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">winType</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">winLen</span><span class="p">);</span>
           <span class="n">coef</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">hop</span><span class="p">,</span> <span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">nbFreq</span><span class="p">);</span>
+       <span class="k">case</span> <span class="p">{</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
+           <span class="n">coef</span> <span class="p">=</span> <span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">);</span>
        <span class="k">case</span> <span class="s">&#39;dwt&#39;</span>
           <span class="p">[</span><span class="n">coef</span><span class="p">,</span> <span class="n">coeff</span><span class="p">.</span><span class="n">info</span><span class="p">]</span> <span class="p">=</span> <span class="n">fwt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">wavelet</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">J</span><span class="p">);</span>
        <span class="k">case</span> <span class="s">&#39;wfbt&#39;</span>
@@ -1108,6 +1118,8 @@ octave"/>
           <span class="n">win</span> <span class="p">=</span> <span class="n">gabdual</span><span class="p">(</span><span class="n">firwin</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">winType</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">winLen</span><span class="p">),</span> <span class="c">...</span>
           <span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">hop</span><span class="p">,</span> <span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">nbFreq</span><span class="p">);</span>
           <span class="n">fhat</span> <span class="p">=</span> <span class="n">idgt</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">hop</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">));</span>
+       <span class="k">case</span> <span class="p">{</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
+          <span class="n">fhat</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">real</span><span class="p">(</span><span class="n">ifilterbank</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">gdual</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">)));</span>   
        <span class="k">case</span> <span class="s">&#39;dwt&#39;</span>
           <span class="n">fhat</span> <span class="p">=</span> <span class="n">ifwt</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">coeff</span><span class="p">.</span><span class="n">info</span><span class="p">);</span>
        <span class="k">case</span> <span class="s">&#39;wfbt&#39;</span>
@@ -1128,6 +1140,8 @@ octave"/>
           <span class="n">C</span> <span class="p">=</span> <span class="n">plotdgtreal</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">hop</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">nbFreq</span><span class="p">,</span><span class="n">sig</span><span class="p">.</span><span class="n">sampFreq</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
        <span class="k">case</span> <span class="s">&#39;gabor&#39;</span>
           <span class="n">C</span> <span class="p">=</span> <span class="n">plotdgt</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">hop</span><span class="p">,</span><span class="n">sig</span><span class="p">.</span><span class="n">sampFreq</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
+       <span class="k">case</span> <span class="p">{</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
+          <span class="n">C</span> <span class="p">=</span> <span class="n">plotfilterbank</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">fc</span><span class="p">,</span><span class="n">sig</span><span class="p">.</span><span class="n">sampFreq</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dwt&#39;</span><span class="p">,</span><span class="s">&#39;udwt&#39;</span><span class="p">,</span><span class="s">&#39;wfbt&#39;</span><span class="p">,</span><span class="s">&#39;uwfbt&#39;</span><span class="p">,</span><span class="s">&#39;ufwt&#39;</span><span class="p">}</span>
           <span class="n">C</span> <span class="p">=</span> <span class="n">plotwavelets</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">coeff</span><span class="p">.</span><span class="n">info</span><span class="p">,</span><span class="n">sig</span><span class="p">.</span><span class="n">sampFreq</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
        <span class="k">otherwise</span>
@@ -1153,7 +1167,7 @@ octave"/>
 <span class="s">           end</span>
 <span class="s">           </span>
 <span class="s">        % Cell array containing column vectors format</span>
-<span class="s">        case &#39;</span><span class="n">wfbt</span><span class="o">&#39;</span>
+<span class="s">        case {&#39;</span><span class="n">wfbt</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
            <span class="n">M</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>
            <span class="n">Lplot</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">symb</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
            <span class="n">Lc</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span> <span class="nb">size</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>
@@ -1201,7 +1215,7 @@ octave"/>
 <span class="s">           end</span>
 
 <span class="s">        % Cell array containing column vectors format</span>
-<span class="s">        case &#39;</span><span class="n">wfbt</span><span class="o">&#39;</span>
+<span class="s">        case {&#39;</span><span class="n">wfbt</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
            <span class="n">M</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>
            <span class="n">Lsymb</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">oriC</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
            <span class="n">Lc</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span> <span class="nb">size</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">mult</span><span class="p">);</span>
@@ -1234,6 +1248,31 @@ octave"/>
           <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unrecognized frame type&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
      <span class="k">end</span>
 
+  <span class="k">end</span>
+
+
+<span class="k">  function</span><span class="w"> </span><span class="nf">precomputeStuff</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="s">&#39;precomp&#39;</span><span class="p">)</span>
+          <span class="c">% Already done, do nothing.</span>
+          <span class="k">return</span><span class="p">;</span>
+      <span class="k">end</span>
+      <span class="n">frame</span><span class="p">.</span><span class="n">precomp</span> <span class="p">=</span> <span class="n">struct</span><span class="p">();</span>
+      
+      <span class="k">switch</span> <span class="n">lower</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
+          <span class="k">case</span> <span class="s">&#39;erblet&#39;</span>
+             <span class="p">[</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">fc</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
+                 <span class="n">erbfilters</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">sampFreq</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">),</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">M</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">downsampling</span><span class="p">);</span>
+             <span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">gdual</span> <span class="p">=</span> <span class="c">...</span>
+                 <span class="n">filterbankrealdual</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">));</span>
+          <span class="k">case</span> <span class="s">&#39;cqt&#39;</span>
+             <span class="p">[</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">fc</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
+                 <span class="n">cqtfilters</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">sampFreq</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">fmin</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">fmax</span><span class="p">,</span><span class="c">...</span>
+                            <span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">bins</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">),</span><span class="n">frame</span><span class="p">.</span><span class="n">def</span><span class="p">.</span><span class="n">downsampling</span><span class="p">);</span>
+             <span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">gdual</span> <span class="p">=</span> <span class="c">...</span>
+                 <span class="n">filterbankrealdual</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="c">...</span>
+                 <span class="n">filterbanklength</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">),</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">a</span><span class="p">));</span>
+      <span class="k">end</span>
+          
   <span class="k">end</span>
 
 <span class="k">  function</span><span class="w"> </span><span class="nf">applyMultiplier</span><span class="p">(</span>c,mult<span class="p">)</span><span class="w"></span>
@@ -1290,14 +1329,15 @@ octave"/>
     <span class="c">% around each polygon (not on the whole time-frequency plane)</span>
     <span class="c">% and also working with a smaller mask when signal is real</span>
     <span class="k">for</span> <span class="n">ind</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+      <span class="n">xvals</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">convAxesToIndX</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span><span class="p">));</span>
+      <span class="n">yvals</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">convAxesToIndY</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span><span class="p">));</span>
+      <span class="n">tmpmask</span> <span class="p">=</span> <span class="n">poly2mask</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span><span class="n">yvals</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+      
+      
       <span class="k">if</span> <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">hole</span>
-        <span class="n">mask</span> <span class="p">=</span> <span class="n">mask</span> <span class="o">-</span> <span class="n">poly2mask</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">convAxesToIndX</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span><span class="p">)),</span><span class="c">...</span>
-          <span class="nb">round</span><span class="p">(</span><span class="n">convAxesToIndY</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span><span class="p">)),</span><span class="c">...</span>
-          <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+        <span class="n">mask</span> <span class="p">=</span> <span class="n">mask</span> <span class="o">-</span> <span class="n">tmpmask</span><span class="p">;</span>
       <span class="k">else</span>
-        <span class="n">mask</span> <span class="p">=</span> <span class="n">mask</span> <span class="o">+</span> <span class="n">poly2mask</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">convAxesToIndX</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span><span class="p">)),</span><span class="c">...</span>
-          <span class="nb">round</span><span class="p">(</span><span class="n">convAxesToIndY</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span><span class="p">)),</span><span class="c">...</span>
-          <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+        <span class="n">mask</span> <span class="p">=</span> <span class="n">mask</span> <span class="o">+</span> <span class="n">tmpmask</span><span class="p">;</span>
       <span class="k">end</span>
     <span class="k">end</span>
 
@@ -1559,6 +1599,10 @@ octave"/>
 
 <span class="k">  function</span><span class="w"> </span><span class="nf">resetMulaclab</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="n">initializePlayer</span><span class="p">;</span>
+    <span class="c">% Precompute stuff</span>
+    <span class="n">precomputeStuff</span><span class="p">();</span>
+    
+    
     <span class="n">coeff</span><span class="p">.</span><span class="n">ori</span> <span class="p">=</span> <span class="n">calculateCoeff</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>
     <span class="n">sig</span><span class="p">.</span><span class="nb">mod</span> <span class="p">=</span> <span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">;</span>
     <span class="n">coeff</span><span class="p">.</span><span class="nb">mod</span> <span class="p">=</span> <span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">;</span>
@@ -1847,6 +1891,10 @@ octave"/>
 <span class="k">    </span>
 <span class="k">    function</span><span class="w"> </span><span class="nf">callbackOk</span><span class="p">(</span>objId, eventData<span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="n">newFrame</span> <span class="p">=</span> <span class="n">oldFrame</span><span class="p">;</span>
+      <span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">newFrame</span><span class="p">,</span><span class="s">&#39;precomp&#39;</span><span class="p">)</span>
+          <span class="n">newFrame</span> <span class="p">=</span> <span class="n">rmfield</span><span class="p">(</span><span class="n">newFrame</span><span class="p">,</span><span class="s">&#39;precomp&#39;</span><span class="p">);</span>
+      <span class="k">end</span>
+      
       <span class="k">for</span> <span class="n">ind2</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">fieldNames</span><span class="p">)</span>
          <span class="n">val</span> <span class="p">=</span> <span class="n">get</span><span class="p">(</span><span class="n">objIds</span><span class="p">(</span><span class="n">ind2</span><span class="p">),</span><span class="s">&#39;string&#39;</span><span class="p">);</span>
           <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -2898,7 +2946,7 @@ octave"/>
          <span class="n">range</span> <span class="p">=</span> <span class="n">indFreq</span><span class="p">:</span><span class="n">startInFreq</span><span class="p">;</span>
          <span class="n">range</span> <span class="p">=</span> <span class="n">range</span><span class="p">(</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">);</span>
       <span class="k">end</span>
-      <span class="k">if</span><span class="p">(</span><span class="n">all</span><span class="p">(</span><span class="n">selectedInFreq</span><span class="p">(</span><span class="n">range</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">))</span>
+      <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">range</span><span class="p">)</span> <span class="o">||</span> <span class="n">all</span><span class="p">(</span><span class="n">selectedInFreq</span><span class="p">(</span><span class="n">range</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
       <span class="k">return</span><span class="p">;</span>
       <span class="k">end</span>
       

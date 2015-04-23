@@ -68,6 +68,12 @@ octave"/>
 <span class="c">%   where the first filter is selected such that its center is lower than </span>
 <span class="c">%   fmin. </span>
 <span class="c">%</span>
+<span class="c">%   By default, a Hann window on the frequency side is choosen, but the</span>
+<span class="c">%   window can be changed by passing any of the window types from</span>
+<span class="c">%   FIRWIN as an optional parameter.</span>
+<span class="c">%   Run getfield(getfield(arg_firwin,&#39;flags&#39;),&#39;wintype&#39;) to get a cell</span>
+<span class="c">%   array of window types available.</span>
+<span class="c">%</span>
 <span class="c">%   With respect to the selected scale, all filters have equal bandwidth </span>
 <span class="c">%   and are uniformly spaced on the scale axis, e.g. if freqtoscale is </span>
 <span class="c">%   log(x), then we obtain constant-Q filters with geometric spacing. </span>
@@ -108,26 +114,22 @@ octave"/>
 <span class="c">%   but the window can be changed by passing any of the window types from</span>
 <span class="c">%   FIRWIN as an optional parameter.</span>
 <span class="c">%</span>
-<span class="c">%   Because the downsampling rates of the channels must all divide the</span>
-<span class="c">%   signal length, FILTERBANK will only work for multiples of the</span>
-<span class="c">%   least common multiple of the downsampling rates. See the help of</span>
-<span class="c">%   FILTERBANKLENGTH.</span>
+<span class="c">%   The integer downsampling rates of the channels must all divide the</span>
+<span class="c">%   signal length, FILTERBANK will only work for input signal lengths</span>
+<span class="c">%   being multiples of the least common multiple of the downsampling rates.</span>
+<span class="c">%   See the help of FILTERBANKLENGTH. </span>
+<span class="c">%   The fractional downsampling rates restrict the filterbank to a single</span>
+<span class="c">%   length L=Ls.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=WARPEDFILTERS(...,&#39;regsampling&#39;) constructs a non-uniform</span>
-<span class="c">%   filterbank. The downsampling rates are constant in the octaves but</span>
-<span class="c">%   can differ among octaves. This approach was chosen in order to minimize</span>
-<span class="c">%   the least common multiple of a, which determines a granularity of</span>
-<span class="c">%   admissible input signal lengths.</span>
+<span class="c">%   filterbank with integer subsampling factors. </span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=WARPEDFILTERS(...,&#39;uniform&#39;) constructs a uniform filterbank</span>
-<span class="c">%   where the downsampling rate is the same for all the channels. This</span>
+<span class="c">%   where the the downsampling rate is the same for all the channels. This</span>
 <span class="c">%   results in most redundant representation, which produces nice plots.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=WARPEDFILTERS(...,&#39;fractional&#39;) constructs a filterbank with</span>
-<span class="c">%   fractional downsampling rates a. The rates are constructed such</span>
-<span class="c">%   that the filterbank can handle signal lengths that are multiples of</span>
-<span class="c">%   L, so the benefit of the fractional downsampling is that you get to</span>
-<span class="c">%   choose the value returned by FILTERBANKLENGTH. This results in the</span>
+<span class="c">%   fractional downsampling rates a. This results in the</span>
 <span class="c">%   least redundant system.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=WARPEDFILTERS(...,&#39;fractionaluniform&#39;) constructs a filterbank</span>
@@ -140,10 +142,6 @@ octave"/>
 <span class="c">%   fs.</span>
 <span class="c">%</span>
 <span class="c">%   WARPEDFILTERS accepts the following optional parameters:</span>
-<span class="c">%</span>
-<span class="c">%       &#39;winfun&#39;,winfun       </span>
-<span class="c">%                           Filter prototype (see FIRWIN for available</span>
-<span class="c">%                           filters). Default is &#39;hann&#39;.</span>
 <span class="c">%</span>
 <span class="c">%       &#39;bwmul&#39;,bwmul </span>
 <span class="c">%                           Bandwidth variation factor. Multiplies the</span>
@@ -244,7 +242,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/filterbank/warpedfilters.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

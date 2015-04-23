@@ -47,18 +47,18 @@ octave"/>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
 <span class="c">%         f     : Input data.</span>
-<span class="c">%         w     : Wavelet Filterbank definition.</span>
-<span class="c">%         J     : Number of filterbank iterations.</span>
+<span class="c">%         w     : Wavelet filter bank definition.</span>
+<span class="c">%         J     : Number of filter bank iterations.</span>
 <span class="c">%</span>
 <span class="c">%   Output parameters:</span>
 <span class="c">%         c      : Coefficients stored in a matrix.</span>
 <span class="c">%</span>
 <span class="c">%   c=FWT2(f,w,J) returns wavelet coefficients c of the input matrix f*</span>
-<span class="c">%   using J iterations of the basic wavelet filterbank defined by w.</span>
+<span class="c">%   using J iterations of the basic wavelet filter bank defined by w.</span>
 <span class="c">%   Please see FWT for description of w and J.</span>
 <span class="c">%</span>
 <span class="c">%   FWT2 supports just the non-expansive boundary condition &#39;per&#39; and</span>
-<span class="c">%   critically subsampled filterbanks in order to be able to pack the</span>
+<span class="c">%   critically subsampled filter banks in order to be able to pack the</span>
 <span class="c">%   coefficients in a matrix. Also the J is limited to some maximum value</span>
 <span class="c">%   for the same reason.</span>
 <span class="c">%</span>
@@ -105,7 +105,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/wavelets/fwt2.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -138,7 +138,7 @@ octave"/>
 <span class="n">w</span> <span class="p">=</span> <span class="n">fwtinit</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
 
 <span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">all</span><span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">a</span><span class="o">==</span><span class="nb">length</span><span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">h</span><span class="p">)))</span>
-   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Non-critically subsampled filterbanks not supported.&#39;</span><span class="p">,</span><span class="c">...</span>
+   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Non-critically subsampled filter banks not supported.&#39;</span><span class="p">,</span><span class="c">...</span>
          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 

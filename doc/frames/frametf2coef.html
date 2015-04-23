@@ -44,13 +44,16 @@ octave"/>
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-coef=frametf2coef(F,coef);
+cout=frametf2coef(F,cin);
 </pre>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">frametf2coef(F,coef)</tt> converts the frame coefficients from the
+<p><tt class="docutils literal">frametf2coef(F,cin)</tt> converts the frame coefficients from the
 time-frequency plane layout into the common column format.</p>
+<p>Not all types of frames support this coefficient conversion. The supported
+types of frames are: <tt class="docutils literal">'dgt'</tt>, <tt class="docutils literal">'dgtreal'</tt>, <tt class="docutils literal">'dwilt'</tt>, <tt class="docutils literal">'wmdct'</tt>, <tt class="docutils literal">'ufilterbank'</tt>,
+<tt class="docutils literal">'ufwt'</tt>,`'uwfbt'` and <tt class="docutils literal">'uwpfbt'</tt>.</p>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

@@ -43,17 +43,21 @@ octave"/>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>coef<span class="p">=</span><span class="nf">frametf2coef</span><span class="p">(</span>F,coef<span class="p">)</span><span class="w"></span>
 <span class="c">%FRAMETF2COEF  Convert coefficients from TF-plane format</span>
-<span class="c">%   Usage: coef=frametf2coef(F,coef);</span>
+<span class="c">%   Usage: cout=frametf2coef(F,cin);</span>
 <span class="c">%</span>
-<span class="c">%   FRAMETF2COEF(F,coef) converts the frame coefficients from the</span>
+<span class="c">%   FRAMETF2COEF(F,cin) converts the frame coefficients from the</span>
 <span class="c">%   time-frequency plane layout into the common column format.</span>
+<span class="c">%</span>
+<span class="c">%   Not all types of frames support this coefficient conversion. The supported </span>
+<span class="c">%   types of frames are: &#39;dgt&#39;, &#39;dgtreal&#39;, &#39;dwilt&#39;, &#39;wmdct&#39;, &#39;ufilterbank&#39;,</span>
+<span class="c">%   &#39;ufwt&#39;,&#39;uwfbt&#39; and &#39;uwpfbt&#39;.</span>
 <span class="c">%</span>
 <span class="c">%   See also: frame, framecoef2tf, framecoef2native</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/frames/frametf2coef.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

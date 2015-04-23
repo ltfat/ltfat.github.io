@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>FRAMEGRAM - Easy visualization of energy in frame space</title>
+<title>FRAMEGRAM - Easy visualization of energy in transform domain</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -37,14 +37,14 @@ octave"/>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">FRAMEGRAM - Easy visualization of energy in frame space</h1>
+        <h1 class="title">FRAMEGRAM - Easy visualization of energy in transform domain</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">framegram</span><span class="p">(</span>F,x,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FRAMEGRAM  Easy visualization of energy in frame space</span>
+<span class="c">%FRAMEGRAM  Easy visualization of energy in transform domain</span>
 <span class="c">%   Usage: framegram(F,x,...);</span>
 <span class="c">%</span>
-<span class="c">%   FRAMEGRAM(F,c) plots the energy of the coefficients computed from</span>
-<span class="c">%   the input signal x using the frame F for analysis. This is</span>
+<span class="c">%   FRAMEGRAM(F,x) plots the energy of the frame coefficients computed</span>
+<span class="c">%   from the input signal x using the frame F for analysis. This is</span>
 <span class="c">%   just a shorthand for:</span>
 <span class="c">%</span>
 <span class="c">%     plotframe(F,abs(frana(F,x)).^2);</span>
@@ -57,7 +57,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/frames/framegram.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

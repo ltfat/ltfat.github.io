@@ -110,7 +110,7 @@ to ensure that is it orthonormal.</p>
 <h2>Special / general frames</h2>
 <p><tt class="docutils literal"><span class="pre">frame('gen',g)</span></tt> constructs an general frame with analysis matrix <em>g</em>.
 The frame atoms must be stored as column vectors in the matrices.</p>
-<p><tt class="docutils literal"><span class="pre">frame('identity')</span></tt> constructs the canonical orthornormal basis, meaning
+<p><tt class="docutils literal"><span class="pre">frame('identity')</span></tt> constructs the canonical orthonormal basis, meaning
 that all operators return their input as output, so it is the dummy
 operation.</p>
 </div>
@@ -130,7 +130,7 @@ signal are left alone.</p>
 <h2>Wrapper frames</h2>
 <p>Frames types in this section are &quot;virtual&quot;. They serve as a wrapper for
 a different type of frame.</p>
-<p><tt class="docutils literal"><span class="pre">frame('erbletfb',fs,Ls,...)</span></tt> constructs an Erblet filterbank frame for
+<p><tt class="docutils literal"><span class="pre">frame('erbletfb',fs,Ls,...)</span></tt> constructs an Erb-let filterbank frame for
 a given samp. frequency <em>fs</em> working with signals of length <em>Ls</em>. See
 <span class="linkrole"><a href="#BASEURL#/doc/filterbank/erbfilters.html">erbfilters</a></span> for a description of additional parameters as all
 parameters other than the frame type string 'erbletfb' are passed to it.

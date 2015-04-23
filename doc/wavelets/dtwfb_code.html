@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>DTWFB - Dual-Tree Wavelet FilterBank</title>
+<title>DTWFB - Dual-Tree Wavelet Filter Bank</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -40,17 +40,17 @@ octave"/>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">DTWFB - Dual-Tree Wavelet FilterBank</h1>
+        <h1 class="title">DTWFB - Dual-Tree Wavelet Filter Bank</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,info]<span class="p">=</span><span class="nf">dtwfb</span><span class="p">(</span>f,dualwt,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%DTWFB Dual-Tree Wavelet FilterBank</span>
+<span class="c">%DTWFB Dual-Tree Wavelet Filter Bank</span>
 <span class="c">%   Usage:  c=dtwfb(f,dualwt);</span>
 <span class="c">%           c=dtwfb(f,{dualw,J});</span>
 <span class="c">%           [c,info]=dtwfb(...);</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
 <span class="c">%         f      : Input data.</span>
-<span class="c">%         dualwt : Dual-tree Wavelet Filterbank definition.</span>
+<span class="c">%         dualwt : Dual-tree Wavelet Filter bank definition.</span>
 <span class="c">%</span>
 <span class="c">%   Output parameters:</span>
 <span class="c">%         c    : Coefficients stored in a cell-array.</span>
@@ -58,18 +58,18 @@ octave"/>
 <span class="c">%</span>
 <span class="c">%   c=DTWFBt(f,dualwt) computes dual-tree complex wavelet coefficients </span>
 <span class="c">%   of the signal f. The representation is approximately </span>
-<span class="c">%   time-invariant and provides analytic behavior. Due to these facts, </span>
+<span class="c">%   time-invariant and provides analytic behaviour. Due to these facts, </span>
 <span class="c">%   the resulting subbands are nearly aliasing free making them suitable </span>
 <span class="c">%   for severe coefficient modifications. The representation is two times</span>
-<span class="c">%   redundant, provided critical subsampling of all involved filterbanks.</span>
+<span class="c">%   redundant, provided critical subsampling of all involved filter banks.</span>
 <span class="c">%</span>
 <span class="c">%   The shape of the filterbank tree and filters used is controlled by </span>
 <span class="c">%   dualwt (for possible formats see below). The output c is a </span>
 <span class="c">%   cell-array with each element containing a single subband. The subbands </span>
-<span class="c">%   are ordered with the increasing subband center frequency. </span>
+<span class="c">%   are ordered with the increasing subband centre frequency. </span>
 <span class="c">%</span>
 <span class="c">%   In addition, the function returns struct. info containing transform </span>
-<span class="c">%   parameters. It can be conviniently used for the inverse transform</span>
+<span class="c">%   parameters. It can be conveniently used for the inverse transform</span>
 <span class="c">%   IDTWFBREAL e.g. fhat = iDTWFBreal(c,info). It is also required by</span>
 <span class="c">%   the PLOTWAVELETS function.</span>
 <span class="c">%</span>
@@ -83,55 +83,55 @@ octave"/>
 <span class="c">%      dualw   </span>
 <span class="c">%        Basic dual-tree filters</span>
 <span class="c">%      J*</span>
-<span class="c">%        Number of levels of the filterbank tree</span>
+<span class="c">%        Number of levels of the filter bank tree</span>
 <span class="c">%</span>
 <span class="c">%      Possible formats of dualw are the same as in FWTINIT except the</span>
 <span class="c">%      wfiltdt_ prefix is used when searching for function specifying</span>
 <span class="c">%      the actual impulse responses. These filters were designed specially</span>
-<span class="c">%      for the dual-tree filterbank to achieve the half-sample shift </span>
-<span class="c">%      ultimatelly resulting in analytic (complex) behavior of the </span>
+<span class="c">%      for the dual-tree filter bank to achieve the half-sample shift </span>
+<span class="c">%      ultimately resulting in analytic (complex) behaviour of the </span>
 <span class="c">%      transform.</span>
 <span class="c">%      </span>
-<span class="c">%      The default shape of the filterbank tree is DWT i.e. only low-pass</span>
+<span class="c">%      The default shape of the filter bank tree is DWT i.e. only low-pass</span>
 <span class="c">%      output is decomposed further (*J times in total).</span>
 <span class="c">%</span>
-<span class="c">%      Different filterbank tree shapes can be obtained by passing</span>
+<span class="c">%      Different filter bank tree shapes can be obtained by passing</span>
 <span class="c">%      additional flag in the cell array. Supported flags (mutually</span>
 <span class="c">%      exclusive) are:</span>
 <span class="c">%</span>
 <span class="c">%      &#39;dwt&#39;</span>
 <span class="c">%         Plain DWT tree (default). This gives one band per octave freq. </span>
-<span class="c">%         resolution when using 2 channel basic wavelet filterbank.</span>
+<span class="c">%         resolution when using 2 channel basic wavelet filter bank.</span>
 <span class="c">%</span>
 <span class="c">%      &#39;full&#39;</span>
-<span class="c">%         Full filterbank tree. Both (all) basic filterbank outputs are</span>
+<span class="c">%         Full filter bank tree. Both (all) basic filter bank outputs are</span>
 <span class="c">%         decomposed further up to depth J achieving linear frequency band</span>
 <span class="c">%         division.</span>
 <span class="c">%</span>
 <span class="c">%      &#39;doubleband&#39;,&#39;quadband&#39;,&#39;octaband&#39;</span>
-<span class="c">%         The filterbank is designed such that it mimics 4-band, 8-band or</span>
-<span class="c">%         16-band complex wavelet transform provided the basic filterbank</span>
+<span class="c">%         The filter bank is designed such that it mimics 4-band, 8-band or</span>
+<span class="c">%         16-band complex wavelet transform provided the basic filter bank</span>
 <span class="c">%         is 2 channel. In this case, J is treated such that it defines</span>
 <span class="c">%         number of levels of 4-band, 8-band or 16-band transform.</span>
 <span class="c">%</span>
-<span class="c">%      The dual-tree wavelet filterbank can use any basic wavelet</span>
-<span class="c">%      filterbank in the first stage of both trees, provided they are </span>
+<span class="c">%      The dual-tree wavelet filter bank can use any basic wavelet</span>
+<span class="c">%      filter bank in the first stage of both trees, provided they are </span>
 <span class="c">%      shifted by 1 sample (done internally). A custom first stage </span>
-<span class="c">%      filterbank can be defined by passing the following</span>
+<span class="c">%      filter bank can be defined by passing the following</span>
 <span class="c">%      key-value pair in the cell array:</span>
 <span class="c">%</span>
 <span class="c">%      &#39;first&#39;,w </span>
-<span class="c">%         w defines a regular basic filterbank. Accepted formats are the</span>
+<span class="c">%         w defines a regular basic filter bank. Accepted formats are the</span>
 <span class="c">%         same as in FWTINIT assuming the wfilt_ prefix.</span>
 <span class="c">%</span>
-<span class="c">%      Similarly, when working with a filterbank tree containing</span>
+<span class="c">%      Similarly, when working with a filter bank tree containing</span>
 <span class="c">%      decomposition of high-pass outputs, some filters in both trees must</span>
-<span class="c">%      be replaced by a regular basic filterbank in order to achieve the</span>
-<span class="c">%      aproximatelly analytic behavior. A custom filterbank can be</span>
+<span class="c">%      be replaced by a regular basic filter bank in order to achieve the</span>
+<span class="c">%      approximately analytic behaviour. A custom filter bank can be</span>
 <span class="c">%      specified by passing another key-value pair in the cell array:</span>
 <span class="c">%</span>
 <span class="c">%      &#39;leaf&#39;,w </span>
-<span class="c">%         w defines a regular basic filterbank. Accepted formats are the</span>
+<span class="c">%         w defines a regular basic filter bank. Accepted formats are the</span>
 <span class="c">%         same as in FWTINIT assuming the wfilt_ prefix.      </span>
 <span class="c">%</span>
 <span class="c">%   2) Another possibility is to pass directly a struct. returned by </span>
@@ -145,7 +145,7 @@ octave"/>
 <span class="c">%   &#39;freq&#39;,&#39;nat&#39;</span>
 <span class="c">%      Frequency or natural (Paley) ordering of coefficient subbands.</span>
 <span class="c">%      By default, subbands are ordered according to frequency. The natural</span>
-<span class="c">%      ordering is how the subbands are obtained from the filterbank tree</span>
+<span class="c">%      ordering is how the subbands are obtained from the filter bank tree</span>
 <span class="c">%      without modifications. The ordering differs only in non-plain DWT</span>
 <span class="c">%      case.</span>
 <span class="c">%</span>
@@ -159,8 +159,8 @@ octave"/>
 <span class="c">%   ---------</span>
 <span class="c">%   </span>
 <span class="c">%   A simple example of calling the DTWFB function using the regular</span>
-<span class="c">%   DWT iterated filterbank. The second figure shows a magnitude frequency</span>
-<span class="c">%   response of an identical filterbank.:</span>
+<span class="c">%   DWT iterated filter bank. The second figure shows a magnitude frequency</span>
+<span class="c">%   response of an identical filter bank.:</span>
 <span class="c">% </span>
 <span class="c">%     [f,fs] = greasy;</span>
 <span class="c">%     J = 6;</span>
@@ -171,7 +171,7 @@ octave"/>
 <span class="c">%     [g,a] = dtwfb2filterbank({&#39;qshift3&#39;,J});</span>
 <span class="c">%     filterbankfreqz(g,a,1024,&#39;plot&#39;,&#39;linabs&#39;);</span>
 <span class="c">%</span>
-<span class="c">%   The second example shows a decomposition using a full filterbank tree</span>
+<span class="c">%   The second example shows a decomposition using a full filter bank tree</span>
 <span class="c">%   of depth J*:</span>
 <span class="c">%</span>
 <span class="c">%     [f,fs] = greasy;</span>
@@ -202,7 +202,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/wavelets/dtwfb.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

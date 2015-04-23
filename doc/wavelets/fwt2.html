@@ -58,10 +58,10 @@ c = fwt2(f,w,J,...);
 <td>Input data.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>w</var></span></kbd></td>
-<td>Wavelet Filterbank definition.</td></tr>
+<td>Wavelet filter bank definition.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>J</var></span></kbd></td>
-<td>Number of filterbank iterations.</td></tr>
+<td>Number of filter bank iterations.</td></tr>
 </tbody>
 </table>
 </div>
@@ -80,10 +80,10 @@ c = fwt2(f,w,J,...);
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
 <p><tt class="docutils literal">c=fwt2(f,w,J)</tt> returns wavelet coefficients <em>c</em> of the input matrix <em>f</em>
-using <em>J</em> iterations of the basic wavelet filterbank defined by <em>w</em>.
+using <em>J</em> iterations of the basic wavelet filter bank defined by <em>w</em>.
 Please see <span class="linkrole"><a href="#BASEURL#/doc/wavelets/fwt.html">fwt</a></span> for description of <em>w</em> and <em>J</em>.</p>
 <p><tt class="docutils literal">fwt2</tt> supports just the non-expansive boundary condition 'per' and
-critically subsampled filterbanks in order to be able to pack the
+critically subsampled filter banks in order to be able to pack the
 coefficients in a matrix. Also the <em>J</em> is limited to some maximum value
 for the same reason.</p>
 <p>Additional flags make it possible to specify how the algorithm

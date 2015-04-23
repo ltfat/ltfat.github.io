@@ -66,25 +66,26 @@ octave"/>
 <span class="c">%   By default, a Hann window on the frequency side is choosen, but the</span>
 <span class="c">%   window can be changed by passing any of the window types from</span>
 <span class="c">%   FIRWIN as an optional parameter.</span>
+<span class="c">%   Run getfield(getfield(arg_firwin,&#39;flags&#39;),&#39;wintype&#39;) to get a cell</span>
+<span class="c">%   array of window types available.</span>
 <span class="c">%</span>
-<span class="c">%   Because the downsampling rates of the channels must all divide the</span>
-<span class="c">%   signal length, FILTERBANK will only work for multiples of the</span>
-<span class="c">%   least common multiple of the downsampling rates. See the help of</span>
-<span class="c">%   FILTERBANKLENGTH.</span>
+<span class="c">%   The integer downsampling rates of the channels must all divide the</span>
+<span class="c">%   signal length, FILTERBANK will only work for input signal lengths</span>
+<span class="c">%   being multiples of the least common multiple of the downsampling rates.</span>
+<span class="c">%   See the help of FILTERBANKLENGTH. </span>
+<span class="c">%   The fractional downsampling rates restrict the filterbank to a single</span>
+<span class="c">%   length L=Ls.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=ERBFILTERS(...,&#39;regsampling&#39;) constructs a non-uniform</span>
 <span class="c">%   filterbank with integer subsampling factors.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=ERBFILTERS(...,&#39;uniform&#39;) constructs a uniform filterbank</span>
-<span class="c">%   where the downsampling rate is the same for all the channels. This</span>
-<span class="c">%   results in most redundant representation, which produces nice plots.</span>
+<span class="c">%   where the integer downsampling rate is the same for all the channels. This</span>
+<span class="c">%   results in most redundant representation which produces nice plots.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=ERBFILTERS(...,&#39;fractional&#39;) constructs a filterbank with</span>
-<span class="c">%   fractional downsampling rates a. The rates are constructed such</span>
-<span class="c">%   that the filterbank can handle signal lengths that are multiples of</span>
-<span class="c">%   L, so the benefit of the fractional downsampling is that you get to</span>
-<span class="c">%   choose the value returned by FILTERBANKLENGTH. This results in the</span>
-<span class="c">%   least redundant system.</span>
+<span class="c">%   fractional downsampling rates a. </span>
+<span class="c">%   This results in the least redundant system.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=ERBFILTERS(...,&#39;fractionaluniform&#39;) constructs a filterbank with</span>
 <span class="c">%   fractional downsampling rates a, which are uniform for all filters</span>
@@ -109,7 +110,7 @@ octave"/>
 <span class="c">%                      system may no longer be painless.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;symmetric&#39;     Create filters that are symmetric around their centre</span>
-<span class="c">%                     frequency. This is the default.</span>
+<span class="c">%                     frequency. This is the default.&#39;sqrtsquare&#39;,&#39;sqrtrect&#39;</span>
 <span class="c">%</span>
 <span class="c">%     &#39;warped&#39;        Create asymmetric filters that are symmetric on the</span>
 <span class="c">%                     Erb-scale.</span>
@@ -182,7 +183,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/filterbank/erbfilters.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

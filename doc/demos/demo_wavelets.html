@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>DEMO_WAVELETS - Wavelet filterbanks</title>
+<title>DEMO_WAVELETS - Wavelet filter banks</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -33,47 +33,47 @@ octave"/>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">DEMO_WAVELETS - Wavelet filterbanks</h1>
+        <h1 class="title">DEMO_WAVELETS - Wavelet filter banks</h1>
 <h2 class="subtitle" id="xxxdescription">Description</h2>
 
-<p>This demo exemplifies the use of the wavelet filterbank trees. All
+<p>This demo exemplifies the use of the wavelet filter bank trees. All
 representations use &quot;least asymmetric&quot; Daubechies wavelet orthonormal
 filters 'sym8' (8-regular, length 16).</p>
 <div class="figure align-center">
 <img alt="demo_wavelets_1.png" src="demo_wavelets_1.png" />
 <p class="caption">DWT representation</p>
 <div class="legend">
-The filterbank tree consists of 11 levels of iterated 2-band basic
-wavelet filterbank, where only the low-pass output is further
+The filter bank tree consists of 11 levels of iterated 2-band basic
+wavelet filter bank, where only the low-pass output is further
 decomposed. This results in 12 bands with octave resolution.</div>
 </div>
 <div class="figure align-center">
 <img alt="demo_wavelets_2.png" src="demo_wavelets_2.png" />
-<p class="caption">8-band DWT respresentation</p>
+<p class="caption">8-band DWT representation</p>
 <div class="legend">
-The filterbank tree (effectively) consists of 3 levels of iterated
-8-band basic wavelet filterbank resulting in 22 bands. Only the
+The filter bank tree (effectively) consists of 3 levels of iterated
+8-band basic wavelet filter bank resulting in 22 bands. Only the
 low-pass output is decomposed at each level.</div>
 </div>
 <div class="figure align-center">
 <img alt="demo_wavelets_3.png" src="demo_wavelets_3.png" />
-<p class="caption">Full Wavelet filterbank tree representation</p>
+<p class="caption">Full Wavelet filter bank tree representation</p>
 <div class="legend">
-The filterbank tree depth is 8 and it is fully decomposed meaning
-both outputs (low-pass and high-pass) of the basic filterbank is
+The filter bank tree depth is 8 and it is fully decomposed meaning
+both outputs (low-pass and high-pass) of the basic filter bank is
 plot further. This results in 256 bands linearly covering the
 frequency axis.</div>
 </div>
 <div class="figure align-center">
 <img alt="demo_wavelets_4.png" src="demo_wavelets_4.png" />
-<p class="caption">Full Wavelet filterbank tree representation</p>
+<p class="caption">Full Wavelet filter bank tree representation</p>
 <div class="legend">
 The same case as before, but symmetric nearly orthogonal basic
-filterbank is used.</div>
+filter bank is used.</div>
 </div>
 <div class="figure align-center">
 <img alt="demo_wavelets_5.png" src="demo_wavelets_5.png" />
-<p class="caption">Full Dual-tree Wavelet filterbank representation</p>
+<p class="caption">Full Dual-tree Wavelet filter bank representation</p>
 <div class="legend">
 This is a 2 times redundant representation using Q-shift dual-tree
 wavelet filters.</div>

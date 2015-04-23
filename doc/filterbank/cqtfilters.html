@@ -45,8 +45,7 @@ octave"/>
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-[g,a,fc]=cqtfilters(fs);
-[g,a,fc]=cqtfilters(fs,...);
+[g,a,fc]=cqtfilters(fs,fmin,fmax,bins,Ls,varargin);
 </pre>
 </div>
 <div class="section" id="input-parameters">
@@ -100,34 +99,36 @@ octave"/>
 band-limited filters <em>g</em> which cover the required frequency range
 <tt class="docutils literal">fmin</tt>-<tt class="docutils literal">fmax</tt> with <tt class="docutils literal">bins</tt> filters per octave starting at <tt class="docutils literal">fmin</tt>. All
 filters have (approximately) equal <span class="math">\(Q=f_c/f_b\)</span>, hence constant-Q. The
-remainding frequency intervals not covered by these filters are captured
+remaining frequency intervals not covered by these filters are captured
 by two additional filters (low-pass, high-pass). The signal length <em>Ls</em>
 is mandatory, since we need to avoid too narrow frequency windows.</p>
-<p>By default, a Hann window on the frequency side is choosen, but the
+<p>By default, a Hann window on the frequency side is chosen, but the
 window can be changed by passing any of the window types from
-<span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> as an optional parameter.</p>
+<span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> as an optional parameter.
+Run <tt class="docutils literal"><span class="pre">getfield(getfield(arg_firwin,'flags'),'wintype')</span></tt> to get a cell
+array of window types available.</p>
 <p>Because the downsampling rates of the channels must all divide the
 signal length, <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> will only work for multiples of the
 least common multiple of the downsampling rates. See the help of
 <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span>.</p>
 <p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'regsampling')</span></tt> constructs a non-uniform
-filterbank. The downsampling rates are constant in the octaves but
+filter bank. The downsampling rates are constant in the octaves but
 can differ among octaves. This approach was chosen in order to minimize
 the least common multiple of <em>a</em>, which determines a granularity of
 admissible input signal lengths.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'uniform')</span></tt> constructs a uniform filterbank
+<p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'uniform')</span></tt> constructs a uniform filter bank
 where the downsampling rate is the same for all the channels. This
 results in most redundant representation, which produces nice plots.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'fractional')</span></tt> constructs a filterbank with
+<p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'fractional')</span></tt> constructs a filter bank with
 fractional downsampling rates <em>a</em>. The rates are constructed such
-that the filterbank can handle signal lengths that are multiples of
+that the filter bank can handle signal lengths that are multiples of
 <em>L</em>, so the benefit of the fractional downsampling is that you get to
 choose the value returned by <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span>. This results in the
 least redundant system.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'fractionaluniform')</span></tt> constructs a filterbank with
+<p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'fractionaluniform')</span></tt> constructs a filter bank with
 fractional downsampling rates <em>a</em>, which are uniform for all filters
 except the &quot;filling&quot; low-pass and high-pass filters can have different
-fractional downsampling rates. This is usefull when uniform subsampling
+fractional downsampling rates. This is useful when uniform subsampling
 and low redundancy at the same time are desirable.</p>
 <p>The filters are intended to work with signals with a sampling rate of
 <em>fs</em>.</p>
@@ -136,10 +137,6 @@ and low redundancy at the same time are desirable.</p>
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">'winfun',<var>winfun</var></span></kbd></td>
-<td>Filter prototype (see <span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> for available
-filters). Default is <tt class="docutils literal">'hann'</tt>.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'Qvar',<var>Qvar</var></span></kbd></td>
 <td>Bandwidth variation factor. Multiplies the
@@ -153,7 +150,7 @@ bandwidths to better approximate the constant-Q
 property.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'complex'</span></kbd></td>
-<td>Construct a filterbank that covers the entire
+<td>Construct a filter bank that covers the entire
 frequency range. When missing, only positive
 frequencies are covered.</td></tr>
 <tr><td class="option-group">
@@ -176,8 +173,8 @@ the system may no longer be painless.</td></tr>
 </div>
 <div class="section" id="examples">
 <h2>Examples:</h2>
-<p>In the first example, we construct a highly redudant uniform
-filterbank and visualize the result:</p>
+<p>In the first example, we construct a highly redundant uniform
+filter bank and visualize the result:</p>
 <pre class="literal-block">
 [f,fs]=greasy;  % Get the test signal
 [g,a,fc]=cqtfilters(fs,100,fs,32,length(f),'uniform');
@@ -185,10 +182,10 @@ c=filterbank(f,g,a);
 plotfilterbank(c,a,fc,fs,90,'audtick');
 </pre>
 <img alt="cqtfilters_1_1.png" class="align-center" src="cqtfilters_1_1.png" />
-<p>In the second example, we construct a non-uniform filterbank with
+<p>In the second example, we construct a non-uniform filter bank with
 fractional sampling that works for this particular signal length, and
 test the reconstruction. The plot displays the response of the
-filterbank to verify that the filters are well-behaved both on a
+filter bank to verify that the filters are well-behaved both on a
 normal and an log scale. The second plot shows frequency responses of
 filters used for analysis (top) and synthesis (bottom).</p>
 <pre class="literal-block">

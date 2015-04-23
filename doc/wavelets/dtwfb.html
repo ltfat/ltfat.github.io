@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>DTWFB - Dual-Tree Wavelet FilterBank</title>
+<title>DTWFB - Dual-Tree Wavelet Filter Bank</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -40,7 +40,7 @@ octave"/>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">DTWFB - Dual-Tree Wavelet FilterBank</h1>
+        <h1 class="title">DTWFB - Dual-Tree Wavelet Filter Bank</h1>
 
 <div class="section" id="usage">
 <h2>Usage</h2>
@@ -61,7 +61,7 @@ c=dtwfb(f,{dualw,J});
 <td>Input data.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>dualwt</var></span></kbd></td>
-<td>Dual-tree Wavelet Filterbank definition.</td></tr>
+<td>Dual-tree Wavelet Filter bank definition.</td></tr>
 </tbody>
 </table>
 </div>
@@ -84,16 +84,16 @@ c=dtwfb(f,{dualw,J});
 <h2>Description</h2>
 <p><tt class="docutils literal">c=dtwfbt(f,dualwt)</tt> computes dual-tree complex wavelet coefficients
 of the signal <em>f</em>. The representation is approximately
-time-invariant and provides analytic behavior. Due to these facts,
+time-invariant and provides analytic behaviour. Due to these facts,
 the resulting subbands are nearly aliasing free making them suitable
 for severe coefficient modifications. The representation is two times
-redundant, provided critical subsampling of all involved filterbanks.</p>
+redundant, provided critical subsampling of all involved filter banks.</p>
 <p>The shape of the filterbank tree and filters used is controlled by
 <tt class="docutils literal">dualwt</tt> (for possible formats see below). The output <em>c</em> is a
 cell-array with each element containing a single subband. The subbands
-are ordered with the increasing subband center frequency.</p>
+are ordered with the increasing subband centre frequency.</p>
 <p>In addition, the function returns struct. <tt class="docutils literal">info</tt> containing transform
-parameters. It can be conviniently used for the inverse transform
+parameters. It can be conveniently used for the inverse transform
 <span class="linkrole"><a href="#BASEURL#/doc/wavelets/idtwfbreal.html">idtwfbreal</a></span> e.g. <tt class="docutils literal">fhat = idtwfbreal(c,info)</tt>. It is also required by
 the <span class="linkrole"><a href="#BASEURL#/doc/wavelets/plotwavelets.html">plotwavelets</a></span> function.</p>
 <p>If <em>f</em> is a matrix, the transform is applied to each column.</p>
@@ -106,56 +106,56 @@ mandatory <tt class="docutils literal">{dualw,J}</tt>.</p>
 <dd><p class="first last">Basic dual-tree filters</p>
 </dd>
 <dt><em>J</em></dt>
-<dd><p class="first last">Number of levels of the filterbank tree</p>
+<dd><p class="first last">Number of levels of the filter bank tree</p>
 </dd>
 </dl>
 <p>Possible formats of <tt class="docutils literal">dualw</tt> are the same as in <span class="linkrole"><a href="#BASEURL#/doc/wavelets/fwtinit.html">fwtinit</a></span> except the
 <tt class="docutils literal">wfiltdt_</tt> prefix is used when searching for function specifying
 the actual impulse responses. These filters were designed specially
-for the dual-tree filterbank to achieve the half-sample shift
-ultimatelly resulting in analytic (complex) behavior of the
+for the dual-tree filter bank to achieve the half-sample shift
+ultimately resulting in analytic (complex) behaviour of the
 transform.</p>
-<p>The default shape of the filterbank tree is DWT i.e. only low-pass
+<p>The default shape of the filter bank tree is DWT i.e. only low-pass
 output is decomposed further (<em>J</em> times in total).</p>
-<p>Different filterbank tree shapes can be obtained by passing
+<p>Different filter bank tree shapes can be obtained by passing
 additional flag in the cell array. Supported flags (mutually
 exclusive) are:</p>
 <dl class="docutils">
 <dt><tt class="docutils literal">'dwt'</tt></dt>
 <dd><p class="first last">Plain DWT tree (default). This gives one band per octave freq.
-resolution when using 2 channel basic wavelet filterbank.</p>
+resolution when using 2 channel basic wavelet filter bank.</p>
 </dd>
 <dt><tt class="docutils literal">'full'</tt></dt>
-<dd><p class="first last">Full filterbank tree. Both (all) basic filterbank outputs are
+<dd><p class="first last">Full filter bank tree. Both (all) basic filter bank outputs are
 decomposed further up to depth <em>J</em> achieving linear frequency band
 division.</p>
 </dd>
 <dt><tt class="docutils literal">'doubleband'</tt>,`'quadband'<tt class="docutils literal">,</tt>'octaband'`</dt>
-<dd><p class="first last">The filterbank is designed such that it mimics 4-band, 8-band or
-16-band complex wavelet transform provided the basic filterbank
+<dd><p class="first last">The filter bank is designed such that it mimics 4-band, 8-band or
+16-band complex wavelet transform provided the basic filter bank
 is 2 channel. In this case, <em>J</em> is treated such that it defines
 number of levels of 4-band, 8-band or 16-band transform.</p>
 </dd>
 </dl>
-<p>The dual-tree wavelet filterbank can use any basic wavelet
-filterbank in the first stage of both trees, provided they are
+<p>The dual-tree wavelet filter bank can use any basic wavelet
+filter bank in the first stage of both trees, provided they are
 shifted by 1 sample (done internally). A custom first stage
-filterbank can be defined by passing the following
+filter bank can be defined by passing the following
 key-value pair in the cell array:</p>
 <dl class="docutils">
 <dt><tt class="docutils literal">'first'</tt>,`w`</dt>
-<dd><p class="first last"><tt class="docutils literal">w</tt> defines a regular basic filterbank. Accepted formats are the
+<dd><p class="first last"><tt class="docutils literal">w</tt> defines a regular basic filter bank. Accepted formats are the
 same as in <span class="linkrole"><a href="#BASEURL#/doc/wavelets/fwtinit.html">fwtinit</a></span> assuming the <tt class="docutils literal">wfilt_</tt> prefix.</p>
 </dd>
 </dl>
-<p>Similarly, when working with a filterbank tree containing
+<p>Similarly, when working with a filter bank tree containing
 decomposition of high-pass outputs, some filters in both trees must
-be replaced by a regular basic filterbank in order to achieve the
-aproximatelly analytic behavior. A custom filterbank can be
+be replaced by a regular basic filter bank in order to achieve the
+approximately analytic behaviour. A custom filter bank can be
 specified by passing another key-value pair in the cell array:</p>
 <dl class="docutils">
 <dt><tt class="docutils literal">'leaf'</tt>,`w`</dt>
-<dd><p class="first last"><tt class="docutils literal">w</tt> defines a regular basic filterbank. Accepted formats are the
+<dd><p class="first last"><tt class="docutils literal">w</tt> defines a regular basic filter bank. Accepted formats are the
 same as in <span class="linkrole"><a href="#BASEURL#/doc/wavelets/fwtinit.html">fwtinit</a></span> assuming the <tt class="docutils literal">wfilt_</tt> prefix.</p>
 </dd>
 </dl>
@@ -172,7 +172,7 @@ same as in <span class="linkrole"><a href="#BASEURL#/doc/wavelets/fwtinit.html">
 <dt><tt class="docutils literal">'freq'</tt>,`'nat'`</dt>
 <dd>Frequency or natural (Paley) ordering of coefficient subbands.
 By default, subbands are ordered according to frequency. The natural
-ordering is how the subbands are obtained from the filterbank tree
+ordering is how the subbands are obtained from the filter bank tree
 without modifications. The ordering differs only in non-plain DWT
 case.</dd>
 </dl>
@@ -185,8 +185,8 @@ periodic boundary handling only.</p>
 <div class="section" id="examples">
 <h2>Examples:</h2>
 <p>A simple example of calling the <span class="linkrole"><a href="#BASEURL#/doc/wavelets/dtwfb.html">dtwfb</a></span> function using the regular
-DWT iterated filterbank. The second figure shows a magnitude frequency
-response of an identical filterbank.:</p>
+DWT iterated filter bank. The second figure shows a magnitude frequency
+response of an identical filter bank.:</p>
 <pre class="literal-block">
 [f,fs] = greasy;
 J = 6;
@@ -199,7 +199,7 @@ filterbankfreqz(g,a,1024,'plot','linabs');
 </pre>
 <img alt="dtwfb_1_1.png" class="align-center" src="dtwfb_1_1.png" />
 <img alt="dtwfb_1_2.png" class="align-center" src="dtwfb_1_2.png" />
-<p>The second example shows a decomposition using a full filterbank tree
+<p>The second example shows a decomposition using a full filter bank tree
 of depth <em>J</em>:</p>
 <pre class="literal-block">
 [f,fs] = greasy;

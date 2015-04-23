@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>FRAMEGRAM - Easy visualization of energy in frame space</title>
+<title>FRAMEGRAM - Easy visualization of energy in transform domain</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -37,7 +37,7 @@ octave"/>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">FRAMEGRAM - Easy visualization of energy in frame space</h1>
+        <h1 class="title">FRAMEGRAM - Easy visualization of energy in transform domain</h1>
 
 <div class="section" id="usage">
 <h2>Usage</h2>
@@ -47,8 +47,8 @@ framegram(F,x,...);
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">framegram(F,c)</tt> plots the energy of the coefficients computed from
-the input signal <em>x</em> using the frame <em>F</em> for analysis. This is
+<p><tt class="docutils literal">framegram(F,x)</tt> plots the energy of the frame coefficients computed
+from the input signal <em>x</em> using the frame <em>F</em> for analysis. This is
 just a shorthand for:</p>
 <pre class="literal-block">
 plotframe(F,abs(frana(F,x)).^2);

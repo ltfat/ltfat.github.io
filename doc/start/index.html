@@ -28,7 +28,7 @@ octave"/>
 
     <div class="col-md-8">
 
-        <h1>Online documentation <!-- Toolbox version --!></h1>
+        <h1>Online documentation <span id="tbversion">[version placeholder]</span></h1>
         <p>On this site you will find an auto-generated documentation of all functions and models included in the Toolbox
         from the help included in the M-files. This is the most complete, and up-to-date description of the toolbox .</p>
         <p>Please access it using the menu on the left as the starting point.</p>
@@ -49,5 +49,10 @@ octave"/>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#tbversion").text(toolboxversion);
+});
+</script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>NSDGT - Nonstationary Discrete Gabor transform</title>
+<title>NSDGT - Non-stationary Discrete Gabor transform</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -40,10 +40,10 @@ octave"/>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">NSDGT - Nonstationary Discrete Gabor transform</h1>
+        <h1 class="title">NSDGT - Non-stationary Discrete Gabor transform</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,Ls] <span class="p">=</span><span class="w"> </span><span class="nf">nsdgt</span><span class="p">(</span>f,g,a,M<span class="p">)</span><span class="w"></span>
-<span class="c">%NSDGT  Nonstationary Discrete Gabor transform</span>
+<span class="c">%NSDGT  Non-stationary Discrete Gabor transform</span>
 <span class="c">%   Usage:  c=nsdgt(f,g,a,M);</span>
 <span class="c">%           [c,Ls]=nsdgt(f,g,a,M);</span>
 <span class="c">%</span>
@@ -56,12 +56,12 @@ octave"/>
 <span class="c">%         c     : Cell array of coefficients.</span>
 <span class="c">%         Ls    : Length of input signal.</span>
 <span class="c">%</span>
-<span class="c">%   NSDGT(f,g,a,M) computes the nonstationary Gabor coefficients of the</span>
+<span class="c">%   NSDGT(f,g,a,M) computes the non-stationary Gabor coefficients of the</span>
 <span class="c">%   input signal f. The signal f can be a multichannel signal, given in</span>
 <span class="c">%   the form of a 2D matrix of size Ls xW, with Ls the signal</span>
 <span class="c">%   length and W the number of signal channels.</span>
 <span class="c">%</span>
-<span class="c">%   The nonstationary Gabor theory extends standard Gabor theory by</span>
+<span class="c">%   The non-stationary Gabor theory extends standard Gabor theory by</span>
 <span class="c">%   enabling the evolution of the window over time. It is therefor necessary</span>
 <span class="c">%   to specify a set of windows instead of a single window.  This is done by</span>
 <span class="c">%   using a cell array for g. In this cell array, the n&#39;th element g{n}</span>
@@ -125,7 +125,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/nonstatgab/nsdgt.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

@@ -75,7 +75,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/demos/demo_wfbt.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -97,14 +97,11 @@ octave"/>
 
 <span class="c">% Bark-like filterbank tree</span>
 <span class="c">% Creating tree depicted in Figure 8 in the reference. </span>
-<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtinit</span><span class="p">();</span>
-<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;cmband3&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtinit</span><span class="p">({</span><span class="s">&#39;cmband3&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">});</span>
 <span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;cmband6&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
 <span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband3&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
-<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;cmband5&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
-<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband5&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
-<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;cmband2&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
-<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;cmband2&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband5&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;cmband2&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
 
 <span class="c">% Convert to filterbank</span>
 <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
@@ -123,17 +120,10 @@ octave"/>
 
 <span class="c">% Well-tempered musical scale filterbank tree</span>
 <span class="c">% Creating tree depicted in Figure 9 in the reference. </span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtinit</span><span class="p">();</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;cmband6&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband6&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
-
+<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtinit</span><span class="p">({</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">});</span>
+<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband6&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
+<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
+<span class="n">w2</span> <span class="p">=</span> <span class="n">wfbtput</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s">&#39;cmband4&#39;</span><span class="p">,</span><span class="n">w2</span><span class="p">);</span>
 
 <span class="c">% Convert to filterbank</span>
 <span class="p">[</span><span class="n">g2</span><span class="p">,</span><span class="n">a2</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">(</span><span class="n">w2</span><span class="p">);</span>

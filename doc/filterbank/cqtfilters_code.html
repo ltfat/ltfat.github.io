@@ -44,8 +44,8 @@ octave"/>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[g,a,fc,L]<span class="p">=</span><span class="nf">cqtfilters</span><span class="p">(</span>fs,fmin,fmax,bins,Ls,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%CQTFILTERS   CQT-spaced filters</span>
-<span class="c">%   Usage:  [g,a,fc]=cqtfilters(fs);</span>
-<span class="c">%           [g,a,fc]=cqtfilters(fs,...);</span>
+<span class="c">%   Usage:  [g,a,fc]=cqtfilters(fs,fmin,fmax,bins,Ls,varargin);</span>
+<span class="c">%           </span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
 <span class="c">%      fs    : Sampling rate (in Hz).</span>
@@ -63,13 +63,15 @@ octave"/>
 <span class="c">%   band-limited filters g which cover the required frequency range</span>
 <span class="c">%   fmin-fmax with bins filters per octave starting at fmin. All</span>
 <span class="c">%   filters have (approximately) equal Q=f_c/f_b, hence constant-Q. The</span>
-<span class="c">%   remainding frequency intervals not covered by these filters are captured</span>
+<span class="c">%   remaining frequency intervals not covered by these filters are captured</span>
 <span class="c">%   by two additional filters (low-pass, high-pass). The signal length Ls*</span>
 <span class="c">%   is mandatory, since we need to avoid too narrow frequency windows.</span>
 <span class="c">%</span>
-<span class="c">%   By default, a Hann window on the frequency side is choosen, but the</span>
+<span class="c">%   By default, a Hann window on the frequency side is chosen, but the</span>
 <span class="c">%   window can be changed by passing any of the window types from</span>
 <span class="c">%   FIRWIN as an optional parameter.</span>
+<span class="c">%   Run getfield(getfield(arg_firwin,&#39;flags&#39;),&#39;wintype&#39;) to get a cell</span>
+<span class="c">%   array of window types available.</span>
 <span class="c">%</span>
 <span class="c">%   Because the downsampling rates of the channels must all divide the</span>
 <span class="c">%   signal length, FILTERBANK will only work for multiples of the</span>
@@ -77,35 +79,32 @@ octave"/>
 <span class="c">%   FILTERBANKLENGTH.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=CQTFILTERS(...,&#39;regsampling&#39;) constructs a non-uniform</span>
-<span class="c">%   filterbank. The downsampling rates are constant in the octaves but</span>
+<span class="c">%   filter bank. The downsampling rates are constant in the octaves but</span>
 <span class="c">%   can differ among octaves. This approach was chosen in order to minimize</span>
 <span class="c">%   the least common multiple of a, which determines a granularity of</span>
 <span class="c">%   admissible input signal lengths.</span>
 <span class="c">%</span>
-<span class="c">%   [g,a]=CQTFILTERS(...,&#39;uniform&#39;) constructs a uniform filterbank</span>
+<span class="c">%   [g,a]=CQTFILTERS(...,&#39;uniform&#39;) constructs a uniform filter bank</span>
 <span class="c">%   where the downsampling rate is the same for all the channels. This</span>
 <span class="c">%   results in most redundant representation, which produces nice plots.</span>
 <span class="c">%</span>
-<span class="c">%   [g,a]=CQTFILTERS(...,&#39;fractional&#39;) constructs a filterbank with</span>
+<span class="c">%   [g,a]=CQTFILTERS(...,&#39;fractional&#39;) constructs a filter bank with</span>
 <span class="c">%   fractional downsampling rates a. The rates are constructed such</span>
-<span class="c">%   that the filterbank can handle signal lengths that are multiples of</span>
+<span class="c">%   that the filter bank can handle signal lengths that are multiples of</span>
 <span class="c">%   L, so the benefit of the fractional downsampling is that you get to</span>
 <span class="c">%   choose the value returned by FILTERBANKLENGTH. This results in the</span>
 <span class="c">%   least redundant system.</span>
 <span class="c">%</span>
-<span class="c">%   [g,a]=CQTFILTERS(...,&#39;fractionaluniform&#39;) constructs a filterbank with</span>
+<span class="c">%   [g,a]=CQTFILTERS(...,&#39;fractionaluniform&#39;) constructs a filter bank with</span>
 <span class="c">%   fractional downsampling rates a, which are uniform for all filters</span>
 <span class="c">%   except the &quot;filling&quot; low-pass and high-pass filters can have different</span>
-<span class="c">%   fractional downsampling rates. This is usefull when uniform subsampling</span>
+<span class="c">%   fractional downsampling rates. This is useful when uniform subsampling</span>
 <span class="c">%   and low redundancy at the same time are desirable.</span>
 <span class="c">%</span>
 <span class="c">%   The filters are intended to work with signals with a sampling rate of</span>
 <span class="c">%   fs.</span>
 <span class="c">%</span>
 <span class="c">%   CQTFILTERS accepts the following optional parameters:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;winfun&#39;,winfun       Filter prototype (see FIRWIN for available</span>
-<span class="c">%                           filters). Default is &#39;hann&#39;.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;Qvar&#39;,Qvar           Bandwidth variation factor. Multiplies the</span>
 <span class="c">%                           calculated bandwidth. Default value is 1.</span>
@@ -116,7 +115,7 @@ octave"/>
 <span class="c">%                           bandwidths to better approximate the constant-Q</span>
 <span class="c">%                           property.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;complex&#39;             Construct a filterbank that covers the entire</span>
+<span class="c">%     &#39;complex&#39;             Construct a filter bank that covers the entire</span>
 <span class="c">%                           frequency range. When missing, only positive</span>
 <span class="c">%                           frequencies are covered.</span>
 <span class="c">%</span>
@@ -136,18 +135,18 @@ octave"/>
 <span class="c">%   Examples:</span>
 <span class="c">%   ---------</span>
 <span class="c">%</span>
-<span class="c">%   In the first example, we construct a highly redudant uniform</span>
-<span class="c">%   filterbank and visualize the result:</span>
+<span class="c">%   In the first example, we construct a highly redundant uniform</span>
+<span class="c">%   filter bank and visualize the result:</span>
 <span class="c">%</span>
 <span class="c">%     [f,fs]=greasy;  % Get the test signal</span>
 <span class="c">%     [g,a,fc]=cqtfilters(fs,100,fs,32,length(f),&#39;uniform&#39;);</span>
 <span class="c">%     c=filterbank(f,g,a);</span>
 <span class="c">%     plotfilterbank(c,a,fc,fs,90,&#39;audtick&#39;);</span>
 <span class="c">%</span>
-<span class="c">%   In the second example, we construct a non-uniform filterbank with</span>
+<span class="c">%   In the second example, we construct a non-uniform filter bank with</span>
 <span class="c">%   fractional sampling that works for this particular signal length, and</span>
 <span class="c">%   test the reconstruction. The plot displays the response of the</span>
-<span class="c">%   filterbank to verify that the filters are well-behaved both on a</span>
+<span class="c">%   filter bank to verify that the filters are well-behaved both on a</span>
 <span class="c">%   normal and an log scale. The second plot shows frequency responses of</span>
 <span class="c">%   filters used for analysis (top) and synthesis (bottom). :</span>
 <span class="c">%</span>
@@ -197,7 +196,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/filterbank/cqtfilters.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

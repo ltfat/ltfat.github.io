@@ -102,7 +102,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/frames/framebounds.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -201,13 +201,13 @@ octave"/>
      <span class="k">case</span> <span class="s">&#39;wfbt&#39;</span>
       <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">wfbtbounds</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
      <span class="k">case</span> <span class="s">&#39;ufwt&#39;</span>
-      <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">uwfbtbounds</span><span class="p">({</span><span class="n">g</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">,</span><span class="s">&#39;dwt&#39;</span><span class="p">},</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
+      <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">wfbtbounds</span><span class="p">({</span><span class="n">g</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">,</span><span class="s">&#39;dwt&#39;</span><span class="p">},</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
      <span class="k">case</span> <span class="s">&#39;uwfbt&#39;</span>
-      <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">uwfbtbounds</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
+      <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">wfbtbounds</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
      <span class="k">case</span> <span class="s">&#39;wpfbt&#39;</span>
       <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">wpfbtbounds</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">interscaling</span><span class="p">);</span>
      <span class="k">case</span> <span class="s">&#39;uwpfbt&#39;</span>
-      <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">uwpfbtbounds</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">interscaling</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
+      <span class="p">[</span><span class="n">AF</span><span class="p">,</span><span class="n">BF</span><span class="p">]=</span><span class="n">wpfbtbounds</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">interscaling</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
     <span class="k">end</span><span class="p">;</span>  
   <span class="k">end</span><span class="p">;</span>
   

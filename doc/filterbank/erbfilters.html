@@ -95,22 +95,23 @@ sampling rate of <em>fs</em>. The signal length <em>Ls</em> is mandatory, since 
 need to avoid too narrow frequency windows.</p>
 <p>By default, a Hann window on the frequency side is choosen, but the
 window can be changed by passing any of the window types from
-<span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> as an optional parameter.</p>
-<p>Because the downsampling rates of the channels must all divide the
-signal length, <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> will only work for multiples of the
-least common multiple of the downsampling rates. See the help of
-<span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span>.</p>
+<span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> as an optional parameter.
+Run <tt class="docutils literal"><span class="pre">getfield(getfield(arg_firwin,'flags'),'wintype')</span></tt> to get a cell
+array of window types available.</p>
+<p>The integer downsampling rates of the channels must all divide the
+signal length, <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> will only work for input signal lengths
+being multiples of the least common multiple of the downsampling rates.
+See the help of <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span>.
+The fractional downsampling rates restrict the filterbank to a single
+length <em>L=Ls</em>.</p>
 <p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'regsampling')</span></tt> constructs a non-uniform
 filterbank with integer subsampling factors.</p>
 <p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'uniform')</span></tt> constructs a uniform filterbank
-where the downsampling rate is the same for all the channels. This
-results in most redundant representation, which produces nice plots.</p>
+where the integer downsampling rate is the same for all the channels. This
+results in most redundant representation which produces nice plots.</p>
 <p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'fractional')</span></tt> constructs a filterbank with
-fractional downsampling rates <em>a</em>. The rates are constructed such
-that the filterbank can handle signal lengths that are multiples of
-<em>L</em>, so the benefit of the fractional downsampling is that you get to
-choose the value returned by <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span>. This results in the
-least redundant system.</p>
+fractional downsampling rates <em>a</em>.
+This results in the least redundant system.</p>
 <p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'fractionaluniform')</span></tt> constructs a filterbank with
 fractional downsampling rates <em>a</em>, which are uniform for all filters
 except the &quot;filling&quot; low-pass and high-pass filters can have different
@@ -141,7 +142,7 @@ system may no longer be painless.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'symmetric'</span></kbd></td>
 <td>Create filters that are symmetric around their centre
-frequency. This is the default.</td></tr>
+frequency. This is the default.'sqrtsquare','sqrtrect'</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'warped'</span></kbd></td>
 <td>Create asymmetric filters that are symmetric on the

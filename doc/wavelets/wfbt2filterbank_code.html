@@ -94,7 +94,7 @@ octave"/>
 <span class="c">%   Url: http://ltfat.sourceforge.net/doc/wavelets/wfbt2filterbank.php</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.0.1</span>
+<span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -122,12 +122,15 @@ octave"/>
 <span class="n">wt</span> <span class="p">=</span> <span class="n">wfbtinit</span><span class="p">({</span><span class="s">&#39;strict&#39;</span><span class="p">,</span><span class="n">wt</span><span class="p">},</span><span class="n">flags</span><span class="p">.</span><span class="n">forder</span><span class="p">);</span>
 
 <span class="c">% Pick just nodes with outputs</span>
-<span class="n">wtPath</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">wt</span><span class="p">.</span><span class="n">nodes</span><span class="p">);</span>
-<span class="n">wtPath</span><span class="p">(</span><span class="n">nodesOutputsNo</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">wt</span><span class="p">.</span><span class="n">nodes</span><span class="p">),</span><span class="n">wt</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)=[];</span>
+<span class="c">% wtPath = 1:numel(wt.nodes);</span>
+<span class="c">% wtPath(nodesOutputsNo(1:numel(wt.nodes),wt)==0)=[];</span>
+<span class="c">% </span>
+<span class="c">% rangeLoc = nodesLocOutRange(wtPath,wt);</span>
+<span class="c">% rangeOut = nodesOutRange(wtPath,wt);</span>
 
-<span class="n">rangeLoc</span> <span class="p">=</span> <span class="n">nodesLocOutRange</span><span class="p">(</span><span class="n">wtPath</span><span class="p">,</span><span class="n">wt</span><span class="p">);</span>
-<span class="n">rangeOut</span> <span class="p">=</span> <span class="n">nodesOutRange</span><span class="p">(</span><span class="n">wtPath</span><span class="p">,</span><span class="n">wt</span><span class="p">);</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">nodesMultid</span><span class="p">(</span><span class="n">wtPath</span><span class="p">,</span><span class="n">rangeLoc</span><span class="p">,</span><span class="n">rangeOut</span><span class="p">,</span><span class="n">wt</span><span class="p">);</span>
+<span class="p">[</span><span class="n">nodesBF</span><span class="p">,</span> <span class="n">rangeLoc</span><span class="p">,</span> <span class="n">rangeOut</span><span class="p">]</span> <span class="p">=</span> <span class="n">treeBFranges</span><span class="p">(</span><span class="n">wt</span><span class="p">);</span>
+<span class="n">slice</span> <span class="p">=</span> <span class="o">~</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isempty</span><span class="p">,</span><span class="n">rangeOut</span><span class="p">);</span> <span class="c">% Limit to nodes with unconnected outputs</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">nodesMultid</span><span class="p">(</span><span class="n">nodesBF</span><span class="p">(</span><span class="n">slice</span><span class="p">),</span><span class="n">rangeLoc</span><span class="p">(</span><span class="n">slice</span><span class="p">),</span><span class="n">rangeOut</span><span class="p">(</span><span class="n">slice</span><span class="p">),</span><span class="n">wt</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_scaling_notset</span>
    <span class="n">g</span> <span class="p">=</span> <span class="n">comp_filterbankscale</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>

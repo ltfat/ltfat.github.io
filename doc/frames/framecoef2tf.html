@@ -44,19 +44,19 @@ octave"/>
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-coef=framecoef2tf(F,coef);
+cout=framecoef2tf(F,cin);
 </pre>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">framecoef2tf(F,coef)</tt> converts the frame coefficients <em>coef</em> into the
+<p><tt class="docutils literal">framecoef2tf(F,cin)</tt> converts the frame coefficients <em>cin</em> into the
 time-frequency plane layout. The frame object <em>F</em> must have been
 created using <span class="linkrole"><a href="#BASEURL#/doc/frames/frame.html">frame</a></span>.</p>
 <p>The time-frequency plane layout is a matrix, where the first
 dimension indexes frequency and the second dimension time. This is
 similar to the output format from <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span> and <span class="linkrole"><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></span>.</p>
-<p>Not all frame types support this coefficient layout. The supported frame
-types are: <tt class="docutils literal">'dgt'</tt>, <tt class="docutils literal">'dgtreal'</tt>, <tt class="docutils literal">'dwilt'</tt>, <tt class="docutils literal">'wmdct'</tt>, <tt class="docutils literal">'ufilterbank'</tt>,
+<p>Not all types of frames support this coefficient conversion. The supported
+types of frames are: <tt class="docutils literal">'dgt'</tt>, <tt class="docutils literal">'dgtreal'</tt>, <tt class="docutils literal">'dwilt'</tt>, <tt class="docutils literal">'wmdct'</tt>, <tt class="docutils literal">'ufilterbank'</tt>,
 <tt class="docutils literal">'ufwt'</tt>,`'uwfbt'` and <tt class="docutils literal">'uwpfbt'</tt>.</p>
 </div>
 
