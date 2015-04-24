@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>FRAMETIGHT - Construct the canonical tight frame</title>
+<title>AMBIGUITYFUNCTION - Ambiguity function</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -22,55 +22,58 @@ octave"/>
 <div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
-    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="frametight_code.html">View the code</a></div>
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ambiguityfunction_code.html">View the code</a></div>
 </div>
     <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
 </div>
 <div class="row">
     <div class="col-md-2">
         <div class="include" file='../include/docnav.html'></div>
-        <div id="seealso"><p><div id="menutitle">See also:</div>
-<ul>
-<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
-<li><a href="#BASEURL#/doc/frames/framepair.html">framepair</a></li>
-<li><a href="#BASEURL#/doc/frames/framedual.html">framedual</a></li>
-</ul>
-</p></div>
+        <div id="seealso"><p></p></div>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">FRAMETIGHT - Construct the canonical tight frame</h1>
+        <h1 class="title">AMBIGUITYFUNCTION - Ambiguity function</h1>
 
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-Ft=frametight(F);
+A = ambiguityfunction(f);
+A = ambiguityfunction(f,g);
 </pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>f</var></span>, <span class="option"><var>g</var></span></kbd></td>
+<td>Input vector(s).</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>A</var></span></kbd></td>
+<td>ambiguity function</td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">Ft=frametight(F)</tt> returns the canonical tight frame of <em>F</em>.</p>
-<p>The canonical tight frame can be used to get perfect reconstruction if
-it is used for both analysis and synthesis. This is demonstrated in the
-following example:</p>
-<pre class="literal-block">
-% Create a frame and its canonical tight
-F=frame('dgt','hamming',32,64);
-Ft=frametight(F);
-
-% Compute the frame coefficients and test for perfect
-% reconstruction
-f=gspi;
-c=frana(Ft,f);
-r=frsyn(Ft,c);
-norm(r(1:length(f))-f)
-</pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =
-
-     1.055121974166615e-14
-</pre>
+<p><tt class="docutils literal">ambiguityfunction(f)</tt> computes the (symmetric) ambiguity function of f.
+The ambiguity function is computed as the two-dimensional Fourier transform
+of the Wigner-Ville distribution <span class="linkrole"><a href="#BASEURL#/doc/quadratic/wignervilledist.html">wignervilledist</a></span>.</p>
+<p><strong>WARNING</strong>: The quadratic time-frequency distributions are highly
+redundant. For an input vector of length L, the quadratic time-frequency
+distribution will be a <span class="math">\(L \times L\)</span> matrix.</p>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

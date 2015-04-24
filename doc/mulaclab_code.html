@@ -1252,11 +1252,13 @@ octave"/>
 
 
 <span class="k">  function</span><span class="w"> </span><span class="nf">precomputeStuff</span><span class="p">()</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="s">&#39;precomp&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="s">&#39;precomp&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">isfield</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">)</span> <span class="c">...</span>
+          <span class="o">&amp;&amp;</span> <span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">L</span> <span class="o">==</span> <span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">)</span>
           <span class="c">% Already done, do nothing.</span>
           <span class="k">return</span><span class="p">;</span>
       <span class="k">end</span>
       <span class="n">frame</span><span class="p">.</span><span class="n">precomp</span> <span class="p">=</span> <span class="n">struct</span><span class="p">();</span>
+      <span class="n">frame</span><span class="p">.</span><span class="n">precomp</span><span class="p">.</span><span class="n">L</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>      
       
       <span class="k">switch</span> <span class="n">lower</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
           <span class="k">case</span> <span class="s">&#39;erblet&#39;</span>

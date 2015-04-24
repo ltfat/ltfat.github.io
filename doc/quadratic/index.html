@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>FRAMETIGHT - Construct the canonical tight frame</title>
+<title>LTFAT - Quadratic time-frequency distributions</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
@@ -22,55 +22,34 @@ octave"/>
 <div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
-    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="frametight_code.html">View the code</a></div>
-</div>
+    <div class="col-md-2" id="codeswitch"></div>
     <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
 </div>
 <div class="row">
     <div class="col-md-2">
         <div class="include" file='../include/docnav.html'></div>
-        <div id="seealso"><p><div id="menutitle">See also:</div>
-<ul>
-<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
-<li><a href="#BASEURL#/doc/frames/framepair.html">framepair</a></li>
-<li><a href="#BASEURL#/doc/frames/framedual.html">framedual</a></li>
-</ul>
-</p></div>
+        <div id="seealso"><p></p></div>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">FRAMETIGHT - Construct the canonical tight frame</h1>
+        <h1 class="title">LTFAT - Quadratic time-frequency distributions</h1>
 
-<div class="section" id="usage">
-<h2>Usage</h2>
-<pre class="literal-block">
-Ft=frametight(F);
-</pre>
+<p>Jordy van Velthoven, 2014 - 2015.</p>
+<div class="section" id="quadratic-distributions">
+<h2>Quadratic distributions</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/quadratic/ambiguityfunction.html">ambiguityfunction</a></span> - Ambiguity function</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/quadratic/wignervilledist.html">wignervilledist</a></span> - Wigner-Ville distribution</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/quadratic/drihaczekdist.html">drihaczekdist</a></span> - Discrete Rihaczek distribution</li>
+</ul>
 </div>
-<div class="section" id="xxxdescription">
-<h2>Description</h2>
-<p><tt class="docutils literal">Ft=frametight(F)</tt> returns the canonical tight frame of <em>F</em>.</p>
-<p>The canonical tight frame can be used to get perfect reconstruction if
-it is used for both analysis and synthesis. This is demonstrated in the
-following example:</p>
-<pre class="literal-block">
-% Create a frame and its canonical tight
-F=frame('dgt','hamming',32,64);
-Ft=frametight(F);
-
-% Compute the frame coefficients and test for perfect
-% reconstruction
-f=gspi;
-c=frana(Ft,f);
-r=frsyn(Ft,c);
-norm(r(1:length(f))-f)
-</pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =
-
-     1.055121974166615e-14
-</pre>
+<div class="section" id="plotting-routine">
+<h2>Plotting routine</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/quadratic/plotquadtfdist.html">plotquadtfdist</a></span> - Plot quadratic time-frequency distribution</li>
+</ul>
+<p>For help, bug reports, suggestions etc. please visit
+<a class="reference external" href="http://github.com/ltfat/ltfat/issues">http://github.com/ltfat/ltfat/issues</a></p>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>
