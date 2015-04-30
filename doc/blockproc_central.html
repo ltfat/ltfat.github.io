@@ -32,8 +32,8 @@ framework allows audio processing directly in the transform domain.
 
 <h2>Basic programming flow</h2>
 <p>
-The basic workflow consist of setting up the blockstream source and parameters using <a href="blockproc/block.php">block</a> function and 
-creating the control panel <a href="blockproc/blockpanel.php">blockpanel</a> prior to entering the processing loop.
+The basic workflow consist of setting up the blockstream source and parameters using <a href="blockproc/block.html">block</a> function and 
+creating the control panel <a href="blockproc/blockpanel.html">blockpanel</a> prior to entering the processing loop.
 Closing the control panel issues breaking from the loop and correctly 
 finalizing the program run. Hitting the Ctrl-C keyboard shorcut to break from the loop skips all code located after the loop. 
 </p>
@@ -50,14 +50,14 @@ while p.flag
 end
 blockdone(p);
 </pre>
-Each iteration, function <a href="blockproc/blockread.php">blockread</a>  provides array of samples (1024 by defaut) which are enqueued to be played
-by the <a href="blockproc/blockplay.php">blockplay</a> function. Two parameters of <strong>p</strong> are read each iteration, the slider position
-by <a href="blockproc/blockpanelget.php">blockpanelget</a> and the <strong>p.flag</strong> value, which is set to false when the control panel is closed by the user.
+Each iteration, function <a href="blockproc/blockread.html">blockread</a>  provides array of samples (1024 by defaut) which are enqueued to be played
+by the <a href="blockproc/blockplay.html">blockplay</a> function. Two parameters of <strong>p</strong> are read each iteration, the slider position
+by <a href="blockproc/blockpanelget.html">blockpanelget</a> and the <strong>p.flag</strong> value, which is set to false when the control panel is closed by the user.
 </p>
 
 <h2>Transform domain block-processing</h2>
 <p>
-The <a href="frames/index.php">Frame framework</a> can be used in conjuction with the block-processing framework to do the blockwise analysis <strong>and</strong>
+The <a href="frames/index.html">Frame framework</a> can be used in conjuction with the block-processing framework to do the blockwise analysis <strong>and</strong>
 synthesis. Frame objects has to be "accelerated" for the chosen block length prior entering the processing loop and the length cannot be changed inside of the loop. The following simple demo shows how the frame objects are used in the block proc. framework in order to achieve real-time DGT coefficient thresholding.
 <pre>
 % Buffer length
@@ -109,7 +109,7 @@ blockdone(p);
 </p>
 
 <h2>Visualization</h2>
-Currently, there is a sliding spectrogram plot available trough <a href="blockproc/blockfigure.php">blockfigure</a> and  <a href="blockproc/blockplot.php">blockplot</a>, which are wrappers for accesing Java class net.sourceforge.ltfat.SpectFrame. The following screenshot is obtained from
+Currently, there is a sliding spectrogram plot available trough <a href="blockproc/blockfigure.html">blockfigure</a> and  <a href="blockproc/blockplot.html">blockplot</a>, which are wrappers for accesing Java class net.sourceforge.ltfat.SpectFrame. The following screenshot is obtained from
 <pre>
 demo_blockproc_slidingsgram('gspi.wav','loop');
 </pre>
