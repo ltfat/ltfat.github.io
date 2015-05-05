@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>Filterbank reassignment</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<h1>This page is under construction. Have patience.</h1>
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html"> </div>
+
+<h1>
+    A VST plugin for blockwise, reassigned nonuniform filter banks
+</h1>
+<p>
+Authors: Zdeněk Průša, Nicki Holighaus
+</p>
+<i>
+    A plugin for audio visualization using nonuniform filter banks and the reassignment method is presented. The plugin provides a low delay moving spectrogram with respect to virtually any time-frequency filter bank by interfacing the C backend of the LTFAT open-source toolbox for time-frequency processing. Low delay is achieved by blockwise processing and complemented by an intuitive GUI, both implemented with the JUCE C++ Library. By computing three filter banks separately, the reassigned representation can be obtained with little additional computational effort.
+</i>
+
+<h2>Screenshots</h2>
+
+<h2>Examples</h2>
+<div class="row text-center">
+<div class="col-md-6">
+<figure>
+<video width="420" controls>
+  <source src="reassignment_chirps.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<figcaption>Three <i>linear</i> chirps.</figcaption>
+</figure>
+</div>
+<div class="col-md-6">
+<figure>
+<video width="420" controls>
+  <source src="reassignment_serj.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<figcaption>Excerpt from the song <i>Serj Tankian: Gate 21</i></figcaption>
+</figure>
+</div>
+</div>
+
+<h2>Download</h2>
+<p> PDF link </p>
+<p> Release link </p>
+<p> Repository link </p>
+
+<h2>Related functions in LTFAT</h2>
+<p>
+Since version 2.1.0, the LTFAT toolbox includes functions performing reassignment of
+nonuniform filterbank spectrograms.
+<dl>
+    <dt>
+    <a href="http://ltfat.github.io/doc/filterbank/filterbankphasegrad.html">filterbankphasegrad</a>
+    </dt>
+    <dd>
+    Computes phase gradient using given filterbank.
+    </dd>
+    <dt>
+    <a href="http://ltfat.github.io/doc/filterbank/filterbankreassign.html">filterbankreassign</a>
+    </dt>
+    <dd>
+    Performs actual reassignment using phase gradient.
+    </dd>
+</dl>
+</p>
+
+
+
+<div class="include" file="../../include/footer.html"></div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+</body>
+</html>
