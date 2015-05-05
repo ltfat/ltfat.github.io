@@ -68,20 +68,21 @@ W = wignervilledist(f, g);
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">wignervilledist(f)</tt> computes the Wigner-Ville distribution of f. The
+<p><tt class="docutils literal">wignervilledist(f)</tt> computes the Wigner-Ville distribution of the vector f. The
 Wigner-Ville distribution is computed by</p>
 <div class="math">
 \begin{equation*}
-W\left( n+1,k+1 \right)\; =\; \sum_{m=0}^{L-1}{R\left( n+1,m+1 \right)e^{-i2\pi mk/L}}
+W\left( n+1,k+1 \right)\; =\; \sum_{m=0}^{L-1}{R\left( n+1,m+1 \right)e^{-i2\pi mk/L}},
 \end{equation*}
 </div>
 <p>where <span class="math">\(R(n,m)\)</span> is the instantaneous correlation matrix given by</p>
 <div class="math">
 \begin{equation*}
-R\left( n,m \right)\; =\; z\left( n+m \right)\overline{z\left( n-m \right)}
+R\left( n,m \right)\; =\; z\left( n+m \right)\overline{z\left( n-m \right)},
 \end{equation*}
 </div>
-<p>with <span class="math">\(m \in {-L/2,\ldots, L/2 - 1} and \)</span>, when f is real-valued.</p>
+<p>where <span class="math">\(m \in {-L/2,\ldots, L/2 - 1}\)</span>, and where <span class="math">\(z\)</span> is the analytical representation of
+<span class="math">\(f\)</span>, when <span class="math">\(f\)</span> is real-valued.</p>
 <p><tt class="docutils literal">wignervilledist(f,g)</tt> computes the cross-Wigner-Ville distribution of f and g.</p>
 <p><strong>WARNING</strong>: The quadratic time-frequency distributions are highly
 redundant. For an input vector of length L, the quadratic time-frequency

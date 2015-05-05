@@ -20,16 +20,16 @@ or expressed in dB:
 
 ans =
 
- -27.538744122423772
+ -27.538744122424337
 
 Reconstruction error using cutted tight window.
 
 recerr =
 
-     9.858293436835011e-04
+     9.858293436835698e-04
 
 or expressed in dB:
 
 ans =
 
- -30.061982590052359
+ -30.061982590052057

@@ -35,7 +35,7 @@ octave"/>
 
         <h1 class="title">WIGNERVILLEDIST - Wigner-Ville distribution</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>W <span class="p">=</span><span class="w"> </span><span class="nf">wignervilledist</span><span class="p">(</span>f,g<span class="p">);</span>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>W <span class="p">=</span><span class="w"> </span><span class="nf">wignervilledist</span><span class="p">(</span>f,g<span class="p">)</span><span class="w"></span>
 <span class="c">%WIGNERVILLEDIST Wigner-Ville distribution</span>
 <span class="c">%   Usage: W = wignervilledist(f);</span>
 <span class="c">%          W = wignervilledist(f, g);</span>
@@ -46,12 +46,12 @@ octave"/>
 <span class="c">%   Output parameters:</span>
 <span class="c">%         w      : Wigner-Ville distribution</span>
 <span class="c">%</span>
-<span class="c">%   WIGNERVILLEDIST(f) computes the Wigner-Ville distribution of f. The</span>
+<span class="c">%   WIGNERVILLEDIST(f) computes the Wigner-Ville distribution of the vector f. The</span>
 <span class="c">%   Wigner-Ville distribution is computed by</span>
 <span class="c">%</span>
 <span class="c">%   where R(n,m) is the instantaneous correlation matrix given by</span>
 <span class="c">%</span>
-<span class="c">%   with m in {-L/2,..., L/2 - 1} and z as the analytical representation of</span>
+<span class="c">%   where m in {-L/2,..., L/2 - 1}, and where z is the analytical representation of</span>
 <span class="c">%   f, when f is real-valued.</span>
 <span class="c">%</span>
 <span class="c">%   WIGNERVILLEDIST(f,g) computes the cross-Wigner-Ville distribution of f and g.</span>
@@ -60,7 +60,7 @@ octave"/>
 <span class="c">%   redundant. For an input vector of length L, the quadratic time-frequency</span>
 <span class="c">%   distribution will be a L xL matrix.</span>
 <span class="c">%</span>
-<span class="c">%   Url: http://ltfat.sourceforge.net/doc/quadratic/wignervilledist.php</span>
+<span class="c">%   Url: http://ltfat.github.io/doc/quadratic/wignervilledist.html</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
 <span class="c">% This file is part of LTFAT version 2.1.0</span>
@@ -82,33 +82,42 @@ octave"/>
 <span class="c">% TESTING: TEST_WIGNERVILLEDIST</span>
 <span class="c">% REFERENCE: REF_WIGNERVILLEDIST</span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;WIGNERVILLEDIST&#39;</span><span class="p">);</span>
+<span class="n">upfname</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">upfname</span><span class="p">);</span>
+<span class="n">complainif_toomanyargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">upfname</span><span class="p">);</span>
 
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">W</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">upfname</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span>
+   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Only one-dimensional vectors can be processed.&#39;</span><span class="p">,</span><span class="n">upfname</span><span class="p">);</span> 
+<span class="k">end</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="n">nargin</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-
-  <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Lf</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-
   <span class="k">if</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="n">z1</span> <span class="p">=</span> <span class="n">comp_fftanalytic</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-    <span class="n">z2</span> <span class="p">=</span> <span class="n">z1</span><span class="p">;</span>
   <span class="k">else</span>
     <span class="n">z1</span> <span class="p">=</span> <span class="n">f</span><span class="p">;</span>
-    <span class="n">z2</span> <span class="p">=</span> <span class="n">z1</span><span class="p">;</span>
   <span class="k">end</span>
-
+  
+  <span class="n">z2</span> <span class="p">=</span> <span class="n">z1</span><span class="p">;</span>
   <span class="n">R</span> <span class="p">=</span> <span class="n">comp_instcorrmat</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">);</span>
 
   <span class="n">W</span> <span class="p">=</span> <span class="nb">real</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">R</span><span class="p">));</span>
 
 <span class="k">elseif</span> <span class="p">(</span><span class="n">nargin</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
-
-  <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Lf</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-  <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Lg</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">g</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+  <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">W</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">upfname</span><span class="p">);</span>
+  
+  <span class="k">if</span> <span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Only one-dimensional vectors can be processed.&#39;</span><span class="p">,</span><span class="n">upfname</span><span class="p">);</span> 
+  <span class="k">end</span>
 
   <span class="k">if</span> <span class="o">~</span><span class="n">all</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">==</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
   	<span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: f and g must have the same length.&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
   <span class="k">end</span><span class="p">;</span>
+  
+  <span class="k">if</span> <span class="n">xor</span><span class="p">(</span><span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+      <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: One input is real, the other one must be real too. &#39;</span><span class="p">,</span><span class="c">...</span>
+            <span class="n">upfname</span><span class="p">);</span>
+  <span class="k">end</span>
 
   <span class="k">if</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
     <span class="n">z1</span> <span class="p">=</span> <span class="n">comp_fftanalytic</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>

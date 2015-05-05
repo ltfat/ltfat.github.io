@@ -53,13 +53,9 @@ r\left( k+1,\; l+1 \right)\; =\; f\left( l+1 \right)\; \overline{c\left( k+1 \ri
 <p>where <span class="math">\(k, l=0,\ldots,L-1\)</span> and <span class="math">\(c\)</span> is the Fourier transform of <span class="math">\(f\)</span>.</p>
 <p><strong>WARNING</strong>: The quadratic time-frequency distributions are highly
 redundant. For an input vector of length L, the quadratic time-frequency
-distribution will be a <span class="math">\(L \times L\)</span> matrix.</p>
-<p>If <em>f</em> is multichannel (<span class="math">\(L\times W\)</span> matrix), the resulting distributions
-are stacked along the third dimension such that the result is
-<span class="math">\(L\times L \times W\)</span> cube.</p>
-<p>AUTHOR: Jordy van Velthoven
-TESTING: TEST_DRIHACZEKDIST
-REFERENCE: REF_DRIHACZEKDIST</p>
+distribution will be a <span class="math">\(L \times L\)</span> matrix. If <em>f</em> is multichannel
+(<span class="math">\(L\times W\)</span> matrix), the resulting distributions are stacked along
+the third dimension such that the result is <span class="math">\(L\times L \times W\)</span> cube.</p>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>
