@@ -39,7 +39,7 @@ new author("fj","Florent Jaillet","http://www.kfs.oeaw.ac.at/index.php?option=co
 new author("cw","Christoph Wiesmeyr","http://homepage.univie.ac.at/christoph.wiesmeyr",
            "Wrote the algorithms for the non-separable Gabor lattices and the fractional Fourier transforms."),
 new author("jv","Jordy van Velthoven","mailto:jt.vanvelthoven@gmail.com",
-           "Wrote several LTFAT notes and worked on documentation and examples."),
+           "Wrote several LTFAT notes worked on quadratic time-frequency distributions, documentation and examples."),
 ];
 
 // Write the authors to the page directly
