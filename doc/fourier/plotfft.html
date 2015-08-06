@@ -10,6 +10,8 @@ octave"/>
 <title>PLOTFFT - Plot the output from FFT</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -56,16 +58,16 @@ a sampling rate of <em>fs</em> Hz.</p>
 <p><tt class="docutils literal">plotfft(coef,fs,dynrange)</tt> additionally limits the dynamic range of the
 plot. See the description of the <tt class="docutils literal">'dynrange'</tt> parameter below.</p>
 <p><tt class="docutils literal">plotfft</tt> accepts the following optional arguments:</p>
-<dl class="docutils">
-<dt>'dynrange=r Limit the dynamical range to'<tt class="docutils literal">r</tt> by using a colormap in</dt>
-<dd>the interval <tt class="docutils literal"><span class="pre">[chigh-r,chigh]</span></tt>, where <tt class="docutils literal">chigh</tt> is the highest
-value in the plot. The default value of <tt class="docutils literal">[]</tt> means to not
-limit the dynamical range.</dd>
-</dl>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'dynrange',<var>r</var></span></kbd></td>
+<td>Limit the dynamical range to <tt class="docutils literal">r</tt> by using a colormap in
+the interval <tt class="docutils literal"><span class="pre">[chigh-r,chigh]</span></tt>, where <tt class="docutils literal">chigh</tt> is the highest
+value in the plot. The default value of <tt class="docutils literal">[]</tt> means to not
+limit the dynamical range.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'db'</span></kbd></td>
 <td>Apply <span class="math">\(20\cdot \log_{10}\)</span> to the coefficients. This makes
@@ -115,6 +117,8 @@ before plotting.</p>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

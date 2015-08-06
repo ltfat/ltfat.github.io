@@ -10,6 +10,8 @@ octave"/>
 <title>SYMPHASE - Change Gabor coefficients to symmetric phase</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -33,6 +35,7 @@ octave"/>
 <ul>
 <li><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></li>
 <li><a href="#BASEURL#/doc/gabor/phaselock.html">phaselock</a></li>
+<li><a href="#BASEURL#/doc/gabor/phaseunlock.html">phaseunlock</a></li>
 </ul>
 </p></div>
     </div>
@@ -52,13 +55,43 @@ c=symphase(c,a);
 they were obtained from a Gabor transform based on symmetric
 time/frequency shifts. The coefficient must have been obtained from a
 <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span> with parameter <em>a</em>.</p>
+<p>Gabor coefficients with symmetric phase correspond to the following
+transform:
+Consider a signal <em>f</em> of length <em>L</em> and define <span class="math">\(N=L/a\)</span>.
+The output from <tt class="docutils literal"><span class="pre">c=symphase(dgt(f,g,a,M),a)</span></tt> is given by</p>
+<!-- L-1
+c(m+1,n+1) = sum f(l+1)*exp(-2*pi*i*m*(l-n*a/2)/M)*conj(g(l-a*n+1)),
+             l=0 -->
+<div class="math">
+\begin{equation*}
+c\left(m+1,n+1\right)=\sum_{l=0}^{L-1}f(l+1)e^{-2\pi im(l-na/2)/M}\overline{g(l-an+1)}
+\end{equation*}
 </div>
+<p>where <span class="math">\(m=0,\ldots,M-1\)</span> and <span class="math">\(n=0,\ldots,N-1\)</span> and <span class="math">\(l-an\)</span> is computed modulo <em>L</em>.</p>
+<p><tt class="docutils literal"><span class="pre">symphase(c,a,'lt',lt)</span></tt> does the same for a non-separable lattice
+specified by <em>lt</em>. Please see the help of <span class="linkrole"><a href="#BASEURL#/doc/gabor/matrix2latticetype.html">matrix2latticetype</a></span> for a
+precise description of the parameter <em>lt</em>.</p>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="cmdaaufl97"></a>
+
+E.&nbsp;Chassande-Mottin, I.&nbsp;Daubechies, F.&nbsp;Auger, and P.&nbsp;Flandrin.
+ Differential reassignment.
+ <em>Signal Processing Letters, IEEE</em>, 4(10):293-294, 1997.
+
+</p>
+
 
         <div class="include" file="../../include/footer.html"></div>
     </div>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

@@ -10,6 +10,8 @@ octave"/>
 <title>LTFATSTART - Start the LTFAT toolbox</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -31,10 +33,10 @@ octave"/>
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/ltfatsetdefaults.html">ltfatsetdefaults</a></li>
-<li><a href="#BASEURL#/doc/ltfatmex.html">ltfatmex</a></li>
-<li><a href="#BASEURL#/doc/ltfathelp.html">ltfathelp</a></li>
-<li><a href="#BASEURL#/doc/ltfatstop.html">ltfatstop</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatsetdefaults.html">ltfatsetdefaults</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatmex.html">ltfatmex</a></li>
+<li><a href="#BASEURL#/doc/base/ltfathelp.html">ltfathelp</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatstop.html">ltfatstop</a></li>
 </ul>
 </p></div>
     </div>
@@ -53,7 +55,7 @@ ltfatstart;
 <p><tt class="docutils literal">ltfatstart</tt> starts the LTFAT toolbox. This command must be run
 before using any of the functions in the toolbox.</p>
 <p>To configure default options for functions, you can use the
-<span class="linkrole"><a href="#BASEURL#/doc/ltfatsetdefaults.html">ltfatsetdefaults</a></span> function in your startup script. A typical startup
+<span class="linkrole"><a href="#BASEURL#/doc/base/ltfatsetdefaults.html">ltfatsetdefaults</a></span> function in your startup script. A typical startup
 file could look like:</p>
 <pre class="literal-block">
 addpath('/path/to/my/work/ltfat');
@@ -67,12 +69,14 @@ to path if the directory contain a <tt class="docutils literal">[subdirectory,in
 script setting a <tt class="docutils literal">status</tt> variable to some value greater than 0.
 <tt class="docutils literal"><span class="pre">status==1</span></tt> identifies a toolbox module any other value just a
 directory to be added to path.</p>
+<p><tt class="docutils literal">ltfatstart(0)</tt> supresses any status messages.</p>
 </div>
 <div class="section" id="warning-for-matlab-users">
 <h2>!!WARNING for MATLAB users!!</h2>
 <p>The function indirectly calls <tt class="docutils literal">clear all</tt>, which clears all your global
-and persistent variables. It comes with calling <tt class="docutils literal">javaaddpath</tt> and
-there is nothig we can do about that at the moment.</p>
+and persistent variables. It comes with calling <tt class="docutils literal">javaaddpath</tt> in
+blockproc/blockprocinit.m. You can avoid calling it by passing
+additional <tt class="docutils literal">'nojava'</tt> flag.</p>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>
@@ -80,6 +84,8 @@ there is nothig we can do about that at the moment.</p>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

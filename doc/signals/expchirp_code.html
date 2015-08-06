@@ -10,6 +10,8 @@ octave"/>
 <title>EXPCHIRP - Exponential chirp</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -31,7 +33,7 @@ octave"/>
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/fourier/pchirp.html">pchirp</a></li>
+<li><a href="#BASEURL#/doc/fourier/pchirp_code.html">pchirp</a></li>
 </ul>
 </p></div>
     </div>
@@ -39,12 +41,13 @@ octave"/>
 
         <h1 class="title">EXPCHIRP - Exponential chirp</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>outsig<span class="p">=</span><span class="nf">expchirp</span><span class="p">(</span>L,fstart,fend,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[outsig]<span class="p">=</span><span class="nf">expchirp</span><span class="p">(</span>L,fstart,fend,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%EXPCHIRP  Exponential chirp</span>
 <span class="c">%   Usage: outsig=expchirp(L,fstart,fend)</span>
-<span class="c">% </span>
+<span class="c">%</span>
 <span class="c">%   EXPCHIRP(L,fstart,fend) computes an exponential chirp of length L*</span>
-<span class="c">%   starting at normalized frequency fstart and ending at frequency fend.</span>
+<span class="c">%   starting at frequency fstart and ending at frequency fend. The</span>
+<span class="c">%   freqencies are assumed to be normalized to the Nyquist frequency.</span>
 <span class="c">%</span>
 <span class="c">%   EXPCHIRP takes the following parameters at the end of the line of input</span>
 <span class="c">%   arguments:</span>
@@ -54,11 +57,13 @@ octave"/>
 <span class="c">%</span>
 <span class="c">%     &#39;phi&#39;,phi  Starting phase of the chirp. Default value is 0.</span>
 <span class="c">%</span>
+<span class="c">%     &#39;fc&#39;,fc    Shift the chirp by fc in frequency. Default values is 0.</span>
+<span class="c">%</span>
 <span class="c">%   See also: pchirp</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/signals/expchirp.html</span>
 
-<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
 <span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
@@ -73,31 +78,45 @@ octave"/>
 <span class="c">%</span>
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-    
+
 <span class="c">% AUTHORS:  Piotr Majdak, Peter L. Søndergaard.</span>
 
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
+<span class="n">thismfilename</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="n">thismfilename</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">all</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isscalar</span><span class="p">,{</span><span class="n">fstart</span><span class="p">,</span><span class="n">fend</span><span class="p">}))</span> <span class="o">||</span> <span class="c">...</span>
+    <span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span> <span class="n">el</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span><span class="p">,{</span><span class="n">fstart</span><span class="p">,</span><span class="n">fend</span><span class="p">}))</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fstart and fend must be scalars strictly greater than 0.&#39;</span><span class="p">,</span><span class="c">...</span>
+          <span class="n">thismfilename</span><span class="p">);</span>
+<span class="k">end</span>
+
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">phi</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fs</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fc</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">)</span>
   <span class="n">fstart</span><span class="p">=</span><span class="n">fstart</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
   <span class="n">fend</span>  <span class="p">=</span>  <span class="n">fend</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+  <span class="n">kv</span><span class="p">.</span><span class="n">fc</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">fc</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="n">w1</span><span class="p">=</span><span class="nb">pi</span><span class="o">*</span><span class="n">fstart</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
 <span class="n">w2</span><span class="p">=</span><span class="nb">pi</span><span class="o">*</span><span class="n">fend</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
 
-<span class="n">A</span><span class="p">=</span><span class="n">w1</span><span class="o">/</span><span class="nb">log</span><span class="p">(</span><span class="n">w2</span><span class="o">/</span><span class="n">w1</span><span class="p">);</span>
-<span class="n">tau</span><span class="p">=</span><span class="mi">1</span><span class="o">/</span><span class="nb">log</span><span class="p">(</span><span class="n">w2</span><span class="o">/</span><span class="n">w1</span><span class="p">);</span>
+<span class="n">ratio</span> <span class="p">=</span> <span class="n">w2</span><span class="o">/</span><span class="n">w1</span><span class="p">;</span>
 
-<span class="n">t</span><span class="p">=((</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">).</span><span class="s">&#39;</span><span class="err">;</span>
-<span class="n">outsig</span><span class="p">=</span><span class="nb">exp</span><span class="p">(</span><span class="nb">i</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">kv</span><span class="p">.</span><span class="n">phi</span><span class="p">);</span>
+<span class="n">A</span><span class="p">=</span><span class="n">w1</span><span class="o">/</span><span class="nb">log</span><span class="p">(</span><span class="n">ratio</span><span class="p">);</span>
+<span class="n">tau</span><span class="p">=</span><span class="mi">1</span><span class="o">/</span><span class="nb">log</span><span class="p">(</span><span class="n">ratio</span><span class="p">);</span>
+
+<span class="n">l</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="p">=</span> <span class="n">l</span><span class="p">(:);</span>
+<span class="n">t</span><span class="p">=</span> <span class="n">l</span><span class="o">./</span><span class="n">L</span><span class="p">;</span>
+<span class="n">outsig</span><span class="p">=</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">kv</span><span class="p">.</span><span class="n">phi</span> <span class="o">+</span> <span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">l</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">fc</span><span class="p">);</span>
 </pre></div>
 
 
@@ -106,6 +125,8 @@ octave"/>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

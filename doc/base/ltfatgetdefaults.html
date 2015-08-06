@@ -7,9 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>LTFATSTOP - Stops the LTFAT toolbox</title>
+<title>LTFATGETDEFAULTS - Get default parameters of function</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -22,7 +24,7 @@ octave"/>
 <div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
-    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfatstop_code.html">View the code</a></div>
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfatgetdefaults_code.html">View the code</a></div>
 </div>
     <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
 </div>
@@ -31,30 +33,27 @@ octave"/>
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/ltfatstart.html">ltfatstart</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatsetdefaults.html">ltfatsetdefaults</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatstart.html">ltfatstart</a></li>
 </ul>
 </p></div>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">LTFATSTOP - Stops the LTFAT toolbox</h1>
+        <h1 class="title">LTFATGETDEFAULTS - Get default parameters of function</h1>
+<h2 class="subtitle" id="xxxdescription">Description</h2>
 
-<div class="section" id="usage">
-<h2>Usage</h2>
-<pre class="literal-block">
-ltfatstop;
-</pre>
-</div>
-<div class="section" id="xxxdescription">
-<h2>Description</h2>
-<p><tt class="docutils literal">ltfatstop</tt> removes all LTFAT subdirectories from the path.</p>
-</div>
+<p><tt class="docutils literal">ltfatgetdefaults(fname)</tt> returns the default parameters
+of the function <tt class="docutils literal">fname</tt> as a cell array.</p>
+<p><tt class="docutils literal"><span class="pre">ltfatgetdefaults('all')</span></tt> returns all the set defaults.</p>
 
         <div class="include" file="../../include/footer.html"></div>
     </div>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

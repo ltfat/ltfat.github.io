@@ -7,9 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>LTFATSETDEFAULTS - Set default parameters of function</title>
+<title>LTFATBASEPATH - The base path of the LTFAT installation</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -22,7 +24,7 @@ octave"/>
 <div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
-    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfatsetdefaults.html">View the help</a></div>
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfatbasepath.html">View the help</a></div>
 </div>
     <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
 </div>
@@ -31,31 +33,26 @@ octave"/>
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/ltfatgetdefaults.html">ltfatgetdefaults</a></li>
-<li><a href="#BASEURL#/doc/ltfatstart.html">ltfatstart</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatstart_code.html">ltfatstart</a></li>
 </ul>
 </p></div>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">LTFATSETDEFAULTS - Set default parameters of function</h1>
+        <h1 class="title">LTFATBASEPATH - The base path of the LTFAT installation</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">ltfatsetdefaults</span><span class="p">(</span>fname,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%LTFATSETDEFAULTS  Set default parameters of function</span>
+<div class="highlight"><pre><span class="k">function</span><span class="err"> bp = ltfatbasepath;</span>
+<span class="c">%LTFATBASEPATH  The base path of the LTFAT installation</span>
+<span class="c">%   Usage: bp = ltfatbasepath;</span>
 <span class="c">%</span>
-<span class="c">%   LTFATSETDEFAULTS(fname,...) sets the default parameters to be the</span>
-<span class="c">%   parameters specified at the end of the list of input arguments.</span>
+<span class="c">%   LTFATBASEPATH returns the top level directory in which the LTFAT</span>
+<span class="c">%   files are installed.</span>
 <span class="c">%</span>
-<span class="c">%   LTFATSETDEFAULTS(fname) clears any default parameters for the function</span>
-<span class="c">%   fname.</span>
+<span class="c">%   See also: ltfatstart</span>
 <span class="c">%</span>
-<span class="c">%   LTFATSETDEFAULTS(&#39;clearall&#39;) clears all defaults from all functions.</span>
-<span class="c">%</span>
-<span class="c">%   See also: ltfatgetdefaults, ltfatstart</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/ltfatsetdefaults.html</span>
+<span class="c">%   Url: http://ltfat.github.io/doc/ltfatbasepath.html</span>
 
-<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
 <span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
@@ -70,12 +67,10 @@ octave"/>
 <span class="c">%</span>
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+  
+<span class="n">f</span><span class="p">=</span><span class="n">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">);</span>
 
-<span class="k">if</span> <span class="n">strcmpi</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;clearall&#39;</span><span class="p">)</span>
-  <span class="n">ltfatarghelper</span><span class="p">(</span><span class="s">&#39;clearall&#39;</span><span class="p">);</span>
-<span class="k">else</span>
-  <span class="n">ltfatarghelper</span><span class="p">(</span><span class="s">&#39;set&#39;</span><span class="p">,</span><span class="n">fname</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="n">bp</span> <span class="p">=</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">13</span><span class="p">);</span>
 </pre></div>
 
 
@@ -84,6 +79,8 @@ octave"/>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

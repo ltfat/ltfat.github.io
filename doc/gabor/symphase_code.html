@@ -10,6 +10,8 @@ octave"/>
 <title>SYMPHASE - Change Gabor coefficients to symmetric phase</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -31,8 +33,9 @@ octave"/>
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></li>
-<li><a href="#BASEURL#/doc/gabor/phaselock.html">phaselock</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgt_code.html">dgt</a></li>
+<li><a href="#BASEURL#/doc/gabor/phaselock_code.html">phaselock</a></li>
+<li><a href="#BASEURL#/doc/gabor/phaseunlock_code.html">phaseunlock</a></li>
 </ul>
 </p></div>
     </div>
@@ -49,11 +52,32 @@ octave"/>
 <span class="c">%   time/frequency shifts. The coefficient must have been obtained from a</span>
 <span class="c">%   DGT with parameter a.</span>
 <span class="c">%</span>
-<span class="c">%   See also: dgt, phaselock</span>
+<span class="c">%   Gabor coefficients with symmetric phase correspond to the following </span>
+<span class="c">%   transform:</span>
+<span class="c">%   Consider a signal f of length L and define N=L/a.</span>
+<span class="c">%   The output from c=SYMPHASE(dgt(f,g,a,M),a) is given by</span>
+<span class="c">%</span>
+<span class="c">%                  L-1 </span>
+<span class="c">%     c(m+1,n+1) = sum f(l+1)*exp(-2*pi*i*m*(l-n*a/2)/M)*conj(g(l-a*n+1)), </span>
+<span class="c">%                  l=0  </span>
+<span class="c">%</span>
+<span class="c">%   where m=0,...,M-1 and n=0,...,N-1 and l-an is computed modulo L.</span>
+<span class="c">%</span>
+<span class="c">%   SYMPHASE(c,a,&#39;lt&#39;,lt) does the same for a non-separable lattice</span>
+<span class="c">%   specified by lt. Please see the help of MATRIX2LATTICETYPE for a</span>
+<span class="c">%   precise description of the parameter lt.</span>
+<span class="c">%</span>
+<span class="c">%   See also: dgt, phaselock, phaseunlock</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     E. Chassande-Mottin, I. Daubechies, F. Auger, and P. Flandrin.</span>
+<span class="c">%     Differential reassignment. Signal Processing Letters, IEEE,</span>
+<span class="c">%     4(10):293-294, 1997.</span>
+<span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/symphase.html</span>
 
-<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
 <span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
@@ -121,6 +145,8 @@ octave"/>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

@@ -10,6 +10,8 @@ octave"/>
 <title>FRSYNABS - Reconstruction from magnitude of coefficients</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -45,7 +47,7 @@ octave"/>
 <pre class="literal-block">
 f=frsynabs(F,s);
 f=frsynabs(F,s,Ls);
-[f,relres,iter]=frsynabs(...);
+[f,relres,iter,c]=frsynabs(...);
 </pre>
 </div>
 <div class="section" id="input-parameters">
@@ -81,6 +83,9 @@ f=frsynabs(F,s,Ls);
 <tr><td class="option-group">
 <kbd><span class="option"><var>iter</var></span></kbd></td>
 <td>Number of iterations done.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>c</var></span></kbd></td>
+<td>Coefficients with the reconstructed phase</td></tr>
 </tbody>
 </table>
 </div>
@@ -96,8 +101,8 @@ s = abs(frana(F,f));
 <p>If the phase of the coefficients <em>s</em> is known, it is much better to use
 <tt class="docutils literal">frsyn</tt>.</p>
 <p><tt class="docutils literal"><span class="pre">[f,relres,iter]=frsynabs(...)</span></tt> additionally returns the residuals in a
-vector <em>relres</em> and the number of iteration steps <em>iter</em>. The
-residuals are computed as:</p>
+vector <em>relres</em> and the number of iteration steps <em>iter</em>. The residuals
+are computed as:</p>
 <!-- relres = norm(abs(cn)-s,'fro')/norm(s,'fro') -->
 <div class="math">
 \begin{equation*}
@@ -105,12 +110,19 @@ relres=\frac{\left\Vert \left|c_{n}\right|-s\right\Vert _{fro}}{\left\Vert s\rig
 \end{equation*}
 </div>
 <p>where <span class="math">\(c_n\)</span> is the Gabor coefficients of the signal in iteration <em>n</em>.</p>
+<p><tt class="docutils literal"><span class="pre">[f,relres,iter,c]=frsynabs(...,'griflim'|'fgriflim')</span></tt> additionally returns
+coefficients <em>c</em> with the reconstructed phase prior to the final reconstruction.
+This is usefull for determining the consistency (energy lost in the nullspace
+of F) of the reconstructed spectrogram. <em>c</em> will only be equal to <tt class="docutils literal">frana(F,f)</tt>
+if the spectrogram is already consistent (i.e. already in the range space of F*).
+This is possible only for <tt class="docutils literal">'griflim'</tt> and <tt class="docutils literal">'fgriflim'</tt> methods.</p>
 <p>Generally, if the absolute value of the frame coefficients has not been
 modified, the iterative algorithm will converge slowly to the correct
 result. If the coefficients have been modified, the algorithm is not
 guaranteed to converge at all.</p>
 <p><tt class="docutils literal">frsynabs</tt> takes the following parameters at the end of the line of input
-arguments:</p>
+arguments.</p>
+<p>Initial phase guess:</p>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
@@ -125,6 +137,13 @@ arguments:</p>
 <tr><td class="option-group">
 <kbd><span class="option">'rand'</span></kbd></td>
 <td>Choose a random starting phase.</td></tr>
+</tbody>
+</table>
+<p>The Griffin-Lim algorithm related parameters:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">'griflim'</span></kbd></td>
 <td>Use the Griffin-Lim iterative method. This is the
@@ -133,13 +152,38 @@ default.</td></tr>
 <kbd><span class="option">'fgriflim'</span></kbd></td>
 <td>Use the Fast Griffin-Lim iterative method.</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">'bfgs'</span></kbd></td>
-<td>Use the limited-memory Broyden Fletcher Goldfarb
-Shanno (BFGS) method.</td></tr>
+<kbd><span class="option">'Fd',<var>Fd</var></span></kbd></td>
+<td>A canonical dual frame object or an anonymous function
+acting as the synthesis operator of the canonical dual frame.
+If not provided, the function attempts to create one using
+<tt class="docutils literal">Fd=framedual(F)</tt>.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'alpha',<var>a</var></span></kbd></td>
 <td>Parameter of the Fast Griffin-Lim algorithm. It is
 ignored if not used together with 'fgriflim' flag.</td></tr>
+</tbody>
+</table>
+<p>The BFGS method related paramaters:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'bfgs'</span></kbd></td>
+<td>Use the limited-memory Broyden Fletcher Goldfarb
+Shanno (BFGS) method.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'p',<var>p</var></span></kbd></td>
+<td>Parameter for the compressed version of the obj. function
+in the l-BFGS method. It is ignored if not used together
+with 'bfgs' flag.</td></tr>
+</tbody>
+</table>
+<p>Other:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">'tol',<var>t</var></span></kbd></td>
 <td>Stop if relative residual error is less than the
@@ -186,12 +230,25 @@ N.&nbsp;Perraudin, P.&nbsp;Balazs, and P.&nbsp;L. S&oslash;ndergaard.
 
 </p>
 
+<p><a name="desomada15"></a>
+
+R.&nbsp;Decorsiere, P.&nbsp;Søndergaard, E.&nbsp;MacDonald, and T.&nbsp;Dau.
+ Inversion of auditory spectrograms, traditional spectrograms, and
+  other envelope representations.
+ <em>Audio, Speech, and Language Processing, IEEE/ACM Transactions
+  on</em>, 23(1):46-56, Jan 2015.
+[&nbsp;<a href="http://dx.doi.org/10.1109/TASLP.2014.2367821">DOI</a>&nbsp;]
+
+</p>
+
 
         <div class="include" file="../../include/footer.html"></div>
     </div>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

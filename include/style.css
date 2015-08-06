@@ -226,9 +226,15 @@ margin-top: 20px;
 }
 
 .input-group { 
+  height: 20px;
   width: 100%; 
 /*  float: right;*/
 }
+
+.input-group-addon {
+  line-height: inherit;
+}
+
 .input-prepend .add-on {
   float: right;
   color: #555;

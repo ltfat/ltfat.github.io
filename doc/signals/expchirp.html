@@ -10,6 +10,8 @@ octave"/>
 <title>EXPCHIRP - Exponential chirp</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -48,7 +50,8 @@ outsig=expchirp(L,fstart,fend)
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
 <p><tt class="docutils literal">expchirp(L,fstart,fend)</tt> computes an exponential chirp of length <em>L</em>
-starting at normalized frequency <em>fstart</em> and ending at frequency <em>fend</em>.</p>
+starting at frequency <em>fstart</em> and ending at frequency <em>fend</em>. The
+freqencies are assumed to be normalized to the Nyquist frequency.</p>
 <p><tt class="docutils literal">expchirp</tt> takes the following parameters at the end of the line of input
 arguments:</p>
 <table class="docutils option-list" frame="void" rules="none">
@@ -62,6 +65,9 @@ specified, <em>fstart</em> and <em>fend</em> will be measured in Hz.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'phi',<var>phi</var></span></kbd></td>
 <td>Starting phase of the chirp. Default value is 0.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'fc',<var>fc</var></span></kbd></td>
+<td>Shift the chirp by <em>fc</em> in frequency. Default values is 0.</td></tr>
 </tbody>
 </table>
 </div>
@@ -71,6 +77,8 @@ specified, <em>fstart</em> and <em>fend</em> will be measured in Hz.</td></tr>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>

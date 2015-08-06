@@ -10,6 +10,8 @@ octave"/>
 <title>LTFATSTART - Start the LTFAT toolbox</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 </head>
@@ -31,10 +33,10 @@ octave"/>
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/ltfatsetdefaults.html">ltfatsetdefaults</a></li>
-<li><a href="#BASEURL#/doc/ltfatmex.html">ltfatmex</a></li>
-<li><a href="#BASEURL#/doc/ltfathelp.html">ltfathelp</a></li>
-<li><a href="#BASEURL#/doc/ltfatstop.html">ltfatstop</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatsetdefaults_code.html">ltfatsetdefaults</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatmex_code.html">ltfatmex</a></li>
+<li><a href="#BASEURL#/doc/base/ltfathelp_code.html">ltfathelp</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatstop_code.html">ltfatstop</a></li>
 </ul>
 </p></div>
     </div>
@@ -42,7 +44,7 @@ octave"/>
 
         <h1 class="title">LTFATSTART - Start the LTFAT toolbox</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">ltfatstart</span><span class="p">(</span>ltfatstartprint<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">ltfatstart</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%LTFATSTART   Start the LTFAT toolbox</span>
 <span class="c">%   Usage:  ltfatstart;</span>
 <span class="c">%</span>
@@ -66,18 +68,21 @@ octave"/>
 <span class="c">%   status==1 identifies a toolbox module any other value just a</span>
 <span class="c">%   directory to be added to path.</span>
 <span class="c">%</span>
+<span class="c">%   LTFATSTART(0) supresses any status messages.</span>
+<span class="c">%</span>
 <span class="c">%   !!WARNING for MATLAB users!!</span>
 <span class="c">%   ----------------------------</span>
 <span class="c">%</span>
 <span class="c">%   The function indirectly calls clear all, which clears all your global</span>
-<span class="c">%   and persistent variables. It comes with calling javaaddpath and </span>
-<span class="c">%   there is nothig we can do about that at the moment.</span>
+<span class="c">%   and persistent variables. It comes with calling javaaddpath in</span>
+<span class="c">%   blockproc/blockprocinit.m. You can avoid calling it by passing </span>
+<span class="c">%   additional &#39;nojava&#39; flag.</span>
 <span class="c">%</span>
 <span class="c">%   See also:  ltfatsetdefaults, ltfatmex, ltfathelp, ltfatstop</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/ltfatstart.html</span>
 
-<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;soender@users.sourceforge.net&gt;.</span>
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
 <span class="c">% This file is part of LTFAT version 2.1.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
@@ -96,10 +101,27 @@ octave"/>
 <span class="c">%   AUTHOR : Peter L. Søndergaard.  </span>
 <span class="c">%   TESTING: NA</span>
 
-
-
-<span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">0</span>
-    <span class="n">ltfatstartprint</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">do_java</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">ltfatstartprint</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span> <span class="n">nargin</span><span class="o">&gt;</span><span class="mi">0</span>
+    <span class="n">scalarIds</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@</span><span class="nb">isscalar</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+    <span class="n">nojavaIds</span> <span class="p">=</span> <span class="n">strcmpi</span><span class="p">(</span><span class="s">&#39;nojava&#39;</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="o">~</span><span class="n">all</span><span class="p">(</span><span class="n">scalarIds</span> <span class="o">|</span> <span class="n">nojavaIds</span><span class="p">)</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;LTFATSTART: Only a single scalar and flag, &#39;</span><span class="c">...</span>
+               <span class="s">&#39;&#39;&#39;nojava&#39;&#39; are recognized&#39;</span><span class="p">]);</span>
+    <span class="k">end</span>
+    
+    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">nojavaIds</span><span class="p">)</span>
+        <span class="n">do_java</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">end</span>
+    
+    <span class="n">scalars</span> <span class="p">=</span> <span class="n">varargin</span><span class="p">(</span><span class="n">scalarIds</span><span class="p">);</span>
+    <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">scalars</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;LTFATSTART: Only a single scalar can be passed.&#39;</span><span class="p">);</span>  
+    <span class="k">elseif</span> <span class="nb">numel</span><span class="p">(</span><span class="n">scalars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">ltfatstartprint</span><span class="p">=</span><span class="n">scalars</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+    <span class="k">end</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="c">% Get the basepath as the directory this function resides in.</span>
@@ -125,6 +147,11 @@ octave"/>
 
 <span class="n">ignored_dirs_common</span> <span class="p">=</span> <span class="p">{[</span><span class="n">filesep</span><span class="p">(),</span><span class="s">&#39;mat2doc&#39;</span><span class="p">],</span><span class="c">...</span>
                        <span class="p">[</span><span class="n">filesep</span><span class="p">(),</span><span class="s">&#39;src&#39;</span><span class="p">]};</span>
+
+<span class="n">ignored_inits</span> <span class="p">=</span> <span class="p">{};</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">do_java</span>
+    <span class="n">ignored_inits</span><span class="p">{</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;blockprocinit.m&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
+<span class="k">end</span>
 
 <span class="c">%% --- Check for old versions of Octave and Matlab</span>
 <span class="k">if</span> <span class="n">isoctave</span>
@@ -195,8 +222,9 @@ octave"/>
   
     <span class="c">% The file is a directory and it does not start with &#39;.&#39; This could</span>
     <span class="c">% be a module</span>
-    <span class="n">initfilename</span> <span class="p">=</span> <span class="p">[</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="n">lower</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="s">&#39;init.m&#39;</span><span class="p">];</span>
-    <span class="k">if</span> <span class="o">~</span><span class="n">exist</span><span class="p">(</span><span class="n">initfilename</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span>
+    <span class="n">initfilename</span> <span class="p">=</span> <span class="p">[</span><span class="n">lower</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="s">&#39;init.m&#39;</span><span class="p">];</span>
+    <span class="n">initfilefullpath</span> <span class="p">=</span> <span class="p">[</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="n">initfilename</span><span class="p">];</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">exist</span><span class="p">(</span><span class="n">initfilefullpath</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span>
       <span class="k">continue</span>
     <span class="k">end</span><span class="p">;</span>
     
@@ -208,10 +236,17 @@ octave"/>
     <span class="n">module_version</span><span class="p">=</span><span class="n">ltfat_version</span><span class="p">;</span>
      
     <span class="c">% Add the module dir to the path</span>
-    <span class="n">addpath</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">])</span>  
-  
-    <span class="c">% Execute the init file to see if the status is set.</span>
-    <span class="n">run</span><span class="p">(</span><span class="n">initfilename</span><span class="p">);</span>
+    <span class="n">addpath</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">]);</span>
+    
+    <span class="n">iffound</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">iEl</span><span class="p">)</span> <span class="n">strcmpi</span><span class="p">(</span><span class="n">initfilename</span><span class="p">,</span><span class="n">iEl</span><span class="p">{</span><span class="mi">1</span><span class="p">}),</span><span class="n">ignored_inits</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">iffound</span><span class="p">)</span>
+        <span class="n">status</span> <span class="p">=</span> <span class="n">ignored_inits</span><span class="p">{</span><span class="n">iffound</span><span class="p">}{</span><span class="mi">2</span><span class="p">};</span>
+    <span class="k">else</span>
+        <span class="c">% Execute the init file to see if the status is set.</span>
+        <span class="n">run</span><span class="p">(</span><span class="n">initfilefullpath</span><span class="p">);</span>
+    <span class="k">end</span>
+    
     <span class="k">if</span> <span class="n">status</span><span class="o">&gt;</span><span class="mi">0</span>
       <span class="c">% Only store top-level modules</span>
       <span class="k">if</span> <span class="n">status</span><span class="o">==</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">filesep</span><span class="p">)</span>
@@ -266,7 +301,8 @@ octave"/>
                    <span class="n">ltfat_version</span><span class="p">,</span><span class="n">backend</span><span class="p">);</span>
   
   <span class="nb">disp</span><span class="p">(</span><span class="n">banner</span><span class="p">);</span>
-  <span class="k">if</span> <span class="o">~</span><span class="n">isoctave</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">ltfatstartprint</span>
+  
+  <span class="k">if</span> <span class="o">~</span><span class="n">isoctave</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">do_java</span>
       <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;(Your global and persistent variables have just been cleared. Sorry.)&#39;</span><span class="p">);</span>
   <span class="k">end</span>
   
@@ -296,6 +332,8 @@ octave"/>
 </div>
 <!-- These two have to be here to dynamically load the included parts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
 <script src="../../js/ltfat.js" type="text/javascript"></script>
 <script src="../include/lookup.js" type="text/javascript"></script>
 <script src="../include/jumplist.js" type="text/javascript"></script>
