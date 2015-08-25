@@ -287,6 +287,10 @@ blockquote { font-size: 100%;}
 .docutils kbd {
 background-color: #fff;
 box-shadow: none;
-color: #333;
+color: #333;    
 }
 
+code, kbd, pre, samp {
+    font-family: monospace,monospace;
+    font-size: 1em;
+}
