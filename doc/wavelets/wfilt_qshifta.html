@@ -54,7 +54,21 @@ Kingsbury's Q-shift wavelet filters for tree A.</p>
 figure(1);
 wfiltinfo('qshifta3');
 </pre>
-<img alt="wfilt_qshifta_1_1.png" class="align-center" src="wfilt_qshifta_1_1.png" />
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+DEMO_BLOCKPROC_SLIDINGSGRAM:
+To run the demo, use one of the following:
+
+demo_blockproc_slidingsgram('gspi.wav') to play gspi.wav (any wav file will do).
+demo_blockproc_slidingsgram('dialog') to choose the wav file via file chooser dialog GUI.
+demo_blockproc_slidingsgram(f,'fs',fs) to play from a column vector f using sampling frequency fs.
+demo_blockproc_slidingsgram('playrec') to record from a mic and play simultaneously.
+
+Avalable input and output devices can be listed by |blockdevices|.
+Particular device can be chosen by passing additional key-value pair 'devid',devid.
+Output channels of the device cen be selected by additional key-value pair 'playch',[ch1,ch2].
+Input channels of the device cen be selected by additional key-value pair 'recch',[ch1].
+</pre>
 </div>
 <H2>References:</H2>
 

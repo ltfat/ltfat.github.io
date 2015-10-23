@@ -37,13 +37,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FILTERBANKPHASEGRAD - Phase gradient of a filterbank representation</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[tgrad,fgrad,cs,c]<span class="p">=</span><span class="nf">filterbankphasegrad</span><span class="p">(</span>f,g,a,L,minlvl<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[tgrad,fgrad,s,c]<span class="p">=</span><span class="nf">filterbankphasegrad</span><span class="p">(</span>f,g,a,L,minlvl<span class="p">)</span><span class="w"></span>
 <span class="c">%FILTERBANKPHASEGRAD   Phase gradient of a filterbank representation</span>
-<span class="c">%   Usage:  [tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a,L,minlvl);</span>
-<span class="c">%           [tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a,L);</span>
-<span class="c">%           [tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a,minlvl);</span>
-<span class="c">%           [tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a);</span>
-<span class="c">%           [tgrad,fgrad,cs] = filterbankphasegrad(...)</span>
+<span class="c">%   Usage:  [tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,L,minlvl);</span>
+<span class="c">%           [tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,L);</span>
+<span class="c">%           [tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,minlvl);</span>
+<span class="c">%           [tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a);</span>
+<span class="c">%           [tgrad,fgrad,s] = filterbankphasegrad(...)</span>
 <span class="c">%           [tgrad,fgrad]  = filterbankphasegrad(...)</span>
 <span class="c">% </span>
 <span class="c">%   Input parameters:</span>
@@ -58,9 +58,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%      cs    : Filterbank spectrogram.</span>
 <span class="c">%      c     : Filterbank coefficients.</span>
 <span class="c">%</span>
-<span class="c">%   [tgrad,fgrad,cs,c] = FILTERBANKPHASEGRAD(f,g,a,L) computes the group</span>
+<span class="c">%   [tgrad,fgrad,s,c] = FILTERBANKPHASEGRAD(f,g,a,L) computes the group</span>
 <span class="c">%   delay fgrad and instantaneous frequency tgrad of the filterbank</span>
-<span class="c">%   spectrogram cs obtained from the signal f and filterbank</span>
+<span class="c">%   spectrogram s obtained from the signal f and filterbank</span>
 <span class="c">%   parameters g and a. Both quantities are specified relative to the</span>
 <span class="c">%   original coefficient position. tgrad is given in samples, while</span>
 <span class="c">%   fgrad is given as values on the unit circle, easily converted into </span>
@@ -77,13 +77,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     </span>
 <span class="c">%     N. Holighaus, Z. Průša, and P. L. Søndergaard. New ideas in</span>
 <span class="c">%     reassignment: General time-frequency filter banks, sampling and</span>
-<span class="c">%     processing. IEEE Signal Processing Letters, submitted, 2015.</span>
+<span class="c">%     processing. Signal Processing, submitted, 2015.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankphasegrad.html</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.0</span>
+<span class="c">% This file is part of LTFAT version 2.1.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -153,7 +153,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">cd</span><span class="p">=</span><span class="n">comp_filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">asan</span><span class="p">);</span>
 
 <span class="c">% Run the computation</span>
-<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">cs</span><span class="p">]</span> <span class="p">=</span> <span class="n">comp_filterbankphasegrad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">ch</span><span class="p">,</span><span class="n">cd</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">minlvl</span><span class="p">);</span>
+<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">s</span><span class="p">]</span> <span class="p">=</span> <span class="n">comp_filterbankphasegrad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">ch</span><span class="p">,</span><span class="n">cd</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">minlvl</span><span class="p">);</span>
 </pre></div>
 
 

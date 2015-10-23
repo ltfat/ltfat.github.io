@@ -80,7 +80,44 @@ frequency seponses. Supported are:</p>
 <pre class="literal-block">
 wfiltdtinfo('qshift4');
 </pre>
-<img alt="wfiltdtinfo_1_1.png" class="align-center" src="wfiltdtinfo_1_1.png" />
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Reconstruction error using itersine window, should be close to zero:
+
+ans =
+
+   0.500000000000000
+
+Reconstruction error canonical dual of Kaiser window, should be close to zero:
+
+ans =
+
+     6.401998278383549e-17
+
+Reconstruction error using cutted dual window.
+
+recerr =
+
+   0.001762485642153
+
+or expressed in dB:
+
+ans =
+
+ -27.538744122424180
+
+Reconstruction error using cutted tight window.
+
+recerr =
+
+     9.858293436835774e-04
+
+or expressed in dB:
+
+ans =
+
+ -30.061982590052025
+</pre>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

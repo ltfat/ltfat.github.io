@@ -52,8 +52,8 @@ sr = gabreassign(s,tgrad,fgrad,a);
 <h2>Description</h2>
 <p><tt class="docutils literal">gabreassign(s,tgrad,fgrad,a)</tt> reassigns the values of the positive
 time-frequency distribution <em>s</em> using the phase gradient given by <em>fgrad</em>
-and <em>tgrad</em>. The lattice is determined by the time shift <em>a</em> and the number
-of channels deduced from the size of <em>s</em>.</p>
+and <em>tgrad</em>. The lattice is determined by the time shift <em>a</em> and the
+number of channels deduced from the size of <em>s</em>.</p>
 <p><em>fgrad</em> and <em>tgrad</em> can be obtained by the routine <span class="linkrole"><a href="#BASEURL#/doc/gabor/gabphasegrad.html">gabphasegrad</a></span>.</p>
 </div>
 <div class="section" id="examples">
@@ -62,8 +62,7 @@ of channels deduced from the size of <em>s</em>.</p>
 reassigned spectrogram. An easier way is to just call <span class="linkrole"><a href="#BASEURL#/doc/gabor/resgram.html">resgram</a></span>:</p>
 <pre class="literal-block">
 % Create reassigned vector field of the bat signal.
-a=4;
-M=100
+a=4; M=100;
 [tgrad, fgrad, c] = gabphasegrad('dgt',bat,'gauss',a,M);
 
 % Perform the actual reassignment
@@ -71,12 +70,6 @@ sr = gabreassign(abs(c).^2,tgrad,fgrad,a);
 
 % Display it using plotdgt
 plotdgt(sr,a,143000,50);
-</pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-M =
-
-   100
 </pre>
 <img alt="gabreassign_1_1.png" class="align-center" src="gabreassign_1_1.png" />
 </div>

@@ -55,27 +55,35 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <h2>Description</h2>
 <p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad(method,...)</span></tt> computes the time-frequency
 gradient of the phase of the <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span> of a signal. The derivative in time
-<em>tgrad</em> is the instantaneous frequency while the frequency derivative
-<em>fgrad</em> is the local group delay.</p>
+<em>tgrad</em> is the relative instantaneous frequency while the frequency
+derivative <em>fgrad</em> is the local group delay.</p>
 <p><em>tgrad</em> and <em>fgrad</em> measure the deviation from the current time and
 frequency, so a value of zero means that the instantaneous frequency is
 equal to the center frequency of the considered channel.</p>
 <p><em>tgrad</em> is scaled such that distances are measured in samples. Similarly,
 <em>fgrad</em> is scaled such that the Nyquist frequency (the highest possible
-frequency) corresponds to a value of L/2.</p>
+frequency) corresponds to a value of L/2. The absolute time and
+frequency positions can be obtained as</p>
+<blockquote>
+tgradabs = bsxfun(&#64;plus,tgrad,fftindex(M)*L/M);
+fgradabs = bsxfun(&#64;plus,fgrad,(0:L/a-1)*a);</blockquote>
 <p>The computation of <em>tgrad</em> and <em>fgrad</em> is inaccurate when the absolute
 value of the Gabor coefficients is low. This is due to the fact the the
 phase of complex numbers close to the machine precision is almost
 random. Therefore, <em>tgrad</em> and <em>fgrad</em> may attain very large random values
 when <tt class="docutils literal">abs(c)</tt> is close to zero.</p>
-<p>The computation can be done using three different methods.</p>
+<p>The computation can be done using four different methods.</p>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">'dgt'</span></kbd></td>
-<td>Directly from the signal. This is the default method.</td></tr>
+<td>Directly from the signal using algorithm by Auger and
+Flandrin.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'cross'</span></kbd></td>
+<td>Directly from the signal using algorithm by Nelson.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'phase'</span></kbd></td>
 <td>From the phase of a DGT of the signal. This is the
@@ -97,13 +105,22 @@ parameters as <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt<
 <p><tt class="docutils literal"><span class="pre">[tgrad,fgrad,c]=gabphasegrad('dgt',f,g,a,M)</span></tt> additionally returns the
 Gabor coefficients <em>c</em>, as they are always computed as a byproduct of the
 algorithm.</p>
+<p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad('cross',f,g,a,M)</span></tt> does the same as above
+but this time using algorithm by Nelson which is based on computing
+several DGTs.</p>
 <p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad('phase',cphase,a)</span></tt> computes the phase
 gradient from the phase <em>cphase</em> of a DGT of the signal. The original DGT
 from which the phase is obtained must have been computed using a
-time-shift of <em>a</em>.</p>
+time-shift of <em>a</em> using the default phase convention (<tt class="docutils literal">'freqinv'</tt>) e.g.:</p>
+<pre class="literal-block">
+[tgrad,fgrad]=gabphasegrad('phase',angle(dgt(f,g,a,M)),a)
+</pre>
 <p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad('abs',s,g,a)</span></tt> computes the phase gradient
 from the spectrogram <em>s</em>. The spectrogram must have been computed using
-the window <em>g</em> and time-shift <em>a</em>.</p>
+the window <em>g</em> and time-shift <em>a</em> e.g.:</p>
+<pre class="literal-block">
+[tgrad,fgrad]=gabphasegrad('abs',abs(dgt(f,g,a,M)),g,a)
+</pre>
 <p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad('abs',s,g,a,difforder)</span></tt> uses a centered finite
 diffence scheme of order <em>difforder</em> to perform the needed numerical
 differentiation. Default is to use a 4th order scheme.</p>

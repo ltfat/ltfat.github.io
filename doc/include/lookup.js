@@ -1,6 +1,7 @@
 var globalfunlist = {
    ambiguityfunction:'quadratic/ambiguityfunction',
    audfiltbw:'auditory/audfiltbw',
+   audfilters:'filterbank/audfilters',
    audspace:'auditory/audspace',
    audspacebw:'auditory/audspacebw',
    audtofreq:'auditory/audtofreq',
@@ -27,6 +28,8 @@ var globalfunlist = {
    chirpzt:'fourier/chirpzt',
    cocktailparty:'signals/cocktailparty',
    col2diag:'gabor/col2diag',
+   constructphase:'gabor/constructphase',
+   constructphasereal:'gabor/constructphasereal',
    convolve:'deprecated/convolve',
    cqt:'filterbank/cqt',
    cqtfilters:'filterbank/cqtfilters',
@@ -53,6 +56,7 @@ var globalfunlist = {
    demo_bpframemul:'demos/demo_bpframemul',
    demo_dgt:'demos/demo_dgt',
    demo_filterbanks:'demos/demo_filterbanks',
+   demo_filterbanksynchrosqueeze:'demos/demo_filterbanksynchrosqueeze',
    demo_framemul:'demos/demo_framemul',
    demo_frsynabs:'demos/demo_frsynabs',
    demo_gabfir:'demos/demo_gabfir',
@@ -114,6 +118,7 @@ var globalfunlist = {
    filterbankrealtight:'filterbank/filterbankrealtight',
    filterbankreassign:'filterbank/filterbankreassign',
    filterbankresponse:'filterbank/filterbankresponse',
+   filterbanksynchrosqueeze:'filterbank/filterbanksynchrosqueeze',
    filterbanktight:'filterbank/filterbanktight',
    filterbankwin:'filterbank/filterbankwin',
    fir2long:'sigproc/fir2long',
@@ -179,9 +184,11 @@ var globalfunlist = {
    gabmuleigs:'deprecated/gabmuleigs',
    gaboptdual:'gabor/gaboptdual',
    gabopttight:'gabor/gabopttight',
+   gabphasederiv:'gabor/gabphasederiv',
    gabphasegrad:'gabor/gabphasegrad',
    gabprojdual:'gabor/gabprojdual',
    gabreassign:'gabor/gabreassign',
+   gabreassignadjust:'gabor/gabreassignadjust',
    gabrieszbounds:'gabor/gabrieszbounds',
    gabtight:'gabor/gabtight',
    gabwin:'gabor/gabwin',
@@ -305,6 +312,7 @@ var globalfunlist = {
    psinc:'fourier/psinc',
    pxcorr:'fourier/pxcorr',
    qam4:'sigproc/qam4',
+   quadtfdist:'quadratic/quadtfdist',
    rampdown:'sigproc/rampdown',
    rampsignal:'sigproc/rampsignal',
    rampup:'sigproc/rampup',
@@ -403,4 +411,4 @@ var globalfunlist = {
    zak:'gabor/zak',
 };
 
- var toolboxversion='2.1.0'; 
+ var toolboxversion='2.1.1'; 

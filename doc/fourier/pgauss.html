@@ -114,9 +114,15 @@ everything in samples.</td></tr>
 <td>Set the width of the Gaussian such that it has an
 effective support of <em>s</em> samples. This means that
 approx. 96% of the energy or 79% of the area
-under the graph is contained within <em>s</em> samples. This
-corresponds to a -6 db cutoff. This is equivalent to
-calling <tt class="docutils literal">pgauss(L,s^2/L)</tt>.</td></tr>
+under the graph is contained within <em>s</em> samples.
+This corresponds to -6dB or to width at the
+half of the height.
+This is equivalent to calling <tt class="docutils literal">pgauss(L,pi*s^2/4L*log(2))</tt>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'atheight',<var>ah</var></span></kbd></td>
+<td>Used only in conjuction with 'width'. Forces the
+Gaussian to width <em>s</em> at the <em>ah</em> fraction of the
+height.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'bw',<var>bw</var></span></kbd></td>
 <td>As for the <tt class="docutils literal">'width'</tt> argument, but specifies the width
@@ -173,7 +179,6 @@ magresp(pgauss(128),'dynrange',100);
 <pre class="literal-block">
 sgram(pgauss(128),'tc','nf','lin');
 </pre>
-<img alt="pgauss_4_1.png" class="align-center" src="pgauss_4_1.png" />
 </div>
 <H2>References:</H2>
 

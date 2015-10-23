@@ -151,7 +151,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/blockproc/block.html</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.0</span>
+<span class="c">% This file is part of LTFAT version 2.1.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -284,7 +284,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
       <span class="k">end</span>
       <span class="n">source</span> <span class="p">=</span> <span class="n">fullfile</span><span class="p">(</span><span class="n">pathName</span><span class="p">,</span><span class="n">fileName</span><span class="p">);</span>
       <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">)</span>
-          <span class="p">[</span><span class="o">~</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">]</span> <span class="p">=</span> <span class="n">wavread</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
+          <span class="p">[</span><span class="o">~</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">]</span> <span class="p">=</span> <span class="n">wavload</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s">&#39;i&#39;</span><span class="p">);</span>
       <span class="k">end</span>
       <span class="n">play</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
    <span class="k">elseif</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">4</span><span class="p">)</span>
@@ -296,7 +296,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
             <span class="n">warning</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">,</span><span class="s">&#39;Octave:fopen-file-in-path&#39;</span><span class="p">);</span>
          <span class="k">end</span>
          <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">)</span>
-            <span class="p">[</span><span class="o">~</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">]</span> <span class="p">=</span> <span class="n">wavread</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
+            <span class="p">[</span><span class="o">~</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">]</span> <span class="p">=</span> <span class="n">wavload</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s">&#39;i&#39;</span><span class="p">);</span>
          <span class="k">end</span>
          <span class="n">play</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
       <span class="k">else</span>
@@ -376,12 +376,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setFs&#39;</span><span class="p">,</span><span class="n">fs</span><span class="p">);</span>
 <span class="c">% Handle sources with known input length</span>
 <span class="k">if</span> <span class="n">is_wav</span>
-   <span class="n">Ls</span> <span class="p">=</span> <span class="n">wavread</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s">&#39;size&#39;</span><span class="p">);</span>
-   <span class="n">tmpf</span> <span class="p">=</span> <span class="n">wavread</span><span class="p">(</span><span class="n">source</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span> <span class="c">% Workaround for Octave</span>
-   <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setLs&#39;</span><span class="p">,[</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">tmpf</span><span class="p">,</span><span class="mi">2</span><span class="p">)]);</span>
+   <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">fid</span><span class="p">]</span> <span class="p">=</span> <span class="n">wavload</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="s">&#39;i&#39;</span><span class="p">);</span>
+   <span class="n">Ls</span> <span class="p">=</span> <span class="n">fid</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+   <span class="n">chanNo</span> <span class="p">=</span> <span class="n">fid</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+   <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setLs&#39;</span><span class="p">,[</span><span class="n">Ls</span><span class="p">,</span><span class="n">chanNo</span><span class="p">]);</span>
    <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setSource&#39;</span><span class="p">,@(</span><span class="n">pos</span><span class="p">,</span><span class="n">endSample</span><span class="p">)</span><span class="c">...</span>
-                               <span class="n">cast</span><span class="p">(</span><span class="n">wavread</span><span class="p">(</span><span class="n">source</span><span class="p">,[</span><span class="n">pos</span><span class="p">,</span> <span class="n">endSample</span><span class="p">]),</span><span class="c">...</span>
+                               <span class="n">cast</span><span class="p">(</span><span class="n">wavload</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">endSample</span><span class="o">-</span><span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">pos</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="c">...</span>
                                <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getClassId&#39;</span><span class="p">))</span> <span class="p">);</span>
+      <span class="c">% block_interface(&#39;setSource&#39;,@(pos,endSample)...</span>
+      <span class="c">% cast(wavread(source,[pos,endSample]),...</span>
+      <span class="c">%                          block_interface(&#39;getClassId&#39;)) );</span>
 <span class="k">elseif</span> <span class="n">is_numeric</span>
    <span class="n">source</span> <span class="p">=</span> <span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="s">&#39;BLOCK&#39;</span><span class="p">);</span>
    <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">8</span>

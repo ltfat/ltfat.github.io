@@ -90,9 +90,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     &#39;width&#39;,s   Set the width of the Gaussian such that it has an</span>
 <span class="c">%                 effective support of s samples. This means that</span>
 <span class="c">%                 approx. 96% of the energy or 79% of the area</span>
-<span class="c">%                 under the graph is contained within s samples. This </span>
-<span class="c">%                 corresponds to a -6 db cutoff. This is equivalent to</span>
-<span class="c">%                 calling PGAUSS(L,s^2/L).</span>
+<span class="c">%                 under the graph is contained within s samples. </span>
+<span class="c">%                 This corresponds to -6dB or to width at the</span>
+<span class="c">%                 half of the height. </span>
+<span class="c">%                 This is equivalent to calling PGAUSS(L,pi*s^2/4L*log(2)).</span>
+<span class="c">%</span>
+<span class="c">%     &#39;atheight&#39;,ah  Used only in conjuction with &#39;width&#39;. Forces the </span>
+<span class="c">%                    Gaussian to width s at the ah fraction of the</span>
+<span class="c">%                    height.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;bw&#39;,bw     As for the &#39;width&#39; argument, but specifies the width</span>
 <span class="c">%                 in the frequency domain. The bandwidth is measured in </span>
@@ -150,7 +155,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/fourier/pgauss.html</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.0</span>
+<span class="c">% This file is part of LTFAT version 2.1.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -194,12 +199,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fs</span><span class="p">=[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">cf</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">bw</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span><span class="p">=[];</span>
 
 <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">keyvals</span><span class="p">,</span><span class="n">tfr</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;tfr&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="n">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">tfr</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">~=</span><span class="mi">1</span> <span class="o">||</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">tfr</span><span class="p">))</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;tfr must be a scalar.&#39;</span><span class="p">);</span>
 <span class="k">end</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_width</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Param. &#39;&#39;atheight&#39;&#39; must be used together with param.&#39;</span><span class="p">,</span><span class="c">...</span>
+           <span class="s">&#39; &#39;&#39;width&#39;&#39;. &#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span><span class="p">)</span>
+    <span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span> <span class="p">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span> <span class="o">&gt;</span><span class="p">=</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span> <span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Param. &#39;&#39;atheight&#39;&#39; must be in the range ]0,1[.&#39;</span><span class="p">,</span><span class="c">...</span>
+           <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
 
 <span class="n">fs</span><span class="p">=</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fs</span><span class="p">;</span>
 
@@ -212,11 +233,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
   
   <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_width</span>
-    <span class="n">tfr</span><span class="p">=</span><span class="n">keyvals</span><span class="p">.</span><span class="n">width</span>^<span class="mi">2</span><span class="o">/</span><span class="n">L</span><span class="p">;</span>
+     <span class="n">tfr</span><span class="p">=</span><span class="nb">pi</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="nb">log</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span><span class="p">))</span><span class="o">*</span><span class="n">keyvals</span><span class="p">.</span><span class="n">width</span>^<span class="mi">2</span><span class="o">/</span><span class="n">L</span><span class="p">;</span> 
   <span class="k">end</span><span class="p">;</span>
   
   <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_bw</span>
-  <span class="n">tfr</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="n">keyvals</span><span class="p">.</span><span class="n">bw</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span>
+     <span class="n">tfr</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="n">keyvals</span><span class="p">.</span><span class="n">bw</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span>
   <span class="k">end</span><span class="p">;</span>
   
   <span class="n">delay_s</span><span class="p">=</span><span class="n">keyvals</span><span class="p">.</span><span class="n">delay</span><span class="p">;</span>

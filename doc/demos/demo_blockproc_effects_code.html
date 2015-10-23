@@ -59,7 +59,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%         that the phase of DGT coefficients is substituted by phase</span>
 <span class="c">%         of DGT coefficients of the background signal. </span>
 <span class="c">%         File beat.wav (at 44,1kHz) (any sound will do) is expected to </span>
-<span class="c">%         be in the search path, oherwise the effect will fail.   </span>
+<span class="c">%         be in the search path, oherwise the effect will be disabled.   </span>
 <span class="c">%</span>
 <span class="c">%   This demo was created for the Lange Nacht der Forschung 4.4.2014 event.</span>
 <span class="c">%   </span>
@@ -67,7 +67,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_blockproc_effects.html</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.0</span>
+<span class="c">% This file is part of LTFAT version 2.1.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -105,7 +105,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
    <span class="n">cidx</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
    <span class="n">haveWav</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="k">catch</span>
-   <span class="n">warning</span><span class="p">(</span><span class="s">&#39;beat.wav not found. morphing effect wont work.&#39;</span><span class="p">);</span> 
+   <span class="n">warning</span><span class="p">(</span><span class="s">&#39;beat.wav not found. morphing effect is disabled.&#39;</span><span class="p">);</span>
 <span class="k">end</span>
 
 <span class="c">% Plain analysis params</span>
@@ -146,13 +146,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">fola</span> <span class="p">=</span> <span class="p">[];</span>
 <span class="n">phasecorrVect</span> <span class="p">=</span> <span class="nb">ones</span><span class="p">(</span><span class="n">Mhalf</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;single&#39;</span><span class="p">);</span>
 
-
+<span class="k">if</span> <span class="n">haveWav</span>
 <span class="c">% Basic Control pannel (Java object)</span>
 <span class="n">parg</span> <span class="p">=</span> <span class="p">{</span>
         <span class="p">{</span><span class="s">&#39;GdB&#39;</span><span class="p">,</span><span class="s">&#39;Gain&#39;</span><span class="p">,</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">21</span><span class="p">},</span><span class="c">...</span>
         <span class="p">{</span><span class="s">&#39;Eff&#39;</span><span class="p">,</span><span class="s">&#39;Effect&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">},</span><span class="c">...</span>
         <span class="p">{</span><span class="s">&#39;Shi&#39;</span><span class="p">,</span><span class="s">&#39;Shift&#39;</span><span class="p">,</span><span class="o">-</span><span class="n">shiftRange</span><span class="p">,</span><span class="n">shiftRange</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">shiftRange</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span>
        <span class="p">};</span>
+<span class="k">else</span>
+<span class="n">parg</span> <span class="p">=</span> <span class="p">{</span>
+        <span class="p">{</span><span class="s">&#39;GdB&#39;</span><span class="p">,</span><span class="s">&#39;Gain&#39;</span><span class="p">,</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">21</span><span class="p">},</span><span class="c">...</span>
+        <span class="p">{</span><span class="s">&#39;Eff&#39;</span><span class="p">,</span><span class="s">&#39;Effect&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">},</span><span class="c">...</span>
+        <span class="p">{</span><span class="s">&#39;Shi&#39;</span><span class="p">,</span><span class="s">&#39;Shift&#39;</span><span class="p">,</span><span class="o">-</span><span class="n">shiftRange</span><span class="p">,</span><span class="n">shiftRange</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">shiftRange</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span>
+       <span class="p">};</span>
+<span class="k">end</span>
 
 <span class="n">p</span> <span class="p">=</span> <span class="n">blockpanel</span><span class="p">(</span><span class="n">parg</span><span class="p">);</span>
 

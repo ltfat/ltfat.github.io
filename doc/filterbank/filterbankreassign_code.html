@@ -60,20 +60,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%      repos : Reassigned positions.</span>
 <span class="c">%      Lc    : Subband lengths.</span>
 <span class="c">%</span>
-<span class="c">%   FILTERBANKREASSIGN(s,a,tgrad,fgrad,cfreq) will reassign the values of </span>
-<span class="c">%   the filterbank spectrogram s using the group delay fgrad and </span>
-<span class="c">%   instantaneous frequency tgrad. The time-frequency sampling </span>
-<span class="c">%   pattern is determined from the time steps a and the center </span>
-<span class="c">%   frequencies cfreq. </span>
+<span class="c">%   FILTERBANKREASSIGN(s,tgrad,fgrad,a,cfreq) will reassign the values of</span>
+<span class="c">%   the filterbank spectrogram s using the group delay fgrad and</span>
+<span class="c">%   instantaneous frequency tgrad. The time-frequency sampling</span>
+<span class="c">%   pattern is determined from the time steps a and the center</span>
+<span class="c">%   frequencies cfreq.</span>
 <span class="c">%</span>
-<span class="c">%   FILTERBANKREASSIGN(s,a,tgrad,fgrad,g) will do the same thing except</span>
+<span class="c">%   FILTERBANKREASSIGN(s,tgrad,fgrad,a,g) will do the same thing except</span>
 <span class="c">%   the center frequencies are estimated from a set of filters g.</span>
 <span class="c">%</span>
 <span class="c">%   [sr,repos,Lc]=FILTERBANKREASSIGN(...) does the same thing, but in addition</span>
 <span class="c">%   returns a vector of subband lengths Lc (Lc = cellfun(@numel,s))</span>
-<span class="c">%   and cell array repos with sum(Lc) elements. Each element corresponds </span>
-<span class="c">%   to a single coefficient obtained by cell2mat(sr) and it is a vector </span>
-<span class="c">%   of indices identifying coefficients from cell2mat(s) assigned to </span>
+<span class="c">%   and cell array repos with sum(Lc) elements. Each element corresponds</span>
+<span class="c">%   to a single coefficient obtained by cell2mat(sr) and it is a vector</span>
+<span class="c">%   of indices identifying coefficients from cell2mat(s) assigned to</span>
 <span class="c">%   the particular time-frequency position.</span>
 <span class="c">%</span>
 <span class="c">%   The arguments s, tgrad and fgrad must be cell-arrays of vectors</span>
@@ -87,15 +87,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%     % Genrate 3 chirps 1 second long</span>
 <span class="c">%     L = 44100; fs = 44100; l = 0:L-1;</span>
-<span class="c">% </span>
+<span class="c">%</span>
 <span class="c">%     f = sin(2*pi*(l/35+(l/300).^2)) + ...</span>
 <span class="c">%         sin(2*pi*(l/10+(l/300).^2)) + ...</span>
 <span class="c">%         sin(2*pi*(l/5-(l/450).^2));</span>
 <span class="c">%     f = 0.7*f&#39;;</span>
-<span class="c">%     </span>
+<span class="c">%</span>
 <span class="c">%     % Create ERB filterbank</span>
 <span class="c">%     [g,a,fc]=erbfilters(fs,L,&#39;fractional&#39;,&#39;spacing&#39;,1/12,&#39;warped&#39;);</span>
-<span class="c">%     </span>
+<span class="c">%</span>
 <span class="c">%     % Compute phase gradient</span>
 <span class="c">%     [tgrad,fgrad,cs,c]=filterbankphasegrad(f,g,a);</span>
 <span class="c">%     % Do the reassignment</span>
@@ -103,7 +103,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     figure(1); subplot(211);</span>
 <span class="c">%     plotfilterbank(cs,a,fc,fs,60);</span>
 <span class="c">%     title(&#39;ERBlet spectrogram of 3 chirps&#39;);</span>
-<span class="c">%     subplot(212);  </span>
+<span class="c">%     subplot(212);</span>
 <span class="c">%     plotfilterbank(sr,a,fc,fs,60);</span>
 <span class="c">%     title(&#39;Reassigned ERBlet spectrogram of 3 chirps&#39;);</span>
 <span class="c">%</span>
@@ -112,13 +112,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     N. Holighaus, Z. Průša, and P. L. Søndergaard. New ideas in</span>
 <span class="c">%     reassignment: General time-frequency filter banks, sampling and</span>
-<span class="c">%     processing. IEEE Signal Processing Letters, submitted, 2015.</span>
+<span class="c">%     processing. Signal Processing, submitted, 2015.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankreassign.html</span>
 
 <span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.0</span>
+<span class="c">% This file is part of LTFAT version 2.1.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -138,34 +138,36 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Sanity checks</span>
 <span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="s">&#39;FILTERBANKREASSIGN&#39;</span><span class="p">);</span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> 
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
     <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s should be a nonempty cell array.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">tgrad</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">tgrad</span><span class="p">)</span> 
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: tgrad should be a nonempty cell array.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">tgrad</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">tgrad</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="o">~</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isreal</span><span class="p">,</span><span class="n">tgrad</span><span class="p">))</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: tgrad should be a nonempty cell array of real vectors.&#39;</span><span class="p">,</span><span class="c">...</span>
+          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">fgrad</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">fgrad</span><span class="p">)</span> 
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fgrad should be a nonempty cell array.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">fgrad</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">fgrad</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="o">~</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isreal</span><span class="p">,</span><span class="n">fgrad</span><span class="p">))</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fgrad should be a nonempty cell array of real vectors.&#39;</span><span class="p">,</span><span class="c">...</span>
+          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">sEl</span><span class="p">,</span><span class="n">tEl</span><span class="p">,</span><span class="n">fEl</span><span class="p">)</span> <span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">sEl</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">tEl</span><span class="p">)</span> <span class="o">||</span> <span class="c">...</span>
                               <span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">fEl</span><span class="p">),</span> <span class="n">s</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">))</span>
-   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s, tgrad, frad must be cell arrays of numeric vectors.&#39;</span><span class="p">,</span><span class="c">...</span>
-         <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s, tgrad, fgrad must be cell arrays of numeric vectors.&#39;</span><span class="p">,</span><span class="c">...</span>
+         <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">tgrad</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fgrad</span><span class="p">))</span> <span class="o">||</span> <span class="c">...</span>
    <span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">sEl</span><span class="p">,</span><span class="n">tEl</span><span class="p">,</span><span class="n">fEl</span><span class="p">)</span> <span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">sEl</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">tEl</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fEl</span><span class="p">)),</span> <span class="c">...</span>
                <span class="n">s</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">))</span>
-   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s, tgrad, frad does not have the same format.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>   
+   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s, tgrad, fgrad does not have the same format.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 
 <span class="n">W</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">sEl</span><span class="p">)</span><span class="nb">size</span><span class="p">(</span><span class="n">sEl</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">s</span><span class="p">);</span>
 <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
-   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Only one-channel signals are supported.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Only one-channel signals are supported.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 <span class="c">% Number of channels</span>
@@ -189,7 +191,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Determine center frequencies</span>
 <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">||</span> <span class="nb">numel</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">~=</span><span class="n">M</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: cfreq must be length-M numeric vector or a cell-array &#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="s">&#39;containg M filters.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+          <span class="s">&#39;containg M filters.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">else</span>
     <span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
        <span class="n">cfreq</span> <span class="p">=</span> <span class="n">cent_freqs</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>

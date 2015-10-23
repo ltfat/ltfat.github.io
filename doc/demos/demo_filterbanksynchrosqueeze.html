@@ -1,0 +1,98 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>DEMO_FILTERBANKSYNCHROSQUEEZE - Filterbank synchrosqueezing and inversion</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="demo_filterbanksynchrosqueeze_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_FILTERBANKSYNCHROSQUEEZE - Filterbank synchrosqueezing and inversion</h1>
+<h2 class="subtitle" id="xxxdescription">Description</h2>
+
+<p>The demo shows that the synchrosqueezed filterbank representation can be
+directly used to reconstruct the original signal.
+Since we do not work with a filterbank which forms a tight frame
+(its <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankresponse.html">filterbankresponse</a></span> is not constant) the direct reconstruction
+(mere summing all the channels) does not work well. We can fix that by
+filtering (equalizing) the result by the inverse of the overall analysis
+filterbank frequency response.</p>
+<div class="figure align-center">
+<img alt="demo_filterbanksynchrosqueeze_1.png" src="demo_filterbanksynchrosqueeze_1.png" />
+<p class="caption">ERBlet spectrogram (top) and synchrosqueezed ERBlet spectrogram (bottom)</p>
+<div class="legend">
+The signal used is the first second from <span class="linkrole"><a href="#BASEURL#/doc/signals/gspi.html">gspi</a></span>. Only the energy of
+the coefficients is show. Both representations are in fact complex and
+invertible.</div>
+</div>
+<div class="figure align-center">
+<img alt="demo_filterbanksynchrosqueeze_2.png" src="demo_filterbanksynchrosqueeze_2.png" />
+<p class="caption">Errors of the direct and the equalized reconstructions</p>
+<div class="legend">
+There is still a small DC offset of the signal obtained by the direct
+summation.</div>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Direct reconstruction MSE:
+   From the coefficients: 2.176541e-03
+   From the synchrosqueezed coefficients: 2.176541e-03
+Equalized reconstruction MSE:
+   From the coefficients: 8.587864e-16
+   From the synchrosqueezed coefficients: 7.161705e-16
+</pre>
+<H2>References:</H2>
+
+
+
+<p><a name="ltfatnote041"></a>
+
+N.&nbsp;Holighaus, Z.&nbsp;Pr&#367;&scaron;a, and P.&nbsp;L. S&oslash;ndergaard.
+ New ideas in reassignment: General time-frequency filter banks,
+  sampling and processing.
+ <em>IEEE Signal Processing Letters</em>, submitted, 2015.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

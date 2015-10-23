@@ -1,0 +1,946 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>GABPHASEDERIV - DGT phase derivatives</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="gabphasederiv.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/resgram_code.html">resgram</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabreassign_code.html">gabreassign</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgt_code.html">dgt</a></li>
+<li><a href="#BASEURL#/doc/fourier/pderiv_code.html">pderiv</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabphasegrad_code.html">gabphasegrad</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">GABPHASEDERIV - DGT phase derivatives</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[phased,c]<span class="p">=</span><span class="nf">gabphasederiv</span><span class="p">(</span>type,method,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%GABPHASEDERIV   DGT phase derivatives</span>
+<span class="c">%   Usage:  [phased,c] = gabphasederiv(dflag,&#39;dgt&#39;,f,g,a,M);</span>
+<span class="c">%            phased    = gabphasederiv(dflag,&#39;cross&#39;,f,g,a,M)</span>
+<span class="c">%            phased    = gabphasederiv(dflag,&#39;phase&#39;,cphase,a,difforder);</span>
+<span class="c">%            phased    = gabphasederiv(dflag,&#39;abs&#39;,s,g,a);</span>
+<span class="c">%           [{phased1,phased2,...}] = gabphasederiv({dflag1,dflag2,...},...);</span>
+<span class="c">%           [{phased1,phased2,...},c] = gabphasederiv({dflag1,dflag2,...},&#39;dgt&#39;,...);</span>
+<span class="c">%</span>
+<span class="c">%   phased=GABPHASEDERIV(dflag,method,...) computes the time-frequency</span>
+<span class="c">%   derivative dflag of the phase of the DGT of a signal using algorithm</span>
+<span class="c">%   method.</span>
+<span class="c">%</span>
+<span class="c">%   The following strings can be used in place of dflag:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;t&#39;   First phase derivative in time.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;f&#39;   First phase derivative in frequency.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;tt&#39;  Second phase derivative in time.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;ff&#39;  Second phase derivative in frequency.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;tf&#39; or &#39;ft&#39;  Second order mixed phase derivative.</span>
+<span class="c">%</span>
+<span class="c">%   phased is scaled such that (possibly non-integer) distances are measured</span>
+<span class="c">%   in samples. Similarly, the frequencies are scaled such that the Nyquist</span>
+<span class="c">%   frequency (the highest possible frequency) corresponds to a value of L/2.</span>
+<span class="c">%</span>
+<span class="c">%   The computation of phased is inaccurate when the absolute</span>
+<span class="c">%   value of the Gabor coefficients is low. This is due to the fact the the</span>
+<span class="c">%   phase of complex numbers close to the machine precision is almost</span>
+<span class="c">%   random. Therefore, phased attain very large random values when abs(c)</span>
+<span class="c">%   is close to zero.</span>
+<span class="c">%</span>
+<span class="c">%   The phase derivative computation can be done using four different methods</span>
+<span class="c">%   depending on the string method:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;dgt&#39;    Directly from the signal using algorithm by Auger and</span>
+<span class="c">%              Flandrin.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;cross&#39;  Directly from the signal using algorithm by Nelson.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;phase&#39;  From the unwrapped phase of a DGT of the signal using a</span>
+<span class="c">%              finite differences scheme. This is the classic method used</span>
+<span class="c">%              in the phase vocoder.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;abs&#39;    From the absolute value of the DGT exploiting explicit</span>
+<span class="c">%              dependency between partial derivatives of log-magnitudes and</span>
+<span class="c">%              phase.</span>
+<span class="c">%              Currently this method works only for Gaussian windows.</span>
+<span class="c">%</span>
+<span class="c">%   phased=GABPHASEDERIV(dflag,&#39;dgt&#39;,f,g,a,M) computes the time-frequency</span>
+<span class="c">%   derivative using a DGT of the signal f. The DGT is computed using the</span>
+<span class="c">%   window g on the lattice specified by the time shift a and the number</span>
+<span class="c">%   of channels M. The algorithm used to perform this calculation computes</span>
+<span class="c">%   several DGTs, and therefore this routine takes the exact same input</span>
+<span class="c">%   parameters as DGT.</span>
+<span class="c">%</span>
+<span class="c">%   [phased,c]=GABPHASEDERIV(dflag,&#39;dgt&#39;,f,g,a,M) additionally returns</span>
+<span class="c">%   the Gabor coefficients c, as they are always computed as a byproduct</span>
+<span class="c">%   of the algorithm.</span>
+<span class="c">%</span>
+<span class="c">%   phased=GABPHASEDERIV(dflag,&#39;cross&#39;,f,g,a,M) does the same as above</span>
+<span class="c">%   but this time using algorithm by Nelson which is based on computing</span>
+<span class="c">%   several DGTs.</span>
+<span class="c">%</span>
+<span class="c">%   phased=GABPHASEDERIV(dflag,&#39;phase&#39;,cphase,a) computes the phase</span>
+<span class="c">%   derivative from the phase cphase of a DGT of the signal. The original DGT</span>
+<span class="c">%   from which the phase is obtained must have been computed using a</span>
+<span class="c">%   time-shift of a using the default phase convention (&#39;freqinv&#39;) e.g.:</span>
+<span class="c">%</span>
+<span class="c">%        phased=gabphasederiv(dflag,&#39;phase&#39;,angle(dgt(f,g,a,M)),a)</span>
+<span class="c">%</span>
+<span class="c">%   phased=GABPHASEDERIV(dflag,&#39;abs&#39;,s,g,a) computes the phase derivative</span>
+<span class="c">%   from the absolute values of DGT coefficients s. The spectrogram must have</span>
+<span class="c">%   been computed using the window g and time-shift a e.g.:</span>
+<span class="c">%</span>
+<span class="c">%        phased=gabphasederiv(dflag,&#39;abs&#39;,abs(dgt(f,g,a,M)),g,a)</span>
+<span class="c">%</span>
+<span class="c">%   Currently the &#39;abs&#39; method only works if the window g is a Gaussian</span>
+<span class="c">%   window specified as a string or a cell array.</span>
+<span class="c">%</span>
+<span class="c">%   phased=GABPHASEDERIV(dflag,&#39;abs&#39;,s,g,a,difforder) uses a centered finite</span>
+<span class="c">%   diffence scheme of order difforder to perform the needed numerical</span>
+<span class="c">%   differentiation. Default is to use a 4th order scheme.</span>
+<span class="c">%</span>
+<span class="c">%   Phase conventions</span>
+<span class="c">%   -----------------</span>
+<span class="c">%</span>
+<span class="c">%   First derivatives in either direction are subject to phase convention.</span>
+<span class="c">%   The following additional flags define the phase convention the original</span>
+<span class="c">%   phase would have had:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;freqinv&#39;     Derivatives reflect the frequency-invariant phase of dgt.</span>
+<span class="c">%                   This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;timeinv&#39;     Derivatives reflect the time-invariant phase of dgt.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;symphase&#39;    Derivatives reflect the symmetric phase of dgt.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;relative&#39;    This is a combination of &#39;freqinv&#39; and &#39;timeinv&#39;.</span>
+<span class="c">%                   It uses &#39;timeinv&#39; for derivatives along frequency and</span>
+<span class="c">%                   and &#39;freqinv&#39; for derivatives along time and for the</span>
+<span class="c">%                   mixed derivative.</span>
+<span class="c">%                   This is usefull for the reassignment functions.</span>
+<span class="c">%</span>
+<span class="c">%   Please see ltfatnote042 for the description of relations between the</span>
+<span class="c">%   phase derivatives with differnet phase conventions. Note that for the</span>
+<span class="c">%   &#39;relative&#39; convention, the following holds:</span>
+<span class="c">%</span>
+<span class="c">%      gabphasederiv(&#39;t&#39;,...,&#39;relative&#39;) == gabphasederiv(&#39;t&#39;,...,&#39;freqinv&#39;)</span>
+<span class="c">%      gabphasederiv(&#39;f&#39;,...,&#39;relative&#39;) == -gabphasederiv(&#39;f&#39;,...,&#39;timeinv&#39;)</span>
+<span class="c">%      gabphasederiv(&#39;tt&#39;,...,&#39;relative&#39;) == gabphasederiv(&#39;tt&#39;,...)</span>
+<span class="c">%      gabphasederiv(&#39;ff&#39;,...,&#39;relative&#39;) == -gabphasederiv(&#39;ff&#39;,...)</span>
+<span class="c">%      gabphasederiv(&#39;tf&#39;,...,&#39;relative&#39;) == gabphasederiv(&#39;tf&#39;,...,&#39;freqinv&#39;)</span>
+<span class="c">%</span>
+<span class="c">%   Several derivatives at once</span>
+<span class="c">%   ---------------------------</span>
+<span class="c">%</span>
+<span class="c">%   phasedcell=GABPHASEDERIV({dflag1,dflag2,...},...) computes several</span>
+<span class="c">%   phase derivatives at once while reusing some temporary computations thus</span>
+<span class="c">%   saving computation time.</span>
+<span class="c">%   {dflag1,dflag2,...} is a cell array of the derivative flags and</span>
+<span class="c">%   cell elements of the returned phasedcell contain the corresponding</span>
+<span class="c">%   derivatives i.e.:</span>
+<span class="c">%</span>
+<span class="c">%       [pderiv1,pderiv2,...] = deal(phasedcell{:});</span>
+<span class="c">%</span>
+<span class="c">%   [phasedcell,c]=GABPHASEDERIV({dflag1,dflag2,...},&#39;dgt&#39;,...) works the</span>
+<span class="c">%   same as above but in addition returns coefficients c which are the</span>
+<span class="c">%   byproduct of the &#39;dgt&#39; method.</span>
+<span class="c">%</span>
+<span class="c">%   Other flags and parameters work as before.</span>
+<span class="c">%</span>
+<span class="c">%   See also: resgram, gabreassign, dgt, pderiv, gabphasegrad</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     F. Auger and P. Flandrin. Improving the readability of time-frequency</span>
+<span class="c">%     and time-scale representations by the reassignment method. IEEE Trans.</span>
+<span class="c">%     Signal Process., 43(5):1068-1089, 1995.</span>
+<span class="c">%     </span>
+<span class="c">%     E. Chassande-Mottin, I. Daubechies, F. Auger, and P. Flandrin.</span>
+<span class="c">%     Differential reassignment. Signal Processing Letters, IEEE,</span>
+<span class="c">%     4(10):293-294, 1997.</span>
+<span class="c">%     </span>
+<span class="c">%     J. Flanagan, D. Meinhart, R. Golden, and M. Sondhi. Phase Vocoder. The</span>
+<span class="c">%     Journal of the Acoustical Society of America, 38:939, 1965.</span>
+<span class="c">%     </span>
+<span class="c">%     K. R. Fitz and S. A. Fulop. A unified theory of time-frequency</span>
+<span class="c">%     reassignment. CoRR, abs/0903.3080, 2009.</span>
+<span class="c">%     </span>
+<span class="c">%     D. J. Nelson. Instantaneous higher order phase derivatives. Digital</span>
+<span class="c">%     Signal Processing, 12(2-3):416-428, 2002. [1]http ]</span>
+<span class="c">%     </span>
+<span class="c">%     F. Auger, E. Chassande-Mottin, and P. Flandrin. On phase-magnitude</span>
+<span class="c">%     relationships in the short-time fourier transform. Signal Processing</span>
+<span class="c">%     Letters, IEEE, 19(5):267-270, May 2012.</span>
+<span class="c">%     </span>
+<span class="c">%     Z. Průša. STFT and DGT phase conventions and phase derivatives</span>
+<span class="c">%     interpretation. Technical report, Acoustics Research Institute,</span>
+<span class="c">%     Austrian Academy of Sciences, 2015.</span>
+<span class="c">%     </span>
+<span class="c">%     References</span>
+<span class="c">%     </span>
+<span class="c">%     1. http://dx.doi.org/10.1006/dspr.2002.0456</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabphasederiv.html</span>
+
+<span class="c">% Copyright (C) 2005-2015 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.1.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+
+<span class="c">% AUTHOR: Peter L. Søndergaard, 2008; Zdenek Průša, 2015</span>
+
+<span class="c">% REMARK: There is no problem with phase conventions with the second</span>
+<span class="c">% derivatives.</span>
+
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">type</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">,</span><span class="s">&#39;tt&#39;</span><span class="p">,</span><span class="s">&#39;ff&#39;</span><span class="p">,</span><span class="s">&#39;tf&#39;</span><span class="p">,</span><span class="s">&#39;ft&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;phase&#39;</span><span class="p">,</span><span class="s">&#39;abs&#39;</span><span class="p">,</span><span class="s">&#39;cross&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;symphase&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">};</span>
+
+<span class="n">typewascell</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">ischar</span><span class="p">(</span><span class="n">type</span><span class="p">)</span>
+    <span class="n">types</span> <span class="p">=</span> <span class="p">{</span><span class="n">type</span><span class="p">};</span>
+<span class="k">elseif</span> <span class="n">iscell</span><span class="p">(</span><span class="n">type</span><span class="p">)</span>
+    <span class="c">%error(&#39;Multiple derivatives at once were not implemented yet.&#39;);</span>
+    <span class="n">types</span> <span class="p">=</span> <span class="n">type</span><span class="p">;</span>
+    <span class="n">typewascell</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: First argument must be either char or a cell array.&#39;</span><span class="p">,</span><span class="c">...</span>
+        <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="n">types</span> <span class="p">=</span> <span class="n">lower</span><span class="p">(</span><span class="n">types</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">types</span><span class="p">)</span>
+    <span class="n">type</span> <span class="p">=</span> <span class="n">types</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">ischar</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">type</span><span class="p">))</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: First argument must contain the type of the derivative: %s&#39;</span><span class="p">],</span><span class="c">...</span>
+            <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="c">...</span>
+            <span class="n">strjoin</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span> <span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;&quot;%s&quot;&#39;</span><span class="p">,</span><span class="n">el</span><span class="p">),</span><span class="c">...</span>
+            <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">type</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="s">&#39;, &#39;</span><span class="p">));</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">ischar</span><span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">))</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Second argument must be the method name: %s &#39;</span><span class="p">],</span> <span class="c">...</span>
+        <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="c">...</span>
+        <span class="n">strjoin</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span> <span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;&quot;%s&quot;&#39;</span><span class="p">,</span><span class="n">el</span><span class="p">),</span><span class="c">...</span>
+        <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="s">&#39;, &#39;</span><span class="p">));</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="n">foundFlags</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span><span class="n">ischar</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">el</span><span class="p">,</span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">)),</span><span class="c">...</span>
+    <span class="n">varargin</span><span class="p">);</span>
+<span class="n">flags1</span> <span class="p">=</span> <span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,{</span><span class="n">types</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">method</span><span class="p">,</span><span class="n">varargin</span><span class="p">{</span><span class="n">foundFlags</span><span class="p">}});</span>
+<span class="n">definput</span> <span class="p">=</span> <span class="p">[];</span> <span class="c">% Definput is used again later</span>
+<span class="n">varargin</span><span class="p">(</span><span class="n">foundFlags</span><span class="p">)</span> <span class="p">=</span> <span class="p">[];</span> <span class="c">% Remove the phaseconv flags</span>
+
+<span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">method</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;phase&#39;</span><span class="p">,</span><span class="s">&#39;abs&#39;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
+            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too many output arguments. &#39;</span><span class="p">,</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+        <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c">% Change ft to tf as they are equal</span>
+<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="s">&#39;ft&#39;</span><span class="p">,</span><span class="n">types</span><span class="p">))</span>
+    <span class="n">types</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="s">&#39;ft&#39;</span><span class="p">,</span><span class="n">types</span><span class="p">))</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;tf&#39;</span><span class="p">};</span>
+<span class="k">end</span>
+
+<span class="c">% Get only unique flags</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">tmpidx</span><span class="p">]</span> <span class="p">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">types</span><span class="p">,</span><span class="s">&#39;first&#39;</span><span class="p">);</span>
+<span class="n">dflagsUnique</span> <span class="p">=</span> <span class="n">types</span><span class="p">(</span><span class="n">sort</span><span class="p">(</span><span class="n">tmpidx</span><span class="p">));</span>
+
+<span class="c">% Find duplicates</span>
+<span class="n">dflagsDupl</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">tEl</span><span class="p">)</span> <span class="n">strcmpi</span><span class="p">(</span><span class="n">tEl</span><span class="p">,</span><span class="n">types</span><span class="p">),</span><span class="n">dflagsUnique</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="c">% Sort the unique flags according to character count</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">dflagsOrder</span><span class="p">]=</span><span class="n">sort</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">length</span><span class="p">,</span><span class="n">dflagsUnique</span><span class="p">));</span>
+<span class="c">% Sort</span>
+<span class="n">dflagsUnique</span> <span class="p">=</span> <span class="n">dflagsUnique</span><span class="p">(</span><span class="n">dflagsOrder</span><span class="p">);</span>
+
+<span class="c">% Allocate the output cell array</span>
+<span class="n">phased2</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">dflagsUnique</span><span class="p">));</span>
+
+<span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">method</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;cross&#39;</span><span class="p">}</span>
+        <span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">varargin</span><span class="p">),</span><span class="mi">4</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+        <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">]=</span><span class="n">deal</span><span class="p">(</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">});</span>
+
+        <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span>
+        <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">minlvl</span><span class="p">=</span><span class="nb">eps</span><span class="p">;</span>
+        <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
+        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">minlvl</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="s">&#39;minlvl&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
+
+        <span class="c">% Change f to correct shape.</span>
+        <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+
+        <span class="c">% Even though this check is also in dgt, we must do it here too</span>
+        <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+            <span class="n">L</span> <span class="p">=</span> <span class="n">dgtlength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+        <span class="k">else</span>
+            <span class="n">Luser</span> <span class="p">=</span> <span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+            <span class="k">if</span> <span class="n">Luser</span><span class="o">~=</span><span class="n">L</span>
+                <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect transform length L=%i specified. Next valid length &#39;</span> <span class="c">...</span>
+                    <span class="s">&#39;is L=%i. See the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="c">...</span>
+                    <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">Luser</span><span class="p">);</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="c">% Extend or crop f to correct length</span>
+        <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+        <span class="n">N</span> <span class="p">=</span> <span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
+        <span class="n">b</span> <span class="p">=</span> <span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">method</span>
+    <span class="k">case</span> <span class="s">&#39;dgt&#39;</span>
+        <span class="c">% ---------------------------  DGT method ------------------------</span>
+        <span class="c">%</span>
+        <span class="c">% Naming conventions used here:</span>
+        <span class="c">% c    - dgt coefficients using window g</span>
+        <span class="c">% c_s  - second power of c with small values set to minlvl*max(c_s)</span>
+        <span class="c">% c_h  - dgt coefficietns computed using time-weighted window hg</span>
+        <span class="c">% c_d  - dgt coefficients computed using time-derived window dg</span>
+        <span class="c">% c_h2 - dgt coefficients computed using twice time-weighted window hg2</span>
+        <span class="c">% c_d2 - dgt coefficients computed using second derivative of window g: hg2</span>
+        <span class="c">% c_hd - dgt coefficients computed using time-weighted derivative of window g: hdg</span>
+        <span class="c">% c_dh - dgt coefficients computed using derivative of time-weighted window g: dhg</span>
+        <span class="c">%</span>
+
+        <span class="c">% Call dgt once to check all the parameters</span>
+        <span class="c">% This computes frequency invariant phase.</span>
+        <span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">g</span><span class="p">]</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+
+        <span class="c">% Compute spectrogram and remove small values because we need to</span>
+        <span class="c">% divide by c_s.</span>
+        <span class="c">% This will also set the derivative to zeros in the regions</span>
+        <span class="c">% containing only small coefficients.</span>
+        <span class="n">c_s</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
+        <span class="n">c_s</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">c_s</span><span class="p">,</span><span class="n">minlvl</span><span class="o">*</span><span class="n">max</span><span class="p">(</span><span class="n">c_s</span><span class="p">(:)));</span>
+
+        <span class="c">% We also need info for info.gauss</span>
+        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+
+        <span class="c">% These could be shared</span>
+        <span class="n">dg</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">c_d</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">hg</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">c_h</span> <span class="p">=</span> <span class="p">[];</span>
+
+        <span class="k">for</span> <span class="n">typedId</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">dflagsUnique</span><span class="p">)</span>
+            <span class="n">typed</span> <span class="p">=</span> <span class="n">dflagsUnique</span><span class="p">{</span><span class="n">typedId</span><span class="p">};</span>
+
+            <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">gauss</span>
+                <span class="c">% TODO: Save computations for 2nd derivatives</span>
+            <span class="k">end</span>
+
+            <span class="k">switch</span> <span class="n">typed</span>
+                <span class="k">case</span> <span class="s">&#39;t&#39;</span>
+                    <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">gauss</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">c_h</span><span class="p">)</span>
+                        <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="nb">imag</span><span class="p">(</span><span class="n">c_h</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">)</span><span class="o">/</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">;</span>
+                    <span class="k">else</span>
+
+                        <span class="c">% fir2long is here to avoid possible boundary effects</span>
+                        <span class="c">% as the time support of the Inf derivative is not FIR</span>
+                        <span class="n">dg</span>  <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">),[],</span><span class="n">Inf</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+                        <span class="n">c_d</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">dg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+                        <span class="n">phased</span> <span class="p">=</span> <span class="nb">imag</span><span class="p">(</span><span class="n">c_d</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">);</span>
+                    <span class="k">end</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="s">&#39;f&#39;</span>
+                    <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">gauss</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">c_d</span><span class="p">)</span>
+                        <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="nb">real</span><span class="p">(</span><span class="n">c_d</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">)</span><span class="o">*</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">;</span>
+                    <span class="k">else</span>
+                        <span class="c">% Compute the time weighted version of the window.</span>
+                        <span class="c">% g is already a column vector</span>
+                        <span class="n">hg</span> <span class="p">=</span> <span class="n">fftindex</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.*</span><span class="n">g</span><span class="p">;</span>
+                        <span class="n">c_h</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">hg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+                        <span class="n">phased</span> <span class="p">=</span> <span class="nb">real</span><span class="p">(</span><span class="n">c_h</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">);</span>
+                    <span class="k">end</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
+<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
+<span class="s">                    end</span>
+<span class="s">                case &#39;</span><span class="n">tt</span><span class="o">&#39;</span>
+                    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">dg</span><span class="p">)</span>
+                        <span class="n">dg</span>  <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">),[],</span><span class="n">Inf</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+                        <span class="n">c_d</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">dg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+                    <span class="k">end</span>
+                    <span class="n">dg2</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">dg</span><span class="p">,[],</span><span class="n">Inf</span><span class="p">);</span>
+                    <span class="n">c_d2</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">dg2</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+                    <span class="n">phased</span> <span class="p">=</span> <span class="nb">imag</span><span class="p">(</span><span class="n">c_d2</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="n">c_d</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">;</span>
+                    <span class="c">% Phase convention does not have any effect</span>
+                <span class="k">case</span> <span class="s">&#39;ff&#39;</span>
+                    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">hg</span><span class="p">)</span>
+                        <span class="c">% Time weighted window</span>
+                        <span class="n">hg</span> <span class="p">=</span>  <span class="n">fftindex</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.*</span><span class="n">g</span><span class="p">;</span>
+                        <span class="n">c_h</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">hg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+                    <span class="k">end</span>
+                    <span class="n">hg2</span> <span class="p">=</span> <span class="n">fftindex</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.^</span><span class="mf">2.</span><span class="o">*</span><span class="n">g</span><span class="p">;</span>
+                    <span class="n">c_h2</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">hg2</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+                    <span class="n">phased</span> <span class="p">=</span> <span class="nb">imag</span><span class="p">(</span><span class="o">-</span><span class="n">c_h2</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span> <span class="o">+</span> <span class="p">(</span><span class="n">c_h</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">/</span><span class="n">L</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="p">{</span><span class="s">&#39;ft&#39;</span><span class="p">,</span><span class="s">&#39;tf&#39;</span><span class="p">}</span>
+                    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">hg</span><span class="p">)</span>
+                        <span class="n">hg</span> <span class="p">=</span> <span class="n">fftindex</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.*</span><span class="n">g</span><span class="p">;</span>
+                        <span class="n">c_h</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">hg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+                    <span class="k">end</span>
+
+                    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">dg</span><span class="p">)</span>
+                        <span class="n">dg</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">),[],</span><span class="n">Inf</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+                        <span class="n">c_d</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">dg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+                    <span class="k">end</span>
+
+                    <span class="n">hdg</span> <span class="p">=</span> <span class="p">(</span><span class="n">fftindex</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">dg</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">.*</span><span class="n">dg</span><span class="p">;</span>
+                    <span class="n">c_hd</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">hdg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+                    <span class="c">% This is mixed derivative tf for freq. invariant</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="nb">real</span><span class="p">(</span><span class="n">c_hd</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="n">c_h</span><span class="o">.*</span><span class="n">c_d</span><span class="o">.*</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">./</span><span class="n">c_s</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+                    <span class="k">end</span>
+                <span class="k">otherwise</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: This should never happen.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+            <span class="k">end</span>
+            <span class="n">phased2</span><span class="p">{</span><span class="n">typedId</span><span class="p">}</span> <span class="p">=</span> <span class="n">phased</span><span class="p">;</span>
+        <span class="k">end</span>
+
+
+    <span class="k">case</span> <span class="s">&#39;phase&#39;</span>
+        <span class="c">% ----------  Direct numerical derivative of the phase  ----------------</span>
+        <span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">varargin</span><span class="p">),</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+        <span class="p">[</span><span class="n">cphase</span><span class="p">,</span><span class="n">a</span><span class="p">]=</span><span class="n">deal</span><span class="p">(</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">});</span>
+        <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">cphase</span><span class="p">)</span>
+            <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Input phase must be real valued. Use the &quot;angle&quot; &#39;</span> <span class="c">...</span>
+                <span class="s">&#39;function to compute the argument of complex numbers.&#39;</span><span class="p">],</span><span class="c">...</span>
+                <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+        <span class="k">end</span><span class="p">;</span>
+
+        <span class="c">% --- linear method ---</span>
+        <span class="p">[</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">cphase</span><span class="p">);</span>
+        <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+        <span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+
+        <span class="n">tgrad</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">fgrad</span> <span class="p">=</span> <span class="p">[];</span>
+
+        <span class="k">for</span> <span class="n">typedId</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">dflagsUnique</span><span class="p">)</span>
+            <span class="n">typed</span> <span class="p">=</span> <span class="n">dflagsUnique</span><span class="p">{</span><span class="n">typedId</span><span class="p">};</span>
+            <span class="c">% REMARK: Second derivative in one direction does not need phase</span>
+            <span class="c">% unwrapping</span>
+            <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">tgrad</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;tt&#39;</span><span class="p">,</span><span class="s">&#39;ft&#39;</span><span class="p">,</span><span class="s">&#39;tf&#39;</span><span class="p">}))</span>
+                <span class="c">% This is the classic phase vocoder algorithm by Flanagan modified to</span>
+                <span class="c">% yield a second order centered difference approximation.</span>
+
+                <span class="c">% Perform derivative along rows while unwrapping the phase by 2*pi</span>
+                <span class="n">tgrad</span> <span class="p">=</span> <span class="n">pderivunwrap</span><span class="p">(</span><span class="n">cphase</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+                <span class="c">% Normalize</span>
+                <span class="c">%tgrad = tgrad/(2*pi);</span>
+                <span class="c">% Normalize again using time step</span>
+                <span class="n">tgrad</span> <span class="p">=</span> <span class="n">tgrad</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">fgrad</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;f&#39;</span><span class="p">,</span><span class="s">&#39;ff&#39;</span><span class="p">}))</span>
+                <span class="c">% Phase-lock the angles.</span>
+                <span class="c">% We have the frequency invariant phase ...</span>
+                <span class="n">TimeInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+                <span class="n">FreqInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+
+                <span class="n">phl</span> <span class="p">=</span> <span class="n">FreqInd</span><span class="o">&#39;*</span><span class="n">TimeInd</span><span class="p">;</span>
+                <span class="n">cphaseLock</span> <span class="p">=</span> <span class="n">cphase</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">.*</span><span class="n">phl</span><span class="p">;</span>
+                <span class="c">% ... and now the time-invariant phase.</span>
+
+                <span class="c">% Perform derivative along cols while unwrapping the phase by 2*pi</span>
+                <span class="n">fgrad</span> <span class="p">=</span> <span class="n">pderivunwrap</span><span class="p">(</span><span class="n">cphaseLock</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+
+                <span class="c">% Convert from radians to relative frequencies</span>
+                <span class="c">%fgrad = fgrad/(2*pi);</span>
+                <span class="c">% Normalize again using frequency step</span>
+                <span class="n">fgrad</span> <span class="p">=</span> <span class="n">fgrad</span><span class="o">/</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="c">% tgrad fgrad here are relative quantites</span>
+
+            <span class="k">switch</span> <span class="n">typed</span>
+                <span class="k">case</span> <span class="s">&#39;t&#39;</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="n">tgrad</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="s">&#39;f&#39;</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="n">fgrad</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
+<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
+<span class="s">                    end</span>
+<span class="s">                case &#39;</span><span class="n">tt</span><span class="o">&#39;</span>
+                    <span class="c">% Second derivatives should be independent of the phase</span>
+                    <span class="c">% convention.</span>
+                    <span class="c">% tgrad is already unwrapped along time, we can call pderiv</span>
+                    <span class="c">% directly.</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">tgrad</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+                    <span class="c">% Phase convention does not have any effect.</span>
+                <span class="k">case</span> <span class="s">&#39;ff&#39;</span>
+                    <span class="c">% fgrad is already unwrapped along frequency</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">fgrad</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="p">{</span><span class="s">&#39;tf&#39;</span><span class="p">,</span><span class="s">&#39;ft&#39;</span><span class="p">}</span>
+                    <span class="c">% Phase has not yet been unwrapped along frequency</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="n">pderivunwrap</span><span class="p">(</span><span class="n">tgrad</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+                    <span class="k">end</span>
+
+                    <span class="c">% Phase has not yet been unwrapped along time</span>
+                    <span class="c">% phased = pderivunwrap(fgrad,2,2*pi)*N/(2*pi);</span>
+                <span class="k">otherwise</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: This should never happen.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+            <span class="k">end</span>
+            <span class="n">phased2</span><span class="p">{</span><span class="n">typedId</span><span class="p">}</span> <span class="p">=</span> <span class="n">phased</span><span class="p">;</span>
+        <span class="k">end</span>
+    <span class="k">case</span> <span class="s">&#39;abs&#39;</span>
+        <span class="c">% ---------------------------  abs method ------------------------</span>
+
+        <span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">varargin</span><span class="p">),</span><span class="mi">3</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+        <span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">]=</span><span class="n">deal</span><span class="p">(</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">});</span>
+        <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">varargin</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span>
+            <span class="n">difforder</span><span class="p">=</span><span class="n">varargin</span><span class="p">{</span><span class="mi">4</span><span class="p">};</span>
+        <span class="k">else</span>
+            <span class="n">difforder</span><span class="p">=</span><span class="mi">4</span><span class="p">;</span>
+        <span class="k">end</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(:)</span><span class="o">&gt;</span><span class="p">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s must be positive or zero.&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+        <span class="k">end</span><span class="p">;</span>
+
+        <span class="p">[</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+        <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+
+        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+
+        <span class="k">if</span> <span class="o">~</span><span class="n">info</span><span class="p">.</span><span class="n">gauss</span>
+            <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The window must be a Gaussian window (specified as a string or &#39;</span> <span class="c">...</span>
+                <span class="s">&#39;as a cell array).&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+        <span class="k">end</span><span class="p">;</span>
+
+        <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+        <span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+
+        <span class="c">% We must avoid taking the log of zero.</span>
+        <span class="c">% Therefore we add the smallest possible</span>
+        <span class="c">% number</span>
+        <span class="n">logs</span><span class="p">=</span><span class="nb">log</span><span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="nb">realmin</span><span class="p">);</span>
+
+        <span class="c">% XXX REMOVE Add a small constant to limit the dynamic range. This should</span>
+        <span class="c">% lessen the problem of errors in the differentiation for points close to</span>
+        <span class="c">% (but not exactly) zeros points.</span>
+        <span class="n">maxmax</span><span class="p">=</span><span class="n">max</span><span class="p">(</span><span class="n">logs</span><span class="p">(:));</span>
+        <span class="n">tt</span><span class="p">=</span><span class="o">-</span><span class="mi">11</span><span class="p">;</span> <span class="c">% This is equal to about 95dB of &#39;normal&#39; dynamic range</span>
+
+        <span class="n">logs</span><span class="p">(</span><span class="n">logs</span><span class="o">&lt;</span><span class="n">maxmax</span><span class="o">+</span><span class="n">tt</span><span class="p">)=</span><span class="n">tt</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="n">typedId</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">dflagsUnique</span><span class="p">)</span>
+            <span class="n">typed</span> <span class="p">=</span> <span class="n">dflagsUnique</span><span class="p">{</span><span class="n">typedId</span><span class="p">};</span>
+
+            <span class="n">tgrad</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">fgrad</span> <span class="p">=</span> <span class="p">[];</span>
+            <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">tgrad</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;tt&#39;</span><span class="p">,</span><span class="s">&#39;ft&#39;</span><span class="p">,</span><span class="s">&#39;tf&#39;</span><span class="p">}))</span>
+                <span class="n">tgrad</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">fgrad</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;f&#39;</span><span class="p">,</span><span class="s">&#39;ff&#39;</span><span class="p">}))</span>
+                <span class="n">fgrad</span> <span class="p">=</span> <span class="o">-</span><span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+            <span class="k">end</span>
+
+
+            <span class="k">switch</span> <span class="n">typed</span>
+                <span class="k">case</span> <span class="s">&#39;t&#39;</span>
+                    <span class="c">% Derivative of log-magnitude along frequency gives phase</span>
+                    <span class="c">% time derivative</span>
+                    <span class="n">phased</span><span class="p">=</span><span class="n">tgrad</span><span class="o">/</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
+
+                <span class="k">case</span> <span class="s">&#39;f&#39;</span>
+                    <span class="c">% Derivative of log-magnitude along time gives phase frequency</span>
+                    <span class="c">% derivative</span>
+                    <span class="n">phased</span><span class="p">=</span> <span class="n">fgrad</span><span class="o">*</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span> <span class="n">phased</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
+<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
+<span class="s">                    end</span>
+
+<span class="s">                case &#39;</span><span class="n">ff</span><span class="o">&#39;</span>
+                    <span class="c">% Mixed derivatives of log-magnitude give second derivative</span>
+                    <span class="c">% of phase</span>
+                    <span class="n">phased</span><span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="o">*</span><span class="n">pderiv</span><span class="p">(</span><span class="n">fgrad</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="s">&#39;tt&#39;</span>
+                    <span class="c">% Second phase derivatives are equal up to factor</span>
+                    <span class="c">% -info.tfr^2</span>
+                    <span class="n">phased</span><span class="p">=</span><span class="n">pderiv</span><span class="p">(</span><span class="n">tgrad</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">L</span><span class="o">*</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">);</span>
+                    <span class="c">% Phase convention does not have any effect</span>
+                <span class="k">case</span> <span class="p">{</span><span class="s">&#39;ft&#39;</span><span class="p">,</span><span class="s">&#39;tf&#39;</span><span class="p">}</span>
+                    <span class="c">% (Both) second log-magnitude derivatives give mixed phase</span>
+                    <span class="c">% derivatives.</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">tgrad</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="o">*</span><span class="n">L</span><span class="p">);</span>
+
+                    <span class="c">% This is equal</span>
+                    <span class="c">% phased = pderiv(logs,2,difforder)/(2*pi);</span>
+                    <span class="c">% phased = -info.tfr*pderiv(phased,2,difforder)/L - 1;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+                    <span class="k">end</span>
+
+                <span class="k">otherwise</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: This should never happen.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+            <span class="k">end</span>
+            <span class="n">phased2</span><span class="p">{</span><span class="n">typedId</span><span class="p">}</span> <span class="p">=</span> <span class="n">phased</span><span class="p">;</span>
+        <span class="k">end</span>
+
+    <span class="k">case</span> <span class="s">&#39;cross&#39;</span>
+        <span class="c">% This is the Nelson&#39;s cross-spectral matrix algorithm modified to</span>
+        <span class="c">% do centered finite difference approximations of the derivatives</span>
+
+        <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]</span> <span class="p">=</span> <span class="n">gabwin</span><span class="p">(</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+
+        <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="o">&lt;</span><span class="n">L</span><span class="o">-</span><span class="mi">2</span>
+            <span class="c">% FIR case</span>
+            <span class="n">gtmp</span> <span class="p">=</span> <span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">);</span>
+        <span class="k">else</span>
+            <span class="c">% fir2long is here to cover gl == L-2 and L-1</span>
+            <span class="n">gtmp</span> <span class="p">=</span> <span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+        <span class="k">end</span>
+
+
+        <span class="n">cright</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">cleft</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">cabove</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">cbelow</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">ccenterfi</span> <span class="p">=</span> <span class="p">[];</span>
+        <span class="n">ccenterti</span> <span class="p">=</span> <span class="p">[];</span>
+        <span class="n">crightabove</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">crightbelow</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">cleftabove</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">cleftbelow</span> <span class="p">=</span> <span class="p">[];</span>
+        <span class="k">for</span> <span class="n">typedId</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">dflagsUnique</span><span class="p">)</span>
+            <span class="n">typed</span> <span class="p">=</span> <span class="n">dflagsUnique</span><span class="p">{</span><span class="n">typedId</span><span class="p">};</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isempty</span><span class="p">(</span><span class="n">cright</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">cleft</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;tt&#39;</span><span class="p">}))</span>
+                <span class="n">cright</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">shiftwin</span><span class="p">(</span><span class="n">gtmp</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+                <span class="n">cleft</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">shiftwin</span><span class="p">(</span><span class="n">gtmp</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isempty</span><span class="p">(</span><span class="n">cabove</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">cbelow</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;f&#39;</span><span class="p">,</span><span class="s">&#39;ff&#39;</span><span class="p">}))</span>
+                <span class="n">cabove</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">shiftwin</span><span class="p">(</span><span class="n">gtmp</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">);</span>
+                <span class="n">cbelow</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">shiftwin</span><span class="p">(</span><span class="n">gtmp</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">ccenterfi</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;tt&#39;</span><span class="p">,</span><span class="s">&#39;t&#39;</span><span class="p">}))</span>
+                <span class="n">ccenterfi</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">ccenterti</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;ff&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">}))</span>
+                <span class="n">ccenterti</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isempty</span><span class="p">(</span><span class="n">crightabove</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">crightbelow</span><span class="p">)</span> <span class="o">||</span> <span class="c">...</span>
+                <span class="nb">isempty</span><span class="p">(</span><span class="n">cleftabove</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">cleftbelow</span><span class="p">))</span> <span class="c">...</span>
+                <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">typed</span><span class="p">,{</span><span class="s">&#39;tf&#39;</span><span class="p">,</span><span class="s">&#39;ft&#39;</span><span class="p">}))</span>
+                <span class="c">% Get four DGTs shifted by one in time and in frequency</span>
+                <span class="n">frightabove</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;./</span><span class="n">L</span><span class="p">);</span>
+                <span class="n">crightabove</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">frightabove</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+
+                <span class="n">frightbelow</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;./</span><span class="n">L</span><span class="p">);</span>
+                <span class="n">crightbelow</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">frightbelow</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+
+                <span class="n">fleftabove</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;./</span><span class="n">L</span><span class="p">);</span>
+                <span class="n">cleftabove</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">fleftabove</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+
+                <span class="n">fleftbelow</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;./</span><span class="n">L</span><span class="p">);</span>
+                <span class="n">cleftbelow</span> <span class="p">=</span> <span class="n">dgt</span><span class="p">(</span><span class="n">fleftbelow</span><span class="p">,</span><span class="n">gg</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
+            <span class="k">end</span>
+
+            <span class="k">switch</span> <span class="n">typed</span>
+                <span class="k">case</span> <span class="s">&#39;t&#39;</span>
+                    <span class="c">% This way, the implicit phase unwrapping is done in</span>
+                    <span class="c">% both differences.</span>
+                    <span class="n">ccross1</span> <span class="p">=</span> <span class="n">cright</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">ccenterfi</span><span class="p">);</span>
+                    <span class="n">ccross2</span> <span class="p">=</span> <span class="n">ccenterfi</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">cleft</span><span class="p">);</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="p">(</span><span class="nb">angle</span><span class="p">(</span><span class="n">ccross1</span><span class="p">)</span><span class="o">+</span><span class="nb">angle</span><span class="p">(</span><span class="n">ccross2</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="n">fftindex</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
+
+                <span class="k">case</span> <span class="s">&#39;f&#39;</span>
+                    <span class="n">ccross1</span> <span class="p">=</span> <span class="n">cabove</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">ccenterti</span><span class="p">);</span>
+                    <span class="n">ccross2</span> <span class="p">=</span> <span class="n">ccenterti</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">cbelow</span><span class="p">);</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="p">(</span><span class="nb">angle</span><span class="p">(</span><span class="n">ccross1</span><span class="p">)</span><span class="o">+</span><span class="nb">angle</span><span class="p">(</span><span class="n">ccross2</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
+<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
+<span class="s">                    end</span>
+<span class="s">                case &#39;</span><span class="n">tt</span><span class="o">&#39;</span>
+                    <span class="n">ccross</span> <span class="p">=</span> <span class="n">cright</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">ccenterfi</span><span class="p">)</span><span class="o">.^</span><span class="mf">2.</span><span class="o">*</span><span class="n">cleft</span><span class="p">;</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">ccross</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+                <span class="k">case</span> <span class="s">&#39;ff&#39;</span>
+                    <span class="n">ccross</span> <span class="p">=</span> <span class="n">cabove</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">ccenterti</span><span class="p">)</span><span class="o">.^</span><span class="mf">2.</span><span class="o">*</span><span class="n">cbelow</span><span class="p">;</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">ccross</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="p">{</span><span class="s">&#39;ft&#39;</span><span class="p">,</span><span class="s">&#39;tf&#39;</span><span class="p">}</span>
+                    <span class="n">ccross</span> <span class="p">=</span> <span class="n">crightabove</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">crightbelow</span><span class="p">)</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">cleftabove</span><span class="p">)</span><span class="o">.*</span><span class="n">cleftbelow</span><span class="p">;</span>
+                    <span class="n">phased</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">ccross</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+
+                    <span class="k">switch</span> <span class="n">flags1</span><span class="p">.</span><span class="n">phaseconv</span>
+                        <span class="k">case</span> <span class="s">&#39;timeinv&#39;</span>
+                            <span class="c">% Do nothing</span>
+                        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">}</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+                    <span class="k">end</span>
+
+                <span class="k">otherwise</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: This should never happen.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+            <span class="k">end</span>
+            <span class="n">phased2</span><span class="p">{</span><span class="n">typedId</span><span class="p">}</span> <span class="p">=</span> <span class="n">phased</span><span class="p">;</span>
+        <span class="k">end</span>
+
+<span class="k">end</span><span class="p">;</span>
+
+
+
+<span class="c">% Undo flag sort</span>
+<span class="n">phased2</span><span class="p">(</span><span class="n">dflagsOrder</span><span class="p">)</span> <span class="p">=</span> <span class="n">phased2</span><span class="p">;</span>
+
+<span class="c">% Distribute duplicate flags</span>
+<span class="n">phased</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">dflagsDupl</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span>
+<span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">phased2</span><span class="p">)</span>
+    <span class="n">phased</span><span class="p">(</span><span class="n">dflagsDupl</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span> <span class="p">=</span> <span class="n">phased2</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">typewascell</span>
+    <span class="n">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">phased</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;phased should contain only 1 element&#39;</span><span class="p">);</span>
+    <span class="n">phased</span> <span class="p">=</span> <span class="n">phased</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+<span class="k">end</span>
+
+
+<span class="k">function</span><span class="w"> </span>fd<span class="p">=</span><span class="nf">pderivunwrap</span><span class="p">(</span>f,dim,unwrapconst<span class="p">)</span><span class="w"></span>
+<span class="c">%PDERIVUNWRAP Periodic derivative with unwrapping</span>
+<span class="c">%</span>
+<span class="c">%  `pderivunwrap(f,dim,wrapconst)` performs derivative of *f* along</span>
+<span class="c">%  dimmension *dim* using second order centered difference approximation</span>
+<span class="c">%  including unwrapping by *unwrapconst*</span>
+<span class="c">%</span>
+<span class="c">%  This effectivelly is just</span>
+<span class="c">%  (circshift(f,-1)-circshift(f,1))/2</span>
+
+<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+    <span class="n">dim</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">unwrapconst</span><span class="p">)</span>
+    <span class="n">unwrapconst</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="n">shiftParam</span> <span class="p">=</span> <span class="p">{[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]};</span>
+<span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="n">shiftParam</span> <span class="p">=</span> <span class="p">{[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]};</span>
+<span class="k">end</span>
+
+<span class="c">% Forward approximation</span>
+<span class="n">fd_1</span> <span class="p">=</span> <span class="n">f</span><span class="o">-</span><span class="nb">circshift</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">shiftParam</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span>
+<span class="n">fd_1</span> <span class="p">=</span> <span class="n">fd_1</span> <span class="o">-</span> <span class="n">unwrapconst</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">fd_1</span><span class="o">/</span><span class="p">(</span><span class="n">unwrapconst</span><span class="p">));</span>
+<span class="c">% Backward approximation</span>
+<span class="n">fd_2</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">shiftParam</span><span class="p">{</span><span class="mi">2</span><span class="p">})</span><span class="o">-</span><span class="n">f</span><span class="p">;</span>
+<span class="n">fd_2</span> <span class="p">=</span> <span class="n">fd_2</span> <span class="o">-</span> <span class="n">unwrapconst</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="n">fd_2</span><span class="o">/</span><span class="p">(</span><span class="n">unwrapconst</span><span class="p">));</span>
+<span class="c">% Average</span>
+<span class="n">fd</span> <span class="p">=</span> <span class="p">(</span><span class="n">fd_1</span><span class="o">+</span><span class="n">fd_2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+
+<span class="k">function</span><span class="w"> </span>g <span class="p">=</span><span class="w"> </span><span class="nf">flipwin</span><span class="p">(</span>g<span class="p">)</span><span class="w"></span>
+<span class="c">% This function time-reverses a Gabor window g</span>
+<span class="c">% assuming periodic indexing.</span>
+
+<span class="n">g</span> <span class="p">=</span> <span class="p">[</span><span class="n">g</span><span class="p">(</span><span class="mi">1</span><span class="p">,:);</span><span class="nb">flipud</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,:))];</span>
+
+<span class="k">function</span><span class="w"> </span>g <span class="p">=</span><span class="w"> </span><span class="nf">shiftwin</span><span class="p">(</span>g,tshift,fshift,timeshiftfirst<span class="p">)</span><span class="w"></span>
+<span class="c">% This function circularly shifts g by tshift in time and</span>
+<span class="c">% by fshift in frequency.</span>
+
+<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;Not enough args&#39;</span><span class="p">);</span>
+<span class="k">elseif</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
+    <span class="n">fshift</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">timeshiftfirst</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">elseif</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">4</span>
+    <span class="n">timeshiftfirst</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="n">gl</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">tshiftop</span> <span class="p">=</span> <span class="p">@(</span><span class="n">g</span><span class="p">)</span> <span class="n">g</span><span class="p">;</span>
+<span class="n">fshiftop</span> <span class="p">=</span> <span class="p">@(</span><span class="n">g</span><span class="p">)</span> <span class="n">g</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fshift</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span>
+    <span class="n">l</span> <span class="p">=</span> <span class="n">fftindex</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span><span class="o">/</span><span class="n">gl</span><span class="p">;</span>
+    <span class="n">fshiftop</span> <span class="p">=</span> <span class="p">@(</span><span class="n">g</span><span class="p">)</span> <span class="n">g</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">fshift</span><span class="o">*</span><span class="n">l</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tshift</span><span class="p">)</span> <span class="o">&gt;</span><span class="mi">0</span>
+    <span class="n">tshiftop</span> <span class="p">=</span> <span class="p">@(</span><span class="n">g</span><span class="p">)</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">tshift</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">timeshiftfirst</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">fshiftop</span><span class="p">(</span><span class="n">tshiftop</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+<span class="k">else</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">tshiftop</span><span class="p">(</span><span class="n">fshiftop</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+<span class="k">end</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

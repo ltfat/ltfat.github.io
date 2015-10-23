@@ -97,12 +97,12 @@ sr = filterbankreassign(s,tgrad,fgrad,a,g);
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">filterbankreassign(s,a,tgrad,fgrad,cfreq)</tt> will reassign the values of
+<p><tt class="docutils literal">filterbankreassign(s,tgrad,fgrad,a,cfreq)</tt> will reassign the values of
 the filterbank spectrogram <em>s</em> using the group delay <em>fgrad</em> and
 instantaneous frequency <em>tgrad</em>. The time-frequency sampling
 pattern is determined from the time steps <em>a</em> and the center
 frequencies <em>cfreq</em>.</p>
-<p><tt class="docutils literal">filterbankreassign(s,a,tgrad,fgrad,g)</tt> will do the same thing except
+<p><tt class="docutils literal">filterbankreassign(s,tgrad,fgrad,a,g)</tt> will do the same thing except
 the center frequencies are estimated from a set of filters <em>g</em>.</p>
 <p><tt class="docutils literal"><span class="pre">[sr,repos,Lc]=filterbankreassign(...)</span></tt> does the same thing, but in addition
 returns a vector of subband lengths <em>Lc</em> (<tt class="docutils literal">Lc = <span class="pre">cellfun(&#64;numel,s)</span></tt>)
@@ -140,7 +140,6 @@ subplot(212);
 plotfilterbank(sr,a,fc,fs,60);
 title('Reassigned ERBlet spectrogram of 3 chirps');
 </pre>
-<img alt="filterbankreassign_1_1.png" class="align-center" src="filterbankreassign_1_1.png" />
 </div>
 <H2>References:</H2>
 
@@ -151,7 +150,7 @@ title('Reassigned ERBlet spectrogram of 3 chirps');
 N.&nbsp;Holighaus, Z.&nbsp;Pr&#367;&scaron;a, and P.&nbsp;L. S&oslash;ndergaard.
  New ideas in reassignment: General time-frequency filter banks,
   sampling and processing.
- <em>IEEE Signal Processing Letters</em>, submitted, 2015.
+ <em>Signal Processing</em>, submitted, 2015.
 
 </p>
 

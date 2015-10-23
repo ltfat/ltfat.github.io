@@ -40,11 +40,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-[tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a,L,minlvl);
-[tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a,L);
-[tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a,minlvl);
-[tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a);
-[tgrad,fgrad,cs] = filterbankphasegrad(...)
+[tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,L,minlvl);
+[tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,L);
+[tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,minlvl);
+[tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a);
+[tgrad,fgrad,s] = filterbankphasegrad(...)
 [tgrad,fgrad]  = filterbankphasegrad(...)
 </pre>
 </div>
@@ -95,9 +95,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">[tgrad,fgrad,cs,c] = filterbankphasegrad(f,g,a,L)</tt> computes the group
+<p><tt class="docutils literal">[tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,L)</tt> computes the group
 delay <em>fgrad</em> and instantaneous frequency <em>tgrad</em> of the filterbank
-spectrogram <em>cs</em> obtained from the signal <em>f</em> and filterbank
+spectrogram <em>s</em> obtained from the signal <em>f</em> and filterbank
 parameters <em>g</em> and <em>a</em>. Both quantities are specified relative to the
 original coefficient position. <em>tgrad</em> is given in samples, while
 <em>fgrad</em> is given as values on the unit circle, easily converted into
@@ -125,7 +125,7 @@ F.&nbsp;Auger and P.&nbsp;Flandrin.
 N.&nbsp;Holighaus, Z.&nbsp;Pr&#367;&scaron;a, and P.&nbsp;L. S&oslash;ndergaard.
  New ideas in reassignment: General time-frequency filter banks,
   sampling and processing.
- <em>IEEE Signal Processing Letters</em>, submitted, 2015.
+ <em>Signal Processing</em>, submitted, 2015.
 
 </p>
 
