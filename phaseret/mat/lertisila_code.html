@@ -1,0 +1,461 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
+<title>LERTISILA - RTISI for real signals using Le Roux's truncated updates</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="lertisila.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LERTISILA - RTISI for real signals using Le Roux's truncated updates</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,relres,iter,f]<span class="p">=</span><span class="nf">lertisila</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%LERTISILA RTISI for real signals using Le Roux&#39;s truncated updates</span>
+<span class="c">%   Usage: c = lertisila(s,g,a,M)</span>
+<span class="c">%          c = lertisila(s,g,a,M,Ls)</span>
+<span class="c">%          [c,relres,iter,f] = lertisila(...)</span>
+<span class="c">%</span>
+<span class="c">%   Input parameters:</span>
+<span class="c">%         s       : Array of initial coefficients.</span>
+<span class="c">%         g       : Analysis Gabor window</span>
+<span class="c">%         a       : Hop factor</span>
+<span class="c">%         M       : Number of channels</span>
+<span class="c">%         Ls      : length of signal.</span>
+<span class="c">%   Output parameters:</span>
+<span class="c">%         f       : Reconstructed signal.</span>
+<span class="c">%         relres  : Final residual error.</span>
+<span class="c">%         iter    : Number of per-frame iterations done.</span>
+<span class="c">%         c       : Coefficients with the reconstructed phase.</span>
+<span class="c">%</span>
+<span class="c">%   LERTISILA(s,g,a,M) attempts to find Gabor coefficients c such</span>
+<span class="c">%   that:</span>
+<span class="c">%</span>
+<span class="c">%     s = abs(c);</span>
+<span class="c">%</span>
+<span class="c">%   using the Real-Time Iterative Spectrogram Inversion with Look Ahead</span>
+<span class="c">%   and Le Roux&#39;s truncated phase updates.</span>
+<span class="c">%   </span>
+<span class="c">%   [c,relres,iter,f]=LERTISILA(...) additionally returns an array</span>
+<span class="c">%   of residuals relres, the number of per-frame iterations done iter </span>
+<span class="c">%   and the coefficients c with the reconstructed phase. The relationship</span>
+<span class="c">%   between f and c is:</span>
+<span class="c">%</span>
+<span class="c">%     f = idgtreal(c,gd,a,M)</span>
+<span class="c">%</span>
+<span class="c">%   where gd is the canonical dual window obtained by GABDUAL.</span>
+<span class="c">%</span>
+<span class="c">%   LERTISILA takes the following addition arguments:</span>
+<span class="c">%</span>
+<span class="c">%   Algorithm parameters:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;lookahead&#39;,lookahead   Number of lookahead frames. </span>
+<span class="c">%                             The default value is ceil(M/a)-1.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;freqneighs&#39;,fneighs  Number of neighboring frequency bins used</span>
+<span class="c">%                           in the truncated projection. The default</span>
+<span class="c">%                           value is lookahead.</span>
+<span class="c">%                           The total kernel size is </span>
+<span class="c">%                           2*(fneighs) + 1, 2*(lookahead) + 1</span>
+<span class="c">%</span>
+<span class="c">%     &#39;asymwin&#39;        Use asymetric window for the newest lookahead</span>
+<span class="c">%                      frame.</span>
+<span class="c">%                      This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;regwin&#39;         Use regular window for the newest lookahead</span>
+<span class="c">%                      frame.</span>
+<span class="c">%</span>
+<span class="c">%   Initial phase guess:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;zhu&#39;        The initial phase of the newly read look-ahead frame</span>
+<span class="c">%                  is computed from the overlapped previous frames.</span>
+<span class="c">%                  This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;input&#39;      Choose the starting phase as the phase of the input</span>
+<span class="c">%                  s.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;zero&#39;       Choose a starting phase of zero.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;unwrap&#39;     Determines phase by unwrapping the phase from the</span>
+<span class="c">%                  previous frames.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;unwrappar&#39;,upar  Argument of the unwrapping phase initialization.</span>
+<span class="c">%                       It is ignored if the &#39;unwrap&#39; parameter is not</span>
+<span class="c">%                       used. </span>
+<span class="c">%                       The default value is 0.3.</span>
+<span class="c">%</span>
+<span class="c">%   Variant of the algorithm:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;trunc&#39;      The projection kernel is used directly.</span>
+<span class="c">%                  This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;modtrunc&#39;   Modified phase update is done by setting the central</span>
+<span class="c">%                  sample of the projection kernel to zero.</span>
+<span class="c">%</span>
+<span class="c">%   Phase update scheme:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;framewise&#39;  Phase is updated for each frame.</span>
+<span class="c">%                  This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;onthefly&#39;   The phase is updated for each coefficient immediatelly.</span>
+<span class="c">%</span>
+<span class="c">%   Parameters of modifications:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;energy&#39;     Process the lookahead frames in the order of their</span>
+<span class="c">%                  energy.</span>
+<span class="c">%   </span>
+<span class="c">%   References:</span>
+<span class="c">%     X. Zhu, G. T. Beauregard, and L. Wyse. Real-time signal estimation from</span>
+<span class="c">%     modified short-time Fourier transform magnitude spectra. Audio, Speech,</span>
+<span class="c">%     and Language Processing, IEEE Transactions on, 15(5):1645-1653, July</span>
+<span class="c">%     2007.</span>
+<span class="c">%     </span>
+<span class="c">%     V. Gnann and M. Spiertz. Improving RTISI phase estimation with energy</span>
+<span class="c">%     order and phase unwrapping. In Proc. 13th International Conference on</span>
+<span class="c">%     Digital Audio Effects (DAFx-10), Sept. 2010.</span>
+<span class="c">%     </span>
+<span class="c">%     J. Le Roux, H. Kameoka, N. Ono, and S. Sagayama. Fast signal</span>
+<span class="c">%     reconstruction from magnitude STFT spectrogram based on spectrogram</span>
+<span class="c">%     consistency. In Proc. 13th International Conference on Digital Audio</span>
+<span class="c">%     Effects (DAFx-10), pages 397-403, Sept. 2010.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/phaseret/doc/mat/lertisila.html</span>
+
+<span class="c">% Copyright (C) 2016 Zdenek Prusa &lt;zdenek.prusa@gmail.com&gt;.</span>
+<span class="c">% This file is part of PHASERET version 0.1.0</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%   AUTHORS: Zdenek Prusa   </span>
+<span class="c">%</span>
+
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">||</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s must be a numeric array of coefficients.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
+   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s cannot be 3dimensional.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+<span class="k">end</span>
+
+<span class="p">[</span><span class="n">M2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="n">L</span> <span class="p">=</span> <span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">5</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">unwrappar</span><span class="p">=</span><span class="mf">0.3</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startphase</span><span class="p">={</span><span class="s">&#39;zhu&#39;</span><span class="p">,</span><span class="s">&#39;input&#39;</span><span class="p">,</span><span class="s">&#39;zero&#39;</span><span class="p">,</span><span class="s">&#39;rand&#39;</span><span class="p">,</span><span class="s">&#39;unwrap&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">frameorder</span><span class="p">={</span><span class="s">&#39;plain&#39;</span><span class="p">,</span><span class="s">&#39;energy&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">asymwin</span><span class="p">={</span><span class="s">&#39;asymwin&#39;</span><span class="p">,</span><span class="s">&#39;regwin&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lookahead</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">freqneighs</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algvariant</span><span class="p">={</span><span class="s">&#39;trunc&#39;</span><span class="p">,</span><span class="s">&#39;modtrunc&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">updatescheme</span><span class="p">={</span><span class="s">&#39;framewise&#39;</span><span class="p">,</span><span class="s">&#39;onthefly&#39;</span><span class="p">};</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: maxit must be a positive integer (or array).&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="c">% Default number of lookahead frames.</span>
+<span class="c">% The kernel size in the horizontal direction is 2*kv.lookahead + 1</span>
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">)</span>
+    <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span> <span class="o">&gt;</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: lookahead must be in range [0-%d]&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">lookback</span> <span class="p">=</span> <span class="n">max</span><span class="p">([</span><span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">,</span><span class="nb">ceil</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">freqneighs</span><span class="p">)</span>
+    <span class="n">kv</span><span class="p">.</span><span class="n">freqneighs</span> <span class="p">=</span> <span class="n">lookback</span><span class="p">;</span>
+<span class="k">end</span>
+
+
+<span class="n">kernsize</span> <span class="p">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">freqneighs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">lookback</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+
+<span class="c">% TODO: Check for reasonable size of the kernel</span>
+
+<span class="c">% Kernel dimensions</span>
+<span class="c">% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+<span class="n">kernh</span> <span class="p">=</span> <span class="n">kernsize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">kernw</span> <span class="p">=</span> <span class="n">kernsize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="c">% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+
+<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">kernsize</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Kernel size must be odd.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="n">abss</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="n">norm_s</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_input</span>
+  <span class="c">% Start with the phase given by the input.</span>
+  <span class="n">c</span><span class="p">=</span><span class="n">s</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zero</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_unwrap</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zhu</span>
+  <span class="c">% Start with a phase of zero.</span>
+  <span class="n">c</span><span class="p">=</span><span class="n">abss</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_rand</span>
+  <span class="c">% Start with a renadom phase</span>
+  <span class="n">c</span><span class="p">=</span><span class="n">abss</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">rand</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">)));</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="c">% Dual window</span>
+<span class="n">gd</span> <span class="p">=</span> <span class="n">gabdual</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+<span class="c">% Prepare truncated projection kernels</span>
+<span class="n">projfncBase</span> <span class="p">=</span> <span class="p">@(</span><span class="n">c</span><span class="p">)</span> <span class="n">dgt</span><span class="p">(</span><span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">),</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">projfncSpec</span> <span class="p">=</span> <span class="p">@(</span><span class="n">c</span><span class="p">)</span> <span class="n">dgt</span><span class="p">(</span><span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">),</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">projfncBaseReal</span> <span class="p">=</span> <span class="p">@(</span><span class="n">c</span><span class="p">)</span> <span class="n">dgtreal</span><span class="p">(</span><span class="n">idgtreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">),</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">ctmp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span> <span class="n">ctmp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">kern</span> <span class="p">=</span> <span class="n">projfncBase</span><span class="p">(</span><span class="n">ctmp</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_modtrunc</span>
+    <span class="n">kern</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c">% Just shrink the kernel to the size of look ahead</span>
+<span class="n">kernsmall</span> <span class="p">=</span> <span class="n">middlepad2</span><span class="p">(</span><span class="n">kern</span><span class="p">,[</span><span class="n">kernh</span><span class="p">,</span> <span class="n">kernw</span><span class="p">]);</span>
+
+<span class="c">% Kernel for the first asymetric window</span>
+<span class="n">ctmpSpec1</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span>
+<span class="n">ctmpSpec1</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">2</span><span class="p">:</span><span class="n">kernw</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">kernSpec1</span> <span class="p">=</span> <span class="n">projfncSpec</span><span class="p">(</span><span class="n">ctmpSpec1</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_modtrunc</span>
+    <span class="n">kernSpec1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c">% Just shrink the kernel to the size of look ahead</span>
+<span class="n">kernsmallSpec1</span> <span class="p">=</span> <span class="n">middlepad2</span><span class="p">(</span><span class="n">kernSpec1</span><span class="p">,[</span><span class="n">kernh</span><span class="p">,</span> <span class="n">kernw</span><span class="p">]);</span>
+
+<span class="c">% Kernel for the second asymetric window</span>
+<span class="n">ctmpSpec2</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span>
+<span class="n">ctmpSpec2</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="mi">1</span><span class="p">:</span><span class="n">kernw</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">kernSpec2</span> <span class="p">=</span> <span class="n">projfncSpec</span><span class="p">(</span><span class="n">ctmpSpec2</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_modtrunc</span>
+    <span class="n">kernSpec2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c">% Just shrink the kernel to the size of look ahead</span>
+<span class="n">kernsmallSpec2</span> <span class="p">=</span> <span class="n">middlepad2</span><span class="p">(</span><span class="n">kernSpec2</span><span class="p">,[</span><span class="n">kernh</span><span class="p">,</span><span class="n">kernw</span><span class="p">]);</span>
+
+<span class="n">cfull</span> <span class="p">=</span> <span class="n">c</span><span class="p">;</span>
+<span class="n">c</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">cfull</span><span class="p">));</span>
+
+<span class="n">cbuf</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">lookback</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+<span class="c">% Precompute modulated kernels</span>
+<span class="n">kNo</span> <span class="p">=</span> <span class="nb">lcm</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
+<span class="n">kernelsSmall</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">([</span><span class="n">kernh</span><span class="p">,</span><span class="n">kernw</span><span class="p">,</span><span class="n">kNo</span><span class="p">]);</span>
+<span class="n">kernelsSpec1Small</span> <span class="p">=</span> <span class="n">kernelsSmall</span><span class="p">;</span>
+<span class="n">kernelsSpec2Small</span> <span class="p">=</span> <span class="n">kernelsSmall</span><span class="p">;</span>
+<span class="k">for</span> <span class="n">k</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="n">kNo</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">kernelsSmall</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">phasekernfi</span><span class="p">(</span><span class="n">kernsmall</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+    <span class="n">kernelsSpec1Small</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">phasekernfi</span><span class="p">(</span><span class="n">kernsmallSpec1</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+    <span class="n">kernelsSpec2Small</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">phasekernfi</span><span class="p">(</span><span class="n">kernsmallSpec2</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+    
+    <span class="n">kernelsSmall</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)=</span><span class="n">fftshift</span><span class="p">(</span><span class="n">involute2</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">kernelsSmall</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))));</span>
+    <span class="n">kernelsSpec1Small</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)=</span><span class="n">fftshift</span><span class="p">(</span><span class="n">involute2</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">kernelsSpec1Small</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))));</span>
+    <span class="n">kernelsSpec2Small</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)=</span><span class="n">fftshift</span><span class="p">(</span><span class="n">involute2</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">kernelsSpec2Small</span><span class="p">(:,:,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))));</span>
+<span class="k">end</span>
+
+<span class="c">% Buffer initialization</span>
+<span class="n">cbuf</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span> <span class="o">+</span> <span class="n">lookback</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">cfull</span><span class="p">(:,</span><span class="nb">mod</span><span class="p">(</span> <span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">lookback</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">),</span> <span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">kernw2</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">kernw</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c">% n -th frame is the submit frame</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">N</span>
+    <span class="c">% Shift cols in the buffer </span>
+    <span class="n">cbuf</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="n">kernw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">cbuf</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="n">kernw</span><span class="p">);</span>
+    <span class="n">cbuf</span><span class="p">(:,</span><span class="n">kernw</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="c">% Index of the newest look-ahead frame</span>
+    <span class="n">nextnewframeidx</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">,</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="c">% Pick new lookahead frame</span>
+    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_unwrap</span>
+        <span class="n">newframeidx1</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">nextnewframeidx</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">newframeidx2</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">nextnewframeidx</span><span class="o">-</span><span class="mi">2</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        
+        <span class="n">cbuf</span><span class="p">(:,</span><span class="n">kernw</span><span class="p">)</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">unwrappar</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfull</span><span class="p">(:,</span><span class="n">nextnewframeidx</span><span class="p">))</span> <span class="c">...</span>
+                                    <span class="o">.*</span><span class="n">cfull</span><span class="p">(:,</span><span class="n">newframeidx1</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span> <span class="c">...</span>
+                                    <span class="o">.*</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfull</span><span class="p">(:,</span><span class="n">newframeidx2</span><span class="p">))</span><span class="o">./</span> <span class="c">...</span>
+                                    <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfull</span><span class="p">(:,</span><span class="n">newframeidx1</span><span class="p">))</span><span class="o">.^</span><span class="mi">2</span> <span class="c">...</span>
+                                    <span class="o">.*</span><span class="n">cfull</span><span class="p">(:,</span><span class="n">newframeidx2</span><span class="p">)</span> <span class="p">);</span>
+    <span class="k">elseif</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_zhu</span>
+        <span class="c">% Use the initial estimate</span>
+        <span class="n">cbuf</span><span class="p">(:,</span><span class="n">kernw</span><span class="p">)</span> <span class="p">=</span> <span class="n">cfull</span><span class="p">(:,</span><span class="n">nextnewframeidx</span><span class="p">);</span>      
+    <span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zhu</span>
+        <span class="c">% Do nothing. The original algorithm assumes the new frame to only</span>
+        <span class="c">% consist of the sum of the overlapping preceeding frames.</span>
+        <span class="c">% This is equivalent to setting cbuf(:,kernw) to zeros.</span>
+        <span class="c">% It gets filled after the first iteration.</span>
+    <span class="k">end</span>
+    
+    <span class="c">%% Explicit first iteration</span>
+    <span class="c">% 1) No energy sorting</span>
+    <span class="c">% 2) Special analysis window for the rightmost frame </span>
+    <span class="c">%    There are two different &quot;special&quot; analysis frames</span>
+    <span class="c">%    depending on flags.do_zhu</span>
+    
+    <span class="c">%% 1) The new looakahead frame</span>
+    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_asymwin</span>
+        <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zhu</span>
+           <span class="n">kernact</span> <span class="p">=</span> <span class="n">kernelsSpec1Small</span><span class="p">(:,:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">,</span><span class="n">kNo</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+        <span class="k">else</span>
+           <span class="n">kernact</span> <span class="p">=</span> <span class="n">kernelsSpec2Small</span><span class="p">(:,:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">,</span><span class="n">kNo</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+        <span class="k">end</span>
+    <span class="k">else</span>
+        <span class="n">kernact</span> <span class="p">=</span> <span class="n">kernelsSmall</span><span class="p">(:,:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">,</span><span class="n">kNo</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">end</span>
+
+    <span class="n">indx</span> <span class="p">=</span> <span class="n">lookback</span><span class="o">+</span><span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">indxRange</span> <span class="p">=</span> <span class="n">indx</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">kernw2</span><span class="p">:</span><span class="n">kernw2</span><span class="p">);</span>
+    
+    <span class="n">cbuf</span><span class="p">(:,</span><span class="n">indx</span><span class="p">)</span> <span class="p">=</span> <span class="n">comp_leglaupdatesinglecol</span><span class="p">(</span><span class="n">cbuf</span><span class="p">(:,</span><span class="n">indxRange</span><span class="p">),</span><span class="c">...</span>
+                         <span class="n">kernact</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfull</span><span class="p">(:,</span><span class="n">nextnewframeidx</span><span class="p">)),</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_onthefly</span><span class="p">);</span>
+
+    
+    <span class="c">%% 2) Other lookahead frames and the submit frame</span>
+    <span class="k">for</span> <span class="n">nback</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span>
+       <span class="n">kernact</span> <span class="p">=</span> <span class="n">kernelsSmall</span><span class="p">(:,:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">nback</span><span class="p">,</span><span class="n">kNo</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+       <span class="n">indx</span> <span class="p">=</span> <span class="n">lookback</span><span class="o">+</span><span class="n">nback</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+       <span class="n">indxRange</span> <span class="p">=</span> <span class="n">indx</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">kernw2</span><span class="p">:</span><span class="n">kernw2</span><span class="p">);</span>
+       
+       <span class="n">cbuf</span><span class="p">(:,</span><span class="n">indx</span><span class="p">)</span> <span class="p">=</span> <span class="n">comp_leglaupdatesinglecol</span><span class="p">(</span><span class="n">cbuf</span><span class="p">(:,</span><span class="n">indxRange</span><span class="p">),</span><span class="c">...</span>
+                         <span class="n">kernact</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfull</span><span class="p">(:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">nback</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)),</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_onthefly</span><span class="p">);</span>
+    <span class="k">end</span>
+    
+    <span class="c">% Determine order of frames for the next iterations</span>
+    <span class="n">frameorder</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_energy</span>
+        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">frameorder</span><span class="p">]</span> <span class="p">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cbuf</span><span class="p">(:,</span><span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">kernw</span><span class="p">))</span><span class="o">.^</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;descend&#39;</span><span class="p">);</span>
+        <span class="n">frameorder</span> <span class="p">=</span> <span class="n">frameorder</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">end</span>
+      
+    <span class="c">%% 3) All the other iterations</span>
+    <span class="k">for</span> <span class="n">iter</span><span class="p">=</span><span class="mi">2</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
+        <span class="k">for</span> <span class="n">nback</span> <span class="p">=</span> <span class="n">frameorder</span>
+            <span class="c">% Last frame gets (another) special analysis window</span>
+            <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_asymwin</span> <span class="o">&amp;&amp;</span> <span class="n">nback</span> <span class="o">==</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span>
+                <span class="n">kernact</span> <span class="p">=</span> <span class="n">kernelsSpec2Small</span><span class="p">(:,:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">,</span><span class="n">kNo</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+            <span class="k">else</span>
+                <span class="c">% Pick the right kernel</span>
+                <span class="n">kernact</span> <span class="p">=</span> <span class="n">kernelsSmall</span><span class="p">(:,:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">nback</span><span class="p">,</span><span class="n">kNo</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+            <span class="k">end</span>
+            
+            <span class="n">indx</span> <span class="p">=</span> <span class="n">lookback</span><span class="o">+</span><span class="n">nback</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="n">indxRange</span> <span class="p">=</span> <span class="n">indx</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">kernw2</span><span class="p">:</span><span class="n">kernw2</span><span class="p">);</span>
+            
+            <span class="n">cbuf</span><span class="p">(:,</span><span class="n">indx</span><span class="p">)</span> <span class="p">=</span> <span class="n">comp_leglaupdatesinglecol</span><span class="p">(</span><span class="n">cbuf</span><span class="p">(:,</span><span class="n">indxRange</span><span class="p">),</span><span class="c">...</span>
+                              <span class="n">kernact</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfull</span><span class="p">(:,</span><span class="nb">mod</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">nback</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)),</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_onthefly</span><span class="p">);</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    
+    <span class="c">% Submit a frame</span>
+    <span class="n">c</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span> <span class="p">=</span> <span class="n">cbuf</span><span class="p">(:,</span><span class="n">lookback</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="n">relres</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">projfncBaseReal</span><span class="p">(</span><span class="n">c</span><span class="p">))</span><span class="o">-</span><span class="n">abss</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
+<span class="n">iter</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">lookahead</span><span class="p">;</span>
+
+<span class="n">f</span> <span class="p">=</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">comp_sigreshape_post</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="mi">0</span><span class="p">,[</span><span class="mi">0</span><span class="p">;</span> <span class="n">W</span><span class="p">]);</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="n">phaselockreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c">% M/a periodic in n</span>
+<span class="k">function</span><span class="w"> </span>kernm <span class="p">=</span><span class="w"> </span><span class="nf">phasekernfi</span><span class="p">(</span>kern,n,a,M<span class="p">)</span><span class="w"></span>
+<span class="n">kern</span> <span class="p">=</span> <span class="n">involute2</span><span class="p">(</span><span class="n">kern</span><span class="p">);</span>
+
+<span class="n">kernh</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">kern</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">l</span> <span class="p">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">fftindex</span><span class="p">(</span><span class="n">kernh</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+
+<span class="n">kernm</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">kern</span><span class="p">,</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">l</span><span class="p">));</span>
+
+<span class="c">% M/a periodic in m</span>
+<span class="k">function</span><span class="w"> </span>kernm <span class="p">=</span><span class="w"> </span><span class="nf">phasekernti</span><span class="p">(</span>kern,m,a,M<span class="p">)</span><span class="w"></span>
+
+<span class="p">[</span><span class="n">kernh</span><span class="p">,</span> <span class="n">kernw</span><span class="p">]</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">kern</span><span class="p">);</span>
+<span class="n">l</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">fftindex</span><span class="p">(</span><span class="n">kernw</span><span class="p">)</span><span class="o">&#39;*</span><span class="n">a</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+
+<span class="n">kernm</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">kern</span><span class="p">,</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">l</span><span class="p">));</span>
+
+
+<span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">involute2</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">=</span> <span class="nb">conj</span><span class="p">(</span><span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">middlepad2</span><span class="p">(</span>f,L,varargin<span class="p">)</span><span class="w"></span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">middlepad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">middlepad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/macros.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

@@ -1,0 +1,330 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
+<title>LEGLA - Le Roux's Griffin-Lim Algorithm for real signals</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="legla.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LEGLA - Le Roux's Griffin-Lim Algorithm for real signals</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,relres,iter,f]<span class="p">=</span><span class="nf">legla</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%LEGLA Le Roux&#39;s Griffin-Lim Algorithm for real signals</span>
+<span class="c">%   Usage: c = legla(s,g,a,M)</span>
+<span class="c">%          c = legla(s,g,a,M,Ls)</span>
+<span class="c">%          [c,relres,iter,f] = legla(...)</span>
+<span class="c">%</span>
+<span class="c">%   Input parameters:</span>
+<span class="c">%         s       : Array of initial coefficients.</span>
+<span class="c">%         g       : Analysis Gabor window</span>
+<span class="c">%         a       : Hop factor</span>
+<span class="c">%         M       : Number of channels</span>
+<span class="c">%         Ls      : length of signal.</span>
+<span class="c">%   Output parameters:</span>
+<span class="c">%         f       : Signal.</span>
+<span class="c">%         relres  : Vector of residuals.</span>
+<span class="c">%         iter    : Number of iterations done.</span>
+<span class="c">%         c       : Coefficients with the reconstructed phase</span>
+<span class="c">%</span>
+<span class="c">%   LEGLA(s,g,a,M) attempts to find a signal f with has s as</span>
+<span class="c">%   the abs. value of the Gabor coefficients such as:</span>
+<span class="c">%</span>
+<span class="c">%     s = abs(dgtreal(f,g,a,M));</span>
+<span class="c">%</span>
+<span class="c">%   using Le Rouxs modifications of the Griffin-Lim algorithm.</span>
+<span class="c">%</span>
+<span class="c">%   [f,relres,iter,c]=LEGLA(...) additionally returns an array</span>
+<span class="c">%   of residuals relres, the number of iterations done iter and the</span>
+<span class="c">%   coefficients c with the reconstructed phase. The relationship between</span>
+<span class="c">%   f and c is:</span>
+<span class="c">%</span>
+<span class="c">%     f = idgtreal(c,gd,a,M)</span>
+<span class="c">%</span>
+<span class="c">%   where gd is the canonical dual window obtained by GABDUAL.</span>
+<span class="c">%</span>
+<span class="c">%   LEGLA takes the following additional parameters:</span>
+<span class="c">%</span>
+<span class="c">%   Initial phase guess:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;input&#39;      Choose the starting phase as the phase of the input</span>
+<span class="c">%                  s. This is the default</span>
+<span class="c">%</span>
+<span class="c">%     &#39;zero&#39;       Choose a starting phase of zero.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span>
+<span class="c">%</span>
+<span class="c">%   Variant of the algorithm:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;trunc&#39;      The projection kernel is used directly.</span>
+<span class="c">%                  This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;modtrunc&#39;   Modified phase update is done by setting the central</span>
+<span class="c">%                  sample of the projection kernel to zero.</span>
+<span class="c">%</span>
+<span class="c">%   Phase update scheme:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;stepwise&#39;   Phase is updated only after the whole projection has</span>
+<span class="c">%                  been made.</span>
+<span class="c">%                  This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;onthefly&#39;   The phase is updated for each coefficient immediatelly.</span>
+<span class="c">%</span>
+<span class="c">%   Algorithm acceleration:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;legla&#39;      The original Giffin-Lim iteration scheme.</span>
+<span class="c">%                  This is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;flegla&#39;     A fast Griffin-Lim iteration scheme from Perraudin et. al.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;alpha&#39;,a    Parameter of the Fast Griffin-Lim algorithm. It is</span>
+<span class="c">%                  ignored if not used together with &#39;flegla&#39; flag.</span>
+<span class="c">%</span>
+<span class="c">%   Other:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;print&#39;      Display the progress.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span>
+<span class="c">%                    iteration. Default value is p=10;</span>
+<span class="c">%</span>
+<span class="c">%   !!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+<span class="c">%   This function requires LTFAT 2.1.2 and above.</span>
+<span class="c">%   !!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     N. Perraudin, P. Balazs, and P. Søndergaard. A fast Griffin-Lim</span>
+<span class="c">%     algorithm. In Applications of Signal Processing to Audio and Acoustics</span>
+<span class="c">%     (WASPAA), 2013 IEEE Workshop on, pages 1-4, Oct 2013.</span>
+<span class="c">%     </span>
+<span class="c">%     J. Le Roux, N. Ono, and S. Sagayama. Explicit consistency constraints</span>
+<span class="c">%     for STFT spectrograms and their application to phase reconstruction. In</span>
+<span class="c">%     Proceedings of the SAPA 2008 ISCA Workshop on Statistical and</span>
+<span class="c">%     Perceptual Audition, pages 23-28, Sept. 2008.</span>
+<span class="c">%     </span>
+<span class="c">%     J. Le Roux, H. Kameoka, N. Ono, and S. Sagayama. Fast signal</span>
+<span class="c">%     reconstruction from magnitude STFT spectrogram based on spectrogram</span>
+<span class="c">%     consistency. In Proc. 13th International Conference on Digital Audio</span>
+<span class="c">%     Effects (DAFx-10), pages 397-403, Sept. 2010.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/phaseret/doc/mat/legla.html</span>
+
+<span class="c">% Copyright (C) 2016 Zdenek Prusa &lt;zdenek.prusa@gmail.com&gt;.</span>
+<span class="c">% This file is part of PHASERET version 0.1.0</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%   AUTHOR: Zdenek Prusa</span>
+
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="n">L</span> <span class="p">=</span> <span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startphase</span><span class="p">={</span><span class="s">&#39;input&#39;</span><span class="p">,</span><span class="s">&#39;zero&#39;</span><span class="p">,</span><span class="s">&#39;rand&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algvariant</span><span class="p">={</span><span class="s">&#39;trunc&#39;</span><span class="p">,</span><span class="s">&#39;modtrunc&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">updatescheme</span><span class="p">={</span><span class="s">&#39;stepwise&#39;</span><span class="p">,</span><span class="s">&#39;onthefly&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">={</span><span class="s">&#39;legla&#39;</span><span class="p">,</span><span class="s">&#39;flegla&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">alpha</span><span class="p">=</span><span class="mf">0.99</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">relthr</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">kernsize</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">coefmod</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">isa</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: coefmod must be anonymous function.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">))</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_input</span>
+    <span class="c">% Start with the phase given by the input.</span>
+    <span class="n">c</span><span class="p">=</span><span class="n">s</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zero</span>
+    <span class="c">% Start with a phase of zero.</span>
+    <span class="n">c</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_rand</span>
+    <span class="n">c</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">rand</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">)));</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="n">s</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+<span class="c">% For normalization purposes</span>
+<span class="n">norm_s</span><span class="p">=</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span>
+
+<span class="n">relres</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">gnum</span> <span class="p">=</span> <span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="n">gd</span> <span class="p">=</span> <span class="n">gabdual</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+<span class="n">projfncBase</span> <span class="p">=</span> <span class="p">@(</span><span class="n">c</span><span class="p">)</span> <span class="n">dgt</span><span class="p">(</span><span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">),</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">ctmp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span> <span class="n">ctmp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">kern</span> <span class="p">=</span> <span class="n">projfncBase</span><span class="p">(</span><span class="n">ctmp</span><span class="p">);</span>
+<span class="n">clear</span> <span class="n">ctmp</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">)</span>
+    <span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span> <span class="p">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="nb">ceil</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nb">ceil</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+<span class="k">else</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">)</span> <span class="o">||</span> <span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Kernel size must be a 2 element vector.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mflename</span><span class="p">));</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Kernel size must be odd.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid kernel size.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c">% Projection kernel</span>
+<span class="n">projfnc</span> <span class="p">=</span> <span class="p">@(</span><span class="n">c</span><span class="p">)</span> <span class="n">comp_dgtreal</span><span class="p">(</span><span class="n">comp_idgtreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">),</span><span class="n">gnum</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_modtrunc</span>
+    <span class="n">kern</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="n">kernsmall</span> <span class="p">=</span> <span class="n">middlepad2</span><span class="p">(</span><span class="n">kern</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">);</span>
+<span class="n">kernsmall</span> <span class="p">=</span> <span class="n">fftshift</span><span class="p">(</span><span class="n">involute2</span><span class="p">(</span><span class="n">kernsmall</span><span class="p">));</span>
+
+<span class="c">% Do explicit coefmod</span>
+<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">)</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_legla</span>
+    <span class="k">for</span> <span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
+
+        <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
+            <span class="c">% We do the projection explicitly as comp_leglaupdatereal</span>
+            <span class="c">% returns something different. This effectivelly doubles the</span>
+            <span class="c">% execution time.</span>
+            <span class="n">cproj</span> <span class="p">=</span> <span class="n">projfnc</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+            <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cproj</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
+        <span class="k">end</span>
+
+        <span class="c">% Do the leGLA phase update</span>
+        <span class="n">c</span> <span class="p">=</span> <span class="n">comp_leglaupdate</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">kernsmall</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_onthefly</span><span class="p">);</span>
+        
+        <span class="c">% Apply coefficient restriction</span>
+        <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">)</span>
+            <span class="n">c</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+        <span class="k">end</span>
+
+        <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
+            <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
+                <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;LEGLA: Iteration %i, residual = %f.\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_flegla</span>
+    <span class="n">told</span><span class="p">=</span><span class="n">c</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
+        
+        <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
+            <span class="n">cproj</span> <span class="p">=</span> <span class="n">projfnc</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+            <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cproj</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
+        <span class="k">end</span>
+
+        <span class="c">% Do the leGLA phase update</span>
+        <span class="n">tnew</span> <span class="p">=</span> <span class="n">comp_leglaupdate</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">kernsmall</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_onthefly</span><span class="p">);</span>
+        
+        <span class="c">% Apply coefficient restriction</span>
+        <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">)</span>
+            <span class="n">tnew</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">(</span><span class="n">tnew</span><span class="p">);</span>
+        <span class="k">end</span>
+        
+        <span class="c">% The acceleration step</span>
+        <span class="n">c</span> <span class="p">=</span> <span class="n">tnew</span> <span class="o">+</span> <span class="n">kv</span><span class="p">.</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">tnew</span><span class="o">-</span><span class="n">told</span><span class="p">);</span>
+        
+        <span class="c">% Keep for next iteration</span>
+        <span class="n">told</span> <span class="p">=</span> <span class="n">tnew</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
+            <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
+                <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;LEGLA: Iteration %i, residual = %f.\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">f</span> <span class="p">=</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">comp_sigreshape_post</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="mi">0</span><span class="p">,[</span><span class="mi">0</span><span class="p">;</span> <span class="n">W</span><span class="p">]);</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="n">phaselockreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="k">end</span>
+
+
+
+<span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">involute2</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">=</span> <span class="nb">conj</span><span class="p">(</span><span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">middlepad2</span><span class="p">(</span>f,L,varargin<span class="p">)</span><span class="w"></span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">middlepad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">middlepad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/macros.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
