@@ -1,0 +1,10 @@
+Iteration 10: relative error = 0.068384
+Iteration 20: relative error = 0.034516
+Iteration 30: relative error = 0.022865
+Iteration 40: relative error = 0.016747
+Iteration 50: relative error = 0.013124
+Iteration 60: relative error = 0.010508
+
+ans =
+
+     2.334642657924850e-14

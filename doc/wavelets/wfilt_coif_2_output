@@ -1,3 +1,0 @@
-The original signal can be played by typing: sound(forig,44100);
-The signal obtained by a direct filtering cen be played by (this is what is approximated by the multiplier): sound(fdir,44100);
-The signal obtained by applying the Gabor multiplier: sound(fmul,44100);

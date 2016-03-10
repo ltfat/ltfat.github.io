@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>CONSTRUCTPHASE - Construct the phase of a DGT</title>
+<title>CONSTRUCTPHASE - Construct phase for DGT</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet"
@@ -41,14 +41,68 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">CONSTRUCTPHASE - Construct the phase of a DGT</h1>
+        <h1 class="title">CONSTRUCTPHASE - Construct phase for DGT</h1>
 
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
 c=constructphase(s,g,a);
 c=constructphase(s,g,a,tol);
+c=constructphase(c,g,a,tol,mask);
+c=constructphase(c,g,a,tol,mask,usephase);
+[c,newphase,usedmask,tgrad,fgrad] = constructphase(...);
 </pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>s</var></span></kbd></td>
+<td>Initial coefficients.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>g</var></span></kbd></td>
+<td>Analysis Gabor window.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>a</var></span></kbd></td>
+<td>Hop factor.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>tol</var></span></kbd></td>
+<td>Relative tolerance.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>mask</var></span></kbd></td>
+<td>Mask for selecting known phase.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>usephase</var></span></kbd></td>
+<td>Explicit known phase.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>c</var></span></kbd></td>
+<td>Coefficients with the constructed phase.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>newphase</var></span></kbd></td>
+<td>Just the (unwrapped) phase.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>usedmask</var></span></kbd></td>
+<td>Mask for selecting coefficients with the new phase.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>tgrad</var></span></kbd></td>
+<td>Relative time phase derivative.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>fgrad</var></span></kbd></td>
+<td>Relative frequency phase derivative.</td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
@@ -65,9 +119,46 @@ or be a cell array <tt class="docutils literal"><span class="pre">{'gauss',tfr}<
 <p><tt class="docutils literal">constructphase(s,g,a,tol)</tt> does as above, but sets the phase of
 coefficients less than <em>tol</em> to random values.
 By default, <em>tol</em> has the value 1e-10.</p>
+<p><tt class="docutils literal">constructphase(c,g,a,M,tol,mask)</tt> accepts real or complex valued
+<em>c</em> and real valued <em>mask</em> of the same size. Values in <em>mask</em> which can
+be converted to logical true (anything other than 0) determine
+coefficients with known phase which is used in the output. Only the
+phase of remaining coefficients (for which mask==0) is computed.</p>
+<p><tt class="docutils literal">constructphasereal(c,g,a,M,tol,mask,usephase)</tt> does the same as before
+but uses the known phase values from <em>usephase</em> rather than from <em>c</em>.</p>
+<p>In addition, <em>tol</em> can be a vector containing decreasing values. In
+that case, the algorithm is run <tt class="docutils literal">numel(tol)</tt> times, initialized with
+the result from the previous step in the 2nd and the further steps.</p>
+<p>Further, the function accepts the following flags:</p>
+<blockquote>
+<dl class="docutils">
+<dt>'freqinv'  The constructed phase complies with the frequency</dt>
+<dd>invariant phase convention such that it can be directly
+used in <span class="linkrole"><a href="#BASEURL#/doc/gabor/idgtreal.html">idgtreal</a></span>.
+This is the default.</dd>
+<dt>'timeinv'  The constructed phase complies with the time-invariant</dt>
+<dd>phase convention. The same flag must be used in the other
+functions e.g. <span class="linkrole"><a href="#BASEURL#/doc/gabor/idgtreal.html">idgtreal</a></span></dd>
+</dl>
+</blockquote>
 <p>This function requires a computational subroutine that is only
 available in C. Use <span class="linkrole"><a href="#BASEURL#/doc/base/ltfatmex.html">ltfatmex</a></span> to compile it.</p>
 </div>
+<H2>References:</H2>
+
+
+
+<p><a name="ltfatnote040"></a>
+
+Z.&nbsp;Pr&#367;&scaron;a, P.&nbsp;Balazs, and P.&nbsp;L. S&oslash;ndergaard.
+ A Non-iterative Method for STFT Phase (Re)Construction.
+ <em>IEEE/ACM Transactions on Audio, Speech, and Language
+  Processing</em>, 2016.
+ In preparation. Preprint will be available at
+  http://ltfat.github.io/notes/ltfatnote040.pdf.
+
+</p>
+
 
         <div class="include" file="../../include/footer.html"></div>
     </div>

@@ -83,56 +83,7 @@ wfiltinfo('syn:spline8:8');
 <pre class="literal-block">
 wfiltinfo('ana:spline8:8');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-Type &quot;help demo_dgt&quot; to see a description of how this demo works.
-
------- Spectrogram analysis -----------------------------------
-
-The spectrogram is highly redundant.
-No. of coefficients in the signal:       400
-No. of coefficients in the spectrogram:  80400
-Redundacy of the spectrogram:            201.000000
-
----- Simple Gabor analysis using a standard Gaussian window. ----
-Setup parameters for a Discrete Gabor Transform.
-Time shift:
-
-a =
-
-    20
-
-Number of frequency channels.
-
-M =
-
-    40
-
-
-Note that it must hold that L = M*b = N*a for some integers b, N and L,
-and that a&lt;M. L is the transform length, and the DGT will choose the
-smallest possible value of L that is larger or equal to the length of the
-signal. Choosing a&lt;M makes the transform redundant, otherwise the
-transform will be lossy, and reconstruction will not be possible.
-Number of time shifts in transform:
-Length of transform:
-
-L =
-
-   400
-
-
-The redundancy of the Gabor transform can be reduced without loosing information.
-No. of coefficients in the signal:       400
-No. of output coefficients from the DGT: 800
-Redundacy of the DGT (in this case)      2.000000
-
----- Real valued Gabor analysis. ----
-
----- Perfect reconstruction. ----
-Reconstruction error using IDGT:      5.384302e-16
-Reconstruction error using IDGTREAL:  5.664802e-16
-</pre>
+<img alt="wfiltinfo_2_1.png" class="align-center" src="wfiltinfo_2_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

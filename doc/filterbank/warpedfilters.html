@@ -228,6 +228,12 @@ c=filterbank(s,g,a);
 plotfilterbank(c,a,fc,fs,60);
 title('ERBlet transform of the test signal');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Painless system frame bound ratio of ERBlets: 1
+</pre>
+<img alt="warpedfilters_1_1.png" class="align-center" src="warpedfilters_1_1.png" />
+<img alt="warpedfilters_1_2.png" class="align-center" src="warpedfilters_1_2.png" />
 <p>In the second example, we look at the same test signal using a
 constant-Q filter bank with 4 bins per scale unit and the standard
 (semi-regular) sampling scheme:</p>
@@ -266,10 +272,10 @@ title('constant-Q transform of the test signal (4 bins)');
 </pre>
 <p><em>This code produces the following output</em>:</p>
 <pre class="literal-block">
-ans =
-
-     8.015867730167378e-14
+Painless system frame bound ratio (constant-Q - 4 bins): 1.0007
 </pre>
+<img alt="warpedfilters_2_1.png" class="align-center" src="warpedfilters_2_1.png" />
+<img alt="warpedfilters_2_2.png" class="align-center" src="warpedfilters_2_2.png" />
 </div>
 <H2>References:</H2>
 

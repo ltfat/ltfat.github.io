@@ -288,8 +288,10 @@ var globalfunlist = {
    pgauss:'fourier/pgauss',
    pgrpdelay:'sigproc/pgrpdelay',
    phaselock:'gabor/phaselock',
+   phaselockreal:'gabor/phaselockreal',
    phaseplot:'gabor/phaseplot',
    phaseunlock:'gabor/phaseunlock',
+   phaseunlockreal:'gabor/phaseunlockreal',
    pheaviside:'fourier/pheaviside',
    pherm:'fourier/pherm',
    pinknoise:'signals/pinknoise',
@@ -411,4 +413,4 @@ var globalfunlist = {
    zak:'gabor/zak',
 };
 
- var toolboxversion='2.1.1'; 
+ var toolboxversion='2.1.2'; 

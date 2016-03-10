@@ -9,7 +9,7 @@ Norm of imaginary part. Should be close to zero.
 
 ans =
 
-     3.425101571303945e-16
+     4.035410778421974e-16
 
 Window is whole point even. Should be 1.
 
@@ -28,4 +28,4 @@ Should be close to zero.
 
 ans =
 
-     4.607513909603346e-16
+     6.204997459932044e-16
