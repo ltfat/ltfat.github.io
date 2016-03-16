@@ -1,0 +1,29 @@
+td.clickable {
+background-color: gray;
+}
+
+td.clickable:hover {
+background-color: yellow;
+cursor: default;
+}
+
+.comptable {
+    border-collapse: collapse;
+}
+
+.comptable tr td  {
+    border: 1px solid black;
+    height: 1px;
+    font-size: 80%;
+    padding: 0px;
+}
+
+.stickycont, table {
+margin: auto;
+}
+
+.is_stuck {
+background-color: rgb(100,100,100);
+border-radius: 5px;
+}
+
