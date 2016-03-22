@@ -21,15 +21,34 @@ octave"/>
 <!-- Include main navigation -->
 <div class="masthead include" file="../../include/mainnav.html"> </div>
 
-<h1>
-    A VST plugin for blockwise, reassigned nonuniform filter banks
-</h1>
+<div class="page-header">
+    <h1>Real-time Audio Visualization With Reassignmed Non-uniform Filter Banks</h1>
+    Authors: Zdeněk Průša, Nicki Holighaus
+</div>
+<div class="well">
+    <strong>Abstract:</strong>
 <p>
-Authors: Zdeněk Průša, Nicki Holighaus
-</p>
 <i>
-    A plugin for audio visualization using nonuniform filter banks and the reassignment method is presented. The plugin provides a low delay moving spectrogram with respect to virtually any time-frequency filter bank by interfacing the C backend of the LTFAT open-source toolbox for time-frequency processing. Low delay is achieved by blockwise processing and complemented by an intuitive GUI, both implemented with the JUCE C++ Library. By computing three filter banks separately, the reassigned representation can be obtained with little additional computational effort.
+Filter banks both uniform and non-uniform are widely used for
+signal analysis and processing. However, the application of a time-
+frequency localized filter inevitably causes some amount of spectral
+and temporal leakage that, simultaneously cannot be arbitrar-
+ily reduced. Reassignment is a classical procedure to eliminate
+this leakage in short-time Fourier spectrograms, thereby providing
+a sharper, more exact time-frequency domain signal representation.
+The reassignment technique was recently generalized to
+general filter banks, opening new possibilities for its application
+in signal analysis and processing. We present here the very first
+implementation of filter bank reassignment in a real-time analysis
+setting, more specifically as visualization in a basic audio player
+application. The visualization provides a low delay moving spectrogram
+with respect to virtually any time-frequency filter bank by
+interfacing the C backend of the LTFAT open-source toolbox for
+time-frequency processing. Low delay is achieved by blockwise
+processing, implemented with the JUCE C++ Library.    
 </i>
+</p>
+</div>
 
 <h2>Screenshots</h2>
 
