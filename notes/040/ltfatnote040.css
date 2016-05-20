@@ -1,0 +1,31 @@
+
+
+td.clickable:hover {
+background-color: yellow;
+cursor: default;
+}
+
+.comptable {
+    border-collapse: collapse;
+}
+
+.comptable tr td  {
+    border: 1px solid black;
+}
+
+.stickycont, table {
+margin: auto;
+}
+
+.is_stuck {
+background-color: rgb(100,100,100);
+border-radius: 5px;
+}
+
+.errtable tr:nth-child(even) {
+    background-color: rgb(160,160,160)
+}
+
+td.clickable {
+/* background-color: gray; */
+}

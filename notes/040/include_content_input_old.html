@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title></title>
+<link rel="stylesheet" href="ltfatnote040.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="jquery.sticky-kit.min.js"></script>
+<script src="ltfatnote040.js"></script>
+</head>
+<body>
+
+
+
+The following achive <a href="ltfatnote040.zip">ltfatnote040.zip</a>
+contains scripts reproducing figures and tables from the paper.</br>
+
+<div class="alert alert-warning" role="alert">
+    Please note that LTFAT toolbox (version>=2.1.1) must be installed in order to run the scripts.</br>
+    It is also STRONGLY recommended (but not required) to use the compiled MEX/OCT functions.
+</div>
+
+<div>
+    <p>
+    This is an electronic addendum to paper:
+    </p>
+
+    <div class="stickycont" id="table2back">
+        <p>
+        The following <a href="#table2">table</a> shows error in dB for all 70 samples from the 
+        <a href="https://tech.ebu.ch/publications/sqamcd">EBU SQAM database</a>
+        for the proposed algorithm and for the SPSI algorithm.
+        The playback can be started by selecting one of the gray cells.
+        All the files were compressed by oggenc from vorbis-tools 1.4.0 with
+        the default settings.
+        Your browser must support HTML5 audio player
+        and it must be able to decode ogg files. Alternativelly, the file
+        path is shown below the player and it can be downloaded by Save Link As ...
+        </p>
+        <div class="playerdiv" id="table2">
+            <table border="0" cellspacing="5" cellpadding="0" id="stickytable">
+                <tr><th colspan="9">
+                        Table 2: Comparison with SPSI, EBU SQAM database, extended <br/>
+                        <audio id="audplayer" controls style="width:90%" preload="none">
+                            <!-- <source src="sqam/01.ogg" type="audio/ogg"> -->
+                            Warning! Your browser does not support HTML5 audio player.
+                            You will have to download and play the files yourself.
+                        </audio><br/>
+                        Loaded file: <span id="loadedfile">None</span>
+                </th></tr>
+            </table>
+        </div>
+
+        <table class="comptable" cellspacing="5" cellpadding="0">
+            <tr><td></td><td colspan="2" align="center">Gauss</td><td colspan="2"
+                    align="center">Trunc. Gauss</td>
+                <td colspan="2" align="center">Hann</td><td colspan="2" align="center">Hamming</td>
+            </tr>
+            <tr><td></td><td>Prop.</td><td>SPSI</td>
+                <td>Prop.</td><td>SPSI</td>
+                <td>Prop.</td><td>SPSI</td>
+                <td>Prop.</td><td>SPSI</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/01.ogg">01 Sine wave, 1 kHz</td>
+                <td>{GAUSSHEAPINT01}</td><td>{GAUSSSPSI01}</td>
+                <td class="clickable" data-file="sqamtruncgauss/01_heapint.ogg">{TRUNCGAUSSHEAPINT01}</td>
+                <td class="clickable" data-file="sqamtruncgauss/01_spsi.ogg">{TRUNCGAUSSSPSI01}</td>
+                <td>{HANNHEAPINT01}</td><td>{HANNSPSI01}</td>
+                <td>{HAMMINGHEAPINT01}</td><td>{HAMMINGSPSI01}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/02.ogg">02 Pink noise</td>
+                <td>{GAUSSHEAPINT02}</td><td>{GAUSSSPSI02}</td>
+                <td class="clickable" data-file="sqamtruncgauss/02_heapint.ogg">{TRUNCGAUSSHEAPINT02}</td>
+                <td class="clickable" data-file="sqamtruncgauss/02_spsi.ogg">{TRUNCGAUSSSPSI02}</td>
+                <td>{HANNHEAPINT02}</td><td>{HANNSPSI02}</td>
+                <td>{HAMMINGHEAPINT02}</td><td>{HAMMINGSPSI02}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/03.ogg">03 Electronic gong</td>
+                <td>{GAUSSHEAPINT03}</td><td>{GAUSSSPSI03}</td>
+                <td class="clickable" data-file="sqamtruncgauss/03_heapint.ogg">{TRUNCGAUSSHEAPINT03}</td>
+                <td class="clickable" data-file="sqamtruncgauss/03_spsi.ogg">{TRUNCGAUSSSPSI03}</td>
+                <td>{HANNHEAPINT03}</td><td>{HANNSPSI03}</td>
+                <td>{HAMMINGHEAPINT03}</td><td>{HAMMINGSPSI03}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/04.ogg">04 Electronic gong</td>
+                <td>{GAUSSHEAPINT04}</td><td>{GAUSSSPSI04}</td>
+                <td class="clickable" data-file="sqamtruncgauss/04_heapint.ogg">{TRUNCGAUSSHEAPINT04}</td>
+                <td class="clickable" data-file="sqamtruncgauss/04_spsi.ogg">{TRUNCGAUSSSPSI04}</td>
+                <td>{HANNHEAPINT04}</td><td>{HANNSPSI04}</td>
+                <td>{HAMMINGHEAPINT04}</td><td>{HAMMINGSPSI04}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/05.ogg">05 Electronic gong</td>
+                <td>{GAUSSHEAPINT05}</td><td>{GAUSSSPSI05}</td>
+                <td class="clickable" data-file="sqamtruncgauss/05_heapint.ogg">{TRUNCGAUSSHEAPINT05}</td>
+                <td class="clickable" data-file="sqamtruncgauss/05_spsi.ogg">{TRUNCGAUSSSPSI05}</td>
+                <td>{HANNHEAPINT05}</td><td>{HANNSPSI05}</td>
+                <td>{HAMMINGHEAPINT05}</td><td>{HAMMINGSPSI05}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/06.ogg">06 Electronic gong</td>
+                <td>{GAUSSHEAPINT06}</td><td>{GAUSSSPSI06}</td>
+                <td class="clickable" data-file="sqamtruncgauss/06_heapint.ogg">{TRUNCGAUSSHEAPINT06}</td>
+                <td class="clickable" data-file="sqamtruncgauss/06_spsi.ogg">{TRUNCGAUSSSPSI06}</td>
+                <td>{HANNHEAPINT06}</td><td>{HANNSPSI06}</td>
+                <td>{HAMMINGHEAPINT06}</td><td>{HAMMINGSPSI06}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/07.ogg">07 Electronic tune</td>
+                <td>{GAUSSHEAPINT07}</td><td>{GAUSSSPSI07}</td>
+                <td class="clickable" data-file="sqamtruncgauss/07_heapint.ogg">{TRUNCGAUSSHEAPINT07}</td>
+                <td class="clickable" data-file="sqamtruncgauss/07_spsi.ogg">{TRUNCGAUSSSPSI07}</td>
+                <td>{HANNHEAPINT07}</td><td>{HANNSPSI07}</td>
+                <td>{HAMMINGHEAPINT07}</td><td>{HAMMINGSPSI07}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/08.ogg">08 Violin</td>
+                <td>{GAUSSHEAPINT08}</td><td>{GAUSSSPSI08}</td>
+                <td class="clickable" data-file="sqamtruncgauss/08_heapint.ogg">{TRUNCGAUSSHEAPINT08}</td>
+                <td class="clickable" data-file="sqamtruncgauss/08_spsi.ogg">{TRUNCGAUSSSPSI08}</td>
+                <td>{HANNHEAPINT08}</td><td>{HANNSPSI08}</td>
+                <td>{HAMMINGHEAPINT08}</td><td>{HAMMINGSPSI08}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/09.ogg">09 Viola</td>
+                <td>{GAUSSHEAPINT09}</td><td>{GAUSSSPSI09}</td>
+                <td class="clickable" data-file="sqamtruncgauss/09_heapint.ogg">{TRUNCGAUSSHEAPINT09}</td>
+                <td class="clickable" data-file="sqamtruncgauss/09_spsi.ogg">{TRUNCGAUSSSPSI09}</td>
+                <td>{HANNHEAPINT09}</td><td>{HANNSPSI09}</td>
+                <td>{HAMMINGHEAPINT09}</td><td>{HAMMINGSPSI09}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/10.ogg">10 Violoncello</td>
+                <td>{GAUSSHEAPINT10}</td><td>{GAUSSSPSI10}</td>
+                <td class="clickable" data-file="sqamtruncgauss/10_heapint.ogg">{TRUNCGAUSSHEAPINT10}</td>
+                <td class="clickable" data-file="sqamtruncgauss/10_spsi.ogg">{TRUNCGAUSSSPSI10}</td>
+                <td>{HANNHEAPINT10}</td><td>{HANNSPSI10}</td>
+                <td>{HAMMINGHEAPINT10}</td><td>{HAMMINGSPSI10}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/11.ogg">11 Double-bass</td>
+                <td>{GAUSSHEAPINT11}</td><td>{GAUSSSPSI11}</td>
+                <td class="clickable" data-file="sqamtruncgauss/11_heapint.ogg">{TRUNCGAUSSHEAPINT11}</td>
+                <td class="clickable" data-file="sqamtruncgauss/11_spsi.ogg">{TRUNCGAUSSSPSI11}</td>
+                <td>{HANNHEAPINT11}</td><td>{HANNSPSI11}</td>
+                <td>{HAMMINGHEAPINT11}</td><td>{HAMMINGSPSI11}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/12.ogg">12 Picollo</td>
+                <td>{GAUSSHEAPINT12}</td><td>{GAUSSSPSI12}</td>
+                <td class="clickable" data-file="sqamtruncgauss/12_heapint.ogg">{TRUNCGAUSSHEAPINT12}</td>
+                <td class="clickable" data-file="sqamtruncgauss/12_spsi.ogg">{TRUNCGAUSSSPSI12}</td>
+                <td>{HANNHEAPINT12}</td><td>{HANNSPSI12}</td>
+                <td>{HAMMINGHEAPINT12}</td><td>{HAMMINGSPSI12}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/13.ogg">13 Flute</td>
+                <td>{GAUSSHEAPINT13}</td><td>{GAUSSSPSI13}</td>
+                <td class="clickable" data-file="sqamtruncgauss/13_heapint.ogg">{TRUNCGAUSSHEAPINT13}</td>
+                <td class="clickable" data-file="sqamtruncgauss/13_spsi.ogg">{TRUNCGAUSSSPSI13}</td>
+                <td>{HANNHEAPINT13}</td><td>{HANNSPSI13}</td>
+                <td>{HAMMINGHEAPINT13}</td><td>{HAMMINGSPSI13}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/14.ogg">14 Oboe</td>
+                <td>{GAUSSHEAPINT14}</td><td>{GAUSSSPSI14}</td>
+                <td class="clickable" data-file="sqamtruncgauss/14_heapint.ogg">{TRUNCGAUSSHEAPINT14}</td>
+                <td class="clickable" data-file="sqamtruncgauss/14_spsi.ogg">{TRUNCGAUSSSPSI14}</td>
+                <td>{HANNHEAPINT14}</td><td>{HANNSPSI14}</td>
+                <td>{HAMMINGHEAPINT14}</td><td>{HAMMINGSPSI14}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/15.ogg">15 Cor anglais</td>
+                <td>{GAUSSHEAPINT15}</td><td>{GAUSSSPSI15}</td>
+                <td class="clickable" data-file="sqamtruncgauss/15_heapint.ogg">{TRUNCGAUSSHEAPINT15}</td>
+                <td class="clickable" data-file="sqamtruncgauss/15_spsi.ogg">{TRUNCGAUSSSPSI15}</td>
+                <td>{HANNHEAPINT15}</td><td>{HANNSPSI15}</td>
+                <td>{HAMMINGHEAPINT15}</td><td>{HAMMINGSPSI15}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/16.ogg">16 Clarinet</td>
+                <td>{GAUSSHEAPINT16}</td><td>{GAUSSSPSI16}</td>
+                <td class="clickable" data-file="sqamtruncgauss/16_heapint.ogg">{TRUNCGAUSSHEAPINT16}</td>
+                <td class="clickable" data-file="sqamtruncgauss/16_spsi.ogg">{TRUNCGAUSSSPSI16}</td>
+                <td>{HANNHEAPINT16}</td><td>{HANNSPSI16}</td>
+                <td>{HAMMINGHEAPINT16}</td><td>{HAMMINGSPSI16}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/17.ogg">17 Bass-clarinet</td>
+                <td>{GAUSSHEAPINT17}</td><td>{GAUSSSPSI17}</td>
+                <td class="clickable" data-file="sqamtruncgauss/17_heapint.ogg">{TRUNCGAUSSHEAPINT17}</td>
+                <td class="clickable" data-file="sqamtruncgauss/17_spsi.ogg">{TRUNCGAUSSSPSI17}</td>
+                <td>{HANNHEAPINT17}</td><td>{HANNSPSI17}</td>
+                <td>{HAMMINGHEAPINT17}</td><td>{HAMMINGSPSI17}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/18.ogg">18 Bassoon</td>
+                <td>{GAUSSHEAPINT18}</td><td>{GAUSSSPSI18}</td>
+                <td class="clickable" data-file="sqamtruncgauss/18_heapint.ogg">{TRUNCGAUSSHEAPINT18}</td>
+                <td class="clickable" data-file="sqamtruncgauss/18_spsi.ogg">{TRUNCGAUSSSPSI18}</td>
+                <td>{HANNHEAPINT18}</td><td>{HANNSPSI18}</td>
+                <td>{HAMMINGHEAPINT18}</td><td>{HAMMINGSPSI18}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/19.ogg">19 Contra-bassoon</td>
+                <td>{GAUSSHEAPINT19}</td><td>{GAUSSSPSI19}</td>
+                <td class="clickable" data-file="sqamtruncgauss/19_heapint.ogg">{TRUNCGAUSSHEAPINT19}</td>
+                <td class="clickable" data-file="sqamtruncgauss/19_spsi.ogg">{TRUNCGAUSSSPSI19}</td>
+                <td>{HANNHEAPINT19}</td><td>{HANNSPSI19}</td>
+                <td>{HAMMINGHEAPINT19}</td><td>{HAMMINGSPSI19}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/20.ogg">20 Saxophone</td>
+                <td>{GAUSSHEAPINT20}</td><td>{GAUSSSPSI20}</td>
+                <td class="clickable" data-file="sqamtruncgauss/20_heapint.ogg">{TRUNCGAUSSHEAPINT20}</td>
+                <td class="clickable" data-file="sqamtruncgauss/20_spsi.ogg">{TRUNCGAUSSSPSI20}</td>
+                <td>{HANNHEAPINT20}</td><td>{HANNSPSI20}</td>
+                <td>{HAMMINGHEAPINT20}</td><td>{HAMMINGSPSI20}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/21.ogg">21 Trumpet</td>
+                <td>{GAUSSHEAPINT21}</td><td>{GAUSSSPSI21}</td>
+                <td class="clickable" data-file="sqamtruncgauss/21_heapint.ogg">{TRUNCGAUSSHEAPINT21}</td>
+                <td class="clickable" data-file="sqamtruncgauss/21_spsi.ogg">{TRUNCGAUSSSPSI21}</td>
+                <td>{HANNHEAPINT21}</td><td>{HANNSPSI21}</td>
+                <td>{HAMMINGHEAPINT21}</td><td>{HAMMINGSPSI21}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/22.ogg">22 Trombone</td>
+                <td>{GAUSSHEAPINT22}</td><td>{GAUSSSPSI22}</td>
+                <td class="clickable" data-file="sqamtruncgauss/22_heapint.ogg">{TRUNCGAUSSHEAPINT22}</td>
+                <td class="clickable" data-file="sqamtruncgauss/22_spsi.ogg">{TRUNCGAUSSSPSI22}</td>
+                <td>{HANNHEAPINT22}</td><td>{HANNSPSI22}</td>
+                <td>{HAMMINGHEAPINT22}</td><td>{HAMMINGSPSI22}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/23.ogg">23 Horn</td>
+                <td>{GAUSSHEAPINT23}</td><td>{GAUSSSPSI23}</td>
+                <td class="clickable" data-file="sqamtruncgauss/23_heapint.ogg">{TRUNCGAUSSHEAPINT23}</td>
+                <td class="clickable" data-file="sqamtruncgauss/23_spsi.ogg">{TRUNCGAUSSSPSI23}</td>
+                <td>{HANNHEAPINT23}</td><td>{HANNSPSI23}</td>
+                <td>{HAMMINGHEAPINT23}</td><td>{HAMMINGSPSI23}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/24.ogg">24 Tuba</td>
+                <td>{GAUSSHEAPINT24}</td><td>{GAUSSSPSI24}</td>
+                <td class="clickable" data-file="sqamtruncgauss/24_heapint.ogg">{TRUNCGAUSSHEAPINT24}</td>
+                <td class="clickable" data-file="sqamtruncgauss/24_spsi.ogg">{TRUNCGAUSSSPSI24}</td>
+                <td>{HANNHEAPINT24}</td><td>{HANNSPSI24}</td>
+                <td>{HAMMINGHEAPINT24}</td><td>{HAMMINGSPSI24}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/25.ogg">25 Harp</td>
+                <td>{GAUSSHEAPINT25}</td><td>{GAUSSSPSI25}</td>
+                <td class="clickable" data-file="sqamtruncgauss/25_heapint.ogg">{TRUNCGAUSSHEAPINT25}</td>
+                <td class="clickable" data-file="sqamtruncgauss/25_spsi.ogg">{TRUNCGAUSSSPSI25}</td>
+                <td>{HANNHEAPINT25}</td><td>{HANNSPSI25}</td>
+                <td>{HAMMINGHEAPINT25}</td><td>{HAMMINGSPSI25}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/26.ogg">26 Claves</td>
+                <td>{GAUSSHEAPINT26}</td><td>{GAUSSSPSI26}</td>
+                <td class="clickable" data-file="sqamtruncgauss/26_heapint.ogg">{TRUNCGAUSSHEAPINT26}</td>
+                <td class="clickable" data-file="sqamtruncgauss/26_spsi.ogg">{TRUNCGAUSSSPSI26}</td>
+                <td>{HANNHEAPINT26}</td><td>{HANNSPSI26}</td>
+                <td>{HAMMINGHEAPINT26}</td><td>{HAMMINGSPSI26}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/27.ogg">27 Castanets</td>
+                <td>{GAUSSHEAPINT27}</td><td>{GAUSSSPSI27}</td>
+                <td class="clickable" data-file="sqamtruncgauss/27_heapint.ogg">{TRUNCGAUSSHEAPINT27}</td>
+                <td class="clickable" data-file="sqamtruncgauss/27_spsi.ogg">{TRUNCGAUSSSPSI27}</td>
+                <td>{HANNHEAPINT27}</td><td>{HANNSPSI27}</td>
+                <td>{HAMMINGHEAPINT27}</td><td>{HAMMINGSPSI27}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/28.ogg">28 Side drum</td>
+                <td>{GAUSSHEAPINT28}</td><td>{GAUSSSPSI28}</td>
+                <td class="clickable" data-file="sqamtruncgauss/28_heapint.ogg">{TRUNCGAUSSHEAPINT28}</td>
+                <td class="clickable" data-file="sqamtruncgauss/28_spsi.ogg">{TRUNCGAUSSSPSI28}</td>
+                <td>{HANNHEAPINT28}</td><td>{HANNSPSI28}</td>
+                <td>{HAMMINGHEAPINT28}</td><td>{HAMMINGSPSI28}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/29.ogg">29 Bass drum</td>
+                <td>{GAUSSHEAPINT29}</td><td>{GAUSSSPSI29}</td>
+                <td class="clickable" data-file="sqamtruncgauss/29_heapint.ogg">{TRUNCGAUSSHEAPINT29}</td>
+                <td class="clickable" data-file="sqamtruncgauss/29_spsi.ogg">{TRUNCGAUSSSPSI29}</td>
+                <td>{HANNHEAPINT29}</td><td>{HANNSPSI29}</td>
+                <td>{HAMMINGHEAPINT29}</td><td>{HAMMINGSPSI29}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/30.ogg">30 Kettle-drums</td>
+                <td>{GAUSSHEAPINT30}</td><td>{GAUSSSPSI30}</td>
+                <td class="clickable" data-file="sqamtruncgauss/30_heapint.ogg">{TRUNCGAUSSHEAPINT30}</td>
+                <td class="clickable" data-file="sqamtruncgauss/30_spsi.ogg">{TRUNCGAUSSSPSI30}</td>
+                <td>{HANNHEAPINT30}</td><td>{HANNSPSI30}</td>
+                <td>{HAMMINGHEAPINT30}</td><td>{HAMMINGSPSI30}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/31.ogg">31 Cymbal</td>
+                <td>{GAUSSHEAPINT31}</td><td>{GAUSSSPSI31}</td>
+                <td class="clickable" data-file="sqamtruncgauss/31_heapint.ogg">{TRUNCGAUSSHEAPINT31}</td>
+                <td class="clickable" data-file="sqamtruncgauss/31_spsi.ogg">{TRUNCGAUSSSPSI31}</td>
+                <td>{HANNHEAPINT31}</td><td>{HANNSPSI31}</td>
+                <td>{HAMMINGHEAPINT31}</td><td>{HAMMINGSPSI31}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/32.ogg">32 Triangle</td>
+                <td>{GAUSSHEAPINT32}</td><td>{GAUSSSPSI32}</td>
+                <td class="clickable" data-file="sqamtruncgauss/32_heapint.ogg">{TRUNCGAUSSHEAPINT32}</td>
+                <td class="clickable" data-file="sqamtruncgauss/32_spsi.ogg">{TRUNCGAUSSSPSI32}</td>
+                <td>{HANNHEAPINT32}</td><td>{HANNSPSI32}</td>
+                <td>{HAMMINGHEAPINT32}</td><td>{HAMMINGSPSI32}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/33.ogg">33 Gong</td>
+                <td>{GAUSSHEAPINT33}</td><td>{GAUSSSPSI33}</td>
+                <td class="clickable" data-file="sqamtruncgauss/33_heapint.ogg">{TRUNCGAUSSHEAPINT33}</td>
+                <td class="clickable" data-file="sqamtruncgauss/33_spsi.ogg">{TRUNCGAUSSSPSI33}</td>
+                <td>{HANNHEAPINT33}</td><td>{HANNSPSI33}</td>
+                <td>{HAMMINGHEAPINT33}</td><td>{HAMMINGSPSI33}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/34.ogg">34 Tubular bells</td>
+                <td>{GAUSSHEAPINT34}</td><td>{GAUSSSPSI34}</td>
+                <td class="clickable" data-file="sqamtruncgauss/34_heapint.ogg">{TRUNCGAUSSHEAPINT34}</td>
+                <td class="clickable" data-file="sqamtruncgauss/34_spsi.ogg">{TRUNCGAUSSSPSI34}</td>
+                <td>{HANNHEAPINT34}</td><td>{HANNSPSI34}</td>
+                <td>{HAMMINGHEAPINT34}</td><td>{HAMMINGSPSI34}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/35.ogg">35 Glockenspiel</td>
+                <td>{GAUSSHEAPINT35}</td><td>{GAUSSSPSI35}</td>
+                <td class="clickable" data-file="sqamtruncgauss/35_heapint.ogg">{TRUNCGAUSSHEAPINT35}</td>
+                <td class="clickable" data-file="sqamtruncgauss/35_spsi.ogg">{TRUNCGAUSSSPSI35}</td>
+                <td>{HANNHEAPINT35}</td><td>{HANNSPSI35}</td>
+                <td>{HAMMINGHEAPINT35}</td><td>{HAMMINGSPSI35}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/36.ogg">36 Xylophone</td>
+                <td>{GAUSSHEAPINT36}</td><td>{GAUSSSPSI36}</td>
+                <td class="clickable" data-file="sqamtruncgauss/36_heapint.ogg">{TRUNCGAUSSHEAPINT36}</td>
+                <td class="clickable" data-file="sqamtruncgauss/36_spsi.ogg">{TRUNCGAUSSSPSI36}</td>
+                <td>{HANNHEAPINT36}</td><td>{HANNSPSI36}</td>
+                <td>{HAMMINGHEAPINT36}</td><td>{HAMMINGSPSI36}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/37.ogg">37 Vibraphone</td>
+                <td>{GAUSSHEAPINT37}</td><td>{GAUSSSPSI37}</td>
+                <td class="clickable" data-file="sqamtruncgauss/37_heapint.ogg">{TRUNCGAUSSHEAPINT37}</td>
+                <td class="clickable" data-file="sqamtruncgauss/37_spsi.ogg">{TRUNCGAUSSSPSI37}</td>
+                <td>{HANNHEAPINT37}</td><td>{HANNSPSI37}</td>
+                <td>{HAMMINGHEAPINT37}</td><td>{HAMMINGSPSI37}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/38.ogg">38 Marimba</td>
+                <td>{GAUSSHEAPINT38}</td><td>{GAUSSSPSI38}</td>
+                <td class="clickable" data-file="sqamtruncgauss/38_heapint.ogg">{TRUNCGAUSSHEAPINT38}</td>
+                <td class="clickable" data-file="sqamtruncgauss/38_spsi.ogg">{TRUNCGAUSSSPSI38}</td>
+                <td>{HANNHEAPINT38}</td><td>{HANNSPSI38}</td>
+                <td>{HAMMINGHEAPINT38}</td><td>{HAMMINGSPSI38}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/39.ogg">39 Grand piano</td>
+                <td>{GAUSSHEAPINT39}</td><td>{GAUSSSPSI39}</td>
+                <td class="clickable" data-file="sqamtruncgauss/39_heapint.ogg">{TRUNCGAUSSHEAPINT39}</td>
+                <td class="clickable" data-file="sqamtruncgauss/39_spsi.ogg">{TRUNCGAUSSSPSI39}</td>
+                <td>{HANNHEAPINT39}</td><td>{HANNSPSI39}</td>
+                <td>{HAMMINGHEAPINT39}</td><td>{HAMMINGSPSI39}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/40.ogg">40 Harpsichord</td>
+                <td>{GAUSSHEAPINT40}</td><td>{GAUSSSPSI40}</td>
+                <td class="clickable" data-file="sqamtruncgauss/40_heapint.ogg">{TRUNCGAUSSHEAPINT40}</td>
+                <td class="clickable" data-file="sqamtruncgauss/40_spsi.ogg">{TRUNCGAUSSSPSI40}</td>
+                <td>{HANNHEAPINT40}</td><td>{HANNSPSI40}</td>
+                <td>{HAMMINGHEAPINT40}</td><td>{HAMMINGSPSI40}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/41.ogg">41 Celesta</td>
+                <td>{GAUSSHEAPINT41}</td><td>{GAUSSSPSI41}</td>
+                <td class="clickable" data-file="sqamtruncgauss/41_heapint.ogg">{TRUNCGAUSSHEAPINT41}</td>
+                <td class="clickable" data-file="sqamtruncgauss/41_spsi.ogg">{TRUNCGAUSSSPSI41}</td>
+                <td>{HANNHEAPINT41}</td><td>{HANNSPSI41}</td>
+                <td>{HAMMINGHEAPINT41}</td><td>{HAMMINGSPSI41}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/42.ogg">42 Accordion</td>
+                <td>{GAUSSHEAPINT42}</td><td>{GAUSSSPSI42}</td>
+                <td class="clickable" data-file="sqamtruncgauss/42_heapint.ogg">{TRUNCGAUSSHEAPINT42}</td>
+                <td class="clickable" data-file="sqamtruncgauss/42_spsi.ogg">{TRUNCGAUSSSPSI42}</td>
+                <td>{HANNHEAPINT42}</td><td>{HANNSPSI42}</td>
+                <td>{HAMMINGHEAPINT42}</td><td>{HAMMINGSPSI42}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/43.ogg">43 Organ</td>
+                <td>{GAUSSHEAPINT43}</td><td>{GAUSSSPSI43}</td>
+                <td class="clickable" data-file="sqamtruncgauss/43_heapint.ogg">{TRUNCGAUSSHEAPINT43}</td>
+                <td class="clickable" data-file="sqamtruncgauss/43_spsi.ogg">{TRUNCGAUSSSPSI43}</td>
+                <td>{HANNHEAPINT43}</td><td>{HANNSPSI43}</td>
+                <td>{HAMMINGHEAPINT43}</td><td>{HAMMINGSPSI43}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/44.ogg">44 Soprano</td>
+                <td>{GAUSSHEAPINT44}</td><td>{GAUSSSPSI44}</td>
+                <td class="clickable" data-file="sqamtruncgauss/44_heapint.ogg">{TRUNCGAUSSHEAPINT44}</td>
+                <td class="clickable" data-file="sqamtruncgauss/44_spsi.ogg">{TRUNCGAUSSSPSI44}</td>
+                <td>{HANNHEAPINT44}</td><td>{HANNSPSI44}</td>
+                <td>{HAMMINGHEAPINT44}</td><td>{HAMMINGSPSI44}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/45.ogg">45 Alto</td>
+                <td>{GAUSSHEAPINT45}</td><td>{GAUSSSPSI45}</td>
+                <td class="clickable" data-file="sqamtruncgauss/45_heapint.ogg">{TRUNCGAUSSHEAPINT45}</td>
+                <td class="clickable" data-file="sqamtruncgauss/45_spsi.ogg">{TRUNCGAUSSSPSI45}</td>
+                <td>{HANNHEAPINT45}</td><td>{HANNSPSI45}</td>
+                <td>{HAMMINGHEAPINT45}</td><td>{HAMMINGSPSI45}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/46.ogg">46 Tenor</td>
+                <td>{GAUSSHEAPINT46}</td><td>{GAUSSSPSI46}</td>
+                <td class="clickable" data-file="sqamtruncgauss/46_heapint.ogg">{TRUNCGAUSSHEAPINT46}</td>
+                <td class="clickable" data-file="sqamtruncgauss/46_spsi.ogg">{TRUNCGAUSSSPSI46}</td>
+                <td>{HANNHEAPINT46}</td><td>{HANNSPSI46}</td>
+                <td>{HAMMINGHEAPINT46}</td><td>{HAMMINGSPSI46}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/47.ogg">47 Bass</td>
+                <td>{GAUSSHEAPINT47}</td><td>{GAUSSSPSI47}</td>
+                <td class="clickable" data-file="sqamtruncgauss/47_heapint.ogg">{TRUNCGAUSSHEAPINT47}</td>
+                <td class="clickable" data-file="sqamtruncgauss/47_spsi.ogg">{TRUNCGAUSSSPSI47}</td>
+                <td>{HANNHEAPINT47}</td><td>{HANNSPSI47}</td>
+                <td>{HAMMINGHEAPINT47}</td><td>{HAMMINGSPSI47}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/48.ogg">48 Quartet</td>
+                <td>{GAUSSHEAPINT48}</td><td>{GAUSSSPSI48}</td>
+                <td class="clickable" data-file="sqamtruncgauss/48_heapint.ogg">{TRUNCGAUSSHEAPINT48}</td>
+                <td class="clickable" data-file="sqamtruncgauss/48_spsi.ogg">{TRUNCGAUSSSPSI48}</td>
+                <td>{HANNHEAPINT48}</td><td>{HANNSPSI48}</td>
+                <td>{HAMMINGHEAPINT48}</td><td>{HAMMINGSPSI48}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/49.ogg">49 Female speech eng.</td>
+                <td>{GAUSSHEAPINT49}</td><td>{GAUSSSPSI49}</td>
+                <td class="clickable" data-file="sqamtruncgauss/49_heapint.ogg">{TRUNCGAUSSHEAPINT49}</td>
+                <td class="clickable" data-file="sqamtruncgauss/49_spsi.ogg">{TRUNCGAUSSSPSI49}</td>
+                <td>{HANNHEAPINT49}</td><td>{HANNSPSI49}</td>
+                <td>{HAMMINGHEAPINT49}</td><td>{HAMMINGSPSI49}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/50.ogg">50 Male speech eng.</td>
+                <td>{GAUSSHEAPINT50}</td><td>{GAUSSSPSI50}</td>
+                <td class="clickable" data-file="sqamtruncgauss/50_heapint.ogg">{TRUNCGAUSSHEAPINT50}</td>
+                <td class="clickable" data-file="sqamtruncgauss/50_spsi.ogg">{TRUNCGAUSSSPSI50}</td>
+                <td>{HANNHEAPINT50}</td><td>{HANNSPSI50}</td>
+                <td>{HAMMINGHEAPINT50}</td><td>{HAMMINGSPSI50}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/51.ogg">51 Female speech fra.</td>
+                <td>{GAUSSHEAPINT51}</td><td>{GAUSSSPSI51}</td>
+                <td class="clickable" data-file="sqamtruncgauss/51_heapint.ogg">{TRUNCGAUSSHEAPINT51}</td>
+                <td class="clickable" data-file="sqamtruncgauss/51_spsi.ogg">{TRUNCGAUSSSPSI51}</td>
+                <td>{HANNHEAPINT51}</td><td>{HANNSPSI51}</td>
+                <td>{HAMMINGHEAPINT51}</td><td>{HAMMINGSPSI51}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/52.ogg">52 Male speech fra.</td>
+                <td>{GAUSSHEAPINT52}</td><td>{GAUSSSPSI52}</td>
+                <td class="clickable" data-file="sqamtruncgauss/52_heapint.ogg">{TRUNCGAUSSHEAPINT52}</td>
+                <td class="clickable" data-file="sqamtruncgauss/52_spsi.ogg">{TRUNCGAUSSSPSI52}</td>
+                <td>{HANNHEAPINT52}</td><td>{HANNSPSI52}</td>
+                <td>{HAMMINGHEAPINT52}</td><td>{HAMMINGSPSI52}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/53.ogg">53 Female speech ger.</td>
+                <td>{GAUSSHEAPINT53}</td><td>{GAUSSSPSI53}</td>
+                <td class="clickable" data-file="sqamtruncgauss/53_heapint.ogg">{TRUNCGAUSSHEAPINT53}</td>
+                <td class="clickable" data-file="sqamtruncgauss/53_spsi.ogg">{TRUNCGAUSSSPSI53}</td>
+                <td>{HANNHEAPINT53}</td><td>{HANNSPSI53}</td>
+                <td>{HAMMINGHEAPINT53}</td><td>{HAMMINGSPSI53}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/54.ogg">54 Male speech ger.</td>
+                <td>{GAUSSHEAPINT54}</td><td>{GAUSSSPSI54}</td>
+                <td class="clickable" data-file="sqamtruncgauss/54_heapint.ogg">{TRUNCGAUSSHEAPINT54}</td>
+                <td class="clickable" data-file="sqamtruncgauss/54_spsi.ogg">{TRUNCGAUSSSPSI54}</td>
+                <td>{HANNHEAPINT54}</td><td>{HANNSPSI54}</td>
+                <td>{HAMMINGHEAPINT54}</td><td>{HAMMINGSPSI54}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/55.ogg">55 Trumpet-Haydn</td>
+                <td>{GAUSSHEAPINT55}</td><td>{GAUSSSPSI55}</td>
+                <td class="clickable" data-file="sqamtruncgauss/55_heapint.ogg">{TRUNCGAUSSHEAPINT55}</td>
+                <td class="clickable" data-file="sqamtruncgauss/55_spsi.ogg">{TRUNCGAUSSSPSI55}</td>
+                <td>{HANNHEAPINT55}</td><td>{HANNSPSI55}</td>
+                <td>{HAMMINGHEAPINT55}</td><td>{HAMMINGSPSI55}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/56.ogg">56 Organ-Handel</td>
+                <td>{GAUSSHEAPINT56}</td><td>{GAUSSSPSI56}</td>
+                <td class="clickable" data-file="sqamtruncgauss/56_heapint.ogg">{TRUNCGAUSSHEAPINT56}</td>
+                <td class="clickable" data-file="sqamtruncgauss/56_spsi.ogg">{TRUNCGAUSSSPSI56}</td>
+                <td>{HANNHEAPINT56}</td><td>{HANNSPSI56}</td>
+                <td>{HAMMINGHEAPINT56}</td><td>{HAMMINGSPSI56}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/57.ogg">57 Organ-Bach</td>
+                <td>{GAUSSHEAPINT57}</td><td>{GAUSSSPSI57}</td>
+                <td class="clickable" data-file="sqamtruncgauss/57_heapint.ogg">{TRUNCGAUSSHEAPINT57}</td>
+                <td class="clickable" data-file="sqamtruncgauss/57_spsi.ogg">{TRUNCGAUSSSPSI57}</td>
+                <td>{HANNHEAPINT57}</td><td>{HANNSPSI57}</td>
+                <td>{HAMMINGHEAPINT57}</td><td>{HAMMINGSPSI57}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/58.ogg">58 Guitar-Sarasate</td>
+                <td>{GAUSSHEAPINT58}</td><td>{GAUSSSPSI58}</td>
+                <td class="clickable" data-file="sqamtruncgauss/58_heapint.ogg">{TRUNCGAUSSHEAPINT58}</td>
+                <td class="clickable" data-file="sqamtruncgauss/58_spsi.ogg">{TRUNCGAUSSSPSI58}</td>
+                <td>{HANNHEAPINT58}</td><td>{HANNSPSI58}</td>
+                <td>{HAMMINGHEAPINT58}</td><td>{HAMMINGSPSI58}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/59.ogg">59 Violin-Ravel</td>
+                <td>{GAUSSHEAPINT59}</td><td>{GAUSSSPSI59}</td>
+                <td class="clickable" data-file="sqamtruncgauss/59_heapint.ogg">{TRUNCGAUSSHEAPINT59}</td>
+                <td class="clickable" data-file="sqamtruncgauss/59_spsi.ogg">{TRUNCGAUSSSPSI59}</td>
+                <td>{HANNHEAPINT59}</td><td>{HANNSPSI59}</td>
+                <td>{HAMMINGHEAPINT59}</td><td>{HAMMINGSPSI59}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/60.ogg">60 Piano-Schubert</td>
+                <td>{GAUSSHEAPINT60}</td><td>{GAUSSSPSI60}</td>
+                <td class="clickable" data-file="sqamtruncgauss/60_heapint.ogg">{TRUNCGAUSSHEAPINT60}</td>
+                <td class="clickable" data-file="sqamtruncgauss/60_spsi.ogg">{TRUNCGAUSSSPSI60}</td>
+                <td>{HANNHEAPINT60}</td><td>{HANNSPSI60}</td>
+                <td>{HAMMINGHEAPINT60}</td><td>{HAMMINGSPSI60}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/61.ogg">61 Soprano-Mozart</td>
+                <td>{GAUSSHEAPINT61}</td><td>{GAUSSSPSI61}</td>
+                <td class="clickable" data-file="sqamtruncgauss/61_heapint.ogg">{TRUNCGAUSSHEAPINT61}</td>
+                <td class="clickable" data-file="sqamtruncgauss/61_spsi.ogg">{TRUNCGAUSSSPSI61}</td>
+                <td>{HANNHEAPINT61}</td><td>{HANNSPSI61}</td>
+                <td>{HAMMINGHEAPINT61}</td><td>{HAMMINGSPSI61}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/62.ogg">62 Soprano-Spiritual</td>
+                <td>{GAUSSHEAPINT62}</td><td>{GAUSSSPSI62}</td>
+                <td class="clickable" data-file="sqamtruncgauss/62_heapint.ogg">{TRUNCGAUSSHEAPINT62}</td>
+                <td class="clickable" data-file="sqamtruncgauss/62_spsi.ogg">{TRUNCGAUSSSPSI62}</td>
+                <td>{HANNHEAPINT62}</td><td>{HANNSPSI62}</td>
+                <td>{HAMMINGHEAPINT62}</td><td>{HAMMINGSPSI62}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/63.ogg">63 Soloists-Verdi</td>
+                <td>{GAUSSHEAPINT63}</td><td>{GAUSSSPSI63}</td>
+                <td class="clickable" data-file="sqamtruncgauss/63_heapint.ogg">{TRUNCGAUSSHEAPINT63}</td>
+                <td class="clickable" data-file="sqamtruncgauss/63_spsi.ogg">{TRUNCGAUSSSPSI63}</td>
+                <td>{HANNHEAPINT63}</td><td>{HANNSPSI63}</td>
+                <td>{HAMMINGHEAPINT63}</td><td>{HAMMINGSPSI63}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/64.ogg">64 Choir-Orff</td>
+                <td>{GAUSSHEAPINT64}</td><td>{GAUSSSPSI64}</td>
+                <td class="clickable" data-file="sqamtruncgauss/64_heapint.ogg">{TRUNCGAUSSHEAPINT64}</td>
+                <td class="clickable" data-file="sqamtruncgauss/64_spsi.ogg">{TRUNCGAUSSSPSI64}</td>
+                <td>{HANNHEAPINT64}</td><td>{HANNSPSI64}</td>
+                <td>{HAMMINGHEAPINT64}</td><td>{HAMMINGSPSI64}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/65.ogg">65 Orchestra-Strauss</td>
+                <td>{GAUSSHEAPINT65}</td><td>{GAUSSSPSI65}</td>
+                <td class="clickable" data-file="sqamtruncgauss/65_heapint.ogg">{TRUNCGAUSSHEAPINT65}</td>
+                <td class="clickable" data-file="sqamtruncgauss/65_spsi.ogg">{TRUNCGAUSSSPSI65}</td>
+                <td>{HANNHEAPINT65}</td><td>{HANNSPSI65}</td>
+                <td>{HAMMINGHEAPINT65}</td><td>{HAMMINGSPSI65}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/66.ogg">66 Wind ensemble-Stravinsky</td>
+                <td>{GAUSSHEAPINT66}</td><td>{GAUSSSPSI66}</td>
+                <td class="clickable" data-file="sqamtruncgauss/66_heapint.ogg">{TRUNCGAUSSHEAPINT66}</td>
+                <td class="clickable" data-file="sqamtruncgauss/66_spsi.ogg">{TRUNCGAUSSSPSI66}</td>
+                <td>{HANNHEAPINT66}</td><td>{HANNSPSI66}</td>
+                <td>{HAMMINGHEAPINT66}</td><td>{HAMMINGSPSI66}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/67.ogg">67 Wind ensemble-Mozart</td>
+                <td>{GAUSSHEAPINT67}</td><td>{GAUSSSPSI67}</td>
+                <td class="clickable" data-file="sqamtruncgauss/67_heapint.ogg">{TRUNCGAUSSHEAPINT67}</td>
+                <td class="clickable" data-file="sqamtruncgauss/67_spsi.ogg">{TRUNCGAUSSSPSI67}</td>
+                <td>{HANNHEAPINT67}</td><td>{HANNSPSI67}</td>
+                <td>{HAMMINGHEAPINT67}</td><td>{HAMMINGSPSI67}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/68.ogg">68 Orchestra-Baird</td>
+                <td>{GAUSSHEAPINT68}</td><td>{GAUSSSPSI68}</td>
+                <td class="clickable" data-file="sqamtruncgauss/68_heapint.ogg">{TRUNCGAUSSHEAPINT68}</td>
+                <td class="clickable" data-file="sqamtruncgauss/68_spsi.ogg">{TRUNCGAUSSSPSI68}</td>
+                <td>{HANNHEAPINT68}</td><td>{HANNSPSI68}</td>
+                <td>{HAMMINGHEAPINT68}</td><td>{HAMMINGSPSI68}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/69.ogg">69 ABBA</td>
+                <td>{GAUSSHEAPINT69}</td><td>{GAUSSSPSI69}</td>
+                <td class="clickable" data-file="sqamtruncgauss/69_heapint.ogg">{TRUNCGAUSSHEAPINT69}</td>
+                <td class="clickable" data-file="sqamtruncgauss/69_spsi.ogg">{TRUNCGAUSSSPSI69}</td>
+                <td>{HANNHEAPINT69}</td><td>{HANNSPSI69}</td>
+                <td>{HAMMINGHEAPINT69}</td><td>{HAMMINGSPSI69}</td>
+            </tr>
+            <tr><td class="clickable" data-file="sqam/70.ogg">70 Eddie Rabbitt</td>
+                <td>{GAUSSHEAPINT70}</td><td>{GAUSSSPSI70}</td>
+                <td class="clickable" data-file="sqamtruncgauss/70_heapint.ogg">{TRUNCGAUSSHEAPINT70}</td>
+                <td class="clickable" data-file="sqamtruncgauss/70_spsi.ogg">{TRUNCGAUSSSPSI70}</td>
+                <td>{HANNHEAPINT70}</td><td>{HANNSPSI70}</td>
+                <td>{HAMMINGHEAPINT70}</td><td>{HAMMINGSPSI70}</td>
+            </tr>
+
+            <tr><td>Average:</td>
+                <td>{GAUSSHEAPINTAVG}</td><td>{GAUSSSPSIAVG}</td>
+                <td>{TRUNCGAUSSHEAPINTAVG}</td>
+                <td>{TRUNCGAUSSSPSIAVG}</td>
+                <td>{HANNHEAPINTAVG}</td><td>{HANNSPSIAVG}</td>
+                <td>{HAMMINGHEAPINTAVG}</td><td>{HAMMINGSPSIAVG}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+</body>
+</html>

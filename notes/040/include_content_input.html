@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title></title>
+<link rel="stylesheet" href="ltfatnote040.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="jquery.sticky-kit.min.js"></script>
+<script src="ltfatnote040.js"></script>
+</head>
+<body>
+
+
+
+The following achive <a href="ltfatnote040.zip">ltfatnote040.zip</a>
+contains scripts reproducing figures and tables from the paper.</br>
+
+<div class="alert alert-warning" role="alert">
+    Please note that LTFAT toolbox (version>=2.1.1) must be installed in order to run the scripts.</br>
+    It is also STRONGLY recommended (but not required) to use the compiled MEX/OCT functions.
+</div>
+
+<div>
+    <p>
+    This is an electronic addendum to paper:
+    </p>
+
+    <div class="stickycont" id="table2back">
+        <p>
+        The following <a href="#table2">table</a> shows error in dB for all 70 samples from the 
+        <a href="https://tech.ebu.ch/publications/sqamcd">EBU SQAM database</a>
+        for the proposed algorithm and for the SPSI algorithm.
+        The playback can be started by selecting one of the gray cells.
+        All the files were compressed by oggenc from vorbis-tools 1.4.0 with
+        the default settings.
+        Your browser must support HTML5 audio player
+        and it must be able to decode ogg files. Alternativelly, the file
+        path is shown below the player and it can be downloaded by Save Link As ...
+        </p>
+        <div class="playerdiv" id="table2">
+            <table border="0" cellspacing="5" cellpadding="0" id="stickytable">
+                <tr><th colspan="9">
+                        Table 2: Comparison with SPSI, EBU SQAM database, extended <br/>
+                        <audio id="audplayer" controls style="width:90%" preload="none">
+                            <!-- <source src="sqam/01.ogg" type="audio/ogg"> -->
+                            Warning! Your browser does not support HTML5 audio player.
+                            You will have to download and play the files yourself.
+                        </audio><br/>
+                        Loaded file: <span id="loadedfile">None</span>
+                </th></tr>
+            </table>
+        </div>
+
+        <table class="comptable" cellspacing="5" cellpadding="0">
+            {ERRTABLE}
+         </table>
+    </div>
+
+</div>
+
+
+
+
+
+</body>
+</html>
