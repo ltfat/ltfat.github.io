@@ -24,32 +24,31 @@ octave"/>
 <div class="row">
 
 <div class="page-header">
-    <h1>A Non-iterative Method for (Re)Construction of Phase from STFT Magnitude</h1>
+    <h1>A Non-iterative Method for STFT Phase (Re)Construction</h1>
     Zdeněk Průša, Peter Balazs, Peter L. Søndergaard
 </div>
 <div class="well">
 <strong>Abstract:</strong>
 <p>
-A non-iterative method for the construction of the
-Short-Time Fourier Transform (STFT) phase from the magnitude
-is presented. The method is based on the direct relationship
-between the partial derivatives of the phase and the logarithm of
-the magnitude of continuous STFT with respect to the Gaussian
-window. Although the theory holds in the continuous setting only,
-the experiments show that the algorithm performs well even
-in the discretized setting (Discrete Gabor transform) with low
-redundancy using the sampled Gaussian window, the truncated
-Gaussian window and even other compactly supported windows
-like the Hann window.
+A non-iterative method for the construction of the Short-Time Fourier 
+Transform (STFT) phase from the magnitude is presented.
+The method is based on the direct relationship
+between the partial derivatives of the phase and the logarithm of the magnitude
+of STFT with respect to the Gaussian window.
+Although the theory holds in the continuous setting only,
+the experiments show that the algorithm performs well
+even in the discretized setting (Discrete Gabor transform) with low redundancy
+using the sampled Gaussian window, the truncated Gaussian window and even other
+compactly supported windows like the Hann window.
 
-Due to the non-iterative nature, the algorithm is very fast and it
-is suitable for long audio signals. Moreover, solutions of iterative
-phase reconstruction algorithms can be improved considerably
-by initializing them with the phase estimate provided by the
-present algorithm.
+Due to the non-iterative nature,
+the algorithm is very fast and it is suitable for long audio signals.
+Moreover, the solutions of iterative phase reconstruction algorithms
+can be improved considerably by initializing them
+with the phase estimate provided by the present algorithm.
 
-We present an extensive comparison with the state-of-the-art
-algorithms in a reproducible manner.
+We present an extensive and reproducible comparison with the
+state-of-the-art algorithms.
 </p>
 </div>
 
