@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['idgt_5ffb',['idgt_fb',['../group__dgtfb.html#ga425bc3943d90e2d894c8a505f46b79f1',1,'idgt_fb.h']]],
+  ['idgt_5ffb_5fdone',['idgt_fb_done',['../group__dgtfb.html#ga42825d2b69244861b2b667b3eb94415c',1,'idgt_fb.h']]],
+  ['idgt_5ffb_5fexecute',['idgt_fb_execute',['../group__dgtfb.html#ga13f1c1e61b50bfc3353e7127c19a2f7e',1,'idgt_fb.h']]],
+  ['idgt_5ffb_5finit',['idgt_fb_init',['../group__dgtfb.html#ga956b7e32d2265a0bedfbd8117239cefa',1,'idgt_fb.h']]],
+  ['idgt_5flong',['idgt_long',['../group__dgtlong.html#gabaed1731d6d1c634c4ea89235efe0a4b',1,'idgt_long.h']]],
+  ['idgt_5flong_5fdone',['idgt_long_done',['../group__dgtlong.html#ga359a8c4c5970ceed1d2bee818de6f2da',1,'idgt_long.h']]],
+  ['idgt_5flong_5fexecute',['idgt_long_execute',['../group__dgtlong.html#gaa4a4618a341cafd092b5b02faf395e4a',1,'idgt_long.h']]],
+  ['idgt_5flong_5fexecute_5fnewarray',['idgt_long_execute_newarray',['../group__dgtlong.html#gae7fd0f4901a6f659e123def503071b16',1,'idgt_long.h']]],
+  ['idgt_5flong_5finit',['idgt_long_init',['../group__dgtlong.html#ga129d06fbbb4018ef61ef9c8080003c79',1,'idgt_long.h']]],
+  ['idgtreal_5ffb',['idgtreal_fb',['../group__dgtrealfb.html#ga50a71da28e9844fe1653d9daea65bd2c',1,'idgtreal_fb.h']]],
+  ['idgtreal_5ffb_5fdone',['idgtreal_fb_done',['../group__dgtrealfb.html#ga646f07ee5302c16f36213461e6e37625',1,'idgtreal_fb.h']]],
+  ['idgtreal_5ffb_5fexecute',['idgtreal_fb_execute',['../group__dgtrealfb.html#ga9eef333068d9de2c065706a583aa5d6a',1,'idgtreal_fb.h']]],
+  ['idgtreal_5ffb_5finit',['idgtreal_fb_init',['../group__dgtrealfb.html#gaced6905b6f2b6b70ad0662404323d4c9',1,'idgtreal_fb.h']]],
+  ['idgtreal_5flong',['idgtreal_long',['../group__dgtreallong.html#ga88e44aa8232cb83b3138bb28f2f84ff5',1,'idgtreal_long.h']]],
+  ['idgtreal_5flong_5fdone',['idgtreal_long_done',['../group__dgtreallong.html#gaa583e1376593c87503596f6a5bac9167',1,'idgtreal_long.h']]],
+  ['idgtreal_5flong_5fexecute',['idgtreal_long_execute',['../group__dgtreallong.html#gae7881131b48dd2b3458a81b80a7b5bd2',1,'idgtreal_long.h']]],
+  ['idgtreal_5flong_5fexecute_5fnewarray',['idgtreal_long_execute_newarray',['../group__dgtreallong.html#ga0de43beccdeb3dbcc654837654f802d2',1,'idgtreal_long.h']]],
+  ['idgtreal_5flong_5finit',['idgtreal_long_init',['../group__dgtreallong.html#ga503ca15b0a506445288559257e71e2b7',1,'idgtreal_long.h']]],
+  ['ifftshift',['ifftshift',['../group__utils.html#gaa0974565f55d16636a4dd4d3a359d25a',1,'ciutils.h']]]
+];
