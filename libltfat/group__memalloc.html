@@ -163,9 +163,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
 <h4>Function versions</h4>
 <p><code> void* <a class="el" href="group__memalloc.html#ga0a7a8487b9aff53e9c2943ef6dc7be32">ltfat_calloc(size_t nmemb, size_t size)</a>;</code></p>
 <p><code> double* ltfat_calloc_d(size_t size);</code></p>
-<p><code> complex double* ltfat_calloc_dc(size_t size);</code></p>
+<p><code> ltfat_complex_d* ltfat_calloc_dc(size_t size);</code></p>
 <p><code> float* ltfat_calloc_s(size_t size);</code></p>
-<p><code> complex float* ltfat_calloc_sc(size_t size); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
+<p><code> ltfat_complex_s* ltfat_calloc_sc(size_t size); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
 
 </div>
 </div>
@@ -193,9 +193,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
 <h4>Function versions</h4>
 <p><code> void* <a class="el" href="group__memalloc.html#gada01386c0a77f66438293b0e0278f34a">ltfat_malloc(size_t nbytes)</a>;</code></p>
 <p><code> double* ltfat_malloc_d(size_t n);</code></p>
-<p><code> complex double* ltfat_malloc_dc(size_t n);</code></p>
+<p><code> ltfat_complex_d* ltfat_malloc_dc(size_t n);</code></p>
 <p><code> float* ltfat_malloc_s(size_t n);</code></p>
-<p><code> complex float* ltfat_malloc_sc(size_t n); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
+<p><code> ltfat_complex_s* ltfat_malloc_sc(size_t n); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
 
 </div>
 </div>
@@ -240,9 +240,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
 <h4>Function versions</h4>
 <p><code> void* <a class="el" href="group__memalloc.html#ga314d7873f25503c28bc58666006ffd2c">ltfat_realloc(void *ptr, size_t noldbytes, size_t nnewbytes)</a>;</code></p>
 <p><code> double* ltfat_realloc_d(double *ptr, size_t nold, size_t nnew);</code></p>
-<p><code> complex double* ltfat_realloc_dc(complex double *ptr, size_t nold, size_t nnew);</code></p>
+<p><code> ltfat_complex_d* ltfat_realloc_dc(ltfat_complex_d *ptr, size_t nold, size_t nnew);</code></p>
 <p><code> float* ltfat_realloc_s(float *ptr, size_t nold, size_t nnew);</code></p>
-<p><code> complex float* ltfat_realloc_sc(complex float *ptr, size_t nold, size_t nnew); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
+<p><code> ltfat_complex_s* ltfat_realloc_sc(ltfat_complex_s *ptr, size_t nold, size_t nnew); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
 
 </div>
 </div>
@@ -270,8 +270,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Wed Aug 10 2016 17:16:12</i>
-<!-- Generated on Wed Aug 10 2016 17:16:12 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Sep 1 2016 19:34:54</i>
+<!-- Generated on Thu Sep 1 2016 19:34:54 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>

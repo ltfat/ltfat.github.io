@@ -143,11 +143,12 @@ Additionally, the <code>LTFAT_TYPE</code> type will be used whenever there is a 
 <td>Compatibility (C++11 and <code>LTFAT_CINTERFACE</code> defined)</td><td><code>double</code>[2]</td><td><code>double</code>[][2]</td><td><code>double(*)</code>[2] </td></tr>
 </table>
 <p><code>ltfat_complex_s</code> expands the same way.</p>
-<dl class="section warning"><dt>Warning</dt><dd>When using C99, you should not include <code>fftw3.h</code> before <code><a class="el" href="ltfat_8h_source.html">ltfat.h</a></code>. The issue is described here <a href="http://www.fftw.org/doc/Complex-numbers.html">FFTW doc</a> Basically <code>complex.h</code> must be included before <code>fftw3.h</code> and <code><a class="el" href="ltfat_8h_source.html">ltfat.h</a></code> does that.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>When using C99, you should n ot include <code>fftw3.h</code> before <code><a class="el" href="ltfat_8h_source.html">ltfat.h</a></code>. The issue is described here <a href="http://www.fftw.org/doc/Complex-numbers.html">FFTW doc</a> Basically <code>complex.h</code> must be included before <code>fftw3.h</code> and <code><a class="el" href="ltfat_8h_source.html">ltfat.h</a></code> does that.</dd></dl>
 <h2>Arrays, matrices and naming conventions </h2>
 <p>The multidimensional arrays are contiguous in memory and therefore, they are reffered to by a single pointer and the individual dimensions are accessed trough an offset.</p>
 <p>When an array represents a matrix, it is assumed that the columns are the first dimension and therefore they are stored continuously in memory.</p>
 <p>In the function headers, the data arrays are denoted with array brackets [] and a pointer is used whenever refering to a single object. This distinction is just cosmetics as the arrays decay to pointers anyway.</p>
+<p>Array sizes, indexes etc. are represented using  ltfat_int : </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> ptrdiff_t ltfat_int;</div></div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Size of  ptrdiff_t is system dependent.</dd></dl>
 <p>Further, the following naming conventions are used consistently: </p><a class="anchor" id="multi_row"></a>
 <table class="doxtable">
 <caption>Argument naming</caption>
@@ -187,8 +188,8 @@ Further, the *_execute functions are reentrant and thread-safe, but not when exe
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Wed Aug 10 2016 17:16:15</i>
-<!-- Generated on Wed Aug 10 2016 17:16:15 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Sep 1 2016 19:34:56</i>
+<!-- Generated on Thu Sep 1 2016 19:34:56 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>

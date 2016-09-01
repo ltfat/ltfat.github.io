@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['fftframe',['fftframe',['../structrtisilaupdate__plan.html#a4f538483e496312a9ef6a072e484499a',1,'rtisilaupdate_plan']]],
-  ['fftrealcircshift',['fftrealcircshift',['../group__utils.html#gac5d328a1d5edd49f7582f61fdc2aa444',1,'fftrealcircshift(const complex double *in, int L, double shift, complex double *out):&#160;utils.c'],['../group__utils.html#gac5d328a1d5edd49f7582f61fdc2aa444',1,'fftrealcircshift(const complex double *in, int L, double shift, complex double *out):&#160;utils.c']]],
-  ['fftrealfftshift',['fftrealfftshift',['../group__utils.html#ga5b9e63f37d21fd65688fa578c33d58e1',1,'fftrealfftshift(const double complex *in, int L, double complex *out):&#160;utils.c'],['../group__utils.html#ga5b9e63f37d21fd65688fa578c33d58e1',1,'fftrealfftshift(const double complex *in, int L, double complex *out):&#160;utils.c']]],
-  ['fftrealifftshift',['fftrealifftshift',['../group__utils.html#ga6523a7ab914861299e06e00590874cfd',1,'fftrealifftshift(const double complex *in, int L, double complex *out):&#160;utils.c'],['../group__utils.html#ga6523a7ab914861299e06e00590874cfd',1,'fftrealifftshift(const double complex *in, int L, double complex *out):&#160;utils.c']]],
-  ['fftshift',['fftshift',['../group__utils.html#gaad379d1a9acba6c82b3cd4a7918d9dab',1,'fftshift(const double *in, int L, double *out):&#160;utils.c'],['../group__utils.html#gaad379d1a9acba6c82b3cd4a7918d9dab',1,'fftshift(const double *in, int L, double *out):&#160;utils.c']]],
-  ['fgrad',['fgrad',['../structrtpghi__plan.html#a58ffadb0b5d99a2a0f1b2a6070336b77',1,'rtpghi_plan']]],
-  ['frame',['frame',['../structrtisilaupdate__plan.html#a576d230931b64b0f1dfec60e9291ba0b',1,'rtisilaupdate_plan']]],
-  ['frames',['frames',['../structrtisila__plan.html#a631072092eb43236a47be5c9b1c3c1ff',1,'rtisila_plan']]],
-  ['fwdp',['fwdp',['../structrtisilaupdate__plan.html#a0fb994028a16551ef42a64807f48d8ba',1,'rtisilaupdate_plan']]]
+  ['legla',['legla',['../group__legla.html#gab03ad3be7592a1649ad5b1c66dfc52ab',1,'legla(const LTFAT_COMPLEX cinit[], const LTFAT_REAL g[], ltfat_int L, ltfat_int gl, ltfat_int W, ltfat_int a, ltfat_int M, ltfat_int iter, LTFAT_COMPLEX c[]):&#160;legla.h'],['../group__legla.html',1,'(Global Namespace)']]],
+  ['legla_5fcallback_5fcmod',['legla_callback_cmod',['../group__legla.html#gaa94354c06c7cdf457e21d86035e5d670',1,'legla.h']]],
+  ['legla_5fcallback_5fstatus',['legla_callback_status',['../group__legla.html#gaf9307fad19804ac35579cfd8e6aeb7e8',1,'legla.h']]],
+  ['legla_5fdone',['legla_done',['../group__legla.html#gacc301e3e988f174e1b5cc4260badb095',1,'legla.h']]],
+  ['legla_5fexecute',['legla_execute',['../group__legla.html#gae7f6d554136af26f2e161889f791c2de',1,'legla.h']]],
+  ['legla_5fexecute_5fnewarray',['legla_execute_newarray',['../group__legla.html#gaa413d914dd62165b498a09cd6392f24a',1,'legla.h']]],
+  ['legla_5finit',['legla_init',['../group__legla.html#ga8d5efd91d74fbf53d516dd39249c4f73',1,'legla.h']]],
+  ['legla_5fset_5fcmod_5fcallback',['legla_set_cmod_callback',['../group__legla.html#gac9ada77f673f49ee56d14bc433df188e',1,'legla.h']]],
+  ['legla_5fset_5fstatus_5fcallback',['legla_set_status_callback',['../group__legla.html#gac526140d464951366f549dfdf8e2f68f',1,'legla.h']]],
+  ['legla',['legla',['../md_doxygen_legla.html',1,'']]]
 ];

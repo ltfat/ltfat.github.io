@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tgrad',['tgrad',['../structrtpghi__plan.html#a82faf7073866b1bf8517de6ae9e806b1',1,'rtpghi_plan']]]
+  ['relthr',['relthr',['../structlegla__init__params.html#a9bef9e296f8968bf0878790ef58c3616',1,'legla_init_params']]]
 ];

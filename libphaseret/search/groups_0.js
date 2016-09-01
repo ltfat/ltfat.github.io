@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['griffin_2dlim_20algorithm',['Griffin-Lim Algorithm',['../group__gla.html',1,'']]]
+  ['discrete_20gabor_20transform_20analysis_2dsynthesis',['Discrete Gabor Transform analysis-synthesis',['../group__dgtrealwrapper.html',1,'']]]
 ];

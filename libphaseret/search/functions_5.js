@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['shiftcolsleft',['shiftcolsleft',['../group__utils.html#gaa3bd70dd7f1ed29d462e08063efcede7',1,'shiftcolsleft(double *cols, int height, int N, const double *newcol):&#160;utils.c'],['../group__utils.html#gaa3bd70dd7f1ed29d462e08063efcede7',1,'shiftcolsleft(double *cols, int height, int N, const double *newcol):&#160;utils.c']]],
-  ['spsi',['spsi',['../group__spsi.html#gabcae3f329c39c7d058ba388d009ffa6e',1,'spsi(const double *s, int a, int M, int N, double *initphase, complex double *c):&#160;spsi.c'],['../group__spsi.html#gabcae3f329c39c7d058ba388d009ffa6e',1,'spsi(const double *s, int a, int M, int N, double *initphase, complex double *c):&#160;spsi.c']]]
+  ['spsi',['spsi',['../group__spsi.html#ga0d8754acbc304df3f2093a9d7db8a5b7',1,'spsi.h']]],
+  ['spsi_5fwithmask',['spsi_withmask',['../group__spsi.html#gab14ca5fe662ba0fe7e1946bb12972f2d',1,'spsi.h']]]
 ];

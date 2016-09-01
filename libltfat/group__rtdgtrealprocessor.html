@@ -104,35 +104,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:gab667cd051dc4896ee198679d8cdc519c"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gab667cd051dc4896ee198679d8cdc519c">rtdgtreal_processor_callback</a>(void *userdata, const LTFAT_COMPLEX in[], const int M2, const int W, LTFAT_COMPLEX out[])</td></tr>
-<tr class="separator:gab667cd051dc4896ee198679d8cdc519c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad872de7006d42304569b5bcc8486c764"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gad872de7006d42304569b5bcc8486c764">rtdgtreal_processor_callback</a>(void *userdata, const LTFAT_COMPLEX in[], int M2, int W, LTFAT_COMPLEX out[])</td></tr>
+<tr class="separator:gad872de7006d42304569b5bcc8486c764"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gaedb594eeca5af082f8a20ea76cf6d9c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gaedb594eeca5af082f8a20ea76cf6d9c4">rtdgtreal_processor_init</a> (const LTFAT_REAL ga[], const ltfatInt gal, const LTFAT_REAL gs[], const ltfatInt gsl, const ltfatInt a, const ltfatInt M, const ltfatInt Wmax, <a class="el" href="group__rtdgtrealprocessor.html#gab667cd051dc4896ee198679d8cdc519c">rtdgtreal_processor_callback</a> *callback, void *userdata, rtdgtreal_processor_state **plan)</td></tr>
-<tr class="separator:gaedb594eeca5af082f8a20ea76cf6d9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga44ed983f102a653eb8eb811a8a9f9ea1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga44ed983f102a653eb8eb811a8a9f9ea1">rtdgtreal_processor_init_win</a> (LTFAT_FIRWIN win, const ltfatInt gl, const ltfatInt a, const ltfatInt M, const ltfatInt Wmax, <a class="el" href="group__rtdgtrealprocessor.html#gab667cd051dc4896ee198679d8cdc519c">rtdgtreal_processor_callback</a> *callback, void *userdata, rtdgtreal_processor_state **plan)</td></tr>
-<tr class="separator:ga44ed983f102a653eb8eb811a8a9f9ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1cc05a79ea00ddd9dec4c1f832a99f46"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga1cc05a79ea00ddd9dec4c1f832a99f46">rtdgtreal_processor_execute</a> (rtdgtreal_processor_state *p, const LTFAT_REAL *in[], const ltfatInt L, const ltfatInt W, LTFAT_REAL *out[])</td></tr>
-<tr class="separator:ga1cc05a79ea00ddd9dec4c1f832a99f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadd1f03b798fc2f9f29885c7207450482"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gadd1f03b798fc2f9f29885c7207450482">rtdgtreal_processor_execute_compact</a> (rtdgtreal_processor_state *p, const LTFAT_REAL in[], const ltfatInt len, const ltfatInt chanNo, LTFAT_REAL out[])</td></tr>
-<tr class="separator:gadd1f03b798fc2f9f29885c7207450482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga825cfa2dc31f629bfa441a95a96ecccf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga825cfa2dc31f629bfa441a95a96ecccf">rtdgtreal_processor_init</a> (const LTFAT_REAL ga[], ltfat_int gal, const LTFAT_REAL gs[], ltfat_int gsl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state **plan)</td></tr>
+<tr class="separator:ga825cfa2dc31f629bfa441a95a96ecccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6bee3e61b2fdc8cf34eaa097e9f79d67"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga6bee3e61b2fdc8cf34eaa097e9f79d67">rtdgtreal_processor_reset</a> (rtdgtreal_processor_state *p)</td></tr>
+<tr class="separator:ga6bee3e61b2fdc8cf34eaa097e9f79d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga897bbdfb137f227bf0b9f713a009aab6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga897bbdfb137f227bf0b9f713a009aab6">rtdgtreal_processor_init_win</a> (LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state **plan)</td></tr>
+<tr class="separator:ga897bbdfb137f227bf0b9f713a009aab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad56bc9222cb9c1d6405e09a5b87509eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gad56bc9222cb9c1d6405e09a5b87509eb">rtdgtreal_processor_execute</a> (rtdgtreal_processor_state *p, const LTFAT_REAL *in[], ltfat_int L, ltfat_int W, LTFAT_REAL *out[])</td></tr>
+<tr class="separator:gad56bc9222cb9c1d6405e09a5b87509eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafeac95101dafbac68ab4ccc20aec63cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gafeac95101dafbac68ab4ccc20aec63cc">rtdgtreal_processor_execute_compact</a> (rtdgtreal_processor_state *p, const LTFAT_REAL in[], ltfat_int len, ltfat_int chanNo, LTFAT_REAL out[])</td></tr>
+<tr class="separator:gafeac95101dafbac68ab4ccc20aec63cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7c896343f9ab147419952a8bd8f71765"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga7c896343f9ab147419952a8bd8f71765">rtdgtreal_processor_done</a> (rtdgtreal_processor_state **plan)</td></tr>
 <tr class="separator:ga7c896343f9ab147419952a8bd8f71765"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad213fe94fd04f66b48cbcc5b689641c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gad213fe94fd04f66b48cbcc5b689641c7">rtdgtreal_processor_setcallback</a> (rtdgtreal_processor_state *p, <a class="el" href="group__rtdgtrealprocessor.html#gab667cd051dc4896ee198679d8cdc519c">rtdgtreal_processor_callback</a> *callback, void *userdata)</td></tr>
+<tr class="memitem:gad213fe94fd04f66b48cbcc5b689641c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gad213fe94fd04f66b48cbcc5b689641c7">rtdgtreal_processor_setcallback</a> (rtdgtreal_processor_state *p, <a class="el" href="group__rtdgtrealprocessor.html#gad872de7006d42304569b5bcc8486c764">rtdgtreal_processor_callback</a> *callback, void *userdata)</td></tr>
 <tr class="separator:gad213fe94fd04f66b48cbcc5b689641c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae439de465cd201db0627fc0ad35fff60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gae439de465cd201db0627fc0ad35fff60">default_rtdgtreal_processor_callback</a> (void *userdata, const LTFAT_COMPLEX in[], const int M2, const int W, LTFAT_COMPLEX out[])</td></tr>
-<tr class="separator:gae439de465cd201db0627fc0ad35fff60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf0304050d74d13107b331626eb644933"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gaf0304050d74d13107b331626eb644933">default_rtdgtreal_processor_callback</a> (void *userdata, const LTFAT_COMPLEX in[], int M2, int W, LTFAT_COMPLEX out[])</td></tr>
+<tr class="separator:gaf0304050d74d13107b331626eb644933"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>The real-time DGT processor wraps the analysis-modify-synthesis loop for audio streams. It provides a callback interface which allows user-defined coefficient manipulation.</p>
-<p>Example: </p><div class="fragment"><div class="line"><span class="comment">// Simple coefficient modification</span></div><div class="line"><span class="keywordtype">void</span> process(<span class="keywordtype">void</span> *userdata, <span class="keyword">const</span> complex <span class="keywordtype">float</span> inCoef[], <span class="keyword">const</span> <span class="keywordtype">int</span> M2, <span class="keyword">const</span> <span class="keywordtype">int</span> W, complex <span class="keywordtype">float</span> outCoef[])</div><div class="line">{</div><div class="line">    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> w=0; w&lt;W; w++) <span class="comment">// Loop over channels</span></div><div class="line">        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> m=0; m&lt;M2; m++) <span class="comment">// Loop over frequencies</span></div><div class="line">            out[m+w*M2] = 2.0f*in[m+w*M2];</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// Initialize</span></div><div class="line">ltfat_rtdgtreal_processor_state_s* procstate = NULL;</div><div class="line">ltfat_rtdgtreal_processor_init_win_s( LTFAT_HANN, 1024, 256, 1024, maxChanNo, &amp;process, NULL, &amp;procstate);</div><div class="line"></div><div class="line"><span class="comment">// In the audio loop</span></div><div class="line"><span class="keywordtype">void</span> audioCallback(<span class="keywordtype">float</span>** data, <span class="keywordtype">int</span> dataLen, <span class="keywordtype">int</span> chanNo)</div><div class="line">{</div><div class="line">    ltfat_rtdgtreal_processor_execute_s(procstate, data, dataLen, chanNo, data);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// Teardown</span></div><div class="line">ltfat_rtdgtreal_processor_done_s(&amp;procstate);</div></div><!-- fragment --> <h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="gab667cd051dc4896ee198679d8cdc519c"></a>
+<p>Example: </p><div class="fragment"><div class="line"><span class="comment">// Simple coefficient modification</span></div><div class="line"><span class="keywordtype">void</span> process(<span class="keywordtype">void</span> *userdata, <span class="keyword">const</span> ltfat_complex_s inCoef[], <span class="keyword">const</span> <span class="keywordtype">int</span> M2, <span class="keyword">const</span> <span class="keywordtype">int</span> W, ltfat_complex_s outCoef[])</div><div class="line">{</div><div class="line">    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> w=0; w&lt;W; w++) <span class="comment">// Loop over channels</span></div><div class="line">        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> m=0; m&lt;M2; m++) <span class="comment">// Loop over frequencies</span></div><div class="line">            out[m+w*M2] = 2.0f*in[m+w*M2];</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// Initialize</span></div><div class="line">ltfat_rtdgtreal_processor_state_s* procstate = NULL;</div><div class="line">ltfat_rtdgtreal_processor_init_win_s( LTFAT_HANN, 1024, 256, 1024, maxChanNo, &amp;process, NULL, &amp;procstate);</div><div class="line"></div><div class="line"><span class="comment">// In the audio loop</span></div><div class="line"><span class="keywordtype">void</span> audioCallback(<span class="keywordtype">float</span>** data, <span class="keywordtype">int</span> dataLen, <span class="keywordtype">int</span> chanNo)</div><div class="line">{</div><div class="line">    ltfat_rtdgtreal_processor_execute_s(procstate, data, dataLen, chanNo, data);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// Teardown</span></div><div class="line">ltfat_rtdgtreal_processor_done_s(&amp;procstate);</div></div><!-- fragment --> <h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="gad872de7006d42304569b5bcc8486c764"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void rtdgtreal_processor_callback(void *userdata, const LTFAT_COMPLEX in[], const int M2, const int W, LTFAT_COMPLEX out[])</td>
+          <td class="memname">typedef void rtdgtreal_processor_callback(void *userdata, const LTFAT_COMPLEX in[], int M2, int W, LTFAT_COMPLEX out[])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -150,13 +152,13 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <h4>Function versions</h4>
-<p><code> typedef void ltfat_rtdgtreal_processor_callback_d(void* userdata, const complex double in[], const int M2, const int W, complex double out[]);</code></p>
-<p><code> typedef void ltfat_rtdgtreal_processor_callback_s(void* userdata, const complex float in[], const int M2, const int W, complex float out[]); </code> </p>
+<p><code> typedef void ltfat_rtdgtreal_processor_callback_d(void* userdata, const ltfat_complex_d in[], int M2, int W, ltfat_complex_d out[]);</code></p>
+<p><code> typedef void ltfat_rtdgtreal_processor_callback_s(void* userdata, const ltfat_complex_s in[], ltfat_int M2, int W, ltfat_complex_s out[]); </code> </p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="gae439de465cd201db0627fc0ad35fff60"></a>
+<a class="anchor" id="gaf0304050d74d13107b331626eb644933"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -175,13 +177,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>M2</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>W</em>, </td>
         </tr>
         <tr>
@@ -237,7 +239,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga1cc05a79ea00ddd9dec4c1f832a99f46"></a>
+<a class="anchor" id="gad56bc9222cb9c1d6405e09a5b87509eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -256,13 +258,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>L</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>W</em>, </td>
         </tr>
         <tr>
@@ -293,8 +295,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <h4>Function versions</h4>
-<p><code> ltfat_rtdgtreal_processor_execute_d(ltfat_rtdgtreal_processor_state_d* p, const double* in[], const ltfatInt L, const ltfatInt W, double* out[]);</code></p>
-<p><code>ltfat_rtdgtreal_processor_execute_s(ltfat_rtdgtreal_processor_state_d* p, const float* in[], const ltfatInt L, const ltfatInt W, float* out[]); </code></p>
+<p><code> ltfat_rtdgtreal_processor_execute_d(ltfat_rtdgtreal_processor_state_d* p, const double* in[], ltfat_int L, ltfat_int W, double* out[]);</code></p>
+<p><code>ltfat_rtdgtreal_processor_execute_s(ltfat_rtdgtreal_processor_state_d* p, const float* in[], ltfat_int L, ltfat_int W, float* out[]); </code></p>
 <dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
@@ -305,7 +307,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gadd1f03b798fc2f9f29885c7207450482"></a>
+<a class="anchor" id="gafeac95101dafbac68ab4ccc20aec63cc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -324,13 +326,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>len</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>chanNo</em>, </td>
         </tr>
         <tr>
@@ -359,8 +361,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <h4>Function versions</h4>
-<p><code> ltfat_rtdgtreal_processor_execute_compact_d(ltfat_rtdgtreal_processor_state_d* p, const double in[], const ltfatInt L, const ltfatInt W, double out[]);</code></p>
-<p><code>ltfat_rtdgtreal_processor_execute_compact_s(ltfat_rtdgtreal_processor_state_d* p, const float in[], const ltfatInt L, const ltfatInt W, float out[]); </code></p>
+<p><code> ltfat_rtdgtreal_processor_execute_compact_d(ltfat_rtdgtreal_processor_state_d* p, const double in[], ltfat_int L, ltfat_int W, double out[]);</code></p>
+<p><code>ltfat_rtdgtreal_processor_execute_compact_s(ltfat_rtdgtreal_processor_state_d* p, const float in[], ltfat_int L, ltfat_int W, float out[]); </code></p>
 <dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
@@ -371,7 +373,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaedb594eeca5af082f8a20ea76cf6d9c4"></a>
+<a class="anchor" id="ga825cfa2dc31f629bfa441a95a96ecccf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -384,7 +386,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>gal</em>, </td>
         </tr>
         <tr>
@@ -396,38 +398,32 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>gsl</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>Wmax</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__rtdgtrealprocessor.html#gab667cd051dc4896ee198679d8cdc519c">rtdgtreal_processor_callback</a> *&#160;</td>
-          <td class="paramname"><em>callback</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>userdata</em>, </td>
+          <td class="paramtype">ltfat_int&#160;</td>
+          <td class="paramname"><em>bufLenMax</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -449,19 +445,18 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ga</td><td>Analysis window </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">gal</td><td>Length of the analysis window </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">gs</td><td>Synthesis window </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">gsl</td><td>Length of the synthesis window </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">'</td><td>gsl Length of the synthesis window </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Hop size </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Number of FFT channels </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">Wmax</td><td>Maximum number of channels </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">callback</td><td>Custom function to process the coefficients </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">userdata</td><td>Custom callback data. Will be passed to the callback. Useful for storing state between callback calls. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bufLenMax</td><td>Maximum buffer length expected in execute </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">plan</td><td>DGTREAL processor state</td></tr>
   </table>
   </dd>
 </dl>
 <h4>Function versions</h4>
-<p><code> ltfat_rtdgtreal_processor_init_d(const double ga[], const ltfatInt gal, const double gs[], const ltfatInt gsl, const ltfatInt a, const ltfatInt M, const ltfatInt Wmax, rtdgtreal_processor_callback_d* callback, void* userdata, rtdgtreal_processor_state_d** plan);</code></p>
-<p><code>ltfat_rtdgtreal_processor_init_s(const float ga[], const ltfatInt gal, const float gs[], const ltfatInt gsl, const ltfatInt a, const ltfatInt M, const ltfatInt Wmax, rtdgtreal_processor_callback_s* callback, void* userdata, rtdgtreal_processor_state_s** plan); </code></p>
+<p><code> ltfat_rtdgtreal_processor_init_d(const double ga[], ltfat_int gal, const double gs[], ltfat_int gsl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state_d** plan);</code></p>
+<p><code>ltfat_rtdgtreal_processor_init_s(const float ga[], ltfat_int gal, const float gs[], ltfat_int gsl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state_s** plan); </code></p>
 <dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
@@ -482,7 +477,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga44ed983f102a653eb8eb811a8a9f9ea1"></a>
+<a class="anchor" id="ga897bbdfb137f227bf0b9f713a009aab6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -495,38 +490,32 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>gl</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>Wmax</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__rtdgtrealprocessor.html#gab667cd051dc4896ee198679d8cdc519c">rtdgtreal_processor_callback</a> *&#160;</td>
-          <td class="paramname"><em>callback</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>userdata</em>, </td>
+          <td class="paramtype">ltfat_int&#160;</td>
+          <td class="paramname"><em>bufLenMax</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -550,15 +539,14 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Hop size </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Number of FFT channels </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">Wmax</td><td>Maximum number of channels </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">callback</td><td>Custom function to process the coefficients </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">userdata</td><td>Custom callback data. Will be passed to the callback. Useful for storing state between callback calls. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bufLenMax</td><td>Maximum buffer length expected in execute </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">plan</td><td>DGTREAL processor state</td></tr>
   </table>
   </dd>
 </dl>
 <h4>Function versions</h4>
-<p><code> ltfat_rtdgtreal_processor_init_win_d(LTFAT_FIRWIN win, const ltfatInt gl, const ltfatInt a, const ltfatInt M, const ltfatInt Wmax, rtdgtreal_processor_callback_d* callback, void* userdata, rtdgtreal_processor_state_d** plan);</code></p>
-<p><code>ltfat_rtdgtreal_processor_init_win_s(LTFAT_FIRWIN win, const ltfatInt gl, const ltfatInt a, const ltfatInt M, const ltfatInt Wmax, rtdgtreal_processor_callback_s* callback, void* userdata, rtdgtreal_processor_state_s** plan); </code></p>
+<p><code> ltfat_rtdgtreal_processor_init_win_d(LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state_d** plan);</code></p>
+<p><code>ltfat_rtdgtreal_processor_init_win_s(LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state_s** plan); </code></p>
 <dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
@@ -579,6 +567,42 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga6bee3e61b2fdc8cf34eaa097e9f79d67"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rtdgtreal_processor_reset </td>
+          <td>(</td>
+          <td class="paramtype">rtdgtreal_processor_state *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reset processor state</p>
+<p>Whenever there is a break in the continuity of the input stream, the state should be reset before feeding new data.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>Processor state</td></tr>
+  </table>
+  </dd>
+</dl>
+<h4>Function versions</h4>
+<p><code> ltfat_rtdgtreal_processor_reset_d(rtdgtreal_processor_state_d* p);</code></p>
+<p><code>ltfat_rtdgtreal_processor_reset_s(rtdgtreal_processor_state_s* p); </code></p>
+<dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
+<tr>
+<th>Status code </th><th>Description  </th></tr>
+<tr>
+<td>LTFATERR_SUCCESS </td><td>No error occured </td></tr>
+<tr>
+<td>LTFATERR_NULLPOINTER </td><td><em>p</em> was NULL </td></tr>
+</table>
+</dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gad213fe94fd04f66b48cbcc5b689641c7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -592,7 +616,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__rtdgtrealprocessor.html#gab667cd051dc4896ee198679d8cdc519c">rtdgtreal_processor_callback</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__rtdgtrealprocessor.html#gad872de7006d42304569b5bcc8486c764">rtdgtreal_processor_callback</a> *&#160;</td>
           <td class="paramname"><em>callback</em>, </td>
         </tr>
         <tr>
@@ -631,8 +655,8 @@ Functions</h2></td></tr>
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Wed Aug 10 2016 17:16:12</i>
-<!-- Generated on Wed Aug 10 2016 17:16:12 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Sep 1 2016 19:34:54</i>
+<!-- Generated on Thu Sep 1 2016 19:34:54 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>

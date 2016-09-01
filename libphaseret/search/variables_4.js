@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['s',['s',['../structrtisila__plan.html#ae4e48e195a13669f9f73f94103768421',1,'rtisila_plan']]]
+  ['relthr',['relthr',['../structphaseret__legla__init__params.html#aa727e8fb0d40867408d7658d2757f151',1,'phaseret_legla_init_params']]]
 ];

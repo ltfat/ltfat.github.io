@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['randphase',['randphase',['../structrtpghi__plan.html#a1af967f1eeea41e411351de42287880e',1,'rtpghi_plan']]]
+  ['leglaflags',['leglaflags',['../structphaseret__legla__init__params.html#a83b5a9e3b95b9424c134975b32572e6c',1,'phaseret_legla_init_params']]]
 ];

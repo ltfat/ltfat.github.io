@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['phase',['phase',['../structrtpghi__plan.html#a89e94d8d53367e37f55f4025f2d8bf94',1,'rtpghi_plan']]]
+  ['relthr',['relthr',['../structphaseret__legla__init__params.html#aa727e8fb0d40867408d7658d2757f151',1,'phaseret_legla_init_params']]]
 ];

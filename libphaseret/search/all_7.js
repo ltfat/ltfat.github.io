@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['maskedspsi',['maskedspsi',['../group__spsi.html#gab8de67bc79482f6ba9978037f9891d78',1,'maskedspsi(const double *s, int a, int M, int N, const double *mask, const double *phase, double *initphase, complex double *c):&#160;spsi.c'],['../group__spsi.html#gab8de67bc79482f6ba9978037f9891d78',1,'maskedspsi(const double *s, int a, int M, int N, const double *mask, const double *phase, double *initphase, complex double *c):&#160;spsi.c']]],
-  ['mex',['mex',['../md_doxygen_mex.html',1,'']]],
-  ['mex_20interfaces',['MEX interfaces',['../group__mex.html',1,'']]],
-  ['mexfunction',['mexFunction',['../group__legla.html#ga6a215cbfde54f82a3ce599228fc3fce5',1,'comp_leglaupdate.c']]]
+  ['spsi',['spsi',['../md_doxygen_spsi.html',1,'']]],
+  ['spsi',['spsi',['../group__spsi.html#gacb38d2df4f77ca0ac118052eb6440be1',1,'spsi(const LTFAT_REAL s[], ltfat_int L, ltfat_int W, ltfat_int a, ltfat_int M, LTFAT_REAL initphase[], LTFAT_COMPLEX c[]):&#160;spsi.h'],['../group__spsi.html',1,'(Global Namespace)']]],
+  ['spsi_5fwithmask',['spsi_withmask',['../group__spsi.html#ga41fdee29c2e74625190a0c9c1b82ea56',1,'spsi.h']]]
 ];

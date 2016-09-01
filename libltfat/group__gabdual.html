@@ -103,21 +103,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga0d2b0a7fdc04dd8a7dc34a4bfd46b3be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#ga0d2b0a7fdc04dd8a7dc34a4bfd46b3be">gabdual_painless</a> (const LTFAT_TYPE g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, LTFAT_TYPE gd[])</td></tr>
-<tr class="separator:ga0d2b0a7fdc04dd8a7dc34a4bfd46b3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a7aca7a80fd138f14a3827cf4801854"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#ga8a7aca7a80fd138f14a3827cf4801854">gabtight_painless</a> (const LTFAT_TYPE g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, LTFAT_TYPE gt[])</td></tr>
-<tr class="separator:ga8a7aca7a80fd138f14a3827cf4801854"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf665dfc46c92d89288d7c658134c3308"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#gaf665dfc46c92d89288d7c658134c3308">gabdual_long</a> (const LTFAT_TYPE g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, LTFAT_TYPE gd[])</td></tr>
-<tr class="separator:gaf665dfc46c92d89288d7c658134c3308"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga488385460a4e15075be1e19c3fb20caf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#ga488385460a4e15075be1e19c3fb20caf">gabtight_long</a> (const LTFAT_TYPE g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, LTFAT_TYPE gd[])</td></tr>
-<tr class="separator:ga488385460a4e15075be1e19c3fb20caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaceb2d858bc4ab604e13c4b80f8f74598"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#gaceb2d858bc4ab604e13c4b80f8f74598">gabdual_painless</a> (const LTFAT_TYPE g[], ltfat_int gl, ltfat_int a, ltfat_int M, LTFAT_TYPE gd[])</td></tr>
+<tr class="separator:gaceb2d858bc4ab604e13c4b80f8f74598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga49b1a545076cdd277bafb464e9b40e84"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#ga49b1a545076cdd277bafb464e9b40e84">gabtight_painless</a> (const LTFAT_TYPE g[], ltfat_int gl, ltfat_int a, ltfat_int M, LTFAT_TYPE gt[])</td></tr>
+<tr class="separator:ga49b1a545076cdd277bafb464e9b40e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga327b2e6064bb88997f2d7991da98cb00"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#ga327b2e6064bb88997f2d7991da98cb00">gabdual_long</a> (const LTFAT_TYPE g[], ltfat_int L, ltfat_int a, ltfat_int M, LTFAT_TYPE gd[])</td></tr>
+<tr class="separator:ga327b2e6064bb88997f2d7991da98cb00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaba73404419c73003662e9e6f34c1f175"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gabdual.html#gaba73404419c73003662e9e6f34c1f175">gabtight_long</a> (const LTFAT_TYPE g[], ltfat_int L, ltfat_int a, ltfat_int M, LTFAT_TYPE gd[])</td></tr>
+<tr class="separator:gaba73404419c73003662e9e6f34c1f175"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>In order to be able to compute canonical dual or tight windows, the system must be a frame i.e. M&gt;=a &amp;&amp; gl&gt;=a where gl is length of the window support.</p>
 <p>In general, the canonical dual (tight) window support might not be the same as of the original window.</p>
 <p>The canonical dual (tight) window is guaranteed to have the same support in the <em>painless case</em> i.e. if M&gt;=gl holds in addition to the frame condition. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="gaf665dfc46c92d89288d7c658134c3308"></a>
+<a class="anchor" id="ga327b2e6064bb88997f2d7991da98cb00"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -130,19 +130,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>L</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
         </tr>
         <tr>
@@ -171,10 +171,10 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <h4>Versions</h4>
-<p><code> ltfat_gabdual_long_d(const double g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, double gd[]);</code></p>
-<p><code>ltfat_gabdual_long_s(const float g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, float gd[]);</code></p>
-<p><code>ltfat_gabdual_long_dc(const complex double g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, complex double gd[]);</code></p>
-<p><code>ltfat_gabdual_long_sc(const complex float g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, complex float gd[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
+<p><code> ltfat_gabdual_long_d(const double g[], const ltfat_int L, ltfat_int a, ltfat_int M, double gd[]);</code></p>
+<p><code>ltfat_gabdual_long_s(const float g[], ltfat_int L, ltfat_int a, ltfat_int M, float gd[]);</code></p>
+<p><code>ltfat_gabdual_long_dc(const ltfat_complex_d g[], ltfat_int L, ltfat_int a, ltfat_int M, ltfat_complex_d gd[]);</code></p>
+<p><code>ltfat_gabdual_long_sc(const ltfat_complex_s g[], ltfat_int L, ltfat_int a, ltfat_int M, ltfat_complex_s gd[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
 <tr>
@@ -196,7 +196,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga0d2b0a7fdc04dd8a7dc34a4bfd46b3be"></a>
+<a class="anchor" id="gaceb2d858bc4ab604e13c4b80f8f74598"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -209,19 +209,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>gl</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
         </tr>
         <tr>
@@ -249,10 +249,10 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <h4>Versions</h4>
-<p><code> ltfat_gabdual_painless_d(const double g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, double gd[]);</code></p>
-<p><code>ltfat_gabdual_painless_s(const float g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, float gd[]);</code></p>
-<p><code>ltfat_gabdual_painless_cd(const complex double g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, complex double gd[]);</code></p>
-<p><code>ltfat_gabdual_painless_cs(const complex float g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, complex float gd[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
+<p><code> ltfat_gabdual_painless_d(const double g[], ltfat_int gl, ltfat_int a, ltfat_int M, double gd[]);</code></p>
+<p><code>ltfat_gabdual_painless_s(const float g[], ltfat_int gl, ltfat_int a, ltfat_int M, float gd[]);</code></p>
+<p><code>ltfat_gabdual_painless_cd(const ltfat_complex_d g[], ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_complex_d gd[]);</code></p>
+<p><code>ltfat_gabdual_painless_cs(const ltfat_complex_s g[], ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_complex_s gd[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
 <tr>
@@ -274,7 +274,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga488385460a4e15075be1e19c3fb20caf"></a>
+<a class="anchor" id="gaba73404419c73003662e9e6f34c1f175"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -287,19 +287,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>L</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
         </tr>
         <tr>
@@ -317,7 +317,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Compute canonical tight window for Gabor system</p>
 <dl class="section warning"><dt>Warning</dt><dd>This function is not available if libltfat has been compiled with NOBLASLAPACK.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__utils.html#ga0fa22472991c266a345d0a70fcac6ccb">fir2long</a> <a class="el" href="group__utils.html#ga7f17afe8f7725b649a6689b81d00c34e">long2fir</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__utils.html#ga371c7436919c46653bde99c70c8db357">fir2long</a> <a class="el" href="group__utils.html#ga5a184c3e1169a13f48fd734ba290e847">long2fir</a></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>Original window(s), size L x R </td></tr>
@@ -329,10 +329,10 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <h4>Versions</h4>
-<p>ltfat_gabtight_long_d(const double g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, double gt[]);</p>
-<p>ltfat_gabtight_long_s(const float g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, float gt[]);</p>
-<p>ltfat_gabtight_long_dc(const complex double g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, complex double gt[]);</p>
-<p>ltfat_gabtight_long_sc(const complex float g[], const ltfatInt L, const ltfatInt a, const ltfatInt M, complex float gt[]);  </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
+<p>ltfat_gabtight_long_d(const double g[], ltfat_int L, ltfat_int a, ltfat_int M, double gt[]);</p>
+<p>ltfat_gabtight_long_s(const float g[], ltfat_int L, ltfat_int a, ltfat_int M, float gt[]);</p>
+<p>ltfat_gabtight_long_dc(const ltfat_complex_d g[], ltfat_int L, ltfat_int a, ltfat_int M, ltfat_complex_d gt[]);</p>
+<p>ltfat_gabtight_long_sc(const ltfat_complex_s g[], ltfat_int L, ltfat_int a, ltfat_int M, ltfat_complex_s gt[]);  </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
 <tr>
@@ -354,7 +354,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga8a7aca7a80fd138f14a3827cf4801854"></a>
+<a class="anchor" id="ga49b1a545076cdd277bafb464e9b40e84"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -367,19 +367,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>gl</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ltfatInt&#160;</td>
+          <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>M</em>, </td>
         </tr>
         <tr>
@@ -407,10 +407,10 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <h4>Versions</h4>
-<p><code> ltfat_gabtight_painless_d(const double g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, double gt[]);</code></p>
-<p><code>ltfat_gabtight_painless_s(const float g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, float gt[]);</code></p>
-<p><code>ltfat_gabtight_painless_cd(const complex double g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, complex double gt[]);</code></p>
-<p><code>ltfat_gabtight_painless_cs(const complex float g[], const ltfatInt gl, const ltfatInt a, const ltfatInt M, complex float gt[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
+<p><code> ltfat_gabtight_painless_d(const double g[], ltfat_int gl, ltfat_int a, ltfat_int M, double gt[]);</code></p>
+<p><code>ltfat_gabtight_painless_s(const float g[], ltfat_int gl, ltfat_int a, ltfat_int M, float gt[]);</code></p>
+<p><code>ltfat_gabtight_painless_cd(const ltfat_complex_d g[], ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_complex_d gt[]);</code></p>
+<p><code>ltfat_gabtight_painless_cs(const ltfat_complex_s g[], ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_complex_s gt[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="doxtable">
 <tr>
 <th>Status code </th><th>Description  </th></tr>
 <tr>
@@ -439,8 +439,8 @@ Functions</h2></td></tr>
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Wed Aug 10 2016 17:16:12</i>
-<!-- Generated on Wed Aug 10 2016 17:16:12 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Sep 1 2016 19:34:54</i>
+<!-- Generated on Thu Sep 1 2016 19:34:54 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>
