@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, signal processing, matlab,
+octave"/>
+<title>Towards High Quality Real-Time Signal Reconstruction from STFT Magnitude</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+<link rel="stylesheet" href="../040/ltfatnote040.css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+
+<div class="page-header">
+    <h1>Towards High Quality Real-Time Signal Reconstruction from STFT Magnitude</h1>
+    Zdeněk Průša
+</div>
+<div class="well">
+<strong>Abstract:</strong>
+<p>
+
+We present an extensive and reproducible comparison with the
+state-of-the-art algorithms.
+</p>
+</div>
+
+<div class="alert alert-warning" role="alert">
+    <strong>Reproducible research:</strong>
+    <p>
+    The following archive <a href="ltfatnote048.zip">ltfatnote048.zip</a>
+    contains scripts reproducing figures and tables from the paper.
+    </p>
+    <p>
+    Please note that LTFAT toolbox (version>=2.1.3, available
+    <a href="http://ltfat.github.io">here</a>) and
+    PHASERET (version>=0.2.0, available 
+    <a href="http://ltfat.github.io/phaseret">here</a>)
+    must be installed in order to run the scripts.
+    </p>
+</div>
+
+    <div class="stickycont well" id="table2back">
+        <strong>Additional content:</strong>
+        <p>
+        The following table show errors in dB for all 70 samples from the 
+        <a href="https://tech.ebu.ch/publications/sqamcd">EBU SQAM database</a>
+        for the proposed algorithm and for RTPGHI(1), RTISI-LA(2) and GSRTISI-LA(2).
+        The number in the brackets denotes the number of look-ahead frames used.
+        The number of per-frame iterations was fixed to 12.
+        </p>
+        <p>
+        The playback can be started by selecting one of the table cells (the enabled ones
+        turn yellow when the cursor hovers over them).
+        All the files were compressed by oggenc from vorbis-tools 1.4.0 with
+        the default settings.
+        Your browser must support HTML5 audio player
+        and it must be able to decode ogg files. Alternativelly, the file
+        path is shown below the player and it can be downloaded by Save Link As ...
+        </p>
+        <div class="playerdiv" id="table2">
+            <table border="0" cellspacing="5" cellpadding="0">
+                <tr><th colspan="9">Table 1: 
+                        Addendum to Table II and Fig. 4. <br/>
+                        <audio id="audplayer2" controls style="width:90%" preload="none">
+                            <!-- <source src="sqam/01.ogg" type="audio/ogg"> -->
+                            Warning! Your browser does not support HTML5 audio player.
+                            You will have to download and play the files yourself.
+                        </audio><br/>
+                        Loaded file: <span id="loadedfile2">None</span>
+                </th></tr>
+            </table>
+        </div>
+
+        <table class="comptable small text-center errtable" cellspacing="0" cellpadding="0"
+            id="errtable2">
+            <tr><td></td>
+<td colspan="4" align="center">Truncated Gaussian window</td>
+</tr>
+<tr><td></td>
+<td>RTPGHI(1)</td>
+<td>RTISI-LA(2)</td>
+<td>GSRTISI-LA(2)</td>
+<td>Proposed(2)</td>
+</tr>
+
+<tr>
+<td class="clickable"data-file="../040/sqam/01.ogg">01 Sine wave, 1 kHz</td>
+<td class="clickable"data-file="sqamtruncgauss/01_rtpghi_la1.ogg">-49.94</td>
+<td class="clickable"data-file="sqamtruncgauss/01_rtisila_la2.ogg">-47.94</td>
+<td class="clickable"data-file="sqamtruncgauss/01_gsrtisila_la2.ogg">-51.77</td>
+<td class="clickable"data-file="sqamtruncgauss/01_gsrtisilaws_la2.ogg"><b>-63.36</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/02.ogg">02 Pink noise</td>
+<td class="clickable"data-file="sqamtruncgauss/02_rtpghi_la1.ogg">-17.62</td>
+<td class="clickable"data-file="sqamtruncgauss/02_rtisila_la2.ogg">-17.92</td>
+<td class="clickable"data-file="sqamtruncgauss/02_gsrtisila_la2.ogg">-20.64</td>
+<td class="clickable"data-file="sqamtruncgauss/02_gsrtisilaws_la2.ogg"><b>-27.84</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/03.ogg">03 Electronic gong</td>
+<td class="clickable"data-file="sqamtruncgauss/03_rtpghi_la1.ogg">-48.19</td>
+<td class="clickable"data-file="sqamtruncgauss/03_rtisila_la2.ogg">-39.33</td>
+<td class="clickable"data-file="sqamtruncgauss/03_gsrtisila_la2.ogg">-50.47</td>
+<td class="clickable"data-file="sqamtruncgauss/03_gsrtisilaws_la2.ogg"><b>-54.32</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/04.ogg">04 Electronic gong</td>
+<td class="clickable"data-file="sqamtruncgauss/04_rtpghi_la1.ogg">-52.83</td>
+<td class="clickable"data-file="sqamtruncgauss/04_rtisila_la2.ogg">-39.41</td>
+<td class="clickable"data-file="sqamtruncgauss/04_gsrtisila_la2.ogg">-54.18</td>
+<td class="clickable"data-file="sqamtruncgauss/04_gsrtisilaws_la2.ogg"><b>-58.31</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/05.ogg">05 Electronic gong</td>
+<td class="clickable"data-file="sqamtruncgauss/05_rtpghi_la1.ogg">-55.69</td>
+<td class="clickable"data-file="sqamtruncgauss/05_rtisila_la2.ogg">-39.54</td>
+<td class="clickable"data-file="sqamtruncgauss/05_gsrtisila_la2.ogg">-55.11</td>
+<td class="clickable"data-file="sqamtruncgauss/05_gsrtisilaws_la2.ogg"><b>-65.48</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/06.ogg">06 Electronic gong</td>
+<td class="clickable"data-file="sqamtruncgauss/06_rtpghi_la1.ogg">-40.25</td>
+<td class="clickable"data-file="sqamtruncgauss/06_rtisila_la2.ogg">-33.38</td>
+<td class="clickable"data-file="sqamtruncgauss/06_gsrtisila_la2.ogg">-34.11</td>
+<td class="clickable"data-file="sqamtruncgauss/06_gsrtisilaws_la2.ogg"><b>-57.85</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/07.ogg">07 Electronic tune</td>
+<td class="clickable"data-file="sqamtruncgauss/07_rtpghi_la1.ogg">-37.97</td>
+<td class="clickable"data-file="sqamtruncgauss/07_rtisila_la2.ogg">-37.72</td>
+<td class="clickable"data-file="sqamtruncgauss/07_gsrtisila_la2.ogg">-53.47</td>
+<td class="clickable"data-file="sqamtruncgauss/07_gsrtisilaws_la2.ogg"><b>-59.88</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/08.ogg">08 Violin</td>
+<td class="clickable"data-file="sqamtruncgauss/08_rtpghi_la1.ogg">-25.10</td>
+<td class="clickable"data-file="sqamtruncgauss/08_rtisila_la2.ogg">-31.49</td>
+<td class="clickable"data-file="sqamtruncgauss/08_gsrtisila_la2.ogg">-34.87</td>
+<td class="clickable"data-file="sqamtruncgauss/08_gsrtisilaws_la2.ogg"><b>-39.10</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/09.ogg">09 Viola</td>
+<td class="clickable"data-file="sqamtruncgauss/09_rtpghi_la1.ogg">-26.14</td>
+<td class="clickable"data-file="sqamtruncgauss/09_rtisila_la2.ogg">-32.39</td>
+<td class="clickable"data-file="sqamtruncgauss/09_gsrtisila_la2.ogg">-36.24</td>
+<td class="clickable"data-file="sqamtruncgauss/09_gsrtisilaws_la2.ogg"><b>-40.98</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/10.ogg">10 Violoncello</td>
+<td class="clickable"data-file="sqamtruncgauss/10_rtpghi_la1.ogg">-29.25</td>
+<td class="clickable"data-file="sqamtruncgauss/10_rtisila_la2.ogg">-32.69</td>
+<td class="clickable"data-file="sqamtruncgauss/10_gsrtisila_la2.ogg">-36.16</td>
+<td class="clickable"data-file="sqamtruncgauss/10_gsrtisilaws_la2.ogg"><b>-42.16</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/11.ogg">11 Double-bass</td>
+<td class="clickable"data-file="sqamtruncgauss/11_rtpghi_la1.ogg">-26.95</td>
+<td class="clickable"data-file="sqamtruncgauss/11_rtisila_la2.ogg">-31.52</td>
+<td class="clickable"data-file="sqamtruncgauss/11_gsrtisila_la2.ogg">-34.73</td>
+<td class="clickable"data-file="sqamtruncgauss/11_gsrtisilaws_la2.ogg"><b>-37.48</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/12.ogg">12 Picollo</td>
+<td class="clickable"data-file="sqamtruncgauss/12_rtpghi_la1.ogg">-32.75</td>
+<td class="clickable"data-file="sqamtruncgauss/12_rtisila_la2.ogg">-34.45</td>
+<td class="clickable"data-file="sqamtruncgauss/12_gsrtisila_la2.ogg">-37.41</td>
+<td class="clickable"data-file="sqamtruncgauss/12_gsrtisilaws_la2.ogg"><b>-45.83</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/13.ogg">13 Flute</td>
+<td class="clickable"data-file="sqamtruncgauss/13_rtpghi_la1.ogg">-31.85</td>
+<td class="clickable"data-file="sqamtruncgauss/13_rtisila_la2.ogg">-35.15</td>
+<td class="clickable"data-file="sqamtruncgauss/13_gsrtisila_la2.ogg">-38.68</td>
+<td class="clickable"data-file="sqamtruncgauss/13_gsrtisilaws_la2.ogg"><b>-45.55</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/14.ogg">14 Oboe</td>
+<td class="clickable"data-file="sqamtruncgauss/14_rtpghi_la1.ogg">-29.09</td>
+<td class="clickable"data-file="sqamtruncgauss/14_rtisila_la2.ogg">-30.36</td>
+<td class="clickable"data-file="sqamtruncgauss/14_gsrtisila_la2.ogg">-34.14</td>
+<td class="clickable"data-file="sqamtruncgauss/14_gsrtisilaws_la2.ogg"><b>-44.23</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/15.ogg">15 Cor anglais</td>
+<td class="clickable"data-file="sqamtruncgauss/15_rtpghi_la1.ogg">-29.28</td>
+<td class="clickable"data-file="sqamtruncgauss/15_rtisila_la2.ogg">-31.78</td>
+<td class="clickable"data-file="sqamtruncgauss/15_gsrtisila_la2.ogg">-35.13</td>
+<td class="clickable"data-file="sqamtruncgauss/15_gsrtisilaws_la2.ogg"><b>-43.04</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/16.ogg">16 Clarinet</td>
+<td class="clickable"data-file="sqamtruncgauss/16_rtpghi_la1.ogg">-31.68</td>
+<td class="clickable"data-file="sqamtruncgauss/16_rtisila_la2.ogg">-37.82</td>
+<td class="clickable"data-file="sqamtruncgauss/16_gsrtisila_la2.ogg">-40.27</td>
+<td class="clickable"data-file="sqamtruncgauss/16_gsrtisilaws_la2.ogg"><b>-45.39</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/17.ogg">17 Bass-clarinet</td>
+<td class="clickable"data-file="sqamtruncgauss/17_rtpghi_la1.ogg">-32.69</td>
+<td class="clickable"data-file="sqamtruncgauss/17_rtisila_la2.ogg">-38.67</td>
+<td class="clickable"data-file="sqamtruncgauss/17_gsrtisila_la2.ogg">-42.21</td>
+<td class="clickable"data-file="sqamtruncgauss/17_gsrtisilaws_la2.ogg"><b>-46.98</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/18.ogg">18 Bassoon</td>
+<td class="clickable"data-file="sqamtruncgauss/18_rtpghi_la1.ogg">-25.59</td>
+<td class="clickable"data-file="sqamtruncgauss/18_rtisila_la2.ogg">-28.74</td>
+<td class="clickable"data-file="sqamtruncgauss/18_gsrtisila_la2.ogg">-31.56</td>
+<td class="clickable"data-file="sqamtruncgauss/18_gsrtisilaws_la2.ogg"><b>-42.53</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/19.ogg">19 Contra-bassoon</td>
+<td class="clickable"data-file="sqamtruncgauss/19_rtpghi_la1.ogg">-19.18</td>
+<td class="clickable"data-file="sqamtruncgauss/19_rtisila_la2.ogg">-19.78</td>
+<td class="clickable"data-file="sqamtruncgauss/19_gsrtisila_la2.ogg">-21.82</td>
+<td class="clickable"data-file="sqamtruncgauss/19_gsrtisilaws_la2.ogg"><b>-26.78</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/20.ogg">20 Saxophone</td>
+<td class="clickable"data-file="sqamtruncgauss/20_rtpghi_la1.ogg">-29.30</td>
+<td class="clickable"data-file="sqamtruncgauss/20_rtisila_la2.ogg">-32.51</td>
+<td class="clickable"data-file="sqamtruncgauss/20_gsrtisila_la2.ogg">-35.27</td>
+<td class="clickable"data-file="sqamtruncgauss/20_gsrtisilaws_la2.ogg"><b>-38.18</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/21.ogg">21 Trumpet</td>
+<td class="clickable"data-file="sqamtruncgauss/21_rtpghi_la1.ogg">-32.94</td>
+<td class="clickable"data-file="sqamtruncgauss/21_rtisila_la2.ogg">-33.78</td>
+<td class="clickable"data-file="sqamtruncgauss/21_gsrtisila_la2.ogg">-36.70</td>
+<td class="clickable"data-file="sqamtruncgauss/21_gsrtisilaws_la2.ogg"><b>-43.11</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/22.ogg">22 Trombone</td>
+<td class="clickable"data-file="sqamtruncgauss/22_rtpghi_la1.ogg">-33.43</td>
+<td class="clickable"data-file="sqamtruncgauss/22_rtisila_la2.ogg">-36.22</td>
+<td class="clickable"data-file="sqamtruncgauss/22_gsrtisila_la2.ogg">-39.93</td>
+<td class="clickable"data-file="sqamtruncgauss/22_gsrtisilaws_la2.ogg"><b>-43.01</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/23.ogg">23 Horn</td>
+<td class="clickable"data-file="sqamtruncgauss/23_rtpghi_la1.ogg">-28.21</td>
+<td class="clickable"data-file="sqamtruncgauss/23_rtisila_la2.ogg">-29.30</td>
+<td class="clickable"data-file="sqamtruncgauss/23_gsrtisila_la2.ogg">-31.51</td>
+<td class="clickable"data-file="sqamtruncgauss/23_gsrtisilaws_la2.ogg"><b>-40.49</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/24.ogg">24 Tuba</td>
+<td class="clickable"data-file="sqamtruncgauss/24_rtpghi_la1.ogg">-30.39</td>
+<td class="clickable"data-file="sqamtruncgauss/24_rtisila_la2.ogg">-32.57</td>
+<td class="clickable"data-file="sqamtruncgauss/24_gsrtisila_la2.ogg">-37.64</td>
+<td class="clickable"data-file="sqamtruncgauss/24_gsrtisilaws_la2.ogg"><b>-45.02</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/25.ogg">25 Harp</td>
+<td class="clickable"data-file="sqamtruncgauss/25_rtpghi_la1.ogg">-23.43</td>
+<td class="clickable"data-file="sqamtruncgauss/25_rtisila_la2.ogg">-23.65</td>
+<td class="clickable"data-file="sqamtruncgauss/25_gsrtisila_la2.ogg">-27.80</td>
+<td class="clickable"data-file="sqamtruncgauss/25_gsrtisilaws_la2.ogg"><b>-35.02</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/26.ogg">26 Claves</td>
+<td class="clickable"data-file="sqamtruncgauss/26_rtpghi_la1.ogg">-23.63</td>
+<td class="clickable"data-file="sqamtruncgauss/26_rtisila_la2.ogg">-15.14</td>
+<td class="clickable"data-file="sqamtruncgauss/26_gsrtisila_la2.ogg">-15.41</td>
+<td class="clickable"data-file="sqamtruncgauss/26_gsrtisilaws_la2.ogg"><b>-33.43</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/27.ogg">27 Castanets</td>
+<td class="clickable"data-file="sqamtruncgauss/27_rtpghi_la1.ogg">-19.95</td>
+<td class="clickable"data-file="sqamtruncgauss/27_rtisila_la2.ogg">-12.90</td>
+<td class="clickable"data-file="sqamtruncgauss/27_gsrtisila_la2.ogg">-13.52</td>
+<td class="clickable"data-file="sqamtruncgauss/27_gsrtisilaws_la2.ogg"><b>-27.41</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/28.ogg">28 Side drum</td>
+<td class="clickable"data-file="sqamtruncgauss/28_rtpghi_la1.ogg">-29.64</td>
+<td class="clickable"data-file="sqamtruncgauss/28_rtisila_la2.ogg">-21.24</td>
+<td class="clickable"data-file="sqamtruncgauss/28_gsrtisila_la2.ogg">-23.09</td>
+<td class="clickable"data-file="sqamtruncgauss/28_gsrtisilaws_la2.ogg"><b>-40.31</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/29.ogg">29 Bass drum</td>
+<td class="clickable"data-file="sqamtruncgauss/29_rtpghi_la1.ogg">-21.25</td>
+<td class="clickable"data-file="sqamtruncgauss/29_rtisila_la2.ogg">-20.07</td>
+<td class="clickable"data-file="sqamtruncgauss/29_gsrtisila_la2.ogg">-17.47</td>
+<td class="clickable"data-file="sqamtruncgauss/29_gsrtisilaws_la2.ogg"><b>-30.50</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/30.ogg">30 Kettle-drums</td>
+<td class="clickable"data-file="sqamtruncgauss/30_rtpghi_la1.ogg">-22.03</td>
+<td class="clickable"data-file="sqamtruncgauss/30_rtisila_la2.ogg">-19.74</td>
+<td class="clickable"data-file="sqamtruncgauss/30_gsrtisila_la2.ogg">-20.70</td>
+<td class="clickable"data-file="sqamtruncgauss/30_gsrtisilaws_la2.ogg"><b>-33.90</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/31.ogg">31 Cymbal</td>
+<td class="clickable"data-file="sqamtruncgauss/31_rtpghi_la1.ogg">-20.25</td>
+<td class="clickable"data-file="sqamtruncgauss/31_rtisila_la2.ogg">-18.75</td>
+<td class="clickable"data-file="sqamtruncgauss/31_gsrtisila_la2.ogg">-20.75</td>
+<td class="clickable"data-file="sqamtruncgauss/31_gsrtisilaws_la2.ogg"><b>-31.18</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/32.ogg">32 Triangle</td>
+<td class="clickable"data-file="sqamtruncgauss/32_rtpghi_la1.ogg">-37.67</td>
+<td class="clickable"data-file="sqamtruncgauss/32_rtisila_la2.ogg">-30.47</td>
+<td class="clickable"data-file="sqamtruncgauss/32_gsrtisila_la2.ogg">-32.66</td>
+<td class="clickable"data-file="sqamtruncgauss/32_gsrtisilaws_la2.ogg"><b>-49.44</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/33.ogg">33 Gong</td>
+<td class="clickable"data-file="sqamtruncgauss/33_rtpghi_la1.ogg">-18.85</td>
+<td class="clickable"data-file="sqamtruncgauss/33_rtisila_la2.ogg">-19.10</td>
+<td class="clickable"data-file="sqamtruncgauss/33_gsrtisila_la2.ogg">-21.87</td>
+<td class="clickable"data-file="sqamtruncgauss/33_gsrtisilaws_la2.ogg"><b>-28.93</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/34.ogg">34 Tubular bells</td>
+<td class="clickable"data-file="sqamtruncgauss/34_rtpghi_la1.ogg">-23.83</td>
+<td class="clickable"data-file="sqamtruncgauss/34_rtisila_la2.ogg">-28.81</td>
+<td class="clickable"data-file="sqamtruncgauss/34_gsrtisila_la2.ogg">-32.21</td>
+<td class="clickable"data-file="sqamtruncgauss/34_gsrtisilaws_la2.ogg"><b>-37.57</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/35.ogg">35 Glockenspiel</td>
+<td class="clickable"data-file="sqamtruncgauss/35_rtpghi_la1.ogg">-36.13</td>
+<td class="clickable"data-file="sqamtruncgauss/35_rtisila_la2.ogg">-27.93</td>
+<td class="clickable"data-file="sqamtruncgauss/35_gsrtisila_la2.ogg">-28.28</td>
+<td class="clickable"data-file="sqamtruncgauss/35_gsrtisilaws_la2.ogg"><b>-48.30</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/36.ogg">36 Xylophone</td>
+<td class="clickable"data-file="sqamtruncgauss/36_rtpghi_la1.ogg">-25.37</td>
+<td class="clickable"data-file="sqamtruncgauss/36_rtisila_la2.ogg">-20.55</td>
+<td class="clickable"data-file="sqamtruncgauss/36_gsrtisila_la2.ogg">-20.29</td>
+<td class="clickable"data-file="sqamtruncgauss/36_gsrtisilaws_la2.ogg"><b>-37.40</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/37.ogg">37 Vibraphone</td>
+<td class="clickable"data-file="sqamtruncgauss/37_rtpghi_la1.ogg">-21.55</td>
+<td class="clickable"data-file="sqamtruncgauss/37_rtisila_la2.ogg">-24.25</td>
+<td class="clickable"data-file="sqamtruncgauss/37_gsrtisila_la2.ogg">-25.49</td>
+<td class="clickable"data-file="sqamtruncgauss/37_gsrtisilaws_la2.ogg"><b>-33.65</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/38.ogg">38 Marimba</td>
+<td class="clickable"data-file="sqamtruncgauss/38_rtpghi_la1.ogg">-33.69</td>
+<td class="clickable"data-file="sqamtruncgauss/38_rtisila_la2.ogg">-31.69</td>
+<td class="clickable"data-file="sqamtruncgauss/38_gsrtisila_la2.ogg">-33.18</td>
+<td class="clickable"data-file="sqamtruncgauss/38_gsrtisilaws_la2.ogg"><b>-47.79</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/39.ogg">39 Grand piano</td>
+<td class="clickable"data-file="sqamtruncgauss/39_rtpghi_la1.ogg">-26.48</td>
+<td class="clickable"data-file="sqamtruncgauss/39_rtisila_la2.ogg">-26.18</td>
+<td class="clickable"data-file="sqamtruncgauss/39_gsrtisila_la2.ogg">-27.68</td>
+<td class="clickable"data-file="sqamtruncgauss/39_gsrtisilaws_la2.ogg"><b>-37.10</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/40.ogg">40 Harpsichord</td>
+<td class="clickable"data-file="sqamtruncgauss/40_rtpghi_la1.ogg">-22.06</td>
+<td class="clickable"data-file="sqamtruncgauss/40_rtisila_la2.ogg">-24.65</td>
+<td class="clickable"data-file="sqamtruncgauss/40_gsrtisila_la2.ogg">-25.72</td>
+<td class="clickable"data-file="sqamtruncgauss/40_gsrtisilaws_la2.ogg"><b>-33.42</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/41.ogg">41 Celesta</td>
+<td class="clickable"data-file="sqamtruncgauss/41_rtpghi_la1.ogg">-30.55</td>
+<td class="clickable"data-file="sqamtruncgauss/41_rtisila_la2.ogg">-30.51</td>
+<td class="clickable"data-file="sqamtruncgauss/41_gsrtisila_la2.ogg">-34.05</td>
+<td class="clickable"data-file="sqamtruncgauss/41_gsrtisilaws_la2.ogg"><b>-41.00</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/42.ogg">42 Accordion</td>
+<td class="clickable"data-file="sqamtruncgauss/42_rtpghi_la1.ogg">-24.25</td>
+<td class="clickable"data-file="sqamtruncgauss/42_rtisila_la2.ogg">-28.71</td>
+<td class="clickable"data-file="sqamtruncgauss/42_gsrtisila_la2.ogg">-32.68</td>
+<td class="clickable"data-file="sqamtruncgauss/42_gsrtisilaws_la2.ogg"><b>-38.26</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/43.ogg">43 Organ</td>
+<td class="clickable"data-file="sqamtruncgauss/43_rtpghi_la1.ogg">-29.30</td>
+<td class="clickable"data-file="sqamtruncgauss/43_rtisila_la2.ogg">-33.26</td>
+<td class="clickable"data-file="sqamtruncgauss/43_gsrtisila_la2.ogg">-36.38</td>
+<td class="clickable"data-file="sqamtruncgauss/43_gsrtisilaws_la2.ogg"><b>-41.53</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/44.ogg">44 Soprano</td>
+<td class="clickable"data-file="sqamtruncgauss/44_rtpghi_la1.ogg">-27.48</td>
+<td class="clickable"data-file="sqamtruncgauss/44_rtisila_la2.ogg">-28.74</td>
+<td class="clickable"data-file="sqamtruncgauss/44_gsrtisila_la2.ogg">-32.32</td>
+<td class="clickable"data-file="sqamtruncgauss/44_gsrtisilaws_la2.ogg"><b>-42.40</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/45.ogg">45 Alto</td>
+<td class="clickable"data-file="sqamtruncgauss/45_rtpghi_la1.ogg">-25.08</td>
+<td class="clickable"data-file="sqamtruncgauss/45_rtisila_la2.ogg">-26.69</td>
+<td class="clickable"data-file="sqamtruncgauss/45_gsrtisila_la2.ogg">-29.94</td>
+<td class="clickable"data-file="sqamtruncgauss/45_gsrtisilaws_la2.ogg"><b>-38.42</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/46.ogg">46 Tenor</td>
+<td class="clickable"data-file="sqamtruncgauss/46_rtpghi_la1.ogg">-26.26</td>
+<td class="clickable"data-file="sqamtruncgauss/46_rtisila_la2.ogg">-27.40</td>
+<td class="clickable"data-file="sqamtruncgauss/46_gsrtisila_la2.ogg">-30.25</td>
+<td class="clickable"data-file="sqamtruncgauss/46_gsrtisilaws_la2.ogg"><b>-38.35</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/47.ogg">47 Bass</td>
+<td class="clickable"data-file="sqamtruncgauss/47_rtpghi_la1.ogg">-21.69</td>
+<td class="clickable"data-file="sqamtruncgauss/47_rtisila_la2.ogg">-23.12</td>
+<td class="clickable"data-file="sqamtruncgauss/47_gsrtisila_la2.ogg">-25.18</td>
+<td class="clickable"data-file="sqamtruncgauss/47_gsrtisilaws_la2.ogg"><b>-33.12</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/48.ogg">48 Quarter</td>
+<td class="clickable"data-file="sqamtruncgauss/48_rtpghi_la1.ogg">-21.45</td>
+<td class="clickable"data-file="sqamtruncgauss/48_rtisila_la2.ogg">-23.61</td>
+<td class="clickable"data-file="sqamtruncgauss/48_gsrtisila_la2.ogg">-26.44</td>
+<td class="clickable"data-file="sqamtruncgauss/48_gsrtisilaws_la2.ogg"><b>-32.18</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/49.ogg">49 Female speech eng.</td>
+<td class="clickable"data-file="sqamtruncgauss/49_rtpghi_la1.ogg">-26.17</td>
+<td class="clickable"data-file="sqamtruncgauss/49_rtisila_la2.ogg">-21.96</td>
+<td class="clickable"data-file="sqamtruncgauss/49_gsrtisila_la2.ogg">-23.45</td>
+<td class="clickable"data-file="sqamtruncgauss/49_gsrtisilaws_la2.ogg"><b>-32.75</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/50.ogg">50 male speech eng.</td>
+<td class="clickable"data-file="sqamtruncgauss/50_rtpghi_la1.ogg">-26.66</td>
+<td class="clickable"data-file="sqamtruncgauss/50_rtisila_la2.ogg">-23.11</td>
+<td class="clickable"data-file="sqamtruncgauss/50_gsrtisila_la2.ogg">-24.50</td>
+<td class="clickable"data-file="sqamtruncgauss/50_gsrtisilaws_la2.ogg"><b>-32.25</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/51.ogg">51 Female speech fra.</td>
+<td class="clickable"data-file="sqamtruncgauss/51_rtpghi_la1.ogg">-30.17</td>
+<td class="clickable"data-file="sqamtruncgauss/51_rtisila_la2.ogg">-25.67</td>
+<td class="clickable"data-file="sqamtruncgauss/51_gsrtisila_la2.ogg">-28.53</td>
+<td class="clickable"data-file="sqamtruncgauss/51_gsrtisilaws_la2.ogg"><b>-36.60</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/52.ogg">52 male speech fra.</td>
+<td class="clickable"data-file="sqamtruncgauss/52_rtpghi_la1.ogg">-25.15</td>
+<td class="clickable"data-file="sqamtruncgauss/52_rtisila_la2.ogg">-22.12</td>
+<td class="clickable"data-file="sqamtruncgauss/52_gsrtisila_la2.ogg">-24.16</td>
+<td class="clickable"data-file="sqamtruncgauss/52_gsrtisilaws_la2.ogg"><b>-31.24</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/53.ogg">53 Female speech ger.</td>
+<td class="clickable"data-file="sqamtruncgauss/53_rtpghi_la1.ogg">-22.91</td>
+<td class="clickable"data-file="sqamtruncgauss/53_rtisila_la2.ogg">-23.16</td>
+<td class="clickable"data-file="sqamtruncgauss/53_gsrtisila_la2.ogg">-24.39</td>
+<td class="clickable"data-file="sqamtruncgauss/53_gsrtisilaws_la2.ogg"><b>-28.54</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/54.ogg">54 Male speech ger.</td>
+<td class="clickable"data-file="sqamtruncgauss/54_rtpghi_la1.ogg">-26.86</td>
+<td class="clickable"data-file="sqamtruncgauss/54_rtisila_la2.ogg">-23.38</td>
+<td class="clickable"data-file="sqamtruncgauss/54_gsrtisila_la2.ogg">-25.19</td>
+<td class="clickable"data-file="sqamtruncgauss/54_gsrtisilaws_la2.ogg"><b>-32.93</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/55.ogg">55 Trumpet-Haydn</td>
+<td class="clickable"data-file="sqamtruncgauss/55_rtpghi_la1.ogg">-21.17</td>
+<td class="clickable"data-file="sqamtruncgauss/55_rtisila_la2.ogg">-24.36</td>
+<td class="clickable"data-file="sqamtruncgauss/55_gsrtisila_la2.ogg">-26.52</td>
+<td class="clickable"data-file="sqamtruncgauss/55_gsrtisilaws_la2.ogg"><b>-32.96</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/56.ogg">56 Organ-Handel</td>
+<td class="clickable"data-file="sqamtruncgauss/56_rtpghi_la1.ogg">-19.67</td>
+<td class="clickable"data-file="sqamtruncgauss/56_rtisila_la2.ogg">-23.22</td>
+<td class="clickable"data-file="sqamtruncgauss/56_gsrtisila_la2.ogg">-24.71</td>
+<td class="clickable"data-file="sqamtruncgauss/56_gsrtisilaws_la2.ogg"><b>-29.61</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/57.ogg">57 Organ-Bach</td>
+<td class="clickable"data-file="sqamtruncgauss/57_rtpghi_la1.ogg">-20.66</td>
+<td class="clickable"data-file="sqamtruncgauss/57_rtisila_la2.ogg">-21.44</td>
+<td class="clickable"data-file="sqamtruncgauss/57_gsrtisila_la2.ogg">-22.82</td>
+<td class="clickable"data-file="sqamtruncgauss/57_gsrtisilaws_la2.ogg"><b>-26.98</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/58.ogg">58 Guitar-Sarasate</td>
+<td class="clickable"data-file="sqamtruncgauss/58_rtpghi_la1.ogg">-23.80</td>
+<td class="clickable"data-file="sqamtruncgauss/58_rtisila_la2.ogg">-23.46</td>
+<td class="clickable"data-file="sqamtruncgauss/58_gsrtisila_la2.ogg">-24.95</td>
+<td class="clickable"data-file="sqamtruncgauss/58_gsrtisilaws_la2.ogg"><b>-35.42</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/59.ogg">59 Violin-Ravel</td>
+<td class="clickable"data-file="sqamtruncgauss/59_rtpghi_la1.ogg">-23.13</td>
+<td class="clickable"data-file="sqamtruncgauss/59_rtisila_la2.ogg">-28.02</td>
+<td class="clickable"data-file="sqamtruncgauss/59_gsrtisila_la2.ogg">-31.72</td>
+<td class="clickable"data-file="sqamtruncgauss/59_gsrtisilaws_la2.ogg"><b>-36.28</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/60.ogg">60 Piano-Schubert</td>
+<td class="clickable"data-file="sqamtruncgauss/60_rtpghi_la1.ogg">-22.67</td>
+<td class="clickable"data-file="sqamtruncgauss/60_rtisila_la2.ogg">-23.56</td>
+<td class="clickable"data-file="sqamtruncgauss/60_gsrtisila_la2.ogg">-26.54</td>
+<td class="clickable"data-file="sqamtruncgauss/60_gsrtisilaws_la2.ogg"><b>-34.32</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/61.ogg">61 Soprano-Mozart</td>
+<td class="clickable"data-file="sqamtruncgauss/61_rtpghi_la1.ogg">-21.79</td>
+<td class="clickable"data-file="sqamtruncgauss/61_rtisila_la2.ogg">-22.26</td>
+<td class="clickable"data-file="sqamtruncgauss/61_gsrtisila_la2.ogg">-24.24</td>
+<td class="clickable"data-file="sqamtruncgauss/61_gsrtisilaws_la2.ogg"><b>-30.81</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/62.ogg">62 Soprano-Spiritual</td>
+<td class="clickable"data-file="sqamtruncgauss/62_rtpghi_la1.ogg">-25.87</td>
+<td class="clickable"data-file="sqamtruncgauss/62_rtisila_la2.ogg">-25.39</td>
+<td class="clickable"data-file="sqamtruncgauss/62_gsrtisila_la2.ogg">-26.55</td>
+<td class="clickable"data-file="sqamtruncgauss/62_gsrtisilaws_la2.ogg"><b>-35.31</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/63.ogg">63 Soloists-Verdi</td>
+<td class="clickable"data-file="sqamtruncgauss/63_rtpghi_la1.ogg">-21.26</td>
+<td class="clickable"data-file="sqamtruncgauss/63_rtisila_la2.ogg">-18.84</td>
+<td class="clickable"data-file="sqamtruncgauss/63_gsrtisila_la2.ogg">-20.53</td>
+<td class="clickable"data-file="sqamtruncgauss/63_gsrtisilaws_la2.ogg"><b>-30.14</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/64.ogg">64 Choir-Orff</td>
+<td class="clickable"data-file="sqamtruncgauss/64_rtpghi_la1.ogg">-19.83</td>
+<td class="clickable"data-file="sqamtruncgauss/64_rtisila_la2.ogg">-21.01</td>
+<td class="clickable"data-file="sqamtruncgauss/64_gsrtisila_la2.ogg">-23.70</td>
+<td class="clickable"data-file="sqamtruncgauss/64_gsrtisilaws_la2.ogg"><b>-30.81</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/65.ogg">65 Orchestra-Strauss</td>
+<td class="clickable"data-file="sqamtruncgauss/65_rtpghi_la1.ogg">-14.87</td>
+<td class="clickable"data-file="sqamtruncgauss/65_rtisila_la2.ogg">-19.55</td>
+<td class="clickable"data-file="sqamtruncgauss/65_gsrtisila_la2.ogg">-25.11</td>
+<td class="clickable"data-file="sqamtruncgauss/65_gsrtisilaws_la2.ogg"><b>-34.53</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/66.ogg">66 Wind ensemble-Stravinsky</td>
+<td class="clickable"data-file="sqamtruncgauss/66_rtpghi_la1.ogg">-18.99</td>
+<td class="clickable"data-file="sqamtruncgauss/66_rtisila_la2.ogg">-21.13</td>
+<td class="clickable"data-file="sqamtruncgauss/66_gsrtisila_la2.ogg">-23.98</td>
+<td class="clickable"data-file="sqamtruncgauss/66_gsrtisilaws_la2.ogg"><b>-28.24</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/67.ogg">67 Wind ensemble-Mozart</td>
+<td class="clickable"data-file="sqamtruncgauss/67_rtpghi_la1.ogg">-26.96</td>
+<td class="clickable"data-file="sqamtruncgauss/67_rtisila_la2.ogg">-27.97</td>
+<td class="clickable"data-file="sqamtruncgauss/67_gsrtisila_la2.ogg">-30.75</td>
+<td class="clickable"data-file="sqamtruncgauss/67_gsrtisilaws_la2.ogg"><b>-39.83</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/68.ogg">68 Orchestra-Baird</td>
+<td class="clickable"data-file="sqamtruncgauss/68_rtpghi_la1.ogg">-19.47</td>
+<td class="clickable"data-file="sqamtruncgauss/68_rtisila_la2.ogg">-21.07</td>
+<td class="clickable"data-file="sqamtruncgauss/68_gsrtisila_la2.ogg">-22.91</td>
+<td class="clickable"data-file="sqamtruncgauss/68_gsrtisilaws_la2.ogg"><b>-30.49</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/69.ogg">69 ABBA</td>
+<td class="clickable"data-file="sqamtruncgauss/69_rtpghi_la1.ogg">-22.76</td>
+<td class="clickable"data-file="sqamtruncgauss/69_rtisila_la2.ogg">-19.82</td>
+<td class="clickable"data-file="sqamtruncgauss/69_gsrtisila_la2.ogg">-21.58</td>
+<td class="clickable"data-file="sqamtruncgauss/69_gsrtisilaws_la2.ogg"><b>-32.51</b></td>
+</tr>
+<tr>
+<td class="clickable"data-file="../040/sqam/70.ogg">70 Eddie Rabbitt</td>
+<td class="clickable"data-file="sqamtruncgauss/70_rtpghi_la1.ogg">-21.76</td>
+<td class="clickable"data-file="sqamtruncgauss/70_rtisila_la2.ogg">-22.02</td>
+<td class="clickable"data-file="sqamtruncgauss/70_gsrtisila_la2.ogg">-24.36</td>
+<td class="clickable"data-file="sqamtruncgauss/70_gsrtisilaws_la2.ogg"><b>-30.46</b></td>
+</tr>
+         </table>
+    </div>
+</div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+<script src="../040/jquery.sticky-kit.min.js"></script>
+<script src="../040/ltfatnote040.js"></script>
+</body>
+</html>
+
+
