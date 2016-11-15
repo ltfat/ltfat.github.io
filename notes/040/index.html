@@ -7,8 +7,8 @@
 <meta NAME="keywords" CONTENT="gabor, signal processing, matlab,
 octave"/>
 <title>A Non-iterative Method for STFT Phase (Re)Construction</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../include/style.css" type="text/css">
 <link rel="stylesheet" href="../../include/highlight.css" type="text/css">
 <link rel="stylesheet" href="ltfatnote040.css">
@@ -69,22 +69,22 @@ state-of-the-art algorithms.
     <div class="row text-center" style="margin-top: 1em">
     <div class="col-md-6">
     <figure>
-        <img width="440" src="greasy_1_color.png"></img>
+        <img class="img-responsive" width="440" src="greasy_1_color.png"></img>
     <figcaption>(a) Spectrogram</figcaption>
     </figure>
     <figure>
-        <img width="440" src="phasediff_2_color.png"></img>
+        <img class="img-responsive" width="440" src="phasediff_2_color.png"></img>
         <figcaption>(c) <i>a=16</i></figcaption>
     </figure>
 
     </div>
     <div class="col-md-6">
     <figure>
-        <img width="440" src="phasediff_1_color.png"></img>
+        <img class="img-responsive" width="440" src="phasediff_1_color.png"></img>
         <figcaption><i>(b)a=1</i></figcaption>
     </figure>
         <figure>
-        <img width="440" src="phasediff_3_color.png"></img>
+        <img class="img-responsive" width="440" src="phasediff_3_color.png"></img>
         <figcaption><i>(d)a=32</i></figcaption>
     </figure>
     </div>
@@ -96,22 +96,22 @@ state-of-the-art algorithms.
     <div class="row text-center" style="margin-top: 1em">
     <div class="col-md-6">
     <figure>
-        <img width="440" src="gspi_8192_color.png"></img>
+        <img class="img-responsive" width="440" src="gspi_8192_color.png"></img>
     <figcaption>(a) Spectrogram</figcaption>
     </figure>
     <figure>
-        <img width="440" src="gspi_phasediffunwrap_color.png"></img>
-        <figcaption>(c) Alg. [20]</figcaption>
+        <img class="img-responsive" width="440" src="gspi_phasediffunwrap_color.png"></img>
+        <figcaption>(c) Alg. [18]</figcaption>
     </figure>
 
     </div>
     <div class="col-md-6">
     <figure>
-        <img width="440" src="gspi_phasediffspsi_color.png"></img>
-        <figcaption>(b) Alg. [19]</figcaption>
+        <img class="img-responsive" width="440" src="gspi_phasediffspsi_color.png"></img>
+        <figcaption>(b) Alg. [16]</figcaption>
     </figure>
         <figure>
-        <img width="440" src="gspi_phasediffheapint_color.png"></img>
+        <img class="img-responsive" width="440" src="gspi_phasediffheapint_color.png"></img>
         <figcaption>Proposed</figcaption>
     </figure>
     </div>
@@ -121,40 +121,102 @@ absolute phase differences in rad/pi for three different algorithms.
 
 <div class="row text-center" style="margin-top: 1em">
     <figure>
-        <img width="800" src="gausscomparison_mocha.png"></img>
+        <img class="img-responsive center-block" width="800" src="gausscomparison_mocha.png"></img>
         <figcaption>(a) Gaussian window</figcaption>
     </figure>
     <figure>
-        <img width="800" src="hanncomparison_mocha.png"></img>
+        <img class="img-responsive center-block" width="800" src="hanncomparison_mocha.png"></img>
         <figcaption>(b) Hann window</figcaption>
     </figure>
     <figure>
-        <img width="800" src="hammingcomparison_mocha.png"></img>
+        <img class="img-responsive center-block" width="800" src="hammingcomparison_mocha.png"></img>
         <figcaption>(c) Hamming window</figcaption>
     </figure>
-    Fig. 3: Comparison with the iterative algorithms, speech database.
+    Fig. 3: Comparison with the iterative algorithms, MOCHA-TIMIT database.
 </div>
 
 <div class="row text-center" style="margin-top: 1em">
     <figure>
-        <img width="800" src="gausscomparison_sqam.png"></img>
+        <img class="img-responsive center-block" width="800" src="gausscomparison_sqam.png"></img>
         <figcaption>(a) Gaussian window</figcaption>
     </figure>
     <figure>
-        <img width="800" src="hanncomparison_sqam.png"></img>
+        <img class="img-responsive center-block" width="800" src="hanncomparison_sqam.png"></img>
         <figcaption>(b) Hann window</figcaption>
     </figure>
     <figure>
-        <img width="800" src="hammingcomparison_sqam.png"></img>
+        <img class="img-responsive center-block" width="800" src="hammingcomparison_sqam.png"></img>
         <figcaption>(c) Hamming window</figcaption>
     </figure>
-    Fig. 4: Comparison with the iterative algorithms, SQAM database.
+    Fig. 4: Comparison with the iterative algorithms, EBU SQAM database.
 </div>
 </div>
 
 <div>
+<div class="well">
+<strong>PGHI example:</strong>
+<div id="myCarousel2" class="carousel text-center" data-ride="carousel"
+    data-interval="false">
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel2" data-slide-to="1"></li>
+    <li data-target="#myCarousel2" data-slide-to="2"></li>
+    <li data-target="#myCarousel2" data-slide-to="3"></li>
+    <li data-target="#myCarousel2" data-slide-to="4"></li>
+    <li data-target="#myCarousel2" data-slide-to="5"></li>
+    <li data-target="#myCarousel2" data-slide-to="6"></li>
+    <li data-target="#myCarousel2" data-slide-to="7"></li>
+    <li data-target="#myCarousel2" data-slide-to="8"></li>
+    <li data-target="#myCarousel2" data-slide-to="9"></li>
+    <li data-target="#myCarousel2" data-slide-to="10"></li>
+    <li data-target="#myCarousel2" data-slide-to="11"></li>
+    <li data-target="#myCarousel2" data-slide-to="12"></li>
+    <li data-target="#myCarousel2" data-slide-to="13"></li>
+    <li data-target="#myCarousel2" data-slide-to="14"></li>
+    <li data-target="#myCarousel2" data-slide-to="15"></li>
+    <li data-target="#myCarousel2" data-slide-to="16"></li>
+    <li data-target="#myCarousel2" data-slide-to="17"></li>
+    <li data-target="#myCarousel2" data-slide-to="18"></li>
+  </ol>
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner text-center" role="listbox">
+    <div class="item active" data-slide-number="0"><img class="center-block" src="PGHI_example/PGHI_example-0.png"></div>
+    <div class="item" data-slide-number="1"> <img class="center-block" src="PGHI_example/PGHI_example-1.png"> </div>
+    <div class="item" data-slide-number="2"> <img class="center-block" src="PGHI_example/PGHI_example-2.png"> </div>
+    <div class="item" data-slide-number="3"> <img class="center-block" src="PGHI_example/PGHI_example-3.png"> </div>
+    <div class="item" data-slide-number="4"> <img class="center-block" src="PGHI_example/PGHI_example-4.png"> </div>
+    <div class="item" data-slide-number="5"> <img class="center-block" src="PGHI_example/PGHI_example-5.png"> </div>
+    <div class="item" data-slide-number="6"> <img class="center-block" src="PGHI_example/PGHI_example-6.png"> </div>
+    <div class="item" data-slide-number="7"> <img class="center-block" src="PGHI_example/PGHI_example-7.png"> </div>
+    <div class="item" data-slide-number="8"> <img class="center-block" src="PGHI_example/PGHI_example-8.png"> </div>
+    <div class="item" data-slide-number="9"> <img class="center-block" src="PGHI_example/PGHI_example-9.png"> </div>
+    <div class="item" data-slide-number="10"> <img class="center-block" src="PGHI_example/PGHI_example-10.png"> </div>
+    <div class="item" data-slide-number="11"> <img class="center-block" src="PGHI_example/PGHI_example-11.png"> </div>
+    <div class="item" data-slide-number="12"> <img class="center-block" src="PGHI_example/PGHI_example-12.png"> </div>
+    <div class="item" data-slide-number="13"> <img class="center-block" src="PGHI_example/PGHI_example-13.png"> </div>
+    <div class="item" data-slide-number="14"> <img class="center-block" src="PGHI_example/PGHI_example-14.png"> </div>
+    <div class="item" data-slide-number="15"> <img class="center-block" src="PGHI_example/PGHI_example-15.png"> </div>
+    <div class="item" data-slide-number="16"> <img class="center-block" src="PGHI_example/PGHI_example-16.png"> </div>
+    <div class="item" data-slide-number="17"> <img class="center-block" src="PGHI_example/PGHI_example-17.png"> </div>
+    <div class="item" data-slide-number="18"> <img class="center-block" src="PGHI_example/PGHI_example-18.png"> </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+</div>
+
     <div class="stickycont well" id="table2back">
 <strong>Additional content:</strong>
+
         <p>
         The following tables show errors in dB for all 70 samples from the 
         <a href="https://tech.ebu.ch/publications/sqamcd">EBU SQAM database</a>

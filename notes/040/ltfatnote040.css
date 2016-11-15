@@ -29,3 +29,16 @@ border-radius: 5px;
 td.clickable {
 /* background-color: gray; */
 }
+
+.carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(70,70,70,.25);
+}
+
+.carousel-indicators .active {
+  background-color: #444;
+}
+
+.carousel-indicators {
+  bottom:0px;
+}

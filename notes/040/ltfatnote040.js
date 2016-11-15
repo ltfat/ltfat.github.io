@@ -1,5 +1,13 @@
 $(document).ready(function(){
 
+$('a[data-slide="prev"]').click(function() {
+  $('#myCarousel2').carousel('prev');
+});
+
+$('a[data-slide="next"]').click(function() {
+  $('#myCarousel2').carousel('next');
+});
+
 $("td.clickable").click(function(){
 var tableId = $(this).parents('table').attr('id').substr(-1);
 
