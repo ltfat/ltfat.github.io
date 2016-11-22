@@ -9,7 +9,7 @@ cursor: default;
     border-collapse: collapse;
 }
 
-.comptable tr td  {
+.comptable tr td, .comptable tr th  {
     border: 1px solid black;
 }
 
