@@ -26,11 +26,37 @@ octave"/>
 <blockquote>
 Nicki Holighaus, Zdeněk Průša, Christoph Wiesmeyr: Designing tight filter bank frames for nonlinear frequency scales
 </blockquote>
-        The following achive <a href="ltfatnote039.zip">ltfatnote039.zip</a> contains scripts reproducing figures and tables from the paper.</br> 
+        <p>
+The following achive <a href="ltfatnote039.zip">ltfatnote039.zip</a> contains scripts
+reproducing figures and tables from the paper.
+</p>
+<p>
+The paper is available <a href="../ltfatnote039.pdf">here</a>.
+</p>
+<p>
+Please note that there is now an extended version of this paper available
+<a href="../ltfatnote049.pdf">here</a>.
+</p>
 
 <div class="alert alert-warning" role="alert">
-Please note that LTFAT toolbox (development version or version>=2.0.2) must be installed in order to run the scripts.</br>
-It is also STRONGLY recommended (but not required) to use the compiled MEX/OCT functions.
+    <p>
+    <del>
+        Please note that LTFAT toolbox (development version or version>=2.0.2) must be
+        installed in order to run the scripts.
+    </del>
+    </p>
+    <p>
+    <emph>
+        Due to the bug in version 2.0.2, the frame bound ratios computed by
+        <tt>ltfatnote039_table1and2.m</tt> are too
+        large. Please use version 2.1.2 or higher to obtain more precise (and lower)
+        frame bound ratios. The updated script now computes the frame bounds for
+        a higher range of redundancies.
+    </emph>
+    </p>
+<p>
+    It is also STRONGLY recommended (but not required) to use the compiled MEX/OCT functions.
+</p>
 </div>
 
 
