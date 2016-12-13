@@ -1,0 +1,143 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
+<title>DEMO_VOCODERPHASERET - Vocoder-based time stretching and picth shifting</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="demo_vocoderphaseret.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_VOCODERPHASERET - Vocoder-based time stretching and picth shifting</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span class="c">%DEMO_VOCODERPHASERET Vocoder-based time stretching and picth shifting </span>
+<span class="c">%</span>
+<span class="c">%   The scripts shows vocoder ...</span>
+<span class="c">%</span>
+<span class="c">%   Figure 1: Title</span>
+<span class="c">%</span>
+<span class="c">%      Description</span>
+<span class="c">%</span>
+<span class="c">%   Please note that if only pitch-shifting is resired, it is advantenous</span>
+<span class="c">%   to do resampling before time stretching if pitch shifting upwards.</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     J. LaRoche and M. Dolson. New phase-vocoder techniques for</span>
+<span class="c">%     pitch-shifting, harmonizing and other exotic effects. In Applications</span>
+<span class="c">%     of Signal Processing to Audio and Acoustics, 1999 IEEE Workshop on,</span>
+<span class="c">%     pages 91--94, 1999.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/phaseret/doc/demos/demo_vocoderphaseret.html</span>
+
+<span class="c">% Copyright (C) 2016 Zdenek Prusa &lt;zdenek.prusa@gmail.com&gt;.</span>
+<span class="c">% This file is part of PHASERET version 0.2.0</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">% AUTHOR: Zdenek Prusa</span>
+<span class="c">%</span>
+
+<span class="c">% Load a signal</span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span> <span class="n">gspi</span><span class="p">;</span> <span class="n">Ls</span><span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">f</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c">% Choose either pitch shift in semitones (even nonintegers) ...</span>
+<span class="n">semitoneshift</span> <span class="p">=</span> <span class="o">-</span><span class="mi">6</span><span class="p">;</span>
+<span class="c">% ... or the time scale ratio directly</span>
+<span class="n">timescalerat</span> <span class="p">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span>^<span class="p">(</span><span class="n">semitoneshift</span><span class="o">/</span><span class="p">(</span><span class="mi">12</span><span class="p">)));</span>
+
+<span class="c">% Number of frequency channels</span>
+<span class="n">M</span> <span class="p">=</span> <span class="mi">2048</span><span class="p">;</span>
+<span class="c">% Analysis hop factor</span>
+<span class="n">a</span> <span class="p">=</span> <span class="mi">256</span><span class="p">;</span>
+<span class="c">% Window used</span>
+<span class="n">g</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;blackman&#39;</span><span class="p">,</span><span class="n">M</span><span class="p">};</span>
+<span class="c">% Synthesis hop factor</span>
+<span class="n">newa</span> <span class="p">=</span> <span class="n">floor23</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">timescalerat</span><span class="p">);</span>
+
+<span class="c">% Determine compatible length</span>
+<span class="n">Lsmallestnewa</span> <span class="p">=</span> <span class="n">dgtlength</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">newa</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">Lsmallesta</span> <span class="p">=</span> <span class="n">dgtlength</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">Lsmallest</span> <span class="p">=</span> <span class="n">dgtlength</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Lsmallestnewa</span><span class="p">,</span><span class="n">Lsmallesta</span><span class="p">);</span>
+<span class="n">L</span> <span class="p">=</span> <span class="n">dgtlength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">Lsmallest</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+<span class="c">% Analysis</span>
+<span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">gnum</span><span class="p">]</span> <span class="p">=</span> <span class="n">dgtreal</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">);</span>
+
+<span class="c">% Adjust to compatible size</span>
+<span class="n">N</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">newN</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">newa</span><span class="o">/</span><span class="n">Lsmallestnewa</span><span class="p">)</span><span class="o">*</span><span class="n">Lsmallestnewa</span><span class="o">/</span><span class="n">newa</span><span class="p">;</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">newN</span><span class="p">,</span><span class="s">&#39;dim&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c">% Phase reconstruction</span>
+<span class="n">gl</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">gnum</span><span class="p">);</span>
+<span class="p">[</span><span class="n">chatint</span><span class="p">]</span> <span class="p">=</span> <span class="n">pghi</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="mf">0.17954</span><span class="o">*</span><span class="n">gl</span>^<span class="mi">2</span><span class="p">,</span><span class="n">newa</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">);</span>
+
+<span class="c">% Synthesis</span>
+<span class="n">fscale</span> <span class="p">=</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">chatint</span><span class="p">,{</span><span class="s">&#39;dual&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">},</span><span class="n">newa</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">);</span>
+<span class="n">fscale</span> <span class="p">=</span> <span class="n">fscale</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">floor</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">*</span><span class="n">newa</span><span class="o">/</span><span class="n">a</span><span class="p">));</span>
+
+<span class="c">% Resample to the original duration (more or less)</span>
+<span class="n">fshift</span> <span class="p">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">fscale</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">newa</span><span class="p">);</span>
+
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the original run: soundsc(f,fs)&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the time stretched/compressed version run: soundsc(fscale,fs)&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the pitch shifted version run: soundsc(fshift,fs)&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+        <div class="include" file="../../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/macros.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

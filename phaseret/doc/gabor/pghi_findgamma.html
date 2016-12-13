@@ -1,0 +1,141 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
+<title>PGHI_FINDGAMMA - Find window constant for PGHI and RTPGHI</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="pghi_findgamma_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">PGHI_FINDGAMMA - Find window constant for PGHI and RTPGHI</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+gamma = pghi_findgamma(g)
+gamma = pghi_findgamma(gnum,gl)
+[Cg, gamma] = pghi_findgamma(...)
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>gnum</var></span></kbd></td>
+<td>Window.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>gl</var></span></kbd></td>
+<td>Length of the support of the window.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>Cg</var></span></kbd></td>
+<td>Window constant</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>gama</var></span></kbd></td>
+<td>Parameter for PGHI and RTPGHI</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">pghi_findgamma(gnum)</tt> does a heuristic search for the
+parameter <em>Cg</em>, for which the Gaussian window given as:</p>
+<!-- g = exp(-pi*l^2/(Cg*gl^2)) -->
+<div class="math">
+\begin{equation*}
+g=exp(-\pi\frac{l^2}{C_g \mathit{gl}^2})
+\end{equation*}
+</div>
+<p>is closest to peak-normalized window <em>gnum</em>, where <em>gl</em> is length
+of its support.</p>
+<p><tt class="docutils literal">pghi_findgamma(gnum,gl)</tt> works as before but uses explicitly
+given <em>gl</em>. This is usefull when e.g. <em>gnum</em> is zero padded.</p>
+<p><tt class="docutils literal">[gamma,Cg] = <span class="pre">pghi_findgamma(...)</span></tt> additionaly returns parameter
+<em>gamma</em> which is equal to:</p>
+<!-- gamma = Cg*gl^2 -->
+<div class="math">
+\begin{equation*}
+g=C_g \mathit{gl}^2}
+\end{equation*}
+</div>
+<p>Note that the relationship between <em>gamma</em> and <em>tfr</em> from <a href="#id1"><span class="problematic" id="id2">|pgauss|</span></a> is:</p>
+<!-- tfr = gamma/L -->
+<div class="math">
+\begin{equation*}
+tfr=gamma/L
+\end{equation*}
+</div>
+<p>where <em>L</em> is the DGT length.</p>
+</div>
+<div class="system-messages section">
+<h2>Docutils System Messages</h2>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">&lt;string&gt;</tt>, line 55); <em><a href="#id2">backlink</a></em></p>
+Undefined substitution referenced: &quot;pgauss&quot;.</div>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="ltfatnote043"></a>
+
+Z.&nbsp;Pr&#367;&scaron;a and P.&nbsp;L. S&oslash;ndergaard.
+ Real-Time Spectrogram Inversion Using Phase Gradient Heap
+  Integration.
+ In <em>Proc. Int. Conf. Digital Audio Effects (DAFx-16)</em>, Sep 2016.
+
+</p>
+
+
+        <div class="include" file="../../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/macros.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
