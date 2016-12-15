@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
-<title>GLA - Griffin-Lim Algorithm for real signals</title>
+<title>GLA - Griffin-Lim Algorithm</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet"
@@ -40,7 +40,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">GLA - Griffin-Lim Algorithm for real signals</h1>
+        <h1 class="title">GLA - Griffin-Lim Algorithm</h1>
 
 <div class="section" id="usage">
 <h2>Usage</h2>
@@ -70,8 +70,11 @@ c = gla(s,g,a,M,maxit,tol)
 <kbd><span class="option"><var>M</var></span></kbd></td>
 <td>Number of channels</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option"><var>Ls</var></span></kbd></td>
-<td>Length of signal.</td></tr>
+<kbd><span class="option"><var>maxit</var></span></kbd></td>
+<td>Maximum number of iterations.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>tol</var></span></kbd></td>
+<td>relative tolerance</td></tr>
 </tbody>
 </table>
 </div>
@@ -101,7 +104,8 @@ c = gla(s,g,a,M,maxit,tol)
 <p><tt class="docutils literal">gla(s,g,a,M)</tt> attempts to find coefficients <em>c</em> from
 their abs. value:</p>
 <pre class="literal-block">
-s = abs(dgtreal(f,g,a,M))
+c = dgtreal(f,g,a,M);
+s = abs(c);
 </pre>
 <p>using the Griffin-Lim algorithm.</p>
 <p><tt class="docutils literal"><span class="pre">[c,f,relres,iter]=gla(...)</span></tt> additionally returns an array
@@ -112,8 +116,9 @@ coefficients <em>c</em> with the reconstructed phase. The relationship between
 f = idgtreal(c,gd,a,M)
 </pre>
 <p>where <em>gd</em> is the canonical dual window obtained by <span class="linkrole"><a href="http://ltfat.github.io/doc/gabor/gabdual.html">gabdual</a></span>.</p>
-<p><tt class="docutils literal">gla</tt> takes the following additional parameters:</p>
-<p>Initial phase guess:</p>
+</div>
+<div class="section" id="initial-phase-guess">
+<h2>Initial phase guess</h2>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
@@ -130,7 +135,9 @@ f = idgtreal(c,gd,a,M)
 <td>Choose a random starting phase.</td></tr>
 </tbody>
 </table>
-<p>Enforcing prior information:</p>
+</div>
+<div class="section" id="enforcing-prior-information">
+<h2>Enforcing prior information</h2>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
@@ -151,7 +158,9 @@ signal is known.
 Note that <tt class="docutils literal">numel(f)= <span class="pre">size(s,2)*a</span></tt>.</td></tr>
 </tbody>
 </table>
-<p>Algorithm acceleration:</p>
+</div>
+<div class="section" id="algorithm-acceleration">
+<h2>Algorithm acceleration</h2>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
@@ -169,24 +178,26 @@ This is the default.</td></tr>
 ignored if not used together with 'flegla' flag.</td></tr>
 </tbody>
 </table>
-<p>Other:</p>
+</div>
+<div class="section" id="additional-parameters">
+<h2>Additional parameters</h2>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
+<kbd><span class="option">'maxit',<var>n</var></span></kbd></td>
+<td>Do at most n iterations.</td></tr>
+<tr><td class="option-group">
 <kbd><span class="option">'tol',<var>t</var></span></kbd></td>
 <td>Stop if relative residual error is less than the
 specified tolerance.</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">'maxit',<var>n</var></span></kbd></td>
-<td>Do at most n iterations.</td></tr>
+<kbd><span class="option">'Ls',<var>Ls</var></span></kbd></td>
+<td>Crop the reconstructed signal <em>f</em> to length <em>Ls</em>.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'print'</span></kbd></td>
-<td>Display the progress.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'quiet'</span></kbd></td>
-<td>Don't print anything, this is the default.</td></tr>
+<td>Display the progress. This is disabled by default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'printstep',<var>p</var></span></kbd></td>
 <td>If 'print' is specified, then print every p'th

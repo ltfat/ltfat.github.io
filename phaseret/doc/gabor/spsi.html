@@ -52,7 +52,7 @@ c=spsi(s,a,M,mask,usephase);
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option"><var>s</var></span></kbd></td>
-<td><span class="math">\(M2 \times N\)</span> array of modulus of Gabor coefficients.</td></tr>
+<td>Modulus of Gabor coefficients.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>a</var></span></kbd></td>
 <td>Length of time shift.</td></tr>
@@ -76,7 +76,7 @@ c=spsi(s,a,M,mask,usephase);
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option"><var>c</var></span></kbd></td>
-<td><span class="math">\(M2 \times N\)</span> array of coefficients with reconstructed phase.</td></tr>
+<td>Reconstructed Gabor coefficients.</td></tr>
 </tbody>
 </table>
 </div>
@@ -94,11 +94,15 @@ can be directly used in <span class="linkrole"><a href="http://ltfat.github.io/d
 <pre class="literal-block">
 fhat = idgtreal(...,'timeinv');
 </pre>
-<p>This code was downloaded from
+<p><tt class="docutils literal">spsi(c,a,M,mask)</tt> does the same as above except it reuses phase
+of coefficients <em>c</em> for which the corresponding element from <em>mask</em>
+is nonzero.</p>
+<p><tt class="docutils literal">spsi(s,a,M,mask,usephase)</tt> does the same as above but the known
+phase <em>usephase</em> is passed explicitly.</p>
+<p>The original implementation was downloaded from
 <a class="reference external" href="http://anclab.org/software/phaserecon/m-files.zip">http://anclab.org/software/phaserecon/m-files.zip</a> (on 16.9.2015).
-Original name of the function was spsi.m
-It has been modified to work on the Gabor coefficients directly and
-+/- pi alternation is no longer necessary.</p>
+It has been modified to work on the Gabor coefficients directly and,
+therefore, +/- pi alternation is no longer necessary.</p>
 </div>
 <H2>References:</H2>
 

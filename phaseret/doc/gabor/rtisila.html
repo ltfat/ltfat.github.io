@@ -46,7 +46,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <h2>Usage</h2>
 <pre class="literal-block">
 c = rtisila(s,g,a,M)
-c = rtisila(s,g,a,M,maxit)
 [c,f,relres,iter] = rtisila(...)
 </pre>
 </div>
@@ -68,9 +67,6 @@ c = rtisila(s,g,a,M,maxit)
 <tr><td class="option-group">
 <kbd><span class="option"><var>M</var></span></kbd></td>
 <td>Number of channels</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option"><var>Ls</var></span></kbd></td>
-<td>length of signal.</td></tr>
 </tbody>
 </table>
 </div>
@@ -100,6 +96,7 @@ c = rtisila(s,g,a,M,maxit)
 <p><tt class="docutils literal">rtisila(s,g,a,M)</tt> attempts to find Gabor coefficients <em>c</em> such
 that:</p>
 <pre class="literal-block">
+c = dgtreal(f,g,a,M,'timeinv');
 s = abs(c);
 </pre>
 <p>using the Real-Time Iterative Spectrogram Inversion with Look Ahead.</p>
@@ -108,7 +105,7 @@ residual <tt class="docutils literal">relres</tt>, the number of per-frame itera
 coefficients <em>c</em> with the reconstructed phase. The relationship between
 <em>f</em> and <em>c</em> is:</p>
 <pre class="literal-block">
-f = idgtreal(c,gd,a,M)
+f = idgtreal(c,gd,a,M,'timeinv')
 </pre>
 <p>where <em>gd</em> is the canonical dual window obtained by <span class="linkrole"><a href="http://ltfat.github.io/doc/gabor/gabdual.html">gabdual</a></span>.</p>
 <p><tt class="docutils literal">rtisila</tt> takes the following addition arguments:</p>

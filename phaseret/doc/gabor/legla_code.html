@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
-<title>LEGLA - Le Roux's Griffin-Lim Algorithm for real signals</title>
+<title>LEGLA - Le Roux's Griffin-Lim Algorithm</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet"
@@ -34,10 +34,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">LEGLA - Le Roux's Griffin-Lim Algorithm for real signals</h1>
+        <h1 class="title">LEGLA - Le Roux's Griffin-Lim Algorithm</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,f,relres,iter]<span class="p">=</span><span class="nf">legla</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%LEGLA Le Roux&#39;s Griffin-Lim Algorithm for real signals</span>
+<span class="c">%LEGLA Le Roux&#39;s Griffin-Lim Algorithm</span>
 <span class="c">%   Usage: c = legla(s,g,a,M)</span>
 <span class="c">%          c = legla(s,g,a,M,maxit)</span>
 <span class="c">%          [c,f,relres,iter] = legla(...)</span>
@@ -47,17 +47,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%         g       : Analysis Gabor window</span>
 <span class="c">%         a       : Hop factor</span>
 <span class="c">%         M       : Number of channels</span>
-<span class="c">%         Ls      : length of signal.</span>
+<span class="c">%         maxit   : Maximum number of iterations.</span>
 <span class="c">%   Output parameters:</span>
 <span class="c">%         c       : Coefficients with the reconstructed phase</span>
 <span class="c">%         f       : Signal.</span>
 <span class="c">%         relres  : Vector of residuals.</span>
 <span class="c">%         iter    : Number of iterations done.</span>
 <span class="c">%</span>
-<span class="c">%   LEGLA(s,g,a,M) attempts to find coefficients c from their abs. </span>
+<span class="c">%   LEGLA(s,g,a,M) attempts to find coefficients c from their abs.</span>
 <span class="c">%   value:</span>
 <span class="c">%</span>
-<span class="c">%     s = abs(dgtreal(f,g,a,M));</span>
+<span class="c">%     s = abs(dgtreal(f,g,a,M,&#39;timeinv&#39;));</span>
 <span class="c">%</span>
 <span class="c">%   using Le Rouxs modifications of the Griffin-Lim algorithm.</span>
 <span class="c">%</span>
@@ -65,7 +65,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   of residuals relres, the number of iterations done iter and the</span>
 <span class="c">%   reconstructed signal f. The relationship between f and c is:</span>
 <span class="c">%</span>
-<span class="c">%     f = idgtreal(c,gd,a,M)</span>
+<span class="c">%     f = idgtreal(c,gd,a,M,&#39;timeinv&#39;)</span>
 <span class="c">%</span>
 <span class="c">%   where gd is the canonical dual window obtained by GABDUAL.</span>
 <span class="c">%</span>
@@ -90,7 +90,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Projection kernel</span>
 <span class="c">%   -----------------</span>
-<span class="c">%   </span>
+<span class="c">%</span>
 <span class="c">%   The algorithm employs a twisted convolution of coefficients with the</span>
 <span class="c">%   truncated projection kernel. The full-size kernel is obtained as:</span>
 <span class="c">%</span>
@@ -99,9 +99,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   where gd is canonical dual window obtained by GABDUAL. The</span>
 <span class="c">%   following key-value pairs control the final kernel size:</span>
 <span class="c">%</span>
-<span class="c">%     &#39;relthr&#39;,relthr    The kernel is truncated such that it contains </span>
-<span class="c">%                        coefficients with abs. values greater or equal </span>
-<span class="c">%                        to relthr times the biggest coefficient. </span>
+<span class="c">%     &#39;relthr&#39;,relthr    The kernel is truncated such that it contains</span>
+<span class="c">%                        coefficients with abs. values greater or equal</span>
+<span class="c">%                        to relthr times the biggest coefficient.</span>
 <span class="c">%                        The default value is 1e-3.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;kernsize&#39;,[height,width]  Define kernel size directly. When used,</span>
@@ -141,16 +141,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;print&#39;      Display the progress.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span>
+<span class="c">%     &#39;print&#39;      Display the progress. This is disabled by default.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span>
 <span class="c">%                    iteration. Default value is p=10;</span>
-<span class="c">%</span>
-<span class="c">%   !!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
-<span class="c">%   This function requires LTFAT 2.1.2 and above.</span>
-<span class="c">%   !!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
 <span class="c">%</span>
 <span class="c">%   References:</span>
 <span class="c">%     J. Le Roux, H. Kameoka, N. Ono, and S. Sagayama. Fast signal</span>
@@ -223,7 +217,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="c">% Start with the phase given by the input.</span>
     <span class="n">c</span><span class="p">=</span><span class="n">s</span><span class="p">;</span>
     <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span>
-       <span class="n">c</span> <span class="p">=</span> <span class="n">phaseunlockreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+        <span class="n">c</span> <span class="p">=</span> <span class="n">phaseunlockreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
     <span class="k">end</span>
 <span class="k">end</span><span class="p">;</span>
 
@@ -263,9 +257,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">)</span> <span class="o">||</span> <span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span>
         <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Kernel size must be a 2 element vector.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mflename</span><span class="p">));</span>
     <span class="k">end</span>
-<span class="c">%     if any(mod(kv.kernsize,2)==0)</span>
-<span class="c">%         error(&#39;%s: Kernel size must be odd.&#39;,upper(mfilename));</span>
-<span class="c">%     end</span>
+    <span class="c">%     if any(mod(kv.kernsize,2)==0)</span>
+    <span class="c">%         error(&#39;%s: Kernel size must be odd.&#39;,upper(mfilename));</span>
+    <span class="c">%     end</span>
     <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="n">M</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">kernsize</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="n">N</span>
         <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid kernel size.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
     <span class="k">end</span>
@@ -297,7 +291,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <span class="c">% Do the leGLA phase update</span>
         <span class="n">c</span> <span class="p">=</span> <span class="n">comp_leglaupdate</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">kernsmall</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_onthefly</span><span class="p">);</span>
-        
+
         <span class="c">% Apply coefficient restriction</span>
         <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">)</span>
             <span class="n">c</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
@@ -312,7 +306,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_flegla</span>
     <span class="n">told</span><span class="p">=</span><span class="n">c</span><span class="p">;</span>
     <span class="k">for</span> <span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
-        
+
         <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
             <span class="n">cproj</span> <span class="p">=</span> <span class="n">projfnc</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
             <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cproj</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
@@ -320,15 +314,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <span class="c">% Do the leGLA phase update</span>
         <span class="n">tnew</span> <span class="p">=</span> <span class="n">comp_leglaupdate</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">kernsmall</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_onthefly</span><span class="p">);</span>
-        
+
         <span class="c">% Apply coefficient restriction</span>
         <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">)</span>
             <span class="n">tnew</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">coefmod</span><span class="p">(</span><span class="n">tnew</span><span class="p">);</span>
         <span class="k">end</span>
-        
+
         <span class="c">% The acceleration step</span>
         <span class="n">c</span> <span class="p">=</span> <span class="n">tnew</span> <span class="o">+</span> <span class="n">kv</span><span class="p">.</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">tnew</span><span class="o">-</span><span class="n">told</span><span class="p">);</span>
-        
+
         <span class="c">% Keep for next iteration</span>
         <span class="n">told</span> <span class="p">=</span> <span class="n">tnew</span><span class="p">;</span>
 
@@ -369,11 +363,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">if</span> <span class="n">newlastcol</span> <span class="o">&gt;</span> <span class="n">lastcol1</span>
         <span class="n">lastcol1</span> <span class="p">=</span> <span class="n">newlastcol</span><span class="p">;</span>
     <span class="k">end</span>
-    
-<span class="c">%     newlastcol = find(abs(kern(m,end:-1:floor(end/2)))&gt;=thr,1,&#39;last&#39;);</span>
-<span class="c">%     if newlastcol &gt; lastcol2</span>
-<span class="c">%         lastcol2 = newlastcol;</span>
-<span class="c">%     end</span>
+
+    <span class="c">%     newlastcol = find(abs(kern(m,end:-1:floor(end/2)))&gt;=thr,1,&#39;last&#39;);</span>
+    <span class="c">%     if newlastcol &gt; lastcol2</span>
+    <span class="c">%         lastcol2 = newlastcol;</span>
+    <span class="c">%     end</span>
 <span class="k">end</span>
 
 <span class="n">ksize</span> <span class="p">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">lastrow</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">lastcol1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>

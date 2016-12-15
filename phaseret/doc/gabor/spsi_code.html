@@ -39,17 +39,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>c  <span class="p">=</span><span class="w"> </span><span class="nf">spsi</span><span class="p">(</span>s,a,M,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%SPSI Single Pass Spectrogram Inversion (SPSI)</span>
 <span class="c">%   Usage:  c=spsi(s,a,M);</span>
-<span class="c">%           c=spsi(s,a,M,mask);   </span>
-<span class="c">%           c=spsi(s,a,M,mask,usephase);   </span>
+<span class="c">%           c=spsi(s,a,M,mask);</span>
+<span class="c">%           c=spsi(s,a,M,mask,usephase);</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
-<span class="c">%         s        : M2 xN array of modulus of Gabor coefficients.</span>
+<span class="c">%         s        : Modulus of Gabor coefficients.</span>
 <span class="c">%         a        : Length of time shift.</span>
 <span class="c">%         M        : Number of channels.</span>
 <span class="c">%         mask     : Mask for selecting known phase.</span>
 <span class="c">%         usephase : Explicit known phase.</span>
 <span class="c">%   Output parameters:</span>
-<span class="c">%         c   : M2 xN array of coefficients with reconstructed phase.</span>
+<span class="c">%         c        : Reconstructed Gabor coefficients.</span>
 <span class="c">%</span>
 <span class="c">%   SPSI(s,a,M) creates complex DGT coefficients from their absolute</span>
 <span class="c">%   values s using the Single Pass Spectrogram Inversion algorithm.</span>
@@ -63,13 +63,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%       fhat = idgtreal(...,&#39;timeinv&#39;);</span>
 <span class="c">%</span>
-<span class="c">%   </span>
+<span class="c">%   SPSI(c,a,M,mask) does the same as above except it reuses phase</span>
+<span class="c">%   of coefficients c for which the corresponding element from mask*</span>
+<span class="c">%   is nonzero.</span>
 <span class="c">%</span>
-<span class="c">%   This code was downloaded from</span>
-<span class="c">%   http://anclab.org/software/phaserecon/m-files.zip (on 16.9.2015). </span>
-<span class="c">%   Original name of the function was spsi.m</span>
-<span class="c">%   It has been modified to work on the Gabor coefficients directly and </span>
-<span class="c">%   +/- pi alternation is no longer necessary.</span>
+<span class="c">%   SPSI(s,a,M,mask,usephase) does the same as above but the known</span>
+<span class="c">%   phase usephase is passed explicitly.</span>
+<span class="c">%</span>
+<span class="c">%   The original implementation was downloaded from</span>
+<span class="c">%   http://anclab.org/software/phaserecon/m-files.zip (on 16.9.2015).</span>
+<span class="c">%   It has been modified to work on the Gabor coefficients directly and,</span>
+<span class="c">%   therefore, +/- pi alternation is no longer necessary.</span>
 <span class="c">%</span>
 <span class="c">%   References:</span>
 <span class="c">%     G. T. Beauregard, M. Harish, and L. Wyse. Single pass spectrogram</span>
@@ -112,16 +116,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: c cannot be 3dimensional.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: c cannot be 3dimensional.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;freqinv&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mask</span> <span class="p">=</span> <span class="p">[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">usephase</span> <span class="p">=</span> <span class="p">[];</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;mask&#39;</span><span class="p">,</span><span class="s">&#39;usephase&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;mask&#39;</span><span class="p">,</span><span class="s">&#39;usephase&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
 <span class="n">M2</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 <span class="n">M2user</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">N</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">M2</span><span class="o">~=</span><span class="n">M2user</span>
     <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Size of s does not comply with M.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
@@ -131,6 +136,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span>
         <span class="n">usephase</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
     <span class="k">end</span>
+    <span class="n">s</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
 
     <span class="k">if</span> <span class="o">~</span><span class="n">all</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span> <span class="nb">isequal</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">el</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">)),{</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">}))</span>
         <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Dimensions of c, mask and phase must be equal.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
@@ -140,16 +146,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="c">% Sanitize mask (anything other than 0 is true)</span>
     <span class="n">mask</span> <span class="p">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="s">&#39;double&#39;</span><span class="p">);</span>
     <span class="n">mask</span><span class="p">(</span><span class="n">mask</span><span class="o">~=</span><span class="mi">0</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span>
+        <span class="c">% Change to timeinv since spsi expects timeinv</span>
+        <span class="n">usephase</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">phaselockreal</span><span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">usephase</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">));</span>
+    <span class="k">end</span>
+
+    <span class="n">c</span> <span class="p">=</span> <span class="n">comp_maskedspsi</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">);</span>
 <span class="k">else</span>
     <span class="k">if</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="n">s</span><span class="p">(:)</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s must be real and non-negative when no mask is used.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
     <span class="k">end</span>
-<span class="k">end</span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
     <span class="n">c</span> <span class="p">=</span> <span class="n">comp_spsi</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="k">else</span>
-    <span class="n">c</span> <span class="p">=</span> <span class="n">comp_maskedspsi</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">);</span>
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span>

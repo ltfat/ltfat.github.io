@@ -63,9 +63,6 @@ c = lertisila(s,g,a,M,maxit)
 <kbd><span class="option"><var>M</var></span></kbd></td>
 <td>Number of channels</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option"><var>Ls</var></span></kbd></td>
-<td>Length of signal</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option"><var>maxit</var></span></kbd></td>
 <td>Numer of iterations</td></tr>
 </tbody>
@@ -97,10 +94,11 @@ c = lertisila(s,g,a,M,maxit)
 <p><tt class="docutils literal">lertisila(s,g,a,M)</tt> attempts to find Gabor coefficients <em>c</em> such
 that:</p>
 <pre class="literal-block">
+c = dgtreal(f,g,a,M);
 s = abs(c);
 </pre>
 <p>using the Real-Time Iterative Spectrogram Inversion with Look Ahead
-and Le Roux's truncated phase updates.</p>
+and Le Roux's truncated phase updates aka TF-RTISI-LA.</p>
 <p><tt class="docutils literal"><span class="pre">[c,f,relres,iter]=lertisila(...)</span></tt> additionally returns an array
 of residuals <tt class="docutils literal">relres</tt>, the number of per-frame iterations done <tt class="docutils literal">iter</tt>
 and the coefficients <em>c</em> with the reconstructed phase. The relationship
@@ -159,16 +157,6 @@ This is the default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'rand'</span></kbd></td>
 <td>Choose a random starting phase.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'unwrap'</span></kbd></td>
-<td>Determines phase by unwrapping the phase from the
-previous frames.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'unwrappar',<var>upar</var></span></kbd></td>
-<td>Argument of the unwrapping phase initialization.
-It is ignored if the 'unwrap' parameter is not
-used.
-The default value is 0.3.</td></tr>
 </tbody>
 </table>
 <p>Variant of the algorithm:</p>

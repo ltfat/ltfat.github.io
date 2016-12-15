@@ -366,7 +366,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">params</span> <span class="p">=</span> <span class="p">{</span><span class="n">params</span><span class="p">};</span>
 <span class="k">end</span>
 
-<span class="n">cellfun</span><span class="p">(@(</span><span class="n">parEl</span><span class="p">)</span> <span class="n">p</span><span class="p">.</span><span class="n">setVisibleParam</span><span class="p">(</span><span class="n">parEl</span><span class="p">,</span><span class="n">onoff</span><span class="p">),</span><span class="n">params</span><span class="p">);</span>
+<span class="n">cellfun</span><span class="p">(@(</span><span class="n">parEl</span><span class="p">)</span> <span class="n">p</span><span class="p">.</span><span class="n">setVisibleParam</span><span class="p">(</span><span class="n">parEl</span><span class="p">,</span><span class="n">onoff</span><span class="p">),</span><span class="n">params</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 
 <span class="k">function</span><span class="w"> </span>partrec <span class="p">=</span><span class="w"> </span><span class="nf">overlayframes</span><span class="p">(</span>cframes,a,M<span class="p">)</span><span class="w"></span>
 

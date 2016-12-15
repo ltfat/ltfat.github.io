@@ -107,7 +107,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Adjust to compatible size</span>
 <span class="n">N</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 <span class="n">newN</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">newa</span><span class="o">/</span><span class="n">Lsmallestnewa</span><span class="p">)</span><span class="o">*</span><span class="n">Lsmallestnewa</span><span class="o">/</span><span class="n">newa</span><span class="p">;</span>
-<span class="n">c</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">newN</span><span class="p">,</span><span class="s">&#39;dim&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">newN</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="c">% Phase reconstruction</span>
 <span class="n">gl</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">gnum</span><span class="p">);</span>
@@ -118,7 +118,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">fscale</span> <span class="p">=</span> <span class="n">fscale</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">floor</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">*</span><span class="n">newa</span><span class="o">/</span><span class="n">a</span><span class="p">));</span>
 
 <span class="c">% Resample to the original duration (more or less)</span>
-<span class="n">fshift</span> <span class="p">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">fscale</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">newa</span><span class="p">);</span>
+<span class="n">fshift</span> <span class="p">=</span> <span class="n">dctresample</span><span class="p">(</span><span class="n">fscale</span><span class="p">,</span><span class="n">newN</span><span class="o">*</span><span class="n">newa</span><span class="p">);</span>
 
 
 <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the original run: soundsc(f,fs)&#39;</span><span class="p">);</span>

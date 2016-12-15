@@ -64,8 +64,11 @@ c = decolbfgs(s,g,a,M,maxit,tol)
 <kbd><span class="option"><var>M</var></span></kbd></td>
 <td>Number of channels</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option"><var>Ls</var></span></kbd></td>
-<td>Length of signal.</td></tr>
+<kbd><span class="option"><var>maxit</var></span></kbd></td>
+<td>Maximum number of iterations.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>tol</var></span></kbd></td>
+<td>relative tolerance</td></tr>
 </tbody>
 </table>
 </div>
@@ -76,32 +79,65 @@ c = decolbfgs(s,g,a,M,maxit,tol)
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
+<kbd><span class="option"><var>c</var></span></kbd></td>
+<td>Coefficients with the reconstructed phase</td></tr>
+<tr><td class="option-group">
 <kbd><span class="option"><var>f</var></span></kbd></td>
-<td>Signal.</td></tr>
+<td>Reconstructed signal.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>relres</var></span></kbd></td>
 <td>Vector of residuals.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>iter</var></span></kbd></td>
 <td>Number of iterations done.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option"><var>c</var></span></kbd></td>
-<td>Coefficients with the reconstructed phase</td></tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">decolbfgs(s,g,a,M)</tt> attempts to find coefficients <em>c</em>
-their abs. value is:</p>
+<p><tt class="docutils literal">decolbfgs(s,g,a,M)</tt> attempts to find coefficients <em>c</em> from
+their abs. value obtained as:</p>
 <pre class="literal-block">
-s = abs(c)
+c = dgtreal(f,g,a,M,'timeinv');
+s = abs(c);
 </pre>
-<p>using Decorsiere's unconstrained optimization approach which in turn
+<p>using Decorsiere's unconstrained optimization approach which, in turn,
 exploits lBFGS (limited-memory Broyden–Fletcher–Goldfarb–Shanno)
 algorithm.</p>
-<p>Note <span class="linkrole"><a href="https://www.cs.ubc.ca/~schmidtm/Software/minFunc.html">minFunc</a></span> is required in order to run this function. It can be
+<p><tt class="docutils literal">[c,f,relres,iter] = <span class="pre">decolbfgs(...)</span></tt> additionally returns reconstructed
+signal <em>f</em>, a vector of relative residuals <em>relres</em> and a number of
+iterations done <em>iter</em>.</p>
+</div>
+<div class="section" id="initial-phase-estimate">
+<h2>Initial phase estimate</h2>
+<p>'input'       Use phase of the input <em>s</em>. This is the default.</p>
+<p>'zero'        Use zero phase.</p>
+<p>'rand'        Use randomly generated phase.</p>
+</div>
+<div class="section" id="additional-parameters">
+<h2>Additional parameters</h2>
+<dl class="docutils">
+<dt>'tol',tol     Tolerance for the lBFGS implementation.</dt>
+<dd>The default value is 1e-6.</dd>
+<dt>'maxit',maxit Maximum number of iterations of lBFGS.</dt>
+<dd>The default value is 100.</dd>
+<dt>'p',p         p-parameter for the compressed version of the objective</dt>
+<dd>function. The default value is 2/3.</dd>
+</dl>
+<p>'Ls',Ls       The reconstructed signal <em>f</em> will be cropped to length <em>Ls</em>.</p>
+<dl class="docutils">
+<dt>'print'       Print info for each iteration. This is disabled by</dt>
+<dd>default.</dd>
+</dl>
+<p>Note that this is just a wrapper around <a href="#id1"><span class="problematic" id="id2">|frsynabs|</span></a> from LTFAT.</p>
+<p>Also note <span class="linkrole"><a href="https://www.cs.ubc.ca/~schmidtm/Software/minFunc.html">minFunc</a></span> is required in order to run this function. It can be
 obtained from here <a class="reference external" href="https://www.cs.ubc.ca/~schmidtm/Software/minFunc.html">https://www.cs.ubc.ca/~schmidtm/Software/minFunc.html</a></p>
+</div>
+<div class="system-messages section">
+<h2>Docutils System Messages</h2>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">&lt;string&gt;</tt>, line 88); <em><a href="#id2">backlink</a></em></p>
+Undefined substitution referenced: &quot;frsynabs&quot;.</div>
 </div>
 <H2>References:</H2>
 

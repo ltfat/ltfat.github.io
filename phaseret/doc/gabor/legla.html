@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
-<title>LEGLA - Le Roux's Griffin-Lim Algorithm for real signals</title>
+<title>LEGLA - Le Roux's Griffin-Lim Algorithm</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet"
@@ -34,7 +34,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">LEGLA - Le Roux's Griffin-Lim Algorithm for real signals</h1>
+        <h1 class="title">LEGLA - Le Roux's Griffin-Lim Algorithm</h1>
 
 <div class="section" id="usage">
 <h2>Usage</h2>
@@ -63,8 +63,8 @@ c = legla(s,g,a,M,maxit)
 <kbd><span class="option"><var>M</var></span></kbd></td>
 <td>Number of channels</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option"><var>Ls</var></span></kbd></td>
-<td>length of signal.</td></tr>
+<kbd><span class="option"><var>maxit</var></span></kbd></td>
+<td>Maximum number of iterations.</td></tr>
 </tbody>
 </table>
 </div>
@@ -94,14 +94,14 @@ c = legla(s,g,a,M,maxit)
 <p><tt class="docutils literal">legla(s,g,a,M)</tt> attempts to find coefficients <em>c</em> from their abs.
 value:</p>
 <pre class="literal-block">
-s = abs(dgtreal(f,g,a,M));
+s = abs(dgtreal(f,g,a,M,'timeinv'));
 </pre>
 <p>using Le Rouxs modifications of the Griffin-Lim algorithm.</p>
 <p><tt class="docutils literal"><span class="pre">[c,f,relres,iter]=legla(...)</span></tt> additionally returns an array
 of residuals <tt class="docutils literal">relres</tt>, the number of iterations done <tt class="docutils literal">iter</tt> and the
 reconstructed signal <em>f</em>. The relationship between <em>f</em> and <em>c</em> is:</p>
 <pre class="literal-block">
-f = idgtreal(c,gd,a,M)
+f = idgtreal(c,gd,a,M,'timeinv')
 </pre>
 <p>where <em>gd</em> is the canonical dual window obtained by <span class="linkrole"><a href="http://ltfat.github.io/doc/gabor/gabdual.html">gabdual</a></span>.</p>
 <p><tt class="docutils literal">legla</tt> takes the following additional parameters:</p>
@@ -223,19 +223,13 @@ The default value is 0.99.</td></tr>
 <td>Do at most n iterations.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'print'</span></kbd></td>
-<td>Display the progress.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'quiet'</span></kbd></td>
-<td>Don't print anything, this is the default.</td></tr>
+<td>Display the progress. This is disabled by default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'printstep',<var>p</var></span></kbd></td>
 <td>If 'print' is specified, then print every p'th
 iteration. Default value is p=10;</td></tr>
 </tbody>
 </table>
-<p>!!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!
-This function requires LTFAT 2.1.2 and above.
-!!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
 </div>
 <H2>References:</H2>
 

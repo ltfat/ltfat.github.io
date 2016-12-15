@@ -63,16 +63,13 @@ c=pghi(c,gamma,a,M,mask,usephase);
 <td>Initial coefficients.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>gamma</var></span></kbd></td>
-<td>Window width factor.</td></tr>
+<td>Window &quot;width&quot; factor.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>a</var></span></kbd></td>
 <td>Hop factor.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>M</var></span></kbd></td>
 <td>Number of channels.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option"><var>tol</var></span></kbd></td>
-<td>Relative tolerance.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>mask</var></span></kbd></td>
 <td>Mask for selecting known phase.</td></tr>
@@ -96,7 +93,7 @@ c=pghi(c,gamma,a,M,mask,usephase);
 <td>Just the (unwrapped) phase.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>usedmask</var></span></kbd></td>
-<td>Mask for selecting coefficients with the new phase.</td></tr>
+<td>Mask used for selecting coefficients with the new phase.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>tgrad</var></span></kbd></td>
 <td>Relative time phase derivative.</td></tr>
@@ -116,23 +113,14 @@ c = dgtreal(f,g,a,M,'timeinv');
 s = abs(c);
 </pre>
 <p>and the algorithm attempts to recover <em>c</em>. Parameter <em>gamma</em> is window
-<em>g</em> specific and it can be computed using:</p>
-<!-- gamma = Cg*gl^2 -->
-<div class="math">
-\begin{equation*}
-\gamma = C_g \mathit{gl}^2
-\end{equation*}
-</div>
-<p>where <em>gl</em> is the window length and <em>Cg</em> is a window specific constant.
-Both <em>Cg</em> and <em>gamma</em> can be obtained by calling <a href="#id1"><span class="problematic" id="id2">|findwindowconstant|</span></a>.</p>
+<em>g</em> specific and it can be computed using <span class="linkrole"><a href="#BASEURL#/phaseret/doc/gabor/pghi_findgamma.html">pghi_findgamma</a></span>.</p>
+<p><tt class="docutils literal">pghi(c,gamma,a,M,mask)</tt> does the same as above except it reuses phase
+of coefficients <em>c</em> for which the corresponding element from <em>mask</em>
+is nonzero.</p>
+<p><tt class="docutils literal">pghi(c,gamma,a,M,mask,usephase)</tt> does the same as above but the known
+phase <em>usephase</em> is passed explicitly.</p>
 <p>This is just a wrapper around <span class="linkrole"><a href="http://ltfat.github.io/doc/gabor/constructphasereal.html">constructphasereal</a></span> from LTFAT. Please
 see its help for more details.</p>
-</div>
-<div class="system-messages section">
-<h2>Docutils System Messages</h2>
-<div class="system-message" id="id1">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">&lt;string&gt;</tt>, line 66); <em><a href="#id2">backlink</a></em></p>
-Undefined substitution referenced: &quot;findwindowconstant&quot;.</div>
 </div>
 <H2>References:</H2>
 

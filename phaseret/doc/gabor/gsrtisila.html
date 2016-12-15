@@ -30,12 +30,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="row">
     <div class="col-md-2">
         <div class="include" file='../include/docnav.html'></div>
-        <div id="seealso"><p><div id="menutitle">See also:</div>
-<ul>
-<li><a href="http://ltfat.github.io/doc/gabor/idgtreal.html">idgtreal</a></li>
-<li><a href="http://ltfat.github.io/doc/gabor/dgtreal.html">dgtreal</a></li>
-</ul>
-</p></div>
+        <div id="seealso"><p></p></div>
     </div>
     <div class="col-md-10">
 
@@ -45,8 +40,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <h2>Usage</h2>
 <pre class="literal-block">
 c = gsrtisila(s,g,a,M)
-c = gsrtisila(c,g,a,M,mask)
-c = gsrtisila(s,g,a,M,mask,usephase)
 [c,f,relres,iter] = gsrtisila(...)
 </pre>
 </div>
@@ -100,7 +93,7 @@ c = gsrtisila(s,g,a,M,mask,usephase)
 <p><tt class="docutils literal">gsrtisila(s,g,a,M)</tt> attempts to find Gabor coefficients <em>c</em> of some
 signal <em>f</em> such that:</p>
 <pre class="literal-block">
-c = dgtreal(f,g,a,M);
+c = dgtreal(f,g,a,M,'timeinv');
 s = abs(c);
 </pre>
 <p>using the Gnann and Spiertz’s Real-Time Iterative Spectrogram
@@ -109,7 +102,7 @@ Inversion with Look Ahead.</p>
 signal <em>f</em> and the residual error <tt class="docutils literal">relres</tt>.
 The relationship between <em>f</em> and <em>c</em> is the following:</p>
 <pre class="literal-block">
-f = idgtreal(c,gd,a,M)
+f = idgtreal(c,gd,a,M,'timeinv')
 </pre>
 <p>where <em>gd</em> is the canonical dual window obtained by <span class="linkrole"><a href="http://ltfat.github.io/doc/gabor/gabdual.html">gabdual</a></span>.</p>
 <p><tt class="docutils literal">gsrtisila</tt> takes the following addition arguments:</p>
@@ -128,6 +121,9 @@ is <tt class="docutils literal"><span class="pre">ceil(M/a)-1</span></tt>.</td><
 <td>Number of RTISILA iterations. The default
 value is 5. The total number
 of per-frame iteratins is <tt class="docutils literal"><span class="pre">(lookahead+1)*maxit</span></tt>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'Ls',<var>Ls</var></span></kbd></td>
+<td>Crop the reconstructed signal <em>f</em> to length <em>Ls</em>.</td></tr>
 </tbody>
 </table>
 </div>
@@ -136,41 +132,8 @@ of per-frame iteratins is <tt class="docutils literal"><span class="pre">(lookah
 <p>Optionally, the following phase initialization strategies for the
 newest lookahead frame can be employed:</p>
 <blockquote>
-<p>'zeros'          Initialize with zeros. This is the default.</p>
-<p>'unwrap'         Use phase vocoder style phase unwrapping.</p>
-<p>'spsi'           Use the SPSI algorithm.</p>
-<dl class="docutils">
-<dt>'rtpghi',gamma   Use the RTPGHI algorithm. The algorithm requires</dt>
-<dd>one additional look-ahead frame.</dd>
-</dl>
-<p>'rtpghi',{gamma,'causal'}  Use the causal version of RTPGHI.</p>
-<p>'rtpghi',{gamma,tol,...}   Set tolerance of RTPGHI to <tt class="docutils literal">tol</tt>.</p>
-</blockquote>
+'zeros'          Initialize with zeros. This is the default.</blockquote>
 </div>
-<H2>References:</H2>
-
-
-
-<p><a name="gnsp10"></a>
-
-V.&nbsp;Gnann and M.&nbsp;Spiertz.
- Improving RTISI phase estimation with energy order and phase
-  unwrapping.
- In <em>Proc. 13th International Conference on Digital Audio Effects
-  (DAFx-10)</em>, Sept. 2010.
-
-</p>
-
-<p><a name="gnsp08"></a>
-
-V.&nbsp;Gnann and M.&nbsp;Spiertz.
- Comb-filter free audio mixing using STFT magnitude spectra and
-  phase estimation.
- In <em>Proc. 11th Int. Conf. on Digital Audio Effects (DAFx-08)</em>,
-  Sept. 2008.
-
-</p>
-
 
         <div class="include" file="../../../include/footer.html"></div>
     </div>

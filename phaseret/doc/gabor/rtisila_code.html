@@ -45,7 +45,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,f,relres,iter]<span class="p">=</span><span class="nf">rtisila</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%RTISILA Real-Time Iterative Spectrogram Inversion with Look Ahead</span>
 <span class="c">%   Usage: c = rtisila(s,g,a,M)</span>
-<span class="c">%          c = rtisila(s,g,a,M,maxit)</span>
 <span class="c">%          [c,f,relres,iter] = rtisila(...)</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
@@ -53,7 +52,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%         g       : Analysis Gabor window</span>
 <span class="c">%         a       : Hop factor</span>
 <span class="c">%         M       : Number of channels</span>
-<span class="c">%         Ls      : length of signal.</span>
 <span class="c">%   Output parameters:</span>
 <span class="c">%         c       : Coefficients with the reconstructed phase.</span>
 <span class="c">%         f       : Reconstructed signal.</span>
@@ -62,7 +60,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   RTISILA(s,g,a,M) attempts to find Gabor coefficients c such</span>
 <span class="c">%   that:</span>
-<span class="c">%</span>
+<span class="c">%   </span>
+<span class="c">%     c = dgtreal(f,g,a,M,&#39;timeinv&#39;);</span>
 <span class="c">%     s = abs(c);</span>
 <span class="c">%</span>
 <span class="c">%   using the Real-Time Iterative Spectrogram Inversion with Look Ahead.</span>
@@ -72,7 +71,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   coefficients c with the reconstructed phase. The relationship between</span>
 <span class="c">%   f and c is:</span>
 <span class="c">%</span>
-<span class="c">%     f = idgtreal(c,gd,a,M)</span>
+<span class="c">%     f = idgtreal(c,gd,a,M,&#39;timeinv&#39;)</span>
 <span class="c">%</span>
 <span class="c">%   where gd is the canonical dual window obtained by GABDUAL.</span>
 <span class="c">%</span>
@@ -87,7 +86,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                            value is 5. The total number</span>
 <span class="c">%                            of per-frame iteratins is (lookahead+1)*maxit.</span>
 <span class="c">%                           </span>
-<span class="c">%</span>
 <span class="c">%   See also:  lertisila, idgtreal, dgtreal</span>
 <span class="c">%</span>
 <span class="c">%   References:</span>
@@ -137,7 +135,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">5</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lookahead</span> <span class="p">=</span> <span class="p">[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;freqinv&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 <span class="n">Ls</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Ls</span><span class="p">;</span>
 
 <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>

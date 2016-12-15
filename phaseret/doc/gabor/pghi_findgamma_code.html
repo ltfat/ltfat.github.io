@@ -38,38 +38,43 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[gamma, Cg] <span class="p">=</span><span class="w"> </span><span class="nf">pghi_findgamma</span><span class="p">(</span> g, varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%PGHI_FINDGAMMA Find window constant for PGHI and RTPGHI</span>
-<span class="c">%   Usage: gamma = pghi_findgamma(g)</span>
-<span class="c">%          gamma = pghi_findgamma(gnum,gl)</span>
-<span class="c">%          [Cg, gamma] = pghi_findgamma(...)</span>
+<span class="c">%   Usage: gamma = pghi_findgamma({firwinname,gl})</span>
+<span class="c">%          gamma = pghi_findgamma(g,a,M)</span>
+<span class="c">%          gamma = pghi_findgamma(g,a,M,L)</span>
+<span class="c">%          [gamma, Cg] = pghi_findgamma(...)</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
 <span class="c">%         gnum     : Window.</span>
 <span class="c">%         gl       : Length of the support of the window.</span>
 <span class="c">%   Output parameters:</span>
+<span class="c">%         gamma    : Parameter for PGHI and RTPGHI</span>
 <span class="c">%         Cg       : Window constant</span>
-<span class="c">%         gama     : Parameter for PGHI and RTPGHI</span>
 <span class="c">%</span>
-<span class="c">%   Cg = PGHI_FINDGAMMA(gnum) does a heuristic search for the </span>
-<span class="c">%   parameter Cg, for which the Gaussian window given as:</span>
-<span class="c">%   </span>
-<span class="c">%      g = exp(-pi*l^2/(Cg*gl^2))</span>
-<span class="c">%   </span>
-<span class="c">%   is closest to peak-normalized window gnum, where gl is length </span>
-<span class="c">%   of its support.</span>
+<span class="c">%   PGHI_FINDGAMMA({firwinname,gl}) returns parameter gamma, for which the</span>
+<span class="c">%   Gaussian window given as:</span>
 <span class="c">%</span>
-<span class="c">%   Cg = PGHI_FINDGAMMA(gnum,gl) works as before but uses explicitly</span>
-<span class="c">%   given gl. This is usefull when e.g. gnum is zero padded.</span>
+<span class="c">%      g = exp(-pi*l^2/gamma)</span>
 <span class="c">%</span>
-<span class="c">%   [Cg,gamma] = PGHI_FINDGAMMA(...) additionaly returns parameter</span>
-<span class="c">%   gamma which is equal to:</span>
-<span class="c">%   </span>
+<span class="c">%   is closest to peak-normalized window firwinname from FIRWIN.</span>
+<span class="c">%   The parameter is precomputed so the search will not be done.</span>
+<span class="c">%</span>
+<span class="c">%   [gamma,Cg] = PGHI_FINDGAMMA(...) additionaly returns parameter</span>
+<span class="c">%   Cg which is window constatnt and is used to compute gamma such as:</span>
+<span class="c">%</span>
 <span class="c">%      gamma = Cg*gl^2</span>
-<span class="c">%   </span>
+<span class="c">%</span>
+<span class="c">%   where gl is the length of the window support.</span>
+<span class="c">%</span>
 <span class="c">%   Note that the relationship between gamma and tfr from PGAUSS is:</span>
 <span class="c">%</span>
 <span class="c">%      tfr = gamma/L</span>
-<span class="c">%   </span>
+<span class="c">%</span>
 <span class="c">%   where L is the DGT length.</span>
+<span class="c">%</span>
+<span class="c">%   Additional parameters:</span>
+<span class="c">%   ----------------------</span>
+<span class="c">%</span>
+<span class="c">%   &#39;search&#39;             Do the search even for prcomputed windows.</span>
 <span class="c">%</span>
 <span class="c">%   References:</span>
 <span class="c">%     Z. Průša and P. L. Søndergaard. Real-Time Spectrogram Inversion Using</span>
@@ -98,18 +103,60 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% AUTHOR: Zdenek Prusa</span>
 
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">atheightrange</span> <span class="p">=</span> <span class="p">[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">gl</span> <span class="p">=</span> <span class="p">[];</span>
-<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">gl</span><span class="p">,</span><span class="n">atheightrange</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;gl&#39;</span><span class="p">,</span><span class="s">&#39;atheightrange&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">M</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;precomputed&#39;</span><span class="p">,</span><span class="s">&#39;search&#39;</span><span class="p">};</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
-<span class="k">if</span> <span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> 
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Window must be numeric. See FIRWIN and GABWIN.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">))</span>
+<span class="n">wins</span> <span class="p">=</span> <span class="n">getfield</span><span class="p">(</span><span class="n">arg_firwin</span><span class="p">,</span><span class="s">&#39;flags&#39;</span><span class="p">,</span><span class="s">&#39;wintype&#39;</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">ischar</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">iscell</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">ischar</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">}))</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_search</span>
+    <span class="n">winname</span> <span class="p">=</span> <span class="n">g</span><span class="p">;</span>
+    <span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="n">winname</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span> <span class="k">end</span><span class="p">;</span>
+        <span class="k">switch</span> <span class="n">winname</span>
+        <span class="k">case</span> <span class="n">wins</span>
+            <span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">})</span>
+                <span class="n">gl</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">};</span> 
+            <span class="k">elseif</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">)</span>
+                <span class="n">gl</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
+            <span class="k">else</span>
+                <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Window length is unspecified.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+            <span class="k">end</span>
+
+            <span class="k">try</span>
+                <span class="p">[</span><span class="nb">gamma</span><span class="p">,</span><span class="n">Cg</span><span class="p">]</span> <span class="p">=</span> <span class="n">precomputed_gamma</span><span class="p">(</span><span class="n">winname</span><span class="p">,</span><span class="n">gl</span><span class="p">);</span>
+                <span class="k">return</span><span class="p">;</span> <span class="c">% Return immediatelly</span>
+            <span class="k">catch</span>
+            <span class="k">end</span>
+        <span class="k">case</span> <span class="s">&#39;gauss&#39;</span>
+            <span class="n">Cg</span> <span class="p">=</span> <span class="nb">nan</span><span class="p">;</span>
+            <span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">})</span>
+                <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">L</span><span class="p">)</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Gaussian window requires L to be specified&#39;</span><span class="p">,</span><span class="c">...</span>
+                    <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+                <span class="k">end</span>
+                <span class="nb">gamma</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">L</span><span class="p">;</span>
+            <span class="k">else</span>
+                <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isempty</span><span class="p">,{</span><span class="n">kv</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">}))</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: a and M must be defined for this window.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+                <span class="k">end</span>
+                <span class="nb">gamma</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">a</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
+            <span class="k">end</span>
+            <span class="k">return</span><span class="p">;</span>
+    <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-    <span class="n">gl</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isempty</span><span class="p">,{</span><span class="n">kv</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">}))</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: a and M must be defined for this window.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">L</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="n">atheight</span> <span class="p">=</span> <span class="n">findbestgauss</span><span class="p">(</span> <span class="n">g</span><span class="p">,</span> <span class="n">atheightrange</span><span class="p">);</span>
+<span class="n">gl</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
+
+<span class="n">atheight</span> <span class="p">=</span> <span class="n">findbestgauss</span><span class="p">(</span> <span class="n">g</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">atheightrange</span><span class="p">);</span>
 <span class="n">w</span> <span class="p">=</span> <span class="n">winwidthatheight</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">atheight</span><span class="p">);</span>
 
 <span class="n">Cg</span> <span class="p">=</span> <span class="o">-</span><span class="nb">pi</span><span class="o">/</span><span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">/</span><span class="p">(</span><span class="n">gl</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>^<span class="mi">2</span><span class="o">/</span><span class="nb">log</span><span class="p">(</span><span class="n">atheight</span><span class="p">);</span>
@@ -131,7 +178,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   at which both windows have the same width. *gnum* must be a numeric</span>
 <span class="c">%   vector returned from from |gabwin| or |firwin|. The function does a</span>
 <span class="c">%   simple heuristic search. Nothing fancy.</span>
-<span class="c">%   </span>
+<span class="c">%</span>
 <span class="c">%   Examples:</span>
 <span class="c">%   ---------</span>
 <span class="c">%</span>
@@ -156,7 +203,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%       % The following can be directly used in |dgtreal| and |constructphasereal|</span>
 <span class="c">%       g = {&#39;gauss&#39;,&#39;width&#39;,width,&#39;atheight&#39;,atheight};</span>
-<span class="c">%             </span>
+<span class="c">%</span>
 
 <span class="c">% AUTHOR: Zdenek Prusa</span>
 
@@ -221,8 +268,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">gmax</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">gnum</span><span class="p">);</span>
     <span class="n">frac</span><span class="p">=</span>  <span class="mi">1</span><span class="o">/</span><span class="n">atheight</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
     <span class="n">fracofmax</span> <span class="p">=</span> <span class="n">gmax</span><span class="o">/</span><span class="n">frac</span><span class="p">;</span>
-    
-    
+
+
     <span class="n">ind</span> <span class="p">=</span><span class="nb">find</span><span class="p">(</span><span class="n">gnum</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">floor</span><span class="p">(</span><span class="n">gl</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="n">fracofmax</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;first&#39;</span><span class="p">);</span>
     <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
         <span class="c">%There is no sample exactly half of the height</span>
@@ -234,6 +281,50 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <span class="n">width</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">ind</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
     <span class="k">end</span>
 <span class="k">end</span>
+
+
+<span class="k">function</span><span class="w"> </span>[gamma,Cg] <span class="p">=</span><span class="w"> </span><span class="nf">precomputed_gamma</span><span class="p">(</span>g,gl<span class="p">)</span><span class="w"></span>
+
+<span class="k">switch</span> <span class="n">g</span>
+<span class="k">case</span> <span class="p">{</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="s">&#39;hanning&#39;</span><span class="p">,</span><span class="s">&#39;nuttall10&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.25645</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;sqrthann&#39;</span><span class="p">,</span><span class="s">&#39;cosine&#39;</span><span class="p">,</span><span class="s">&#39;sine&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.41532</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;hamming&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.29794</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall01&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.29610</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;tria&#39;</span><span class="p">,</span><span class="s">&#39;triangular&#39;</span><span class="p">,</span><span class="s">&#39;bartlett&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.27561</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;sqrttria&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.48068</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;blackman&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.17954</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;blackman2&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.18465</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall&#39;</span><span class="p">,</span><span class="s">&#39;nuttall12&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.12807</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;ogg&#39;</span><span class="p">,</span><span class="s">&#39;itersine&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.35744</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall20&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.14315</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall11&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.17001</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall02&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.18284</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall30&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.09895</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall21&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.11636</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall03&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.13369</span><span class="p">;</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;truncgauss&#39;</span><span class="p">}</span>
+        <span class="n">Cg</span> <span class="p">=</span> <span class="mf">0.17054704423023</span><span class="p">;</span>
+    <span class="k">otherwise</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;Unsupported FIR window type&#39;</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="nb">gamma</span> <span class="p">=</span> <span class="n">Cg</span><span class="o">*</span><span class="n">gl</span>^<span class="mi">2</span><span class="p">;</span>
 </pre></div>
 
 

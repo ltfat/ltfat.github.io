@@ -30,12 +30,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="row">
     <div class="col-md-2">
         <div class="include" file='../include/docnav.html'></div>
-        <div id="seealso"><p><div id="menutitle">See also:</div>
-<ul>
-<li><a href="http://ltfat.github.io/doc/gabor/idgtreal.html">idgtreal</a></li>
-<li><a href="http://ltfat.github.io/doc/gabor/dgtreal.html">dgtreal</a></li>
-</ul>
-</p></div>
+        <div id="seealso"><p></p></div>
     </div>
     <div class="col-md-10">
 
@@ -44,8 +39,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,f,relres,iter]<span class="p">=</span><span class="nf">gsrtisila</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%GSRTISILA Gnann and Spiertz’s Real-Time Iterative Spectrogram Inversion</span>
 <span class="c">%   Usage: c = gsrtisila(s,g,a,M)</span>
-<span class="c">%          c = gsrtisila(c,g,a,M,mask)</span>
-<span class="c">%          c = gsrtisila(s,g,a,M,mask,usephase)</span>
 <span class="c">%          [c,f,relres,iter] = gsrtisila(...)</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
@@ -63,7 +56,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   GSRTISILA(s,g,a,M) attempts to find Gabor coefficients c of some</span>
 <span class="c">%   signal f such that:</span>
 <span class="c">%</span>
-<span class="c">%     c = dgtreal(f,g,a,M);</span>
+<span class="c">%     c = dgtreal(f,g,a,M,&#39;timeinv&#39;);</span>
 <span class="c">%     s = abs(c);</span>
 <span class="c">%</span>
 <span class="c">%   using the Gnann and Spiertz’s Real-Time Iterative Spectrogram</span>
@@ -73,7 +66,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   signal f and the residual error relres.</span>
 <span class="c">%   The relationship between f and c is the following:</span>
 <span class="c">%</span>
-<span class="c">%     f = idgtreal(c,gd,a,M)</span>
+<span class="c">%     f = idgtreal(c,gd,a,M,&#39;timeinv&#39;)</span>
 <span class="c">%</span>
 <span class="c">%   where gd is the canonical dual window obtained by GABDUAL.</span>
 <span class="c">%</span>
@@ -88,6 +81,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                            value is 5. The total number</span>
 <span class="c">%                            of per-frame iteratins is (lookahead+1)*maxit.</span>
 <span class="c">%</span>
+<span class="c">%     &#39;Ls&#39;,Ls                Crop the reconstructed signal f to length Ls.</span>
+<span class="c">%</span>
 <span class="c">%   Phase initialization:</span>
 <span class="c">%   ---------------------</span>
 <span class="c">%</span>
@@ -95,31 +90,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   newest lookahead frame can be employed:</span>
 <span class="c">%</span>
 <span class="c">%      &#39;zeros&#39;          Initialize with zeros. This is the default.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;unwrap&#39;         Use phase vocoder style phase unwrapping.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;spsi&#39;           Use the SPSI algorithm.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;rtpghi&#39;,gamma   Use the RTPGHI algorithm. The algorithm requires</span>
-<span class="c">%                       one additional look-ahead frame.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;rtpghi&#39;,{gamma,&#39;causal&#39;}  Use the causal version of RTPGHI.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;rtpghi&#39;,{gamma,tol,...}   Set tolerance of RTPGHI to tol. </span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   See also:  idgtreal, dgtreal</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     V. Gnann and M. Spiertz. Improving RTISI phase estimation with energy</span>
-<span class="c">%     order and phase unwrapping. In Proc. 13th International Conference on</span>
-<span class="c">%     Digital Audio Effects (DAFx-10), Sept. 2010.</span>
-<span class="c">%     </span>
-<span class="c">%     V. Gnann and M. Spiertz. Comb-filter free audio mixing using STFT</span>
-<span class="c">%     magnitude spectra and phase estimation. In Proc. 11th Int. Conf. on</span>
-<span class="c">%     Digital Audio Effects (DAFx-08), Sept. 2008.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/phaseret/doc/gabor/gsrtisila.html</span>
 
@@ -138,6 +108,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%      &#39;input&#39;          Use phase of *s*.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;unwrap&#39;         Use phase vocoder style phase unwrapping.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;spsi&#39;           Use the SPSI algorithm.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;rtpghi&#39;,gamma   Use the RTPGHI algorithm. The algorithm requires</span>
+<span class="c">%                       one additional look-ahead frame.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;rtpghi&#39;,{gamma,&#39;causal&#39;}  Use the causal version of RTPGHI.</span>
+<span class="c">%</span>
+<span class="c">%      &#39;rtpghi&#39;,{gamma,tol,...}   Set tolerance of RTPGHI to `tol`. </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   See also:  idgtreal, dgtreal</span>
+<span class="c">%</span>
+<span class="c">%   References: gnsp08 gnsp10</span>
+<span class="c">%</span>
 
 <span class="c">%   AUTHORS: Zdenek Prusa</span>
 <span class="c">%</span>
@@ -163,8 +152,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">lastbufinit</span><span class="p">={</span><span class="s">&#39;zeros&#39;</span><span class="p">,</span><span class="s">&#39;unwrap&#39;</span><span class="p">,</span><span class="s">&#39;input&#39;</span><span class="p">,</span><span class="s">&#39;spsi&#39;</span><span class="p">,</span><span class="s">&#39;rtpghi&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">rtpghi</span> <span class="p">=</span> <span class="p">{};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">unwrappar</span><span class="p">=</span><span class="mf">0.3</span><span class="p">;</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mask</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">usephase</span><span class="p">=[];</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;mask&#39;</span><span class="p">,</span><span class="s">&#39;usephase&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 <span class="n">Ls</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Ls</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">mask</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">usephase</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: TODO: &#39;&#39;mask&#39;&#39; or &#39;&#39;usephase&#39;&#39; parameters are not supported yet.&#39;</span><span class="p">,</span><span class="c">...</span>
+          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
 
 <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
@@ -194,7 +190,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: RTPGHI gamma parameter is missing.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
     <span class="k">end</span>
 <span class="k">end</span>
-
 
 <span class="c">% Analysis window (as array)</span>
 <span class="n">gnum</span> <span class="p">=</span> <span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>

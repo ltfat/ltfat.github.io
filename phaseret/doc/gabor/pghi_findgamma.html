@@ -39,9 +39,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-gamma = pghi_findgamma(g)
-gamma = pghi_findgamma(gnum,gl)
-[Cg, gamma] = pghi_findgamma(...)
+gamma = pghi_findgamma({firwinname,gl})
+gamma = pghi_findgamma(g,a,M)
+gamma = pghi_findgamma(g,a,M,L)
+[gamma, Cg] = pghi_findgamma(...)
 </pre>
 </div>
 <div class="section" id="input-parameters">
@@ -66,37 +67,36 @@ gamma = pghi_findgamma(gnum,gl)
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
+<kbd><span class="option"><var>gamma</var></span></kbd></td>
+<td>Parameter for PGHI and RTPGHI</td></tr>
+<tr><td class="option-group">
 <kbd><span class="option"><var>Cg</var></span></kbd></td>
 <td>Window constant</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option"><var>gama</var></span></kbd></td>
-<td>Parameter for PGHI and RTPGHI</td></tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">pghi_findgamma(gnum)</tt> does a heuristic search for the
-parameter <em>Cg</em>, for which the Gaussian window given as:</p>
-<!-- g = exp(-pi*l^2/(Cg*gl^2)) -->
+<p><tt class="docutils literal"><span class="pre">pghi_findgamma({firwinname,gl})</span></tt> returns parameter <em>gamma</em>, for which the
+Gaussian window given as:</p>
+<!-- g = exp(-pi*l^2/gamma) -->
 <div class="math">
 \begin{equation*}
-g=exp(-\pi\frac{l^2}{C_g \mathit{gl}^2})
+g=exp(-\pi\frac{l^2}{\gamma})
 \end{equation*}
 </div>
-<p>is closest to peak-normalized window <em>gnum</em>, where <em>gl</em> is length
-of its support.</p>
-<p><tt class="docutils literal">pghi_findgamma(gnum,gl)</tt> works as before but uses explicitly
-given <em>gl</em>. This is usefull when e.g. <em>gnum</em> is zero padded.</p>
+<p>is closest to peak-normalized window <em>firwinname</em> from <span class="linkrole"><a href="http://ltfat.github.io/doc/sigproc/firwin.html">firwin</a></span>.
+The parameter is precomputed so the search will not be done.</p>
 <p><tt class="docutils literal">[gamma,Cg] = <span class="pre">pghi_findgamma(...)</span></tt> additionaly returns parameter
-<em>gamma</em> which is equal to:</p>
+<em>Cg</em> which is window constatnt and is used to compute gamma such as:</p>
 <!-- gamma = Cg*gl^2 -->
 <div class="math">
 \begin{equation*}
-g=C_g \mathit{gl}^2}
+\gamma=C_g \mathit{gl}^2}
 \end{equation*}
 </div>
-<p>Note that the relationship between <em>gamma</em> and <em>tfr</em> from <a href="#id1"><span class="problematic" id="id2">|pgauss|</span></a> is:</p>
+<p>where <em>gl</em> is the length of the window support.</p>
+<p>Note that the relationship between <em>gamma</em> and <em>tfr</em> from <span class="linkrole"><a href="http://ltfat.github.io/doc/fourier/pgauss.html">pgauss</a></span> is:</p>
 <!-- tfr = gamma/L -->
 <div class="math">
 \begin{equation*}
@@ -105,11 +105,9 @@ tfr=gamma/L
 </div>
 <p>where <em>L</em> is the DGT length.</p>
 </div>
-<div class="system-messages section">
-<h2>Docutils System Messages</h2>
-<div class="system-message" id="id1">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">&lt;string&gt;</tt>, line 55); <em><a href="#id2">backlink</a></em></p>
-Undefined substitution referenced: &quot;pgauss&quot;.</div>
+<div class="section" id="additional-parameters">
+<h2>Additional parameters:</h2>
+<p>'search'             Do the search even for prcomputed windows.</p>
 </div>
 <H2>References:</H2>
 
