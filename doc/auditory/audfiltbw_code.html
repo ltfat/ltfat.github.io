@@ -33,8 +33,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/auditory/freqtoerb_code.html">freqtoerb</a></li>
-<li><a href="#BASEURL#/doc/auditory/erbspace_code.html">erbspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoerb.html">freqtoerb</a></li>
+<li><a href="#BASEURL#/doc/auditory/erbspace.html">erbspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audtofreq.html">audtofreq</a></li>
 </ul>
 </p></div>
     </div>
@@ -52,7 +54,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%      bw = 24.7 + fc/9.265</span>
 <span class="c">%</span>
-<span class="c">%   as estimated in Glasberg and Moore (1990).</span>
+<span class="c">%   as estimated in Glasberg and Moore (1990). This function is also used</span>
+<span class="c">%   when the original ERB scale (&#39;erb83&#39;) is chosen.</span>
 <span class="c">% </span>
 <span class="c">%   AUDFILTBW(fc,&#39;bark&#39;) returns the critical bandwidth at fc according</span>
 <span class="c">%   to the Bark scale using the relation:</span>
@@ -61,12 +64,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   as estimated by Zwicker and Terhardt (1980).</span>
 <span class="c">%</span>
-<span class="c">%   See also: freqtoerb, erbspace</span>
+<span class="c">%   For the scales &#39;mel&#39;, &#39;mel1000&#39;, &#39;log10&#39; and &#39;semitone&#39;, no critical</span>
+<span class="c">%   bandwidth function is usually given. Following the example of the</span>
+<span class="c">%   equivalent rectangular bandwidth (associated with the ERB scale), we</span>
+<span class="c">%   use the derivative of the inverse of the scale function F_{Scale},</span>
+<span class="c">%   evaluated at F_{Scale}(fc), i.e. </span>
+<span class="c">% </span>
+<span class="c">%      bw = (F_{scale}^{-1})&#39;(F_{scale}(fc))</span>
+<span class="c">%</span>
+<span class="c">%   See also: freqtoerb, erbspace, freqtoaud, audtofreq</span>
 <span class="c">%</span>
 <span class="c">%   References:</span>
-<span class="c">%     E. Zwicker and E. Terhardt. Analytical expressions for critical‐band</span>
+<span class="c">%     E. Zwicker and E. Terhardt. Analytical expressions for criticalband</span>
 <span class="c">%     rate and critical bandwidth as a function of frequency. The Journal of</span>
-<span class="c">%     the Acoustical Society of America, 68(5):1523-1525, 1980. [1]http ]</span>
+<span class="c">%     the Acoustical Society of America, 68(5):1523--1525, 1980. [1]http ]</span>
 <span class="c">%     </span>
 <span class="c">%     B. R. Glasberg and B. Moore. Derivation of auditory filter shapes from</span>
 <span class="c">%     notched-noise data. Hearing Research, 47(1-2):103, 1990.</span>
@@ -79,7 +90,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/auditory/audfiltbw.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -107,18 +118,30 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;AUDFILTBW: fc must be non-negative.&#39;</span><span class="p">);</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">audscale</span><span class="p">={</span><span class="s">&#39;erb&#39;</span><span class="p">,</span><span class="s">&#39;bark&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">audscale</span><span class="p">={</span><span class="s">&#39;erb&#39;</span><span class="p">,</span><span class="s">&#39;erb83&#39;</span><span class="p">,</span><span class="s">&#39;bark&#39;</span><span class="p">,</span><span class="s">&#39;mel&#39;</span><span class="p">,</span><span class="s">&#39;mel1000&#39;</span><span class="p">,</span><span class="s">&#39;log10&#39;</span><span class="p">,</span><span class="s">&#39;semitone&#39;</span><span class="p">};</span>
 <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
 <span class="c">% ------ Computation --------------------------</span>
 
 <span class="c">% FIXME: What is the upper frequency for which the estimation is valid?</span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_erb</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_erb</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_erb83</span>
     <span class="n">bw</span> <span class="p">=</span> <span class="mf">24.7</span> <span class="o">+</span> <span class="n">fc</span><span class="o">/</span><span class="mf">9.265</span><span class="p">;</span>
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_bark</span>
     <span class="n">bw</span> <span class="p">=</span> <span class="mi">25</span> <span class="o">+</span> <span class="mi">75</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">1.4E-6</span><span class="o">*</span><span class="n">fc</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">.^</span><span class="mf">0.69</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_mel</span>    
+    <span class="n">bw</span> <span class="p">=</span> <span class="nb">log</span><span class="p">(</span><span class="mi">17</span><span class="o">/</span><span class="mi">7</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">700</span><span class="o">+</span><span class="n">fc</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_mel1000</span>  
+    <span class="n">bw</span> <span class="p">=</span> <span class="nb">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">fc</span><span class="o">/</span><span class="mi">1000</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_log10</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_semitone</span>
+    <span class="n">bw</span> <span class="p">=</span> <span class="n">fc</span><span class="p">;</span>
 <span class="k">end</span>
 </pre></div>
 

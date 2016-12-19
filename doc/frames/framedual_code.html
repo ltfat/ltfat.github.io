@@ -33,9 +33,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/frames/frame_code.html">frame</a></li>
-<li><a href="#BASEURL#/doc/frames/framepair_code.html">framepair</a></li>
-<li><a href="#BASEURL#/doc/frames/frametight_code.html">frametight</a></li>
+<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
+<li><a href="#BASEURL#/doc/frames/framepair.html">framepair</a></li>
+<li><a href="#BASEURL#/doc/frames/frametight.html">frametight</a></li>
 </ul>
 </p></div>
     </div>
@@ -68,7 +68,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/frames/framedual.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -122,9 +122,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">g</span> <span class="p">=</span> <span class="n">comp_filterbankscale</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
     
     <span class="n">Fd</span> <span class="p">=</span> <span class="n">framedual</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
-    <span class="n">warning</span><span class="p">(</span><span class="n">sprintf</span><span class="p">([</span><span class="s">&#39;%s: The canonical dual system does not preserve &#39;</span><span class="p">,</span><span class="c">...</span>
-                     <span class="s">&#39;the iterated filterbank structure.&#39;</span><span class="p">],</span><span class="c">...</span>
-                     <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">)));</span>
+<span class="c">%     warning(sprintf([&#39;%s: The canonical dual system does not preserve &#39;,...</span>
+<span class="c">%                      &#39;the iterated filterbank structure.&#39;],...</span>
+<span class="c">%                      upper(mfilename)));</span>
     
   <span class="k">case</span> <span class="s">&#39;uwfbt&#39;</span>
     <span class="c">% The canonical dual of uwfbt might not keep the iterated</span>
@@ -133,9 +133,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">g</span> <span class="p">=</span> <span class="n">comp_filterbankscale</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
     
     <span class="n">Fd</span> <span class="p">=</span> <span class="n">framedual</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
-    <span class="n">warning</span><span class="p">(</span><span class="n">sprintf</span><span class="p">([</span><span class="s">&#39;%s: The canonical dual system does not preserve &#39;</span><span class="p">,</span><span class="c">...</span>
-                     <span class="s">&#39;the iterated filterbank structure.&#39;</span><span class="p">],</span><span class="c">...</span>
-                     <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">)));</span> 
+<span class="c">%     warning(sprintf([&#39;%s: The canonical dual system does not preserve &#39;,...</span>
+<span class="c">%                      &#39;the iterated filterbank structure.&#39;],...</span>
+<span class="c">%                      upper(mfilename))); </span>
                  
   <span class="k">case</span> <span class="s">&#39;uwpfbt&#39;</span>
     <span class="c">% The canonical dual of uwfbt might not keep the iterated</span>
@@ -144,9 +144,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">g</span> <span class="p">=</span> <span class="n">comp_filterbankscale</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">F</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">scaling</span><span class="p">);</span>
     
     <span class="n">Fd</span> <span class="p">=</span> <span class="n">framedual</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
-    <span class="n">warning</span><span class="p">(</span><span class="n">sprintf</span><span class="p">([</span><span class="s">&#39;%s: The canonical dual system of frame type %s &#39;</span><span class="p">,</span><span class="c">...</span>
-                     <span class="s">&#39;does not preserve iterated filterbank structure.&#39;</span><span class="p">],</span><span class="c">...</span>
-                     <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">));</span>  
+<span class="c">%     warning(sprintf([&#39;%s: The canonical dual system of frame type %s &#39;,...</span>
+<span class="c">%                      &#39;does not preserve iterated filterbank structure.&#39;],...</span>
+<span class="c">%                      upper(mfilename),F.type));  </span>
                  
   <span class="k">case</span> <span class="s">&#39;fwt&#39;</span>
     <span class="n">is_basis</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">.</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-6</span><span class="p">;</span>

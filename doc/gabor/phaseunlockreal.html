@@ -51,9 +51,10 @@ c=phaseunlockreal(c,a,M);
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
 <p><tt class="docutils literal">phaseunlockreal(c,a,M)</tt> removes phase locking from the Gabor coefficients <em>c</em>.
-The coefficient must have been obtained from a <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></span> with parameter <em>a</em>.</p>
+The coefficient must have been obtained from a <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></span> with parameter <em>a</em>
+and using the 'timeinv' flag.</p>
 <p>Phase locking the coefficients modifies them so as if they were obtained
-from a time-invariant Gabor system. A filter bank produces phase locked
+from a frequency-invariant Gabor system. A filter bank produces phase locked
 coefficients.</p>
 </div>
 <H2>References:</H2>
@@ -65,7 +66,7 @@ coefficients.</p>
 M.&nbsp;Puckette.
  Phase-locked vocoder.
  <em>Applications of Signal Processing to Audio and Acoustics, 1995.,
-  IEEE ASSP Workshop on</em>, pages 222 -225, 1995.
+  IEEE ASSP Workshop on</em>, pages 222 --225, 1995.
 
 </p>
 

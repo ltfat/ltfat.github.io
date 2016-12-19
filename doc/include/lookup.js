@@ -118,6 +118,7 @@ var globalfunlist = {
    filterbankrealtight:'filterbank/filterbankrealtight',
    filterbankreassign:'filterbank/filterbankreassign',
    filterbankresponse:'filterbank/filterbankresponse',
+   filterbankscale:'filterbank/filterbankscale',
    filterbanksynchrosqueeze:'filterbank/filterbanksynchrosqueeze',
    filterbanktight:'filterbank/filterbanktight',
    filterbankwin:'filterbank/filterbankwin',
@@ -155,8 +156,10 @@ var globalfunlist = {
    franagrouplasso:'frames/franagrouplasso',
    franaiter:'frames/franaiter',
    franalasso:'frames/franalasso',
+   freqfilter:'sigproc/freqfilter',
    freqtoaud:'auditory/freqtoaud',
    freqtoerb:'auditory/freqtoerb',
+   freqwin:'sigproc/freqwin',
    frgramian:'frames/frgramian',
    frsyn:'frames/frsyn',
    frsynabs:'frames/frsynabs',
@@ -211,6 +214,7 @@ var globalfunlist = {
    ierblett:'filterbank/ierblett',
    ifftreal:'fourier/ifftreal',
    ifilterbank:'filterbank/ifilterbank',
+   ifilterbankiter:'filterbank/ifilterbankiter',
    iframemul:'operators/iframemul',
    ifwt:'wavelets/ifwt',
    ifwt2:'wavelets/ifwt2',
@@ -283,6 +287,8 @@ var globalfunlist = {
    pchirp:'fourier/pchirp',
    pconv:'fourier/pconv',
    pderiv:'fourier/pderiv',
+   pebfun:'fourier/pebfun',
+   pebfundual:'fourier/pebfundual',
    peven:'fourier/peven',
    pfilt:'sigproc/pfilt',
    pgauss:'fourier/pgauss',
@@ -312,6 +318,8 @@ var globalfunlist = {
    projkern:'gabor/projkern',
    psech:'fourier/psech',
    psinc:'fourier/psinc',
+   ptpfun:'fourier/ptpfun',
+   ptpfundual:'fourier/ptpfundual',
    pxcorr:'fourier/pxcorr',
    qam4:'sigproc/qam4',
    quadtfdist:'quadratic/quadtfdist',
@@ -413,4 +421,4 @@ var globalfunlist = {
    zak:'gabor/zak',
 };
 
- var toolboxversion='2.1.2'; 
+ var toolboxversion='2.2.0'; 

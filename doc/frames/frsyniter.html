@@ -118,7 +118,8 @@ algorithm. This is the default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'pcg'</span></kbd></td>
 <td>Solve the problem using the Preconditioned Conjugate Gradient
-algorithm.</td></tr>
+algorithm. Please note that preconditioning is not supported
+for all frame types.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'print'</span></kbd></td>
 <td>Display the progress.</td></tr>
@@ -127,6 +128,26 @@ algorithm.</td></tr>
 <td>Don't print anything, this is the default.</td></tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="algorithms">
+<h2>Algorithms</h2>
+<p>The function uses the (Preconditioned) Conjugate Gradient algorithm
+to solve the following problem:</p>
+<pre class="literal-block">
+..   FF*f=Fc
+</pre>
+<div class="math">
+\begin{equation*}
+FF* f = Fc
+\end{equation*}
+</div>
+<p>The preconditioning alters the equations such that</p>
+<!-- inv(M)FF*f=inv(M)Fc -->
+<div class="math">
+\begin{equation*}
+M^{-1}FF* f = M^{-1}Fc
+\end{equation*}
+</div>
 </div>
 <div class="section" id="examples">
 <h2>Examples</h2>

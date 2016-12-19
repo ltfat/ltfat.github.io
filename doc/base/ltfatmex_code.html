@@ -64,7 +64,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%     &#39;mex&#39;      Perform action on the mex / oct interfaces.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;gpc&#39;      Perform action on the GPC code for use with MULACLAB</span>
+<span class="c">%     &#39;pbc&#39;      Perform action on the PolyBoolClipper code for use with MULACLAB</span>
 <span class="c">%</span>
 <span class="c">%     &#39;auto&#39;     Choose automatically which targets to work on from the </span>
 <span class="c">%                previous ones based on the operation system etc. This is </span>
@@ -89,7 +89,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/ltfatmex.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -122,7 +122,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">bp</span><span class="p">=</span><span class="n">bp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="nb">length</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 
 
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">target</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;lib&#39;</span><span class="p">,</span><span class="s">&#39;mex&#39;</span><span class="p">,</span><span class="s">&#39;gpc&#39;</span><span class="p">,</span><span class="s">&#39;playrec&#39;</span><span class="p">,</span><span class="s">&#39;java&#39;</span><span class="p">,</span><span class="s">&#39;blockproc&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">target</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;lib&#39;</span><span class="p">,</span><span class="s">&#39;mex&#39;</span><span class="p">,</span><span class="s">&#39;pbc&#39;</span><span class="p">,</span><span class="s">&#39;playrec&#39;</span><span class="p">,</span><span class="s">&#39;java&#39;</span><span class="p">,</span><span class="s">&#39;blockproc&#39;</span><span class="p">};</span>
 <span class="c">% This has to be also defined </span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">comptarget</span><span class="p">={</span><span class="s">&#39;release&#39;</span><span class="p">,</span><span class="s">&#39;debug&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">command</span><span class="p">={</span><span class="s">&#39;compile&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;test&#39;</span><span class="p">};</span>
@@ -152,19 +152,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">do_lib</span>  <span class="p">=</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_lib</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span><span class="p">;</span>
 <span class="c">% Compile MEX/OCT interfaces?</span>
 <span class="n">do_mex</span>  <span class="p">=</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_mex</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span><span class="p">;</span>
-<span class="c">% Compile MEX PolygonClip.mex... using Generic Polygon Clipper</span>
-<span class="c">% (relevant only for the mulaclab, which does not work in Octave)</span>
-<span class="n">do_gpc</span>  <span class="p">=</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_gpc</span> <span class="o">||</span> <span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="n">isoctave</span><span class="p">);</span>
+<span class="c">% Compile MEX PolyBoolClipper.mex</span>
+<span class="n">do_pbc</span>  <span class="p">=</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_pbc</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span><span class="p">;</span>
 <span class="c">% Compile MEX playrec.mex... using Portaudio library.</span>
 <span class="c">% (relevant only for the bloc processing framework)</span>
 <span class="n">do_playrec</span>  <span class="p">=</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_playrec</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_blockproc</span><span class="p">;</span>
 <span class="c">% Compile Java classes containing GUI for the bloc proc. framework.</span>
 <span class="n">do_java</span>  <span class="p">=</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_java</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_blockproc</span><span class="p">;</span>
-
-
-<span class="k">if</span> <span class="n">isoctave</span> <span class="o">&amp;&amp;</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_gpc</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Compiling GPC is not relevant for Octave.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
 
 <span class="k">if</span> <span class="n">isoctave</span>
 	<span class="n">extname</span><span class="p">=</span><span class="s">&#39;oct&#39;</span><span class="p">;</span>
@@ -224,11 +218,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
      <span class="c">%                &#39; EXT=&#39;,ext]); </span>
   <span class="k">end</span><span class="p">;</span>
   
-  <span class="k">if</span> <span class="n">do_gpc</span>
-    <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Cleaning GPC ====================&#39;</span><span class="p">);</span>
-    <span class="n">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="s">&#39;PolygonClip&#39;</span><span class="p">]);</span>
+  <span class="k">if</span> <span class="n">do_pbc</span>
+     <span class="c">% Use the correct makefile </span>
+     <span class="n">makefilename_pbc</span> <span class="p">=</span> <span class="n">makefilename</span><span class="p">;</span>
+     <span class="k">if</span> <span class="n">isoctave</span>
+       <span class="k">if</span> <span class="o">~</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">makefilename</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">ext</span><span class="p">)</span>
+          <span class="n">makefilename_pbc</span> <span class="p">=</span> <span class="p">[</span><span class="n">makefilename</span><span class="p">,</span><span class="n">ext</span><span class="p">];</span>
+       <span class="k">end</span>
+    <span class="k">end</span> 
+      
+    <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Cleaning PolyBoolClipper ====================&#39;</span><span class="p">);</span>
+    <span class="n">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="s">&#39;polyboolclipper&#39;</span><span class="p">]);</span>
     <span class="n">clear</span> <span class="n">mex</span><span class="p">;</span> 
-    <span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="n">mexext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span>
+    <span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename_pbc</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="n">mexext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span>
     <span class="c">%[status,result]=system([make_exe, &#39; -f &#39;,makefilename,&#39; clean&#39;,&#39; EXT=&#39;,mexext]);</span>
   <span class="k">end</span><span class="p">;</span>
   
@@ -319,18 +321,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">end</span>
   <span class="k">end</span><span class="p">;</span>
   
-  <span class="k">if</span> <span class="n">do_gpc</span>
-    <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Compiling GPC ===================&#39;</span><span class="p">);</span>
-    <span class="c">% Compile the PolygonClip interface to GPC for use with mulaclab</span>
-    <span class="n">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="s">&#39;PolygonClip&#39;</span><span class="p">]);</span>
+  <span class="k">if</span> <span class="n">do_pbc</span>
+    <span class="n">makefilename_pbc</span> <span class="p">=</span> <span class="n">makefilename</span><span class="p">;</span>
+    <span class="k">if</span> <span class="n">isoctave</span>
+       <span class="k">if</span> <span class="o">~</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">makefilename</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">ext</span><span class="p">)</span>
+          <span class="n">makefilename_pbc</span> <span class="p">=</span> <span class="p">[</span><span class="n">makefilename</span><span class="p">,</span><span class="n">ext</span><span class="p">];</span>
+       <span class="k">end</span>
+    <span class="k">end</span>  
+      
+    <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Compiling PolyBoolClipper ===================&#39;</span><span class="p">);</span>
+    <span class="c">% Compile PolyBoolClipper mex file for use with mulaclab</span>
+    <span class="n">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="s">&#39;polyboolclipper&#39;</span><span class="p">]);</span>
     <span class="n">clear</span> <span class="n">mex</span><span class="p">;</span> 
-    <span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span> <span class="p">=</span> <span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">,</span><span class="c">...</span>
+    <span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span> <span class="p">=</span> <span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename_pbc</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">,</span><span class="c">...</span>
                       <span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="n">ext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span>
 
     <span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">status</span><span class="p">)</span>
       <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Done.&#39;</span><span class="p">);</span>
     <span class="k">else</span>
-      <span class="n">error</span><span class="p">(</span><span class="s">&#39;Failed to build GPC:\n %s&#39;</span><span class="p">,</span><span class="n">result</span><span class="p">);</span>
+      <span class="n">error</span><span class="p">(</span><span class="s">&#39;Failed to build PlyBoolClipper:\n %s&#39;</span><span class="p">,</span><span class="n">result</span><span class="p">);</span>
     <span class="k">end</span>
   <span class="k">end</span><span class="p">;</span>
   <span class="k">if</span> <span class="n">do_playrec</span>

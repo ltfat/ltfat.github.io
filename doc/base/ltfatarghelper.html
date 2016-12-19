@@ -133,6 +133,27 @@ in the group <tt class="docutils literal">phase</tt> and additionally, the value
 will be 1 if <tt class="docutils literal">'timeinv'</tt> was selected and 0 otherwise, and similarly for
 <tt class="docutils literal">'freqinv'</tt>. This allows for easy checking of selected flags.</p>
 </div>
+<div class="section" id="advanced-usage">
+<h2>Advanced usage</h2>
+<p>Expansion <tt class="docutils literal">import</tt> was introduced in order to allow sharing common
+flags and key/value pairs between functions.</p>
+<p>The following example is taken from <span class="linkrole"><a href="#BASEURL#/doc/gabor/plotdgt.html">plotdgt</a></span> and <span class="linkrole"><a href="#BASEURL#/doc/gabor/tfplot.html">tfplot</a></span>:</p>
+<pre class="literal-block">
+definput.import={'ltfattranslate','tfplot'};
+[flags,kv,fs]=ltfatarghelper({'fs','dynrange'},definput,varargin);
+</pre>
+<p>This code instructs <tt class="docutils literal">ltfatarghelper</tt> to run functions
+<tt class="docutils literal">arg_ltfattranslate</tt> and <tt class="docutils literal">arg_tfplot</tt> which define the flags and
+the key/value pairs. The <tt class="docutils literal">arg_</tt> functions must have the following signature:</p>
+<pre class="literal-block">
+function definput=arg_name(definput)
+</pre>
+<p>Moreover, a special flag <tt class="docutils literal">'argimport'</tt> is used to pass the flags
+and the key/value pairs from <span class="linkrole"><a href="#BASEURL#/doc/gabor/plotdgt.html">plotdgt</a></span> to <span class="linkrole"><a href="#BASEURL#/doc/gabor/tfplot.html">tfplot</a></span>:</p>
+<pre class="literal-block">
+coef=tfplot(...,'argimport',flags,kv);
+</pre>
+</div>
 
         <div class="include" file="../../include/footer.html"></div>
     </div>

@@ -33,8 +33,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/auditory/audspacebw_code.html">audspacebw</a></li>
-<li><a href="#BASEURL#/doc/auditory/freqtoaud_code.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audspacebw.html">audspacebw</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
 </ul>
 </p></div>
     </div>
@@ -42,11 +42,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">ERBSPACEBW - Erbscale points specified by bandwidth</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[y,n] <span class="p">=</span><span class="w"> </span><span class="nf">erbspacebw</span><span class="p">(</span>flow,fhigh,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[y,n] <span class="p">=</span><span class="w"> </span><span class="nf">erbspacebw</span><span class="p">(</span>fmin,fmax,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%ERBSPACEBW  Erbscale points specified by bandwidth</span>
-<span class="c">%   Usage: y=erbspacebw(flow,fhigh,bw,hitme);</span>
-<span class="c">%          y=erbspacebw(flow,fhigh,bw);</span>
-<span class="c">%          y=erbspacebw(flow,fhigh);</span>
+<span class="c">%   Usage: y=erbspacebw(fmin,fmax,bw,hitme);</span>
+<span class="c">%          y=erbspacebw(fmin,fmax,bw);</span>
+<span class="c">%          y=erbspacebw(fmin,fmax);</span>
 <span class="c">%</span>
 <span class="c">%   This is a wrapper around AUDSPACEBW that selects the erb-scale. Please</span>
 <span class="c">%   see the help on AUDSPACEBW for more information.</span>
@@ -56,7 +56,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/auditory/erbspacebw.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -73,7 +73,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
 <span class="c">%   AUTHOR : Peter L. Søndergaard</span>
   
-<span class="p">[</span><span class="n">y</span><span class="p">,</span><span class="n">n</span><span class="p">]</span> <span class="p">=</span> <span class="n">audspacebw</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span><span class="n">fhigh</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:},</span><span class="s">&#39;erb&#39;</span><span class="p">);</span>
+<span class="p">[</span><span class="n">y</span><span class="p">,</span><span class="n">n</span><span class="p">]</span> <span class="p">=</span> <span class="n">audspacebw</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span><span class="n">fmax</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:},</span><span class="s">&#39;erb&#39;</span><span class="p">);</span>
 </pre></div>
 
 

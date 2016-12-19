@@ -33,9 +33,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/auditory/freqtoaud_code.html">freqtoaud</a></li>
-<li><a href="#BASEURL#/doc/auditory/audspace_code.html">audspace</a></li>
-<li><a href="#BASEURL#/doc/auditory/audfiltbw_code.html">audfiltbw</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audspace.html">audspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></li>
 </ul>
 </p></div>
     </div>
@@ -87,7 +87,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     the psychological magnitude pitch. J. Acoust. Soc. Am., 8:185, 1937.</span>
 <span class="c">%     </span>
 <span class="c">%     E. Zwicker. Subdivision of the audible frequency range into critical</span>
-<span class="c">%     bands (frequenzgruppen). J. Acoust. Soc. Am., 33(2):248-248, 1961.</span>
+<span class="c">%     bands (frequenzgruppen). J. Acoust. Soc. Am., 33(2):248--248, 1961.</span>
 <span class="c">%     [1]http ]</span>
 <span class="c">%     </span>
 <span class="c">%     G. Fant. Analysis and synthesis of speech processes. In B. Malmberg,</span>
@@ -111,7 +111,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/auditory/freqtoaud.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -173,18 +173,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_erb83</span>
-  <span class="n">aud</span> <span class="p">=</span> <span class="nb">sign</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">.*</span><span class="p">(</span><span class="mf">11.17</span><span class="o">*</span><span class="nb">log</span><span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">+</span><span class="mi">312</span><span class="p">)</span><span class="o">./</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">+</span><span class="mi">14675</span><span class="p">))</span><span class="o">+</span><span class="mf">43.0</span><span class="p">);</span>
+  <span class="n">aud</span> <span class="p">=</span> <span class="mf">11.17</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">.*</span><span class="p">(</span><span class="nb">log</span><span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">+</span><span class="mi">312</span><span class="p">)</span><span class="o">./</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">+</span><span class="mi">14675</span><span class="p">))</span> <span class="c">...</span>
+        <span class="o">-</span> <span class="nb">log</span><span class="p">(</span><span class="mi">312</span><span class="o">/</span><span class="mi">14675</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
   <span class="n">aud</span> <span class="p">=</span> <span class="n">freq</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_log10</span>
-   <span class="n">aud</span> <span class="p">=</span> <span class="nb">log10</span><span class="p">(</span><span class="n">freq</span><span class="p">);</span>
-<span class="k">end</span>
-
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_semitone</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_log10</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_semitone</span>
    <span class="n">aud</span> <span class="p">=</span> <span class="nb">log10</span><span class="p">(</span><span class="n">freq</span><span class="p">);</span>
 <span class="k">end</span>
 </pre></div>

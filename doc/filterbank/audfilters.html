@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>AUDFILTERS - generates AUD-spaced filters</title>
+<title>AUDFILTERS - Generates filters equidistantly spaced on auditory frequency scales</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet"
@@ -33,7 +33,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/filterbank/erbfilters.html">erbfilters</a></li>
 <li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
 <li><a href="#BASEURL#/doc/filterbank/ufilterbank.html">ufilterbank</a></li>
 <li><a href="#BASEURL#/doc/filterbank/ifilterbank.html">ifilterbank</a></li>
@@ -43,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">AUDFILTERS - generates AUD-spaced filters</h1>
+        <h1 class="title">AUDFILTERS - Generates filters equidistantly spaced on auditory frequency scales</h1>
 
 <div class="section" id="usage">
 <h2>Usage</h2>
@@ -92,45 +91,57 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <h2>Description</h2>
 <p><tt class="docutils literal"><span class="pre">[g,a,fc,L]=audfilters(fs,Ls)</span></tt> constructs a set of filters <em>g</em> that are
 equidistantly spaced on a perceptual frequency scale (see <span class="linkrole"><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></span>) between
-0 and the Nyquist frequency and with bandwidths that are proportional to the critical
-bandwidth of the auditory filters <span class="linkrole"><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></span>. The filters are intended to work
-with signals with a sampling rate of <em>fs</em>. The signal length <em>Ls</em> is mandatory,
-since we need to avoid too narrow frequency windows.</p>
+0 and the Nyquist frequency. The filter bandwidths are proportional to the
+critical bandwidth of the auditory filters <span class="linkrole"><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></span>. The filters are intended
+to work with signals with a sampling rate of <em>fs</em>. The signal length <em>Ls</em> is
+mandatory, since we need to avoid too narrow frequency windows.</p>
 <p>By default the ERB scale is chosen but other frequency scales are
-possible. See 'freqtoaud' for all available options. The most scales
-are 'erb', 'bark', and 'mel'.</p>
-<p>By default, a Hann window on the frequency side is chosen, but the
-window can be changed by passing any of the window types from
-<span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> as an optional parameter.
-Run <tt class="docutils literal"><span class="pre">getfield(getfield(arg_firwin,'flags'),'wintype')</span></tt> to get a cell
-array of window types available.</p>
+possible. Currently supported scales are 'erb', 'erb83', 'bark', 'mel'
+and 'mel1000', and can be changed by passing the associated string as
+an optional parameter. See <span class="linkrole"><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></span> for more information on the
+supported frequency scales.</p>
+<p>By default, a Hann window shape is chosen as prototype frequency
+response for all filters. The prototype frequency response can be
+changed by passing any of the window types from <span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> or <span class="linkrole"><a href="#BASEURL#/doc/sigproc/freqwin.html">freqwin</a></span>
+as an optional parameter.</p>
+<p><tt class="docutils literal"><span class="pre">[g,a,fc,L]=audfilters(fs,Ls,fmin,fmax)</span></tt> constructs a set of filters
+between <em>fmin</em> and <em>fmax</em>. The filters are equidistantly spaced on the
+selected frequency scale. One additional filter will be positioned at
+the 0 and Nyquist frequencies each, so as to cover the full range of
+positive frequencies.
+The values of <em>fmin</em> and <em>fmax</em> can be instead specified using a
+key/value pair as:</p>
+<pre class="literal-block">
+[g,a,fc,L]=audfilters(fs,Ls,...,'fmin',fmin,'fmax',fmax)
+</pre>
+<p>Default values are <em>fmin=0</em> and <em>fmax=fs/2</em>.</p>
+<p>For more details on the construction of the filters, please see the
+given references.</p>
+</div>
+<div class="section" id="downsampling-factors">
+<h2>Downsampling factors</h2>
 <p>The integer downsampling rates of the channels must all divide the
 signal length, <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> will only work for input signal lengths
 being multiples of the least common multiple of the downsampling rates.
 See the help of <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span>.
 The fractional downsampling rates restrict the filterbank to a single
 length <em>L=Ls</em>.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a,fc,L]=audfilters(fs,Ls,flow,figh)</span></tt> constructs a set of filters that are
-equidistantly spaced between flow and fhigh. In that case two
-additional filters will be positioned at the 0 and Nyquist frequencies
-so as to cover the full spectrum. The values of <em>flow</em> and <em>fhigh</em> can
-be instead specified using a key/value pair as:</p>
-<pre class="literal-block">
-[g,a,fc,L]=audfilters(fs,Ls,...,'flow',flow,'fhigh',figh)
-</pre>
-<p><tt class="docutils literal"><span class="pre">[g,a,fc,L]=audfilters(...,'regsampling')</span></tt> constructs a non-uniform
+<p><tt class="docutils literal"><span class="pre">[g,a]=audfilters(...,'regsampling')</span></tt> constructs a non-uniform
 filterbank with integer subsampling factors.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a,fc,L]=audfilters(...,'uniform')</span></tt> constructs a uniform filterbank
+<p><tt class="docutils literal"><span class="pre">[g,a]=audfilters(...,'uniform')</span></tt> constructs a uniform filterbank
 where the integer downsampling rate is the same for all the channels. This
 results in most redundant representation which produces nice plots.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a,fc,L]=audfilters(...,'fractional')</span></tt> constructs a filterbank with
+<p><tt class="docutils literal"><span class="pre">[g,a]=audfilters(...,'fractional')</span></tt> constructs a filterbank with
 fractional downsampling rates <em>a</em>.
 This results in the least redundant system.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a,fc,L]=audfilters(...,'fractionaluniform')</span></tt> constructs a filterbank with
+<p><tt class="docutils literal"><span class="pre">[g,a]=audfilters(...,'fractionaluniform')</span></tt> constructs a filterbank with
 fractional downsampling rates <em>a</em>, which are uniform for all filters
-except the &quot;filling&quot; low-pass and high-pass filters can have different
-fractional downsampling rates. This is usefull when uniform subsampling
+except the &quot;filling&quot; low-pass and high-pass filters which can have different
+fractional downsampling rates. This is useful when uniform subsampling
 and low redundancy at the same time are desirable.</p>
+</div>
+<div class="section" id="additional-parameters">
+<h2>Additional parameters</h2>
 <p><tt class="docutils literal">audfilters</tt> accepts the following optional parameters:</p>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
@@ -138,14 +149,16 @@ and low redundancy at the same time are desirable.</p>
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">'spacing',<var>b</var></span></kbd></td>
-<td>Specify the spacing in Ecritical bandwidth (ERB or Bark
-depending on the scale) between the filters. Default value
-is <em>b=1</em>.</td></tr>
+<td>Specify the spacing between the filters, measured in
+scale units. Default value is <em>b=1</em> for the scales
+'erb', 'erb83' and 'bark'; the default is <em>b=100</em> for
+'mel' and 'mel1000'.</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">'M',<var>M</var></span></kbd></td>
-<td>Specify the total number of filters between 'flow' and 'fhigh', <em>M</em>.
-If this parameter is specified, it overwrites the
-<tt class="docutils literal">'spacing'</tt> parameter.</td></tr>
+<kbd><span class="option">'bwmul',<var>bwmul</var></span></kbd></td>
+<td>Bandwidth of the filters relative to the bandwidth
+returned by <span class="linkrole"><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></span>. Default value is <em>bwmul=1</em> for
+the scales 'erb', 'erb83' and 'bark'; the default is
+<em>b=100</em> for 'mel' and 'mel1000'.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'redmul',<var>redmul</var></span></kbd></td>
 <td>Redundancy multiplier. Increasing the value of this
@@ -155,22 +168,33 @@ filterbank is a non-uniform filterbank. Default
 value is <em>1</em>. If the value is less than one, the
 system may no longer be painless.</td></tr>
 <tr><td class="option-group">
+<kbd><span class="option">'M',<var>M</var></span></kbd></td>
+<td>Specify the total number of filters between <em>fmin</em> and
+<em>fmax</em>. If this parameter is specified, it overwrites the
+<tt class="docutils literal">'spacing'</tt> parameter.</td></tr>
+<tr><td class="option-group">
 <kbd><span class="option">'symmetric'</span></kbd></td>
 <td>Create filters that are symmetric around their centre
-frequency. This is the default.'sqrtsquare','sqrtrect'</td></tr>
+frequency. This is the default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'warped'</span></kbd></td>
 <td>Create asymmetric filters that are asymmetric on the
-ERB scale. The warping does not work with other
-scales yet.</td></tr>
+auditory scale.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'complex'</span></kbd></td>
 <td>Construct a filterbank that covers the entire
-frequency range.</td></tr>
+frequency range instead of just the positive
+frequencies this allows the analysis of complex
+valued signals.</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">'bwmul',<var>bwmul</var></span></kbd></td>
-<td>Bandwidth of the filters relative to the bandwidth
-returned by <span class="linkrole"><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></span>. Default is <span class="math">\(bwmul=1\)</span>.</td></tr>
+<kbd><span class="option">'trunc_at'</span></kbd></td>
+<td>When using a prototype defined in <span class="linkrole"><a href="#BASEURL#/doc/sigproc/freqwin.html">freqwin</a></span>, a hard
+thresholding of the filters at the specified threshold
+value is performed to reduce their support size.
+The default value is <em>trunc_at=10e-5</em>. When no
+truncation is desired, <em>trunc_at=0</em> should be chosen.
+This value is ignored when a prototype shape from
+<span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> was chosen.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'min_win',<var>min_win</var></span></kbd></td>
 <td>Minimum admissible window length (in samples).
@@ -199,7 +223,7 @@ filters used for analysis (top) and synthesis (bottom).</p>
 <pre class="literal-block">
 [f,fs]=greasy;  % Get the test signal
 L=length(f);
-[g,a,fc,L]=audfilters(fs,L,'fractional');
+[g,a,fc]=audfilters(fs,L,'fractional');
 c=filterbank(f,{'realdual',g},a);
 r=2*real(ifilterbank(c,g,a));
 norm(f-r)
@@ -226,7 +250,7 @@ filterbankfreqz(g,a,L,fs,'plot','linabs','posfreq');
 <pre class="literal-block">
 ans =
 
-     8.470876921240907e-15
+     8.378659081353900e-15
 </pre>
 <img alt="audfilters_2_1.png" class="align-center" src="audfilters_2_1.png" />
 <img alt="audfilters_2_2.png" class="align-center" src="audfilters_2_2.png" />
@@ -241,8 +265,17 @@ T.&nbsp;Necciari, P.&nbsp;Balazs, N.&nbsp;Holighaus, and P.&nbsp;L. S&oslash;nde
  The ERBlet transform: An auditory-based time-frequency
   representation with perfect reconstruction.
  In <em>Proceedings of the 38th International Conference on
-  Acoustics, Speech, and Signal Processing (ICASSP 2013)</em>, pages 498-502,
+  Acoustics, Speech, and Signal Processing (ICASSP 2013)</em>, pages 498--502,
   Vancouver, Canada, May 2013. IEEE.
+
+</p>
+
+<p><a name="Necciari2016_sub"></a>
+
+T.&nbsp;Necciari, N.&nbsp;Holighaus, P.&nbsp;Balazs, Z.&nbsp;Pr&#367;&scaron;a, and P.&nbsp;Majdak.
+ Can frames provide gammatone filter banks with perfect
+  reconstruction?
+ submitted.
 
 </p>
 

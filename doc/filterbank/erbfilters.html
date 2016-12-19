@@ -33,6 +33,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
+<li><a href="#BASEURL#/doc/filterbank/audfilters.html">audfilters</a></li>
 <li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
 <li><a href="#BASEURL#/doc/filterbank/ufilterbank.html">ufilterbank</a></li>
 <li><a href="#BASEURL#/doc/filterbank/ifilterbank.html">ifilterbank</a></li>
@@ -47,8 +48,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-[g,a,fc]=erbfilters(fs,Ls);
-[g,a,fc]=erbfilters(fs,Ls,...);
+[g,a,fc,L]=erbfilters(fs,Ls);
+[g,a,fc,L]=erbfilters(fs,Ls,...);
 </pre>
 </div>
 <div class="section" id="input-parameters">
@@ -93,77 +94,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 equidistantly spaced on the ERB-scale (see <span class="linkrole"><a href="#BASEURL#/doc/auditory/freqtoerb.html">freqtoerb</a></span>) with bandwidths
 that are proportional to the width of the auditory filters
 <span class="linkrole"><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></span>. The filters are intended to work with signals with a
-sampling rate of <em>fs</em>. The signal length <em>Ls</em> is mandatory, since we
-need to avoid too narrow frequency windows.</p>
-<p>By default, a Hann window on the frequency side is choosen, but the
-window can be changed by passing any of the window types from
-<span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> as an optional parameter.
-Run <tt class="docutils literal"><span class="pre">getfield(getfield(arg_firwin,'flags'),'wintype')</span></tt> to get a cell
-array of window types available.</p>
-<p>The integer downsampling rates of the channels must all divide the
-signal length, <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> will only work for input signal lengths
-being multiples of the least common multiple of the downsampling rates.
-See the help of <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span>.
-The fractional downsampling rates restrict the filterbank to a single
-length <em>L=Ls</em>.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'regsampling')</span></tt> constructs a non-uniform
-filterbank with integer subsampling factors.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'uniform')</span></tt> constructs a uniform filterbank
-where the integer downsampling rate is the same for all the channels. This
-results in most redundant representation which produces nice plots.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'fractional')</span></tt> constructs a filterbank with
-fractional downsampling rates <em>a</em>.
-This results in the least redundant system.</p>
-<p><tt class="docutils literal"><span class="pre">[g,a]=erbfilters(...,'fractionaluniform')</span></tt> constructs a filterbank with
-fractional downsampling rates <em>a</em>, which are uniform for all filters
-except the &quot;filling&quot; low-pass and high-pass filters can have different
-fractional downsampling rates. This is usefull when uniform subsampling
-and low redundancy at the same time are desirable.</p>
-<p><tt class="docutils literal">erbfilters</tt> accepts the following optional parameters:</p>
-<table class="docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">'spacing',<var>b</var></span></kbd></td>
-<td>Specify the spacing in ERBS between the
-filters. Default value is <em>b=1</em>.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'M',<var>M</var></span></kbd></td>
-<td>Specify the number of filters, <em>M</em>. If this
-parameter is specified, it overwrites the
-<tt class="docutils literal">'spacing'</tt> parameter.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'redmul',<var>redmul</var></span></kbd></td>
-<td>Redundancy multiplier. Increasing the value of this
-will make the system more redundant by lowering the
-channel downsampling rates. It is only used if the
-filterbank is a non-uniform filterbank. Default
-value is <em>1</em>. If the value is less than one, the
-system may no longer be painless.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'symmetric'</span></kbd></td>
-<td>Create filters that are symmetric around their centre
-frequency. This is the default.'sqrtsquare','sqrtrect'</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'warped'</span></kbd></td>
-<td>Create asymmetric filters that are symmetric on the
-Erb-scale.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'complex'</span></kbd></td>
-<td>Construct a filterbank that covers the entire
-frequency range.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'bwmul',<var>bwmul</var></span></kbd></td>
-<td>Bandwidth of the filters relative to the bandwidth
-returned by <span class="linkrole"><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></span>. Default is <span class="math">\(bwmul=1\)</span>.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'min_win',<var>min_win</var></span></kbd></td>
-<td>Minimum admissible window length (in samples).
-Default is <em>4</em>. This restrict the windows not
-to become too narrow when <em>L</em> is low.</td></tr>
-</tbody>
-</table>
+sampling rate of <em>fs</em>.</p>
+<p>Note that this function just forwards the arguments to <span class="linkrole"><a href="#BASEURL#/doc/filterbank/audfilters.html">audfilters</a></span>.
+Please see the help of <span class="linkrole"><a href="#BASEURL#/doc/filterbank/audfilters.html">audfilters</a></span> for more details.</p>
 </div>
 <div class="section" id="examples">
 <h2>Examples:</h2>
@@ -212,7 +145,7 @@ filterbankfreqz(g,a,L,fs,'plot','linabs','posfreq');
 <pre class="literal-block">
 ans =
 
-     8.470876921240907e-15
+     8.378659081353900e-15
 </pre>
 <img alt="erbfilters_2_1.png" class="align-center" src="erbfilters_2_1.png" />
 <img alt="erbfilters_2_2.png" class="align-center" src="erbfilters_2_2.png" />
@@ -227,7 +160,7 @@ T.&nbsp;Necciari, P.&nbsp;Balazs, N.&nbsp;Holighaus, and P.&nbsp;L. S&oslash;nde
  The ERBlet transform: An auditory-based time-frequency
   representation with perfect reconstruction.
  In <em>Proceedings of the 38th International Conference on
-  Acoustics, Speech, and Signal Processing (ICASSP 2013)</em>, pages 498-502,
+  Acoustics, Speech, and Signal Processing (ICASSP 2013)</em>, pages 498--502,
   Vancouver, Canada, May 2013. IEEE.
 
 </p>

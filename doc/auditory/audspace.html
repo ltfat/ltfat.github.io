@@ -46,14 +46,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-y=audspace(flow,fhigh,n,scale);
+y=audspace(fmin,fmax,n,scale);
 </pre>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">audspace(flow,fhigh,n,scale)</tt> computes a vector of length <em>n</em>
+<p><tt class="docutils literal">audspace(fmin,fmax,n,scale)</tt> computes a vector of length <em>n</em>
 containing values equidistantly scaled on the selected auditory scale
-between the frequencies <em>flow</em> and <em>fhigh</em>. All frequencies are
+between the frequencies <em>fmin</em> and <em>fmax</em>. All frequencies are
 specified in Hz.</p>
 <p>See the help on <span class="linkrole"><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></span> to get a list of the supported values of the
 <em>scale</em> parameter.</p>

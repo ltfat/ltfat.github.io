@@ -46,22 +46,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-y=audspacebw(flow,fhigh,bw,hitme);
-y=audspacebw(flow,fhigh,bw);
-y=audspacebw(flow,fhigh);
+y=audspacebw(fmin,fmax,bw,hitme);
+y=audspacebw(fmin,fmax,bw);
+y=audspacebw(fmin,fmax);
 [y,n]=audspacebw(...);
 </pre>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">audspacebw(flow,fhigh,bw,scale)</tt> computes a vector containing values
-equistantly scaled between frequencies <em>flow</em> and <em>fhigh</em> on the
+<p><tt class="docutils literal">audspacebw(fmin,fmax,bw,scale)</tt> computes a vector containing values
+equistantly scaled between frequencies <em>fmin</em> and <em>fmax</em> on the
 selected auditory scale.  All frequencies are specified in Hz.The
 distance between two consecutive values is <em>bw</em> on the selected scale,
-and the points will be centered on the scale between <em>flow</em> and <em>fhigh</em>.</p>
+and the points will be centered on the scale between <em>fmin</em> and <em>fmax</em>.</p>
 <p>See the help on <span class="linkrole"><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></span> to get a list of the supported values of the
 <em>scale</em> parameter.</p>
-<p><tt class="docutils literal">audspacebw(flow,fhigh,bw,hitme,scale)</tt> will do as above, but one of
+<p><tt class="docutils literal">audspacebw(fmin,fmax,bw,hitme,scale)</tt> will do as above, but one of
 the points is quaranteed to be the frequency <em>hitme</em>.</p>
 <p><tt class="docutils literal"><span class="pre">[y,n]=audspacebw(...)</span></tt> additionally returns the number of points <em>n</em> in
 the output vector <em>y</em>.</p>

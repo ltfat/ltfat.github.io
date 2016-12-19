@@ -174,6 +174,12 @@ Alias: <tt class="docutils literal">'nuttall'</tt>.</td></tr>
 <td>4-term Nuttall window with 0 continuous derivatives.
 The window has a mainlobe width of 16/M, a PSL of
 -98.17 dB and decay rate of 6 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'truncgauss'</span></kbd></td>
+<td>Gaussian window truncated at 1% of its height.
+Alternatively, a custom percentage can be appended to
+'truncgauss' e.g. 'truncgauss0.1' will create Gaussian
+window truncated at 0.1% of its height.</td></tr>
 </tbody>
 </table>
 <p><tt class="docutils literal">firwin</tt> understands the following flags at the end of the list of input
@@ -244,7 +250,7 @@ A.&nbsp;V. Oppenheim and R.&nbsp;W. Schafer.
 
 A.&nbsp;Nuttall.
  Some windows with very good sidelobe behavior.
- <em>IEEE Trans. Acoust. Speech Signal Process.</em>, 29(1):84-91,
+ <em>IEEE Trans. Acoust. Speech Signal Process.</em>, 29(1):84--91,
   1981.
 
 </p>
@@ -254,7 +260,7 @@ A.&nbsp;Nuttall.
 F.&nbsp;Harris.
  On the use of windows for harmonic analysis with the discrete
   Fourier transform.
- <em>Proceedings of the IEEE</em>, 66(1):51 - 83, jan 1978.
+ <em>Proceedings of the IEEE</em>, 66(1):51 -- 83, jan 1978.
 [&nbsp;<a href="http://dx.doi.org/10.1109/PROC.1978.10837">DOI</a>&nbsp;]
 
 </p>
@@ -263,7 +269,7 @@ F.&nbsp;Harris.
 
 E.&nbsp;Wesfreid and M.&nbsp;Wickerhauser.
  Adapted local trigonometric transforms and speech processing.
- <em>IEEE Trans. Signal Process.</em>, 41(12):3596-3600, 1993.
+ <em>IEEE Trans. Signal Process.</em>, 41(12):3596--3600, 1993.
 
 </p>
 

@@ -35,6 +35,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <ul>
 <li><a href="#BASEURL#/doc/auditory/freqtoerb.html">freqtoerb</a></li>
 <li><a href="#BASEURL#/doc/auditory/erbspace.html">erbspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audtofreq.html">audtofreq</a></li>
 </ul>
 </p></div>
     </div>
@@ -59,7 +61,8 @@ The function uses the relation:</p>
 bw = 24.7 + \frac{fc}{9.265}
 \end{equation*}
 </div>
-<p>as estimated in Glasberg and Moore (1990).</p>
+<p>as estimated in Glasberg and Moore (1990). This function is also used
+when the original ERB scale ('erb83') is chosen.</p>
 <p><tt class="docutils literal"><span class="pre">audfiltbw(fc,'bark')</span></tt> returns the critical bandwidth at <em>fc</em> according
 to the Bark scale using the relation:</p>
 <!-- bw = 25 + 75 ( 1+1.4*10^{-6} fc^2 )^0.69 -->
@@ -69,6 +72,17 @@ bw = 25 + 75 ( 1+1.4\times10^{-6} fc^2 )^{0.69}
 \end{equation*}
 </div>
 <p>as estimated by Zwicker and Terhardt (1980).</p>
+<p>For the scales 'mel', 'mel1000', 'log10' and 'semitone', no critical
+bandwidth function is usually given. Following the example of the
+equivalent rectangular bandwidth (associated with the ERB scale), we
+use the derivative of the inverse of the scale function F_{Scale},
+evaluated at F_{Scale}(fc), i.e.</p>
+<!-- bw = (F_{scale}^{-1})'(F_{scale}(fc)) -->
+<div class="math">
+\begin{equation*}
+bw = (F_{scale}^{-1})'(F_{scale}(fc))
+\end{equation*}
+</div>
 </div>
 <H2>References:</H2>
 
@@ -77,10 +91,10 @@ bw = 25 + 75 ( 1+1.4\times10^{-6} fc^2 )^{0.69}
 <p><a name="zwickerterhardt80"></a>
 
 E.&nbsp;Zwicker and E.&nbsp;Terhardt.
- Analytical expressions for critical‐band rate and critical
-  bandwidth as a function of frequency.
+ Analytical expressions for criticalband rate and critical bandwidth
+  as a function of frequency.
  <em>The Journal of the Acoustical Society of America</em>,
-  68(5):1523-1525, 1980.
+  68(5):1523--1525, 1980.
 [&nbsp;<a href="http://dx.doi.org/10.1121/1.385079">DOI</a>&nbsp;| 
 <a href="http://scitation.aip.org/content/asa/journal/jasa/68/5/10.1121/1.385079">http</a>&nbsp;]
 

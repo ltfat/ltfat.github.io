@@ -33,10 +33,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/filterbank/filterbank_code.html">filterbank</a></li>
-<li><a href="#BASEURL#/doc/filterbank/ufilterbank_code.html">ufilterbank</a></li>
-<li><a href="#BASEURL#/doc/filterbank/ifilterbank_code.html">ifilterbank</a></li>
-<li><a href="#BASEURL#/doc/fourier/ceil23_code.html">ceil23</a></li>
+<li><a href="#BASEURL#/doc/filterbank/audfilters.html">audfilters</a></li>
+<li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/ufilterbank.html">ufilterbank</a></li>
+<li><a href="#BASEURL#/doc/filterbank/ifilterbank.html">ifilterbank</a></li>
+<li><a href="#BASEURL#/doc/fourier/ceil23.html">ceil23</a></li>
 </ul>
 </p></div>
     </div>
@@ -46,8 +47,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <h2>Program code:</h2>
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[g,a,fc,L]<span class="p">=</span><span class="nf">erbfilters</span><span class="p">(</span>fs,Ls,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%ERBFILTERS   ERB-spaced filters</span>
-<span class="c">%   Usage:  [g,a,fc]=erbfilters(fs,Ls);</span>
-<span class="c">%           [g,a,fc]=erbfilters(fs,Ls,...);</span>
+<span class="c">%   Usage:  [g,a,fc,L]=erbfilters(fs,Ls);</span>
+<span class="c">%           [g,a,fc,L]=erbfilters(fs,Ls,...);</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
 <span class="c">%      fs    : Sampling rate (in Hz).</span>
@@ -62,71 +63,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   equidistantly spaced on the ERB-scale (see FREQTOERB) with bandwidths</span>
 <span class="c">%   that are proportional to the width of the auditory filters</span>
 <span class="c">%   AUDFILTBW. The filters are intended to work with signals with a</span>
-<span class="c">%   sampling rate of fs. The signal length Ls is mandatory, since we</span>
-<span class="c">%   need to avoid too narrow frequency windows.</span>
+<span class="c">%   sampling rate of fs.</span>
 <span class="c">%</span>
-<span class="c">%   By default, a Hann window on the frequency side is choosen, but the</span>
-<span class="c">%   window can be changed by passing any of the window types from</span>
-<span class="c">%   FIRWIN as an optional parameter.</span>
-<span class="c">%   Run getfield(getfield(arg_firwin,&#39;flags&#39;),&#39;wintype&#39;) to get a cell</span>
-<span class="c">%   array of window types available.</span>
-<span class="c">%</span>
-<span class="c">%   The integer downsampling rates of the channels must all divide the</span>
-<span class="c">%   signal length, FILTERBANK will only work for input signal lengths</span>
-<span class="c">%   being multiples of the least common multiple of the downsampling rates.</span>
-<span class="c">%   See the help of FILTERBANKLENGTH. </span>
-<span class="c">%   The fractional downsampling rates restrict the filterbank to a single</span>
-<span class="c">%   length L=Ls.</span>
-<span class="c">%</span>
-<span class="c">%   [g,a]=ERBFILTERS(...,&#39;regsampling&#39;) constructs a non-uniform</span>
-<span class="c">%   filterbank with integer subsampling factors.</span>
-<span class="c">%</span>
-<span class="c">%   [g,a]=ERBFILTERS(...,&#39;uniform&#39;) constructs a uniform filterbank</span>
-<span class="c">%   where the integer downsampling rate is the same for all the channels. This</span>
-<span class="c">%   results in most redundant representation which produces nice plots.</span>
-<span class="c">%</span>
-<span class="c">%   [g,a]=ERBFILTERS(...,&#39;fractional&#39;) constructs a filterbank with</span>
-<span class="c">%   fractional downsampling rates a. </span>
-<span class="c">%   This results in the least redundant system.</span>
-<span class="c">%</span>
-<span class="c">%   [g,a]=ERBFILTERS(...,&#39;fractionaluniform&#39;) constructs a filterbank with</span>
-<span class="c">%   fractional downsampling rates a, which are uniform for all filters</span>
-<span class="c">%   except the &quot;filling&quot; low-pass and high-pass filters can have different</span>
-<span class="c">%   fractional downsampling rates. This is usefull when uniform subsampling</span>
-<span class="c">%   and low redundancy at the same time are desirable.</span>
-<span class="c">%</span>
-<span class="c">%   ERBFILTERS accepts the following optional parameters:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;spacing&#39;,b     Specify the spacing in ERBS between the</span>
-<span class="c">%                     filters. Default value is b=1.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;M&#39;,M           Specify the number of filters, M. If this</span>
-<span class="c">%                     parameter is specified, it overwrites the</span>
-<span class="c">%                     &#39;spacing&#39; parameter.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;redmul&#39;,redmul  Redundancy multiplier. Increasing the value of this</span>
-<span class="c">%                      will make the system more redundant by lowering the</span>
-<span class="c">%                      channel downsampling rates. It is only used if the</span>
-<span class="c">%                      filterbank is a non-uniform filterbank. Default</span>
-<span class="c">%                      value is 1. If the value is less than one, the</span>
-<span class="c">%                      system may no longer be painless.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;symmetric&#39;     Create filters that are symmetric around their centre</span>
-<span class="c">%                     frequency. This is the default.&#39;sqrtsquare&#39;,&#39;sqrtrect&#39;</span>
-<span class="c">%</span>
-<span class="c">%     &#39;warped&#39;        Create asymmetric filters that are symmetric on the</span>
-<span class="c">%                     Erb-scale.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;complex&#39;       Construct a filterbank that covers the entire</span>
-<span class="c">%                     frequency range.</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%     &#39;bwmul&#39;,bwmul   Bandwidth of the filters relative to the bandwidth</span>
-<span class="c">%                     returned by AUDFILTBW. Default is bwmul=1.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;min_win&#39;,min_win     Minimum admissible window length (in samples).</span>
-<span class="c">%                           Default is 4. This restrict the windows not</span>
-<span class="c">%                           to become too narrow when L is low.</span>
+<span class="c">%   Note that this function just forwards the arguments to AUDFILTERS.</span>
+<span class="c">%   Please see the help of AUDFILTERS for more details.</span>
 <span class="c">%</span>
 <span class="c">%   Examples:</span>
 <span class="c">%   ---------</span>
@@ -172,20 +112,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     filterbankfreqz(g,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span>
 <span class="c">%</span>
 <span class="c">%</span>
-<span class="c">%   See also: filterbank, ufilterbank, ifilterbank, ceil23</span>
+<span class="c">%   See also: audfilters, filterbank, ufilterbank, ifilterbank, ceil23</span>
 <span class="c">%</span>
 <span class="c">%   References:</span>
 <span class="c">%     T. Necciari, P. Balazs, N. Holighaus, and P. L. Søndergaard. The ERBlet</span>
 <span class="c">%     transform: An auditory-based time-frequency representation with perfect</span>
 <span class="c">%     reconstruction. In Proceedings of the 38th International Conference on</span>
-<span class="c">%     Acoustics, Speech, and Signal Processing (ICASSP 2013), pages 498-502,</span>
+<span class="c">%     Acoustics, Speech, and Signal Processing (ICASSP 2013), pages 498--502,</span>
 <span class="c">%     Vancouver, Canada, May 2013. IEEE.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/erbfilters.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -200,159 +140,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="c">% Authors: Peter L. Søndergaard</span>
-<span class="c">% Modified by: Zdenek Prusa</span>
-<span class="c">% Date: 01.04.14</span>
+<span class="c">% Authors: Peter L. Søndergaard, Zdenek Prusa, Nicki Holighaus</span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Not enough input argumets.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">))</span>
-<span class="k">end</span>
-
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;fs&#39;</span><span class="p">);</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="s">&#39;Ls&#39;</span><span class="p">);</span>
-
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;firwin&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">M</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">bwmul</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">redmul</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">min_win</span> <span class="p">=</span> <span class="mi">4</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">spacing</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">warp</span>     <span class="p">=</span> <span class="p">{</span><span class="s">&#39;symmetric&#39;</span><span class="p">,</span><span class="s">&#39;warped&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="nb">real</span>     <span class="p">=</span> <span class="p">{</span><span class="s">&#39;real&#39;</span><span class="p">,</span><span class="s">&#39;complex&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">sampling</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;regsampling&#39;</span><span class="p">,</span><span class="s">&#39;uniform&#39;</span><span class="p">,</span><span class="s">&#39;fractional&#39;</span><span class="p">,</span><span class="c">...</span>
-                           <span class="s">&#39;fractionaluniform&#39;</span><span class="p">};</span>
-
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
-
-<span class="c">% Get the bandwidth of the choosen window by doing a probe</span>
-<span class="n">winbw</span><span class="p">=</span><span class="n">norm</span><span class="p">(</span><span class="n">firwin</span><span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">wintype</span><span class="p">,</span><span class="mi">1000</span><span class="p">))</span><span class="o">.^</span><span class="mi">2</span><span class="o">/</span><span class="mi">1000</span><span class="p">;</span>
-
-<span class="c">% Construct the Erb filterbank</span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
-    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">)</span>
-        <span class="n">M2</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">freqtoerb</span><span class="p">(</span><span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">spacing</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-        <span class="n">M</span><span class="p">=</span><span class="n">M2</span><span class="p">;</span>
-    <span class="k">else</span>
-        <span class="n">M</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
-        <span class="n">M2</span><span class="p">=</span><span class="n">M</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
-<span class="k">else</span>
-    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">)</span>
-        <span class="n">M2</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">freqtoerb</span><span class="p">(</span><span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">spacing</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-        <span class="n">M</span><span class="p">=</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">M2</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    <span class="k">else</span>
-        <span class="n">M</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
-        <span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span>
-            <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: M must be even for full frequency range &#39;</span> <span class="c">...</span>
-                   <span class="s">&#39;filterbanks.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">)]);</span>
-        <span class="k">end</span><span class="p">;</span>
-        <span class="n">M2</span><span class="p">=</span><span class="n">M</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
-
-<span class="k">end</span><span class="p">;</span>
-
-<span class="n">fc</span><span class="p">=</span><span class="n">erbspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">M2</span><span class="p">).</span><span class="s">&#39;;</span>
-
-
-<span class="s">%% Compute the frequency support</span>
-<span class="s">if flags.do_symmetric</span>
-<span class="s">    % fsupp is measured in Hz</span>
-<span class="s">    fsupp=round(audfiltbw(fc)/winbw*kv.bwmul);</span>
-<span class="s">else</span>
-<span class="s">    % fsupp_erb is measured in Erbs</span>
-<span class="s">    % The scaling is incorrect, it does not account for the warping</span>
-<span class="s">    fsupp_erb=1/winbw*kv.bwmul;</span>
-
-<span class="s">    % Convert fsupp into the correct widths in Hz, necessary to compute</span>
-<span class="s">    % &quot;a&quot; in the next if-statement</span>
-<span class="s">    fsupp=erbtofreq(freqtoerb(fc)+fsupp_erb/2)-erbtofreq(freqtoerb(fc)-fsupp_erb/2);</span>
-
-<span class="s">end;</span>
-
-<span class="s">% Do not allow lower bandwidth than keyvals.min_win</span>
-<span class="s">fsuppmin = kv.min_win/Ls*fs;</span>
-<span class="s">for ii = 1:numel(fsupp)</span>
-<span class="s">    if fsupp(ii) &lt; fsuppmin;</span>
-<span class="s">        fsupp(ii) = fsuppmin;</span>
-<span class="s">    end</span>
-<span class="s">end</span>
-
-<span class="s">% Find suitable channel subsampling rates</span>
-<span class="s">aprecise=fs./fsupp/kv.redmul;</span>
-<span class="s">aprecise=aprecise(:);</span>
-
-<span class="s">%% Compute the downsampling rate</span>
-<span class="s">if flags.do_regsampling</span>
-<span class="s">    % Shrink &quot;a&quot; to the next composite number</span>
-<span class="s">    a=floor23(aprecise);</span>
-
-<span class="s">    % Determine the minimal transform length</span>
-<span class="s">    L=filterbanklength(Ls,a);</span>
-
-<span class="s">    % Heuristic trying to reduce lcm(a)</span>
-<span class="s">    while L&gt;2*Ls &amp;&amp; ~(all(a)==a(1))</span>
-<span class="s">        maxa = max(a);</span>
-<span class="s">        a(a==maxa) = 0;</span>
-<span class="s">        a(a==0) = max(a);</span>
-<span class="s">        L = filterbanklength(Ls,a);</span>
-<span class="s">    end</span>
-
-<span class="s">elseif flags.do_fractional</span>
-<span class="s">    L = Ls;</span>
-<span class="s">    N=ceil(Ls./aprecise);</span>
-<span class="s">    a=[repmat(Ls,M2,1),N];</span>
-<span class="s">elseif flags.do_fractionaluniform</span>
-<span class="s">    L = Ls;</span>
-<span class="s">    N=ceil(Ls./min(aprecise));</span>
-<span class="s">    a= repmat([Ls,N],M2,1);</span>
-<span class="s">elseif flags.do_uniform</span>
-<span class="s">    a=floor(min(aprecise));</span>
-<span class="s">    L=filterbanklength(Ls,a);</span>
-<span class="s">    a = repmat(a,M2,1);</span>
-<span class="s">end;</span>
-
-<span class="s">% Get an expanded &quot;a&quot;</span>
-<span class="s">afull=comp_filterbank_a(a,M2,struct());</span>
-
-<span class="s">%% Compute the scaling of the filters</span>
-<span class="s">scal=sqrt(afull(:,1)./afull(:,2));</span>
-
-<span class="s">%% Construct the real or complex filterbank</span>
-
-<span class="s">if flags.do_real</span>
-<span class="s">    % Scale the first and last channels</span>
-<span class="s">    scal(1)=scal(1)/sqrt(2);</span>
-<span class="s">    scal(M2)=scal(M2)/sqrt(2);</span>
-<span class="s">else</span>
-<span class="s">    % Replicate the centre frequencies and sampling rates, except the first and</span>
-<span class="s">    % last</span>
-<span class="s">    a=[a;flipud(a(2:M2-1,:))];</span>
-<span class="s">    scal=[scal;flipud(scal(2:M2-1))];</span>
-<span class="s">    fc  =[fc; -flipud(fc(2:M2-1))];</span>
-<span class="s">    if flags.do_symmetric</span>
-<span class="s">        fsupp=[fsupp;flipud(fsupp(2:M2-1))];</span>
-<span class="s">    end;</span>
-
-<span class="s">end;</span>
-
-
-<span class="s">%% Compute the filters</span>
-<span class="s">if flags.do_symmetric</span>
-<span class="s">    % This is actually much faster than the vectorized call.</span>
-<span class="s">    g = cell(1,numel(fc));</span>
-<span class="s">    for m=1:numel(g)</span>
-<span class="s">        g{m}=blfilter(flags.wintype,fsupp(m),fc(m),&#39;</span><span class="n">fs</span><span class="o">&#39;</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;scal&#39;</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="c">...</span>
-                   <span class="s">&#39;inf&#39;</span><span class="p">,</span><span class="s">&#39;min_win&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">min_win</span><span class="p">);</span>
-    <span class="k">end</span>
-<span class="k">else</span>
-    <span class="n">g</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">fc</span><span class="p">));</span>
-    <span class="k">for</span> <span class="n">m</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-        <span class="n">g</span><span class="p">{</span><span class="n">m</span><span class="p">}=</span><span class="n">warpedblfilter</span><span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">wintype</span><span class="p">,</span><span class="n">fsupp_erb</span><span class="p">,</span><span class="n">fc</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="n">fs</span><span class="p">,@</span><span class="n">freqtoerb</span><span class="p">,@</span><span class="n">erbtofreq</span><span class="p">,</span> <span class="c">...</span>
-                     <span class="s">&#39;scal&#39;</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="s">&#39;inf&#39;</span><span class="p">);</span>
-    <span class="k">end</span>
-<span class="k">end</span><span class="p">;</span>
-
-<span class="k">end</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">audfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:},</span><span class="s">&#39;erb&#39;</span><span class="p">);</span>
 </pre></div>
 
 

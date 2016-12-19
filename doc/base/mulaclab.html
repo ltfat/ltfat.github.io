@@ -41,23 +41,46 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <h2>Usage</h2>
 <pre class="literal-block">
 mulaclab;
+mulaclab(filename);
+mulaclab(signal, fs);
 </pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>filename</var></span></kbd></td>
+<td>File name of the signal to process.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>signal</var></span></kbd></td>
+<td>Signal to process, which must be a vector.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>fs</var></span></kbd></td>
+<td>Sampling frequency of the signal.</td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p>When starting the interface, the user is asked to choose the processed
-signal, named original signal in the interface.  Possible signals are
-<tt class="docutils literal">.wav</tt> files and <tt class="docutils literal">.mat</tt> files containing decompositions preliminarily
-saved using the <tt class="docutils literal">mulaclab</tt> interface.  The interface only handles
-monochannel signals. So for a multichannel <tt class="docutils literal">.wav</tt> files, the first channel
-is used as the original signal.</p>
+<p>When starting <tt class="docutils literal">mulaclab</tt> without any input parameter, the user is asked to
+choose the processed signal, named original signal in the interface.</p>
+<p>Possible signals are <tt class="docutils literal">.wav</tt> files and <tt class="docutils literal">.mat</tt> files containing decompositions
+preliminarily saved using the <tt class="docutils literal">mulaclab</tt> interface. The interface only
+handles monochannel signals. So for multichannel <tt class="docutils literal">.wav</tt> files, the first
+channel is used as the original signal.</p>
+<p>Optionnaly, the file name of the original signal can be directly passed as
+an input parameter. The original signal can also be directly passed as a
+vector along its sampling frequency.</p>
 <p>After choosing the original signal, the user is presented with the main
 interface. This interface is divided in two areas:</p>
 <ul>
 <li><p class="first">The right part of the figure contains the visualizations, which
 represent the spectrograms of the original and modified signals.</p>
 <p>The 'Original signal' visualization is used to display the original
-signal spectrogram and to graphically define the symbol of the Gabor
+signal spectrogram and to graphically define the symbol of the frame
 multiplier that will be applied on this signal.</p>
 <p>The 'Overview of original signal' visualization also represents the
 original signal spectrogram and can be used for fast zooming and moving
@@ -79,22 +102,17 @@ multilayered selection used to graphically specify the symbol of the
 multiplier.</p>
 </li>
 </ul>
-<p>Known Matlab limitations:</p>
+<p>Known MATLAB limitations:</p>
 <ul class="simple">
-<li>When using Matlab on Linux with multiple screens, there might be a
-Matlab bug preventing the display of the multiplier symbol. This can be
+<li>When using MATLAB on Linux with multiple screens, there might be a
+MATLAB bug preventing the display of the multiplier symbol. This can be
 solved by docking the figure.</li>
-<li>When using a Matlab version prior to 7.3 (R2006b), the rectangle
+<li>When using a MATLAB version prior to 7.3 (R2006b), the rectangle
 displayed on the 'Overview of original signal' visualization is not
 automatically updated when using the zoom and pan tools of the 'Zoom'
 panel. It can be manually updated by re-clicking on the currently
 selected tool or by changing the current tool.</li>
 </ul>
-<p>The Matlab Image Processing Toolbox is required by the mulaclab function.</p>
-<p>MULACLAB uses the GPC library available from
-<a class="reference external" href="http://www.cs.man.ac.uk/~toby/gpc/">http://www.cs.man.ac.uk/~toby/gpc/</a>. This library is distributed
-alongside LTFAT, but under different licensing conditions. Please see
-the <tt class="docutils literal"><span class="pre">ltfat/thirdparty/gpc/GPC-README.pdf</span></tt> file for the exact conditions.</p>
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

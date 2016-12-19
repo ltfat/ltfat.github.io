@@ -33,10 +33,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/frames/frame_code.html">frame</a></li>
-<li><a href="#BASEURL#/doc/frames/frana_code.html">frana</a></li>
-<li><a href="#BASEURL#/doc/frames/frsyn_code.html">frsyn</a></li>
-<li><a href="#BASEURL#/doc/frames/franaiter_code.html">franaiter</a></li>
+<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
+<li><a href="#BASEURL#/doc/frames/frana.html">frana</a></li>
+<li><a href="#BASEURL#/doc/frames/frsyn.html">frsyn</a></li>
+<li><a href="#BASEURL#/doc/frames/franaiter.html">franaiter</a></li>
 </ul>
 </p></div>
     </div>
@@ -51,7 +51,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%           [f,relres,iter]=frsyniter(F,c,...);</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
-<span class="c">%         F       : Frame   </span>
+<span class="c">%         F       : Frame</span>
 <span class="c">%         c       : Array of coefficients.</span>
 <span class="c">%         Ls      : length of signal.</span>
 <span class="c">%   Output parameters:</span>
@@ -65,7 +65,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   [f,relres,iter]=FRSYNITER(...) additionally returns the relative</span>
 <span class="c">%   residuals in a vector relres and the number of iteration steps iter.</span>
-<span class="c">%  </span>
+<span class="c">%</span>
 <span class="c">%   *Note:* If it is possible to explicitly calculate the canonical dual</span>
 <span class="c">%   frame then this is usually a much faster method than invoking</span>
 <span class="c">%   FRSYNITER.</span>
@@ -82,11 +82,24 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                  algorithm. This is the default.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;pcg&#39;        Solve the problem using the Preconditioned Conjugate Gradient</span>
-<span class="c">%                  algorithm.</span>
+<span class="c">%                  algorithm. Please note that preconditioning is not supported</span>
+<span class="c">%                  for all frame types.               </span>
 <span class="c">%</span>
 <span class="c">%     &#39;print&#39;      Display the progress.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span>
+<span class="c">%</span>
+<span class="c">%   Algorithms</span>
+<span class="c">%   ----------</span>
+<span class="c">%</span>
+<span class="c">%   The function uses the (Preconditioned) Conjugate Gradient algorithm</span>
+<span class="c">%   to solve the following problem:</span>
+<span class="c">%</span>
+<span class="c">%        FF*f=Fc</span>
+<span class="c">%</span>
+<span class="c">%   The preconditioning alters the equations such that</span>
+<span class="c">%</span>
+<span class="c">%        inv(M)FF*f=inv(M)Fc</span>
 <span class="c">%</span>
 <span class="c">%   Examples</span>
 <span class="c">%   --------</span>
@@ -108,7 +121,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/frames/frsyniter.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -122,95 +135,129 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
+
 <span class="c">% AUTHORS: Nicki Holighaus &amp; Peter L. Søndergaard</span>
-    
+
 <span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRSYNITER&#39;</span><span class="p">);</span>
 <span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRSYNITER&#39;</span><span class="p">);</span>
 
-  <span class="n">tolchooser</span><span class="p">.</span><span class="n">double</span><span class="p">=</span><span class="mf">1e-9</span><span class="p">;</span>
-  <span class="n">tolchooser</span><span class="p">.</span><span class="n">single</span><span class="p">=</span><span class="mf">1e-5</span><span class="p">;</span>
+<span class="n">tolchooser</span><span class="p">.</span><span class="n">double</span><span class="p">=</span><span class="mf">1e-9</span><span class="p">;</span>
+<span class="n">tolchooser</span><span class="p">.</span><span class="n">single</span><span class="p">=</span><span class="mf">1e-5</span><span class="p">;</span>
 
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">={</span><span class="s">&#39;cg&#39;</span><span class="p">,</span><span class="s">&#39;pcg&#39;</span><span class="p">};</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Fd</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">={</span><span class="s">&#39;cg&#39;</span><span class="p">,</span><span class="s">&#39;pcg&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
 
-  <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
-  
-  <span class="c">% Determine L from the first vector, it must match for all of them.</span>
-  <span class="n">L</span><span class="p">=</span><span class="n">framelengthcoef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
-  <span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-  
-  <span class="n">A</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span> <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+<span class="c">% if flags.do_auto</span>
+<span class="c">%     varargin2 = varargin;</span>
+<span class="c">%     varargin2(strcmpi(varargin2,&#39;auto&#39;)) = [];</span>
+<span class="c">% </span>
+<span class="c">%     try</span>
+<span class="c">%         varargin2{end+1} = &#39;pcg&#39;;</span>
+<span class="c">%         [f,relres,iter]=frsyniter(F,c,varargin2{:});</span>
+<span class="c">%     catch</span>
+<span class="c">%         if ~flags.do_quiet</span>
+<span class="c">%             warning(sprintf(&#39;%s: Falling back to regular CG.&#39;,upper(mfilename)));</span>
+<span class="c">%         end</span>
+<span class="c">%         varargin2{end+1} = &#39;cg&#39;;</span>
+<span class="c">%         [f,relres,iter]=frsyniter(F,c,varargin2{:});</span>
+<span class="c">%     end</span>
+<span class="c">%     return;</span>
+<span class="c">% end</span>
 
-  <span class="c">% It is possible to specify the initial guess, but this is not</span>
-  <span class="c">% currently done</span>
-  
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_pcg</span>
-      <span class="n">d</span><span class="p">=</span><span class="n">framediag</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-      <span class="n">M</span><span class="p">=</span><span class="n">spdiags</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-      
-      <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="n">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-  <span class="k">else</span>
-      
-      <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="n">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">);</span>          
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
+<span class="n">L</span><span class="p">=</span><span class="n">framelengthcoef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+
+<span class="n">Fd</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">;</span>
+<span class="c">% Compute the preconditioner</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_pcg</span> <span class="o">&amp;&amp;</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">Fd</span><span class="p">)</span>
+    <span class="k">try</span>
+       <span class="n">d</span> <span class="p">=</span> <span class="n">cast</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">framediag</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+    <span class="k">catch</span>
+       <span class="k">switch</span> <span class="n">F</span><span class="p">.</span><span class="n">type</span>
+            <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">}</span>
+                <span class="n">Fd</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">,{</span><span class="s">&#39;dual&#39;</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;forcepainless&#39;</span><span class="p">},</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">));</span>
+            <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbankreal&#39;</span><span class="p">}</span>
+                <span class="n">Fd</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">,{</span><span class="s">&#39;realdual&#39;</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;forcepainless&#39;</span><span class="p">},</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">));</span>
+            <span class="k">otherwise</span>
+                <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: No preconditioning method available for given frame type.&#39;</span><span class="p">,</span><span class="c">...</span>
+                <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+       <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+<span class="n">A</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span> <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+
+<span class="c">% It is possible to specify the initial guess, but this is not</span>
+<span class="c">% currently done</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_pcg</span> <span class="o">&amp;&amp;</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">Fd</span><span class="p">)</span>
+
+      <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="n">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,@(</span><span class="n">x</span><span class="p">)</span><span class="n">d</span><span class="o">.*</span><span class="n">x</span><span class="p">);</span>
+<span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_pcg</span>
+
+      <span class="n">Fd</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">Fd</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+      <span class="n">A</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span> <span class="n">Fd</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+      <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="n">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">Fd</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">);</span>
+<span class="k">else</span>
+
+      <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="n">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
       <span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">c</span><span class="p">(:));</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-      
-  <span class="c">% Cut or extend f to the correct length, if desired.</span>
-  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span>
-      <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
-  <span class="k">else</span>
-      <span class="n">Ls</span><span class="p">=</span><span class="n">L</span><span class="p">;</span>
-  <span class="k">end</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c">% Cut or extend f to the correct length, if desired.</span>
+<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
+<span class="k">else</span>
+    <span class="n">Ls</span><span class="p">=</span><span class="n">L</span><span class="p">;</span>
+<span class="k">end</span>
 
 
 <span class="k">if</span> <span class="mi">0</span>
-    
-    <span class="c">% This code has been disabled, as the PCG algorithm is so much faster.</span>
-      <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_unlocbox</span>
+      <span class="c">% This code has been disabled, as the PCG algorithm is so much faster.</span>
+    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_unlocbox</span>
 
-      <span class="c">% Get the upper frame bound (Or an estimation bigger than the bound)</span>
-      <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">B</span><span class="p">]=</span><span class="n">framebounds</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">);</span> 
-      
-      <span class="c">% Set the parameter for the fast projection on a B2 ball</span>
-      <span class="n">param</span><span class="p">.</span><span class="n">At</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span> <span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>     <span class="c">% adjoint operator</span>
-      <span class="n">param</span><span class="p">.</span><span class="n">A</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span>  <span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>     <span class="c">% direct operator</span>
-      <span class="n">param</span><span class="p">.</span><span class="n">y</span><span class="p">=</span><span class="n">c</span><span class="p">;</span>                    <span class="c">% coefficient</span>
-      <span class="n">param</span><span class="p">.</span><span class="n">tight</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                <span class="c">% It&#39;s not a tight frame</span>
-      <span class="n">param</span><span class="p">.</span><span class="n">max_iter</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span>
-      <span class="n">param</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">;</span> 
-      <span class="n">param</span><span class="p">.</span><span class="n">nu</span><span class="p">=</span><span class="n">B</span><span class="p">;</span>
-      
-      <span class="c">% Display parameter 0 nothing, 1 summary at convergence, 2 all</span>
-      <span class="c">% steps</span>
+          <span class="c">% Get the upper frame bound (Or an estimation bigger than the bound)</span>
+          <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">B</span><span class="p">]=</span><span class="n">framebounds</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">);</span>
+
+          <span class="c">% Set the parameter for the fast projection on a B2 ball</span>
+          <span class="n">param</span><span class="p">.</span><span class="n">At</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span> <span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>     <span class="c">% adjoint operator</span>
+          <span class="n">param</span><span class="p">.</span><span class="n">A</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span>  <span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>     <span class="c">% direct operator</span>
+          <span class="n">param</span><span class="p">.</span><span class="n">y</span><span class="p">=</span><span class="n">c</span><span class="p">;</span>                    <span class="c">% coefficient</span>
+          <span class="n">param</span><span class="p">.</span><span class="n">tight</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                <span class="c">% It&#39;s not a tight frame</span>
+          <span class="n">param</span><span class="p">.</span><span class="n">max_iter</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span>
+          <span class="n">param</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">;</span>
+          <span class="n">param</span><span class="p">.</span><span class="n">nu</span><span class="p">=</span><span class="n">B</span><span class="p">;</span>
+
+          <span class="c">% Display parameter 0 nothing, 1 summary at convergence, 2 all</span>
+          <span class="c">% steps</span>
       <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
           <span class="n">param</span><span class="p">.</span><span class="n">verbose</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
       <span class="k">else</span>
           <span class="n">param</span><span class="p">.</span><span class="n">verbose</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-      <span class="k">end</span><span class="p">;</span>
-      
+      <span class="k">end</span>
+
       <span class="c">% Make the projection. Requires UNLocBOX</span>
       <span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="o">~</span><span class="p">]</span> <span class="p">=</span> <span class="n">fast_proj_B2</span><span class="p">(</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">param</span><span class="p">);</span>
-      
+
       <span class="c">% compute the residue</span>
       <span class="n">res</span> <span class="p">=</span> <span class="n">param</span><span class="p">.</span><span class="n">A</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">-</span> <span class="n">param</span><span class="p">.</span><span class="n">y</span><span class="p">;</span> <span class="n">norm_res</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">(:),</span> <span class="mi">2</span><span class="p">);</span>
       <span class="n">relres</span><span class="p">=</span><span class="n">norm_res</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">c</span><span class="p">(:),</span> <span class="mi">2</span><span class="p">);</span>
-      
+
       <span class="n">iter</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span> <span class="c">% The code of the fast_proj_B2 is not yet compatible with this</span>
-  <span class="k">end</span><span class="p">;</span>
+    <span class="k">end</span>
 
-<span class="k">end</span><span class="p">;</span>
-
-    
+<span class="k">end</span>
 </pre></div>
 
 

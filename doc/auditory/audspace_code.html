@@ -33,9 +33,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/auditory/freqtoaud_code.html">freqtoaud</a></li>
-<li><a href="#BASEURL#/doc/auditory/audspacebw_code.html">audspacebw</a></li>
-<li><a href="#BASEURL#/doc/auditory/audfiltbw_code.html">audfiltbw</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audspacebw.html">audspacebw</a></li>
+<li><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></li>
 </ul>
 </p></div>
     </div>
@@ -43,13 +43,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">AUDSPACE - Equidistantly spaced points on auditory scale</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[y,bw] <span class="p">=</span><span class="w"> </span><span class="nf">audspace</span><span class="p">(</span>flow,fhigh,n,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[y,bw] <span class="p">=</span><span class="w"> </span><span class="nf">audspace</span><span class="p">(</span>fmin,fmax,n,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%AUDSPACE  Equidistantly spaced points on auditory scale</span>
-<span class="c">%   Usage: y=audspace(flow,fhigh,n,scale);</span>
+<span class="c">%   Usage: y=audspace(fmin,fmax,n,scale);</span>
 <span class="c">%</span>
-<span class="c">%   AUDSPACE(flow,fhigh,n,scale) computes a vector of length n*</span>
+<span class="c">%   AUDSPACE(fmin,fmax,n,scale) computes a vector of length n*</span>
 <span class="c">%   containing values equidistantly scaled on the selected auditory scale</span>
-<span class="c">%   between the frequencies flow and fhigh. All frequencies are</span>
+<span class="c">%   between the frequencies fmin and fmax. All frequencies are</span>
 <span class="c">%   specified in Hz.</span>
 <span class="c">%</span>
 <span class="c">%   See the help on FREQTOAUD to get a list of the supported values of the</span>
@@ -63,7 +63,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/auditory/audspace.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -88,20 +88,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
 <span class="c">% Default parameters.</span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span> 
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: flow must be a scalar.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">fmin</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">fmin</span><span class="p">)</span> 
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fmin must be a scalar.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">fhigh</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">fhigh</span><span class="p">)</span> 
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fhigh must be a scalar.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">fmax</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">fmax</span><span class="p">)</span> 
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fmax must be a scalar.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">||</span> <span class="n">n</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span> <span class="o">||</span> <span class="nb">fix</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">~=</span><span class="n">n</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: n must be a positive, integer scalar.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="k">if</span> <span class="n">flow</span><span class="o">&gt;</span><span class="n">fhigh</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: flow must be less than or equal to fhigh.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">if</span> <span class="n">fmin</span><span class="o">&gt;</span><span class="n">fmax</span>
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fmin must be less than or equal to fmax.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;freqtoaud&#39;</span><span class="p">};</span>
@@ -110,7 +110,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%% ------ Computation --------------------------</span>
 
-<span class="n">audlimits</span> <span class="p">=</span> <span class="n">freqtoaud</span><span class="p">([</span><span class="n">flow</span><span class="p">,</span><span class="n">fhigh</span><span class="p">],</span><span class="n">flags</span><span class="p">.</span><span class="n">audscale</span><span class="p">);</span>
+<span class="n">audlimits</span> <span class="p">=</span> <span class="n">freqtoaud</span><span class="p">([</span><span class="n">fmin</span><span class="p">,</span><span class="n">fmax</span><span class="p">],</span><span class="n">flags</span><span class="p">.</span><span class="n">audscale</span><span class="p">);</span>
 
 <span class="n">y</span> <span class="p">=</span> <span class="n">audtofreq</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="n">audlimits</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">audlimits</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">n</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">audscale</span><span class="p">);</span>
 
@@ -118,8 +118,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">% Set the endpoints to be exactly what the user specified, instead of the</span>
 <span class="c">% calculated values</span>
-<span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="n">flow</span><span class="p">;</span>
-<span class="n">y</span><span class="p">(</span><span class="k">end</span><span class="p">)=</span><span class="n">fhigh</span><span class="p">;</span>
+<span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="n">fmin</span><span class="p">;</span>
+<span class="n">y</span><span class="p">(</span><span class="k">end</span><span class="p">)=</span><span class="n">fmax</span><span class="p">;</span>
 </pre></div>
 
 

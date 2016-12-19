@@ -33,9 +33,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/auditory/freqtoaud_code.html">freqtoaud</a></li>
-<li><a href="#BASEURL#/doc/auditory/audspace_code.html">audspace</a></li>
-<li><a href="#BASEURL#/doc/auditory/audfiltbw_code.html">audfiltbw</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audspace.html">audspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></li>
 </ul>
 </p></div>
     </div>
@@ -59,7 +59,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/auditory/audtofreq.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -110,18 +110,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_erb83</span>
-  <span class="n">freq</span> <span class="p">=</span> <span class="mf">14363.</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nb">exp</span><span class="p">(</span><span class="n">aud</span><span class="o">-</span><span class="mf">43.0</span><span class="p">)</span><span class="o">/</span><span class="mf">11.7</span><span class="p">)</span><span class="o">-</span><span class="mi">14675</span><span class="p">;</span>
+  <span class="c">%freq = 14363./(1-exp((aud-43.0)/11.7))-14675;</span>
+  <span class="n">freq</span> <span class="p">=</span> <span class="nb">sign</span><span class="p">(</span><span class="n">aud</span><span class="p">)</span><span class="o">.*</span><span class="mf">14675.</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nb">exp</span><span class="p">(</span><span class="mf">0.0895255</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">aud</span><span class="p">)))</span><span class="o">./</span><span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="mf">0.0895255</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">aud</span><span class="p">))</span> <span class="o">-</span> <span class="mf">47.0353</span><span class="p">);</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
   <span class="n">freq</span><span class="p">=</span><span class="n">aud</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_log10</span>
-   <span class="n">freq</span> <span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="n">aud</span><span class="p">);</span>
-<span class="k">end</span>
-
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_semitone</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_log10</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_semitone</span>
    <span class="n">freq</span> <span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="n">aud</span><span class="p">);</span>
 <span class="k">end</span>
 </pre></div>

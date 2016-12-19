@@ -33,8 +33,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/base/ltfatgetdefaults_code.html">ltfatgetdefaults</a></li>
-<li><a href="#BASEURL#/doc/base/ltfatsetdefaults_code.html">ltfatsetdefaults</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatgetdefaults.html">ltfatgetdefaults</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatsetdefaults.html">ltfatsetdefaults</a></li>
 </ul>
 </p></div>
     </div>
@@ -109,12 +109,34 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   will be 1 if &#39;timeinv&#39; was selected and 0 otherwise, and similarly for</span>
 <span class="c">%   &#39;freqinv&#39;. This allows for easy checking of selected flags.</span>
 <span class="c">%</span>
+<span class="c">%   Advanced usage</span>
+<span class="c">%   --------------</span>
+<span class="c">%   </span>
+<span class="c">%   Expansion import was introduced in order to allow sharing common</span>
+<span class="c">%   flags and key/value pairs between functions. </span>
+<span class="c">%   </span>
+<span class="c">%   The following example is taken from PLOTDGT and TFPLOT:</span>
+<span class="c">%</span>
+<span class="c">%       definput.import={&#39;ltfattranslate&#39;,&#39;tfplot&#39;};</span>
+<span class="c">%       [flags,kv,fs]=ltfatarghelper({&#39;fs&#39;,&#39;dynrange&#39;},definput,varargin);</span>
+<span class="c">%</span>
+<span class="c">%   This code instructs LTFATARGHELPER to run functions </span>
+<span class="c">%   arg_ltfattranslate and arg_tfplot which define the flags and </span>
+<span class="c">%   the key/value pairs. The arg_ functions must have the following signature:</span>
+<span class="c">%</span>
+<span class="c">%       function definput=arg_name(definput)</span>
+<span class="c">%</span>
+<span class="c">%   Moreover, a special flag &#39;argimport&#39; is used to pass the flags </span>
+<span class="c">%   and the key/value pairs from PLOTDGT to TFPLOT:</span>
+<span class="c">%</span>
+<span class="c">%       coef=tfplot(...,&#39;argimport&#39;,flags,kv);</span>
+<span class="c">%   </span>
 <span class="c">%   See also: ltfatgetdefaults, ltfatsetdefaults</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/ltfatarghelper.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
