@@ -41,7 +41,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">LTFATSTOP - Stops the LTFAT toolbox</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">ltfatstop</span><span class="p">()</span><span class="w"></span>
+<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">ltfatstop</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%LTFATSTOP   Stops the LTFAT toolbox</span>
 <span class="c">%   Usage:  ltfatstop;</span>
 <span class="c">%</span>
@@ -68,6 +68,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
 <span class="c">%   AUTHOR : Peter L. Søndergaard, Zdenek Prusa </span>
+
+<span class="c">%% PKG_DEL: ltfatstop(&#39;notbasepath&#39;)</span>
+
+<span class="n">do_removebp</span> <span class="p">=</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="s">&#39;notbasepath&#39;</span><span class="p">,</span><span class="n">varargin</span><span class="p">));</span>
 
 <span class="n">dirlist</span> <span class="p">=</span> <span class="p">{};</span>
 <span class="n">jarsubpath</span> <span class="p">=</span> <span class="p">[</span><span class="s">&#39;blockproc&#39;</span><span class="p">,</span> <span class="n">filesep</span><span class="p">(),</span> <span class="s">&#39;java&#39;</span><span class="p">,</span> <span class="n">filesep</span><span class="p">(),</span> <span class="s">&#39;blockproc.jar&#39;</span><span class="p">];</span>
@@ -124,7 +128,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span>
 
 <span class="c">% This can actually remove user hardcoded path to LTFAT&#39;s root.</span>
-<span class="k">if</span> <span class="n">onPath</span>
+<span class="k">if</span> <span class="n">onPath</span> <span class="o">&amp;&amp;</span> <span class="n">do_removebp</span>
     <span class="n">rmpath</span><span class="p">(</span><span class="n">pkg_folder</span><span class="p">);</span>
 <span class="k">end</span>
 

@@ -101,6 +101,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   AUTHOR : Peter L. Søndergaard, Zdenek Prusa</span>
 <span class="c">%   TESTING: NA</span>
 
+<span class="c">%% PKG_ADD: ltfatstart(0); </span>
+
 <span class="n">do_java</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="n">ltfatstartprint</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&gt;</span><span class="mi">0</span>
@@ -136,11 +138,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Kill the function name from the path.</span>
 <span class="n">basepath</span><span class="p">=</span><span class="n">basepath</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">13</span><span class="p">);</span>
 
-<span class="c">% add the base path</span>
-<span class="n">addpath</span><span class="p">(</span><span class="n">basepath</span><span class="p">);</span>
+<span class="n">pathCell</span> <span class="p">=</span> <span class="n">regexp</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">pathsep</span><span class="p">,</span> <span class="s">&#39;split&#39;</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">ispc</span>  <span class="c">% Windows is not case-sensitive</span>
+   <span class="n">bponPath</span> <span class="p">=</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">basepath</span><span class="p">,</span> <span class="n">pathCell</span><span class="p">));</span>
+<span class="k">else</span>
+   <span class="n">bponPath</span> <span class="p">=</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">basepath</span><span class="p">,</span> <span class="n">pathCell</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">bponPath</span> <span class="c">% To avoid recursion during pkg load</span>
+    <span class="n">addpath</span><span class="p">(</span><span class="n">basepath</span><span class="p">);</span>
+<span class="k">end</span>
 
 <span class="n">bp</span><span class="p">=</span><span class="n">basepath</span><span class="p">;</span>
-
  
 <span class="c">% Load the version number</span>
 <span class="p">[</span><span class="n">FID</span><span class="p">,</span> <span class="n">MSG</span><span class="p">]</span> <span class="p">=</span> <span class="n">fopen</span> <span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">filesep</span><span class="p">,</span><span class="s">&#39;ltfat_version&#39;</span><span class="p">],</span><span class="s">&#39;r&#39;</span><span class="p">);</span>
