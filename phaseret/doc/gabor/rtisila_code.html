@@ -20,7 +20,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <!-- Wrap the content into responsive container --!>
 <div class="container">
 <!-- Include main navigation -->
-<div class="masthead include" file="../../../include/mainnav.html">
+<div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
     <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rtisila.html">View the help</a></div>
@@ -135,7 +135,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">5</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lookahead</span> <span class="p">=</span> <span class="p">[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;freqinv&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 <span class="n">Ls</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Ls</span><span class="p">;</span>
 
 <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>

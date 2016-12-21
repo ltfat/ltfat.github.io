@@ -20,7 +20,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <!-- Wrap the content into responsive container --!>
 <div class="container">
 <!-- Include main navigation -->
-<div class="masthead include" file="../../../include/mainnav.html">
+<div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
     <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="lertisila.html">View the help</a></div>
@@ -39,7 +39,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,f,relres,iter]<span class="p">=</span><span class="nf">lertisila</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%LERTISILA RTISI for real signals using Le Roux&#39;s truncated updates</span>
 <span class="c">%   Usage: c = lertisila(s,g,a,M)</span>
-<span class="c">%          c = lertisila(s,g,a,M,maxit)</span>
 <span class="c">%          [c,f,relres,iter] = lertisila(...)</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
@@ -179,7 +178,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;freqinv&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algvariant</span><span class="p">={</span><span class="s">&#39;trunc&#39;</span><span class="p">,</span><span class="s">&#39;modtrunc&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">updatescheme</span><span class="p">={</span><span class="s">&#39;framewise&#39;</span><span class="p">,</span><span class="s">&#39;onthefly&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 <span class="n">Ls</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Ls</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
