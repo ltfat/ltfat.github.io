@@ -3,8 +3,8 @@ var globalfunlist = {
    demo_blockproc_phaseret:'demos/demo_blockproc_phaseret',
    demo_blockproc_phaseret2:'demos/demo_blockproc_phaseret2',
    demo_blockproc_phaseretmix:'demos/demo_blockproc_phaseretmix',
+   demo_pghioverlaps:'demos/demo_pghioverlaps',
    demo_vocoderphaseret:'demos/demo_vocoderphaseret',
-   demo_windowaliasing:'demos/demo_windowaliasing',
    gla:'gabor/gla',
    gsrtisila:'gabor/gsrtisila',
    legla:'gabor/legla',
@@ -19,4 +19,4 @@ var globalfunlist = {
    spsi:'gabor/spsi',
 };
 
- var toolboxversion='0.2.0'; 
+ var toolboxversion='0.2.1'; 

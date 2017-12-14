@@ -30,7 +30,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="row">
     <div class="col-md-2">
         <div class="include" file='../include/docnav.html'></div>
-        <div id="seealso"><p></p></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="http://ltfat.github.io/doc/gabor/idgtreal.html">idgtreal</a></li>
+<li><a href="http://ltfat.github.io/doc/gabor/dgtreal.html">dgtreal</a></li>
+</ul>
+</p></div>
     </div>
     <div class="col-md-10">
 
@@ -132,8 +137,48 @@ of per-frame iteratins is <tt class="docutils literal"><span class="pre">(lookah
 <p>Optionally, the following phase initialization strategies for the
 newest lookahead frame can be employed:</p>
 <blockquote>
-'zeros'          Initialize with zeros. This is the default.</blockquote>
+<dl class="docutils">
+<dt>'zeros'</dt>
+<dd>Initialize with zeros. This is the default.</dd>
+<dt>'input'</dt>
+<dd>Use phase of <em>s</em>.</dd>
+<dt>'unwrap'</dt>
+<dd>Use phase vocoder style phase unwrapping.</dd>
+<dt>'spsi'</dt>
+<dd>Use the SPSI algorithm.</dd>
+<dt>'rtpghi',gamma</dt>
+<dd>Use the RTPGHI algorithm. The algorithm requires one additional look-ahead frame.</dd>
+<dt>'rtpghi',{gamma,'causal'}</dt>
+<dd>Use the causal version of RTPGHI.</dd>
+<dt>'rtpghi',{gamma,tol,...}</dt>
+<dd>Set tolerance of RTPGHI to <tt class="docutils literal">tol</tt>.</dd>
+</dl>
+</blockquote>
 </div>
+<H2>References:</H2>
+
+
+
+<p><a name="gnsp10"></a>
+
+V.&nbsp;Gnann and M.&nbsp;Spiertz.
+ Improving RTISI phase estimation with energy order and phase
+  unwrapping.
+ In <em>Proc. 13th Int. Conf. Digital Audio Effects (DAFx-10)</em>, Sept.
+  2010.
+
+</p>
+
+<p><a name="gnsp08"></a>
+
+V.&nbsp;Gnann and M.&nbsp;Spiertz.
+ Comb-filter free audio mixing using STFT magnitude spectra and
+  phase estimation.
+ In <em>Proc. 11th Int. Conf. on Digital Audio Effects (DAFx-08)</em>,
+  Sept. 2008.
+
+</p>
+
 
         <div class="include" file="../../../include/footer.html"></div>
     </div>

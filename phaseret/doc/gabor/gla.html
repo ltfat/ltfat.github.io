@@ -104,7 +104,7 @@ c = gla(s,g,a,M,maxit,tol)
 <p><tt class="docutils literal">gla(s,g,a,M)</tt> attempts to find coefficients <em>c</em> from
 their abs. value:</p>
 <pre class="literal-block">
-c = dgtreal(f,g,a,M);
+c = dgtreal(f,g,a,M,'timeinv');
 s = abs(c);
 </pre>
 <p>using the Griffin-Lim algorithm.</p>
@@ -113,7 +113,7 @@ of residuals <tt class="docutils literal">relres</tt>, the number of iterations 
 coefficients <em>c</em> with the reconstructed phase. The relationship between
 <em>f</em> and <em>c</em> is:</p>
 <pre class="literal-block">
-f = idgtreal(c,gd,a,M)
+f = idgtreal(c,gd,a,M,'timeinv')
 </pre>
 <p>where <em>gd</em> is the canonical dual window obtained by <span class="linkrole"><a href="http://ltfat.github.io/doc/gabor/gabdual.html">gabdual</a></span>.</p>
 </div>
@@ -175,7 +175,7 @@ This is the default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'alpha',<var>a</var></span></kbd></td>
 <td>Parameter of the Fast Griffin-Lim algorithm. It is
-ignored if not used together with 'flegla' flag.</td></tr>
+ignored if not used together with 'fgla' flag.</td></tr>
 </tbody>
 </table>
 </div>
