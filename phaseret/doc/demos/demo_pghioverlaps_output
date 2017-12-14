@@ -1,0 +1,5 @@
+To play the original run: soundsc(f,fs);
+To play the 1/2 window overlap reconstruction (C=-22.30dB): soundsc(fhat50p,fs);
+... 1/4  window overlap (C=-25.11dB): soundsc(fhat75p,fs);
+... 1/8  window overlap (C=-27.14dB): soundsc(fhat875p,fs);
+... 1/16 window overlap (C=-27.59dB): soundsc(fhat9375p,fs);

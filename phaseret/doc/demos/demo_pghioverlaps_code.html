@@ -1,0 +1,130 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="phase, reconstruction, retrieval, gabor, STFT, matlab, octave"/>
+<title>DEMO_PGHIOVERLAPS - Performance of the PGHI algorithm for several window overlaps</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="demo_pghioverlaps.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">DEMO_PGHIOVERLAPS - Performance of the PGHI algorithm for several window overlaps</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_PGHIOVERLAPS Performance of the PGHI algorithm for several window overlaps </span>
+<span class="c">%</span>
+<span class="c">%   The demo performs several reconstructions from the magnitude of the DGT</span>
+<span class="c">%   using increasing window overlap: 50%, 75%, 87.5% and 93.75%</span>
+<span class="c">%   The number in dB is the spectral convergence of the reconstructed</span>
+<span class="c">%   coefficients.</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     Z. Průša, P. Balazs, and P. L. Søndergaard. A Noniterative Method for</span>
+<span class="c">%     Reconstruction of Phase from STFT Magnitude. IEEE/ACM Trans. on Audio,</span>
+<span class="c">%     Speech, and Lang. Process., 25(5), May 2017.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/phaseret/doc/demos/demo_pghioverlaps.html</span>
+
+<span class="c">% Copyright (C) 2016 Zdenek Prusa &lt;zdenek.prusa@gmail.com&gt;.</span>
+<span class="c">% This file is part of PHASERET version 0.2.1</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">% AUTHOR: Zdenek Prusa</span>
+<span class="c">%</span>
+
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">]</span> <span class="p">=</span> <span class="n">cocktailparty</span><span class="p">;</span>
+
+<span class="n">M</span> <span class="p">=</span> <span class="mi">2048</span><span class="p">;</span>
+<span class="n">g</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;truncgauss&#39;</span><span class="p">,</span><span class="n">M</span><span class="p">};</span>
+<span class="nb">gamma</span> <span class="p">=</span> <span class="n">pghi_findgamma</span><span class="p">(</span><span class="n">g</span><span class="p">);</span> <span class="c">% gamma=lambda*L</span>
+<span class="n">stft_magnitude</span> <span class="p">=</span> <span class="p">@(</span><span class="n">f</span><span class="p">,</span><span class="n">a</span><span class="p">)</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dgtreal</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">));</span>
+<span class="n">inverse_stft</span> <span class="p">=</span> <span class="p">@(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">)</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">c</span><span class="p">,{</span><span class="s">&#39;dual&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">},</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">);</span>
+
+<span class="c">% 50% overlap</span>
+<span class="n">a</span> <span class="p">=</span> <span class="mi">1024</span><span class="p">;</span>
+<span class="n">s</span> <span class="p">=</span> <span class="n">stft_magnitude</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">pghi</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="nb">gamma</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">fhat50p</span> <span class="p">=</span> <span class="n">inverse_stft</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">C50p</span> <span class="p">=</span> <span class="n">magnitudeerrdb</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">stft_magnitude</span><span class="p">(</span><span class="n">fhat50p</span><span class="p">,</span><span class="n">a</span><span class="p">));</span>
+
+<span class="c">% 75% overlap</span>
+<span class="n">a</span> <span class="p">=</span> <span class="mi">512</span><span class="p">;</span>
+<span class="n">s</span> <span class="p">=</span> <span class="n">stft_magnitude</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">pghi</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="nb">gamma</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">fhat75p</span> <span class="p">=</span> <span class="n">inverse_stft</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">C75p</span> <span class="p">=</span> <span class="n">magnitudeerrdb</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">stft_magnitude</span><span class="p">(</span><span class="n">fhat75p</span><span class="p">,</span><span class="n">a</span><span class="p">));</span>
+
+<span class="c">% 87.5% overlap</span>
+<span class="n">a</span> <span class="p">=</span> <span class="mi">256</span><span class="p">;</span>
+<span class="n">s</span> <span class="p">=</span> <span class="n">stft_magnitude</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">pghi</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="nb">gamma</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">fhat875p</span> <span class="p">=</span> <span class="n">inverse_stft</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">C875p</span> <span class="p">=</span> <span class="n">magnitudeerrdb</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">stft_magnitude</span><span class="p">(</span><span class="n">fhat875p</span><span class="p">,</span><span class="n">a</span><span class="p">));</span>
+
+<span class="c">% 93.75% overlap</span>
+<span class="n">a</span> <span class="p">=</span> <span class="mi">128</span><span class="p">;</span>
+<span class="n">s</span> <span class="p">=</span> <span class="n">stft_magnitude</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">pghi</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="nb">gamma</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">fhat9375p</span> <span class="p">=</span> <span class="n">inverse_stft</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="n">C9375p</span> <span class="p">=</span> <span class="n">magnitudeerrdb</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">stft_magnitude</span><span class="p">(</span><span class="n">fhat9375p</span><span class="p">,</span><span class="n">a</span><span class="p">));</span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the original run: soundsc(f,fs);&#39;</span><span class="p">);</span>
+<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;To play the 1/2 window overlap reconstruction (C=%.2fdB): soundsc(fhat50p,fs);\n&#39;</span><span class="p">,</span><span class="n">C50p</span><span class="p">);</span>
+<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;... 1/4  window overlap (C=%.2fdB): soundsc(fhat75p,fs);\n&#39;</span><span class="p">,</span><span class="n">C75p</span><span class="p">);</span>
+<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;... 1/8  window overlap (C=%.2fdB): soundsc(fhat875p,fs);\n&#39;</span><span class="p">,</span><span class="n">C875p</span><span class="p">);</span>
+<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;... 1/16 window overlap (C=%.2fdB): soundsc(fhat9375p,fs);\n&#39;</span><span class="p">,</span><span class="n">C9375p</span><span class="p">);</span>
+</pre></div>
+
+
+        <div class="include" file="../../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/macros.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
