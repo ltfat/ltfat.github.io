@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">MULACLAB - Graphical interface for audio processing using frame multipliers</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[] <span class="p">=</span><span class="w"> </span><span class="nf">mulaclab</span><span class="p">(</span>file, varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[] <span class="p">=</span><span class="w"> </span><span class="nf">mulaclab</span><span class="p">(</span>file, varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%MULACLAB Graphical interface for audio processing using frame multipliers</span>
 <span class="c">%   Usage: mulaclab;</span>
 <span class="c">%          mulaclab(filename);</span>
@@ -109,7 +109,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/mulaclab.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -636,7 +636,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
   <span class="k">global</span> <span class="n">coeff</span> <span class="n">default</span> <span class="n">export</span> <span class="n">frame</span> <span class="n">gui</span> <span class="n">link</span> <span class="n">player</span> <span class="n">redoData</span> <span class="n">sel</span> <span class="n">sig</span> <span class="n">symbol</span>
   <span class="k">global</span> <span class="n">undoData</span> <span class="n">visu</span> <span class="n">visucommon</span> 
-
+  
+   <span class="c">% initialize the interface</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">nargin</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">)</span>
+     <span class="n">file</span> <span class="p">=</span> <span class="p">[];</span>
+  <span class="k">end</span>
+  
+  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> 
+      <span class="k">if</span> <span class="n">handleMulaclabAction</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:})</span>
+          <span class="k">return</span><span class="p">;</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+  
   <span class="n">forceSingleInstanceOfMulaclab</span><span class="p">();</span>
 
   <span class="n">coeff</span> <span class="p">=</span> <span class="n">struct</span><span class="p">;</span>
@@ -657,11 +668,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="c">% possible values for default.backendClipPoly: &#39;clipper&#39; or &#39;polygonclip&#39; or</span>
   <span class="c">% &#39;binmasks&#39;</span>
   <span class="n">default</span><span class="p">.</span><span class="n">backendClipPoly</span> <span class="p">=</span> <span class="s">&#39;clipper&#39;</span><span class="p">;</span>
-  
-  <span class="c">% initialize the interface</span>
-  <span class="k">if</span><span class="p">(</span><span class="n">nargin</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">)</span>
-     <span class="n">file</span> <span class="p">=</span> <span class="p">[];</span>
-  <span class="k">end</span>
+
 
   <span class="n">initialize</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">varargin</span><span class="p">{:});</span>
 
@@ -670,6 +677,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% using the following functions</span>
 
 <span class="k">function</span><span class="w"> </span><span class="nf">forceSingleInstanceOfMulaclab</span><span class="p">()</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">figNumber</span> <span class="p">=</span> <span class="n">getMulaclabFigNo</span><span class="p">();</span>  
+
+  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">figNumber</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;Only one single instance of the MulAcLab gui can be run at a &#39;</span><span class="c">...</span>
+      <span class="s">&#39;time and MulAcLab is already running in figure &#39;</span><span class="p">,</span> <span class="n">figNumber</span><span class="p">]);</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>figNumber <span class="p">=</span><span class="w"> </span><span class="nf">getMulaclabFigNo</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="c">% as we use global variables to share data between callbacks, we need to</span>
   <span class="c">% insure that only one instance of the mulaclab gui is running</span>
   <span class="n">mulaclabFigId</span> <span class="p">=</span> <span class="n">findall</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;MulAcLab&#39;</span><span class="p">);</span>
@@ -681,10 +698,39 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">catch</span>
     <span class="n">figNumber</span> <span class="p">=</span> <span class="n">num2str</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="n">mulaclabFigId</span><span class="p">,</span> <span class="s">&#39;Number&#39;</span><span class="p">));</span>
   <span class="k">end</span>
-  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">mulaclabFigId</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;Only one single instance of the MulAcLab gui can be run at a &#39;</span><span class="c">...</span>
-      <span class="s">&#39;time and MulAcLab is already running in figure &#39;</span><span class="p">,</span> <span class="n">figNumber</span><span class="p">]);</span>
-  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>wasaction <span class="p">=</span><span class="w"> </span><span class="nf">handleMulaclabAction</span><span class="p">(</span>action,varargin<span class="p">)</span><span class="w"></span>
+<span class="n">wasaction</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">isrunning</span> <span class="p">=</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">getMulaclabFigNo</span><span class="p">());</span>
+
+<span class="n">actions</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;playori&#39;</span><span class="p">,</span><span class="s">&#39;applySel&#39;</span><span class="p">};</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">action</span><span class="p">,</span><span class="n">actions</span><span class="p">))</span> 
+    <span class="n">wasaction</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="n">isrunning</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;Mulaclab is already running. Unrecognized action&#39;</span><span class="p">);</span>
+    <span class="k">end</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">isrunning</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;MulacLab is not running!!&#39;</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="n">action</span> <span class="p">=</span> <span class="n">lower</span><span class="p">(</span><span class="n">action</span><span class="p">);</span>
+   
+<span class="nb">disp</span><span class="p">(</span><span class="n">action</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="k">switch</span> <span class="n">action</span>
+    <span class="k">case</span> <span class="s">&#39;playori&#39;</span>
+        <span class="k">global</span> <span class="n">sig</span>
+        <span class="n">soundsc</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">ori</span><span class="p">,</span><span class="n">sig</span><span class="p">.</span><span class="n">sampFreq</span><span class="p">);</span>
+    <span class="k">case</span> <span class="s">&#39;applysel&#39;</span>
+        <span class="n">applySel</span><span class="p">();</span>
+<span class="k">end</span>
+
 <span class="k">end</span>
 
 <span class="c">% __________________________ INITIALIZATION _______________________________</span>
@@ -732,6 +778,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
           <span class="n">errordlg</span><span class="p">([</span><span class="n">fileName</span> <span class="s">&#39; is not a valid signal decomposition file&#39;</span><span class="p">]);</span>
           <span class="k">return</span><span class="p">;</span>
         <span class="k">end</span>
+      <span class="k">otherwise</span>
+          <span class="n">error</span><span class="p">(</span><span class="s">&#39;Unrecognized file. Only wav and mat files are supported&#39;</span><span class="p">);</span>
     <span class="k">end</span>
   <span class="k">elseif</span><span class="p">(</span><span class="n">nargin</span><span class="o">&gt;</span><span class="p">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Fs</span><span class="p">=[];</span>
@@ -1231,18 +1279,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unrecognized frame type&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
   <span class="k">end</span>
   <span class="k">if</span> <span class="n">export</span><span class="p">.</span><span class="n">limitXaxesRes</span>
-    <span class="n">C</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span><span class="n">C</span><span class="p">.</span><span class="s">&#39;,linspace(0,1,export.xLim),&#39;</span><span class="n">nearest</span><span class="o">&#39;</span><span class="p">);</span>
-    <span class="n">C</span><span class="p">=</span><span class="n">C</span><span class="p">.</span><span class="s">&#39;;</span>
-<span class="s">  end</span>
-<span class="s">end</span>
+    <span class="n">C</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span><span class="n">C</span><span class="p">.</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">export</span><span class="p">.</span><span class="n">xLim</span><span class="p">),</span><span class="s">&#39;nearest&#39;</span><span class="p">);</span>
+    <span class="n">C</span><span class="p">=</span><span class="n">C</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-<span class="s">function mult = convSymbToCoefFormat(symb)</span>
+<span class="k">function</span><span class="w"> </span>mult <span class="p">=</span><span class="w"> </span><span class="nf">convSymbToCoefFormat</span><span class="p">(</span>symb<span class="p">)</span><span class="w"></span>
 
-<span class="s">  global frame export coeff</span>
+<span class="w">  </span><span class="k">global</span> <span class="n">frame</span> <span class="n">export</span> <span class="n">coeff</span>
 
-<span class="s">  switch lower(frame.type)</span>
-<span class="s">    % Classical gabor coeff format </span>
-<span class="s">    case {&#39;</span><span class="n">gabreal</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;gabor&#39;</span><span class="p">}</span>
+  <span class="k">switch</span> <span class="n">lower</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="c">% Classical gabor coeff format </span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;gabreal&#39;</span><span class="p">,</span><span class="s">&#39;gabor&#39;</span><span class="p">}</span>
       <span class="k">if</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">type</span><span class="p">),</span> <span class="s">&#39;gabor&#39;</span><span class="p">)</span>
         <span class="c">% we need to invert the circshift that was done in plotdgt to move zero</span>
         <span class="c">% frequency to the center and Nyquist frequency to the top</span>
@@ -1256,24 +1304,24 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
       <span class="k">if</span> <span class="n">export</span><span class="p">.</span><span class="n">limitXaxesRes</span>
         <span class="n">L</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
         <span class="n">Lplot</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">symb</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-        <span class="n">mult</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Lplot</span><span class="p">),</span><span class="n">symb</span><span class="p">.</span><span class="s">&#39;,linspace(0,1,L),&#39;</span><span class="n">nearest</span><span class="o">&#39;</span><span class="p">);</span>
-        <span class="n">mult</span> <span class="p">=</span> <span class="n">mult</span><span class="p">.</span><span class="s">&#39;;</span>
-<span class="s">      else</span>
-<span class="s">        mult = symb;</span>
-<span class="s">      end</span>
-<span class="s">       </span>
-<span class="s">    % Cell array containing column vectors format</span>
-<span class="s">    case {&#39;</span><span class="n">wfbt</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
+        <span class="n">mult</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Lplot</span><span class="p">),</span><span class="n">symb</span><span class="p">.</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="s">&#39;nearest&#39;</span><span class="p">);</span>
+        <span class="n">mult</span> <span class="p">=</span> <span class="n">mult</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
+      <span class="k">else</span>
+        <span class="n">mult</span> <span class="p">=</span> <span class="n">symb</span><span class="p">;</span>
+      <span class="k">end</span>
+       
+    <span class="c">% Cell array containing column vectors format</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;wfbt&#39;</span><span class="p">,</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
       <span class="n">M</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>
       <span class="n">Lplot</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">symb</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
       <span class="n">Lc</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span> <span class="nb">size</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>
       <span class="n">mult</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">));</span>
       <span class="k">for</span> <span class="n">m</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span>
         <span class="n">mult</span><span class="p">{</span><span class="n">m</span><span class="p">}</span> <span class="p">=</span> <span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Lplot</span><span class="p">),</span><span class="n">symb</span><span class="p">(</span><span class="n">m</span><span class="p">,:),</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Lc</span><span class="p">(</span><span class="n">m</span><span class="p">)),</span><span class="c">...</span>
-          <span class="s">&#39;nearest&#39;</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">      end</span>
-<span class="s">    % FWT specific coefficient format</span>
-<span class="s">    case &#39;</span><span class="n">dwt</span><span class="o">&#39;</span>
+          <span class="s">&#39;nearest&#39;</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+      <span class="k">end</span>
+    <span class="c">% FWT specific coefficient format</span>
+    <span class="k">case</span> <span class="s">&#39;dwt&#39;</span>
       <span class="n">Lc</span> <span class="p">=</span> <span class="n">coeff</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="n">Lc</span><span class="p">;</span>
       <span class="n">Lcstart</span> <span class="p">=</span> <span class="n">cumsum</span><span class="p">([</span><span class="mi">1</span><span class="p">;</span><span class="n">Lc</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)]);</span>
       <span class="n">Lcend</span> <span class="p">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">Lc</span><span class="p">);</span>
@@ -1282,19 +1330,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
       <span class="n">Lplot</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">symb</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
       <span class="k">for</span> <span class="n">m</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span>
         <span class="n">mult</span><span class="p">(</span><span class="n">Lcstart</span><span class="p">(</span><span class="n">m</span><span class="p">):</span><span class="n">Lcend</span><span class="p">(</span><span class="n">m</span><span class="p">))</span> <span class="p">=</span> <span class="n">interp1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Lplot</span><span class="p">,</span><span class="n">symb</span><span class="p">(</span><span class="n">m</span><span class="p">,:),</span><span class="c">...</span>
-          <span class="nb">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Lplot</span><span class="p">,</span><span class="n">Lc</span><span class="p">(</span><span class="n">m</span><span class="p">)),</span><span class="s">&#39;nearest&#39;</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">      end  </span>
-<span class="s">    % ufilterbak and all wavelet functions beginning with u</span>
-<span class="s">    case {&#39;</span><span class="n">udwt</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;uwfbt&#39;</span><span class="p">}</span>
+          <span class="nb">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Lplot</span><span class="p">,</span><span class="n">Lc</span><span class="p">(</span><span class="n">m</span><span class="p">)),</span><span class="s">&#39;nearest&#39;</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+      <span class="k">end</span>  
+    <span class="c">% ufilterbak and all wavelet functions beginning with u</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;udwt&#39;</span><span class="p">,</span><span class="s">&#39;uwfbt&#39;</span><span class="p">}</span>
       <span class="n">M</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
       <span class="n">L</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
       <span class="n">Lplot</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">symb</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
       <span class="n">mult</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">));</span>
       <span class="k">for</span> <span class="n">m</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span>
-        <span class="n">mult</span><span class="p">(:,</span><span class="n">m</span><span class="p">)</span> <span class="p">=</span> <span class="n">interp1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Lplot</span><span class="p">,</span><span class="n">symb</span><span class="p">(</span><span class="n">m</span><span class="p">,:),</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Lplot</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="s">&#39;nearest&#39;</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">      end</span>
-<span class="s">    otherwise</span>
-<span class="s">      error(&#39;</span><span class="c">%s: Unrecognized frame type&#39;,upper(mfilename));</span>
+        <span class="n">mult</span><span class="p">(:,</span><span class="n">m</span><span class="p">)</span> <span class="p">=</span> <span class="n">interp1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Lplot</span><span class="p">,</span><span class="n">symb</span><span class="p">(</span><span class="n">m</span><span class="p">,:),</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Lplot</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="s">&#39;nearest&#39;</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+      <span class="k">end</span>
+    <span class="k">otherwise</span>
+      <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unrecognized frame type&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -1309,14 +1357,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
       <span class="k">if</span> <span class="n">export</span><span class="p">.</span><span class="n">limitXaxesRes</span>
         <span class="n">L</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
         <span class="n">Lmult</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">mult</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-        <span class="n">symb</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Lmult</span><span class="p">),</span><span class="n">mult</span><span class="p">.</span><span class="s">&#39;,linspace(0,1,L),&#39;</span><span class="n">nearest</span><span class="o">&#39;</span><span class="p">);</span>
-        <span class="n">symb</span> <span class="p">=</span> <span class="n">symb</span><span class="p">.</span><span class="s">&#39;;</span>
-<span class="s">      else</span>
-<span class="s">        symb=mult;</span>
-<span class="s">      end</span>
+        <span class="n">symb</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Lmult</span><span class="p">),</span><span class="n">mult</span><span class="p">.</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="s">&#39;nearest&#39;</span><span class="p">);</span>
+        <span class="n">symb</span> <span class="p">=</span> <span class="n">symb</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
+      <span class="k">else</span>
+        <span class="n">symb</span><span class="p">=</span><span class="n">mult</span><span class="p">;</span>
+      <span class="k">end</span>
 
-<span class="s">    % Cell array containing column vectors format</span>
-<span class="s">    case {&#39;</span><span class="n">wfbt</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
+    <span class="c">% Cell array containing column vectors format</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;wfbt&#39;</span><span class="p">,</span><span class="s">&#39;erblet&#39;</span><span class="p">,</span><span class="s">&#39;cqt&#39;</span><span class="p">}</span>
       <span class="n">M</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">);</span>
       <span class="n">Lsymb</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">oriC</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
       <span class="n">Lc</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span> <span class="nb">size</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">mult</span><span class="p">);</span>
@@ -1465,6 +1513,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
       <span class="n">gain</span> <span class="p">=</span> <span class="n">sel</span><span class="p">.</span><span class="n">lay</span><span class="p">(</span><span class="n">indLay</span><span class="p">).</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">val</span><span class="p">;</span>
       <span class="n">symb</span> <span class="p">=</span> <span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">));</span>
       <span class="n">symb</span> <span class="p">=</span> <span class="n">symb</span> <span class="o">+</span> <span class="p">(</span><span class="n">gain</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">mask</span><span class="p">;</span>
+      <span class="c">%randphase = 2*pi*randn(size(symb));</span>
+      <span class="c">%symb(mask&gt;0) = exp(1i*randphase(mask&gt;0));</span>
     <span class="k">case</span> <span class="s">&#39;smoothBorder&#39;</span>
       <span class="n">gain</span> <span class="p">=</span> <span class="n">sel</span><span class="p">.</span><span class="n">lay</span><span class="p">(</span><span class="n">indLay</span><span class="p">).</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">val</span><span class="p">;</span>
       <span class="n">threshold</span> <span class="p">=</span> <span class="n">sel</span><span class="p">.</span><span class="n">lay</span><span class="p">(</span><span class="n">indLay</span><span class="p">).</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">val</span><span class="p">;</span>
@@ -3288,89 +3338,89 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">set</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">mainFigId</span><span class="p">,</span><span class="s">&#39;WindowButtonMotionFcn&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">);</span>
   <span class="n">set</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">mainFigId</span><span class="p">,</span><span class="s">&#39;WindowButtonUpFcn&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">);</span>
   
-  <span class="n">poly</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">get</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">selecSubband</span><span class="p">.</span><span class="n">lineId</span><span class="p">,</span> <span class="s">&#39;XData&#39;</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">  poly.y = get(gui.selecSubband.lineId, &#39;</span><span class="n">YData</span><span class="o">&#39;</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">  poly.hole = false;</span>
-<span class="s">  </span>
-<span class="s">  delete(gui.selecSubband.lineId);</span>
-<span class="s">  </span>
-<span class="s">  combineSel(poly);</span>
-<span class="s">  drawCurSel;</span>
-<span class="s">end</span>
+  <span class="n">poly</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">get</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">selecSubband</span><span class="p">.</span><span class="n">lineId</span><span class="p">,</span> <span class="s">&#39;XData&#39;</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+  <span class="n">poly</span><span class="p">.</span><span class="n">y</span> <span class="p">=</span> <span class="n">get</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">selecSubband</span><span class="p">.</span><span class="n">lineId</span><span class="p">,</span> <span class="s">&#39;YData&#39;</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+  <span class="n">poly</span><span class="p">.</span><span class="n">hole</span> <span class="p">=</span> <span class="n">false</span><span class="p">;</span>
+  
+  <span class="n">delete</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">selecSubband</span><span class="p">.</span><span class="n">lineId</span><span class="p">);</span>
+  
+  <span class="n">combineSel</span><span class="p">(</span><span class="n">poly</span><span class="p">);</span>
+  <span class="n">drawCurSel</span><span class="p">;</span>
+<span class="k">end</span>
 
-<span class="s">function [poly] = convMaskToPoly(mask)</span>
-<span class="s">  poly = mask2poly(mask);</span>
-<span class="s">  for ind = 1:length(poly)</span>
-<span class="s">    poly(ind).x = convIndToAxesX(poly(ind).x);</span>
-<span class="s">    poly(ind).y = convIndToAxesY(poly(ind).y);</span>
-<span class="s">  end</span>
-<span class="s">end</span>
+<span class="k">function</span><span class="w"> </span>[poly] <span class="p">=</span><span class="w"> </span><span class="nf">convMaskToPoly</span><span class="p">(</span>mask<span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">poly</span> <span class="p">=</span> <span class="n">mask2poly</span><span class="p">(</span><span class="n">mask</span><span class="p">);</span>
+  <span class="k">for</span> <span class="n">ind</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+    <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span> <span class="p">=</span> <span class="n">convIndToAxesX</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span><span class="p">);</span>
+    <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span> <span class="p">=</span> <span class="n">convIndToAxesY</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span><span class="p">);</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-<span class="s">function [poly] = mask2poly(mask)</span>
-<span class="s">  % Convert region mask to region of interest (ROI) polygon</span>
+<span class="k">function</span><span class="w"> </span>[poly] <span class="p">=</span><span class="w"> </span><span class="nf">mask2poly</span><span class="p">(</span>mask<span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Convert region mask to region of interest (ROI) polygon</span>
 
-<span class="s">  % PI: The polygon outputed by this function should be simplified (the portions</span>
-<span class="s">  % having multiple points aligned should be replaced by a single line segment)</span>
-<span class="s">  </span>
-<span class="s">  maskRef = mask;</span>
-<span class="s">  mask = zeros(size(mask, 1)+2, size(mask, 2)+2);</span>
-<span class="s">  mask(2:end-1,2:end-1) = maskRef;</span>
+  <span class="c">% PI: The polygon outputed by this function should be simplified (the portions</span>
+  <span class="c">% having multiple points aligned should be replaced by a single line segment)</span>
+  
+  <span class="n">maskRef</span> <span class="p">=</span> <span class="n">mask</span><span class="p">;</span>
+  <span class="n">mask</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">mask</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">maskRef</span><span class="p">;</span>
 
-<span class="s">  [ind1, ind2] = find(mask);</span>
+  <span class="p">[</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">]</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">mask</span><span class="p">);</span>
 
-<span class="s">  % position of segments on the edge for first dimension</span>
-<span class="s">  seg1 = sparse(size(mask,1)+1, size(mask,2)); </span>
-<span class="s">  % position of segments on the edge for second dimension</span>
-<span class="s">  seg2 = sparse(size(mask,1), size(mask,2)+1) ;</span>
+  <span class="c">% position of segments on the edge for first dimension</span>
+  <span class="n">seg1</span> <span class="p">=</span> <span class="n">sparse</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span> 
+  <span class="c">% position of segments on the edge for second dimension</span>
+  <span class="n">seg2</span> <span class="p">=</span> <span class="n">sparse</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">;</span>
 
-<span class="s">  for n = 1:length(ind1)</span>
-<span class="s">    if ~mask(ind1(n)-1, ind2(n))</span>
-<span class="s">      seg1(ind1(n), ind2(n)) = 1;</span>
-<span class="s">    end</span>
-<span class="s">    if ~mask(ind1(n)+1, ind2(n))</span>
-<span class="s">      seg1(ind1(n)+1, ind2(n)) = 1;</span>
-<span class="s">    end</span>
-<span class="s">    if ~mask(ind1(n), ind2(n)-1)</span>
-<span class="s">      seg2(ind1(n), ind2(n)) = 1;</span>
-<span class="s">    end</span>
-<span class="s">    if ~mask(ind1(n), ind2(n)+1)</span>
-<span class="s">      seg2(ind1(n), ind2(n)+1) = 1;</span>
-<span class="s">    end</span>
-<span class="s">  end</span>
+  <span class="k">for</span> <span class="n">n</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">ind1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">mask</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+      <span class="n">seg1</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">mask</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+      <span class="n">seg1</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">mask</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">seg2</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">mask</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">seg2</span><span class="p">(</span><span class="n">ind1</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">ind2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
 
-<span class="s">  ind = 0;</span>
-<span class="s">  </span>
-<span class="s">  while nnz(seg1)&gt;1</span>
-<span class="s">    curve = chainSeg;</span>
-<span class="s">    if ~isempty(curve)</span>
-<span class="s">      ind = ind+1;</span>
-<span class="s">      poly(ind).x = curve(:,2);</span>
-<span class="s">      poly(ind).y = curve(:,1);</span>
-<span class="s">      for xVal = poly(ind).x(1) + [0.5, -0.5]</span>
-<span class="s">        for yVal = poly(ind).y(1) + [0.5, -0.5]</span>
-<span class="s">          if inpolygon (xVal, yVal, poly(ind).x, poly(ind).y)</span>
-<span class="s">            poly(ind).hole = ~logical(maskRef(yVal, xVal));</span>
-<span class="s">            break</span>
-<span class="s">          end</span>
-<span class="s">        end</span>
-<span class="s">      end</span>
-<span class="s">    end</span>
-<span class="s">  end</span>
-<span class="s">  </span>
-<span class="s">  function curve = chainSeg()</span>
-<span class="s">  % chaining of segments</span>
+  <span class="n">ind</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+  
+  <span class="k">while</span> <span class="n">nnz</span><span class="p">(</span><span class="n">seg1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
+    <span class="n">curve</span> <span class="p">=</span> <span class="n">chainSeg</span><span class="p">;</span>
+    <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">curve</span><span class="p">)</span>
+      <span class="n">ind</span> <span class="p">=</span> <span class="n">ind</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+      <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span> <span class="p">=</span> <span class="n">curve</span><span class="p">(:,</span><span class="mi">2</span><span class="p">);</span>
+      <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span> <span class="p">=</span> <span class="n">curve</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span>
+      <span class="k">for</span> <span class="n">xVal</span> <span class="p">=</span> <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">yVal</span> <span class="p">=</span> <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">]</span>
+          <span class="k">if</span> <span class="n">inpolygon</span> <span class="p">(</span><span class="n">xVal</span><span class="p">,</span> <span class="n">yVal</span><span class="p">,</span> <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span><span class="p">,</span> <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">hole</span> <span class="p">=</span> <span class="o">~</span><span class="n">logical</span><span class="p">(</span><span class="n">maskRef</span><span class="p">(</span><span class="n">yVal</span><span class="p">,</span> <span class="n">xVal</span><span class="p">));</span>
+            <span class="k">break</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">  </span>
+<span class="k">  function</span><span class="w"> </span>curve <span class="p">=</span><span class="w"> </span><span class="nf">chainSeg</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="c">% chaining of segments</span>
 
-<span class="s">    % choose one start segment</span>
-<span class="s">    [ind1, ind2] = find(seg1);</span>
-<span class="s">    ind1 = ind1(1);</span>
-<span class="s">    ind2 = ind2(1);</span>
-<span class="s">    curve = [ind1, ind2; ind1, ind2+1];</span>
+    <span class="c">% choose one start segment</span>
+    <span class="p">[</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">]</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">seg1</span><span class="p">);</span>
+    <span class="n">ind1</span> <span class="p">=</span> <span class="n">ind1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">ind2</span> <span class="p">=</span> <span class="n">ind2</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">curve</span> <span class="p">=</span> <span class="p">[</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">;</span> <span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
 
-<span class="s">    seg1(ind1, ind2) = 0;</span>
+    <span class="n">seg1</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 
-<span class="s">    % pos is a variable to remember in which direction we are</span>
-<span class="s">    % progressing</span>
-<span class="s">    % [1 1] if we&#39;</span><span class="n">re</span> <span class="n">going</span> <span class="n">in</span> <span class="n">a</span> <span class="n">growing</span> <span class="n">index</span> <span class="n">number</span>
+    <span class="c">% pos is a variable to remember in which direction we are</span>
+    <span class="c">% progressing</span>
+    <span class="c">% [1 1] if we&#39;re going in a growing index number</span>
     <span class="c">% [-1 0] otherwise</span>
     <span class="n">pos</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
 

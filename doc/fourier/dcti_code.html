@@ -33,9 +33,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/fourier/dctii_code.html">dctii</a></li>
-<li><a href="#BASEURL#/doc/fourier/dctiv_code.html">dctiv</a></li>
-<li><a href="#BASEURL#/doc/fourier/dsti_code.html">dsti</a></li>
+<li><a href="#BASEURL#/doc/fourier/dctii.html">dctii</a></li>
+<li><a href="#BASEURL#/doc/fourier/dctiv.html">dctiv</a></li>
+<li><a href="#BASEURL#/doc/fourier/dsti.html">dsti</a></li>
 </ul>
 </p></div>
     </div>
@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DCTI - Discrete Cosine Transform type I</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">dcti</span><span class="p">(</span>f,L,dim<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">dcti</span><span class="p">(</span>f,L,dim<span class="p">)</span><span class="w"></span>
 <span class="c">%DCTI  Discrete Cosine Transform type I</span>
 <span class="c">%   Usage:  c=dcti(f);</span>
 <span class="c">%           c=dcti(f,L);</span>
@@ -60,22 +60,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   DCTI(f,[],dim) or DCTI(f,L,dim) applies the transformation along</span>
 <span class="c">%   dimension dim.</span>
-<span class="c">%   </span>
+<span class="c">%</span>
 <span class="c">%   The transform is real (output is real if input is real) and</span>
 <span class="c">%   it is orthonormal.</span>
 <span class="c">%</span>
 <span class="c">%   This transform is its own inverse.</span>
 <span class="c">%</span>
 <span class="c">%   Let f be a signal of length L, let c=dcti(f) and define the vector</span>
-<span class="c">%   w of length L by  </span>
+<span class="c">%   w of length L by</span>
 <span class="c">%</span>
 <span class="c">%      w = [1/sqrt(2) 1 1 1 1 ...1/sqrt(2)]</span>
 <span class="c">%</span>
-<span class="c">%   Then </span>
+<span class="c">%   Then</span>
 <span class="c">%</span>
 <span class="c">%                              L-1</span>
-<span class="c">%     c(n+1) = sqrt(2/(L-1)) * sum w(n+1)*w(m+1)*f(m+1)*cos(pi*n*m/(L-1)) </span>
-<span class="c">%                              m=0 </span>
+<span class="c">%     c(n+1) = sqrt(2/(L-1)) * sum w(n+1)*w(m+1)*f(m+1)*cos(pi*n*m/(L-1))</span>
+<span class="c">%                              m=0</span>
 <span class="c">%</span>
 <span class="c">%   The implementation of this functions uses a simple algorithm that require</span>
 <span class="c">%   an FFT of length 2L-2, which might potentially be the product of a large</span>
@@ -110,7 +110,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/fourier/dcti.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -128,46 +128,46 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   AUTHOR: Peter L. Søndergaard</span>
 <span class="c">%   TESTING: TEST_PUREFREQ</span>
 <span class="c">%   REFERENCE: REF_DCTI</span>
-  
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-  <span class="n">dim</span><span class="p">=[];</span>
+    <span class="n">dim</span><span class="p">=[];</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
-  <span class="n">L</span><span class="p">=[];</span>
+    <span class="n">L</span><span class="p">=[];</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="s">&#39;DCTI&#39;</span><span class="p">);</span>
-    
+
 <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-  <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+    <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="n">L</span><span class="o">==</span><span class="mi">1</span>
-  <span class="n">c</span><span class="p">=</span><span class="n">f</span><span class="p">;</span>
+    <span class="n">c</span><span class="p">=</span><span class="n">f</span><span class="p">;</span>
 <span class="k">else</span>
-  <span class="n">c</span> <span class="p">=</span> <span class="n">comp_dct</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="c">%   c=zeros(L,W,assert_classname(f));</span>
-<span class="c">%   </span>
-<span class="c">%   f2=[f;flipud(f(2:L-1,:))]/sqrt(2);</span>
-<span class="c">%   f2(1,:)=f2(1,:)*sqrt(2);</span>
-<span class="c">%   f2(L,:)=f2(L,:)*sqrt(2);</span>
-<span class="c">%   </span>
-<span class="c">%   % Do DFT.</span>
-<span class="c">%   s1=fft(f2)/sqrt(2*L-2);</span>
-<span class="c">% </span>
-<span class="c">%   % This could be done by a repmat instead.</span>
-<span class="c">%   for w=1:W</span>
-<span class="c">%     c(:,w)=s1(1:L,w)+[0;s1(2*L-2:-1:L+1,w);0];</span>
-<span class="c">%   end;</span>
-<span class="c">% </span>
-<span class="c">%   c(2:L-1,:)=c(2:L-1,:)/sqrt(2);</span>
-<span class="c">%   </span>
-<span class="c">%   if isreal(f)</span>
-<span class="c">%     c=real(c);</span>
-<span class="c">%   end;</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="n">comp_dct</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c">%   c=zeros(L,W,assert_classname(f));</span>
+    <span class="c">%</span>
+    <span class="c">%   f2=[f;flipud(f(2:L-1,:))]/sqrt(2);</span>
+    <span class="c">%   f2(1,:)=f2(1,:)*sqrt(2);</span>
+    <span class="c">%   f2(L,:)=f2(L,:)*sqrt(2);</span>
+    <span class="c">%</span>
+    <span class="c">%   % Do DFT.</span>
+    <span class="c">%   s1=fft(f2)/sqrt(2*L-2);</span>
+    <span class="c">%</span>
+    <span class="c">%   % This could be done by a repmat instead.</span>
+    <span class="c">%   for w=1:W</span>
+    <span class="c">%     c(:,w)=s1(1:L,w)+[0;s1(2*L-2:-1:L+1,w);0];</span>
+    <span class="c">%   end;</span>
+    <span class="c">%</span>
+    <span class="c">%   c(2:L-1,:)=c(2:L-1,:)/sqrt(2);</span>
+    <span class="c">%</span>
+    <span class="c">%   if isreal(f)</span>
+    <span class="c">%     c=real(c);</span>
+    <span class="c">%   end;</span>
 
 <span class="k">end</span><span class="p">;</span>
 

@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WFILTDTINFO - Plots dual-tree filters info</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">wfiltdtinfo</span><span class="p">(</span>dw,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">wfiltdtinfo</span><span class="p">(</span>dw,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%WFILTDTINFO Plots dual-tree filters info</span>
 <span class="c">%   Usage: wfiltdtinfo(dw);</span>
 <span class="c">%</span>
@@ -76,7 +76,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfiltdtinfo.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -154,10 +154,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">sfn</span> <span class="p">=</span> <span class="n">idtwfb</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">dwstruct</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">filtNo</span><span class="p">,[</span><span class="mi">2</span><span class="o">*</span><span class="n">filtNo</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
-<span class="n">xvals</span> <span class="p">=</span> <span class="p">((</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)).</span><span class="s">&#39;);</span>
-<span class="s">plot(xvals,fftshift([abs(sfn),real(sfn),imag(sfn)],1));</span>
-<span class="s">axis tight;</span>
-<span class="s">title(&#39;</span><span class="n">Scaling</span> <span class="k">function</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="n">xvals</span> <span class="p">=</span> <span class="p">((</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)).</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span><span class="n">fftshift</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">sfn</span><span class="p">),</span><span class="nb">real</span><span class="p">(</span><span class="n">sfn</span><span class="p">),</span><span class="nb">imag</span><span class="p">(</span><span class="n">sfn</span><span class="p">)],</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">axis</span> <span class="n">tight</span><span class="p">;</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Scaling function&#39;</span><span class="p">);</span>
 
 <span class="c">%legend({&#39;abs&#39;,&#39;real&#39;,&#39;imag&#39;},&#39;Location&#39;,&#39;south&#39;,&#39;Orientation&#39;,&#39;horizontal&#39;)</span>
 

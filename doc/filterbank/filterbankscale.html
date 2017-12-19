@@ -43,16 +43,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 g=filterbankscale(g,scal)
 g=filterbankscale(g,'flag')
 g=filterbankscale(g,L,'flag')
+[g,scal]=filterbankscale(...)
 </pre>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">g=filterbankscale(g,s)</tt> scales each filter in <em>g</em> by multiplying it
+<p><tt class="docutils literal">g=filterbankscale(g,scal)</tt> scales each filter in <em>g</em> by multiplying it
 with <em>scal</em>. <em>scal</em> can be either scalar or a vector of the same length
-as <em>g</em>.
-The function only works with filterbanks already instantiated
-(returned from a function with a <tt class="docutils literal">filter</tt> (of <tt class="docutils literal">filters</tt>) suffix or run trough
-<span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankwin.html">filterbankwin</a></span>) such that the elements of <em>g</em> must be either structs
+as <em>g</em>. The function only works with filterbanks already instantiated
+(returned from a function with a <tt class="docutils literal">filter</tt> (of <tt class="docutils literal">filters</tt>) suffix or run
+trough <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankwin.html">filterbankwin</a></span>) such that the elements of <em>g</em> must be either structs
 with .h or .H fields or be plain numeric vectors.</p>
 <p><tt class="docutils literal"><span class="pre">g=filterbankscale(g,'flag')</span></tt> instead normalizes each filter to have
 unit norm defined by 'flag'. It can be any of the flags recognized by
@@ -61,6 +61,8 @@ The normalization can be done in frequency by passing extra flag 'freq'.</p>
 <p><tt class="docutils literal"><span class="pre">g=filterbankscale(g,L,'flag')</span></tt> works as before, but some filters require
 knowing <em>L</em> to be instantialized to obtain their norm. The normalization
 will be valid for the lengh <em>L</em> only.</p>
+<p><tt class="docutils literal"><span class="pre">[g,scal]=filterbankscale(g,...)</span></tt> additionally returns a vector <em>scal</em>
+which contains scaling factors used.</p>
 <p>In any case, the returned filters will be in exactly the same format as
 the input filters.</p>
 </div>

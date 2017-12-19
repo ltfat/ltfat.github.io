@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_PHASEPLOT - Give demos of nice phaseplots</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="c">%DEMO_PHASEPLOT  Give demos of nice phaseplots</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_PHASEPLOT  Give demos of nice phaseplots</span>
 <span class="c">%</span>
 <span class="c">%   This script creates a synthetic signal and then uses PHASEPLOT on it,</span>
 <span class="c">%   using several of the possible options.</span>
@@ -74,8 +74,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   References:</span>
 <span class="c">%     R. Carmona, W. Hwang, and B. Torrésani. Multiridge detection and</span>
-<span class="c">%     time-frequency reconstruction. IEEE Trans. Signal Process., 47:480-492,</span>
-<span class="c">%     1999.</span>
+<span class="c">%     time-frequency reconstruction. IEEE Trans. Signal Process.,</span>
+<span class="c">%     47:480--492, 1999.</span>
 <span class="c">%     </span>
 <span class="c">%     R. Carmona, W. Hwang, and B. Torrésani. Practical Time-Frequency</span>
 <span class="c">%     Analysis: continuous wavelet and Gabor transforms, with an</span>
@@ -84,13 +84,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     </span>
 <span class="c">%     A. Grossmann, M. Holschneider, R. Kronland-Martinet, and J. Morlet.</span>
 <span class="c">%     Detection of abrupt changes in sound signals with the help of wavelet</span>
-<span class="c">%     transforms. Inverse Problem, pages 281-306, 1987.</span>
+<span class="c">%     transforms. Inverse Problem, pages 281--306, 1987.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_phaseplot.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -113,9 +113,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">f2</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
 <span class="n">f2</span><span class="p">(</span><span class="mi">50</span><span class="p">)=</span><span class="mi">1</span><span class="p">;</span> <span class="c">% delta-like</span>
 
-<span class="n">f3</span><span class="p">=</span><span class="n">fftshift</span><span class="p">(</span><span class="n">firwin</span><span class="p">(</span><span class="s">&#39;tria&#39;</span><span class="p">,</span><span class="mi">32</span><span class="p">)).</span><span class="s">&#39;;</span>
+<span class="n">f3</span><span class="p">=</span><span class="n">fftshift</span><span class="p">(</span><span class="n">firwin</span><span class="p">(</span><span class="s">&#39;tria&#39;</span><span class="p">,</span><span class="mi">32</span><span class="p">)).</span><span class="o">&#39;</span><span class="p">;</span>
 
-<span class="s">f4 = fftshift(pgauss(100)).&#39;</span><span class="p">;</span>
+<span class="n">f4</span> <span class="p">=</span> <span class="n">fftshift</span><span class="p">(</span><span class="n">pgauss</span><span class="p">(</span><span class="mi">100</span><span class="p">)).</span><span class="o">&#39;</span><span class="p">;</span>
 <span class="n">f4</span> <span class="p">=</span> <span class="n">f4</span><span class="o">/</span><span class="n">max</span><span class="p">(</span><span class="n">f4</span><span class="p">);</span>
 
 <span class="n">sig</span> <span class="p">=</span> <span class="mf">0.9</span><span class="o">*</span><span class="p">[</span><span class="n">f1</span> <span class="mi">0</span> <span class="n">f2</span> <span class="n">f3</span> <span class="o">-</span><span class="n">f3</span> <span class="n">f3</span> <span class="n">f4</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>

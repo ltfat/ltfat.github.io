@@ -33,10 +33,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/dwilt_code.html">dwilt</a></li>
-<li><a href="#BASEURL#/doc/gabor/idwilt2_code.html">idwilt2</a></li>
-<li><a href="#BASEURL#/doc/gabor/dgt2_code.html">dgt2</a></li>
-<li><a href="#BASEURL#/doc/gabor/wildual_code.html">wildual</a></li>
+<li><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></li>
+<li><a href="#BASEURL#/doc/gabor/idwilt2.html">idwilt2</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgt2.html">dgt2</a></li>
+<li><a href="#BASEURL#/doc/gabor/wildual.html">wildual</a></li>
 </ul>
 </p></div>
     </div>
@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DWILT2 - 2D Discrete Wilson transform</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,Ls]<span class="p">=</span><span class="nf">dwilt2</span><span class="p">(</span>f,g1,p3,p4,p5<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,Ls]<span class="p">=</span><span class="nf">dwilt2</span><span class="p">(</span>f,g1,p3,p4,p5<span class="p">)</span><span class="w"></span>
 <span class="c">%DWILT2  2D Discrete Wilson transform</span>
 <span class="c">%   Usage: c=dwilt2(f,g,M); </span>
 <span class="c">%          c=dwilt2(f,g1,g2,[M1,M2]);</span>
@@ -118,7 +118,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/dwilt2.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -135,7 +135,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%   AUTHOR : Peter L. Søndergaard.</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="n">L</span><span class="p">=[];</span>
 

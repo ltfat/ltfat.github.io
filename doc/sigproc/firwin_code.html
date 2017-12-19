@@ -33,6 +33,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
+<li><a href="#BASEURL#/doc/sigproc/freqwin.html">freqwin</a></li>
 <li><a href="#BASEURL#/doc/fourier/pgauss.html">pgauss</a></li>
 <li><a href="#BASEURL#/doc/fourier/pbspline.html">pbspline</a></li>
 <li><a href="#BASEURL#/doc/sigproc/firkaiser.html">firkaiser</a></li>
@@ -44,7 +45,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FIRWIN - FIR window</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[g,info]<span class="p">=</span><span class="nf">firwin</span><span class="p">(</span>name,M,varargin<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,info]<span class="p">=</span><span class="nf">firwin</span><span class="p">(</span>name,M,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%FIRWIN  FIR window</span>
 <span class="c">%   Usage:  g=firwin(name,M);</span>
 <span class="c">%           g=firwin(name,M,...);</span>
@@ -154,6 +155,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                  The window has a mainlobe width of 16/M, a PSL of </span>
 <span class="c">%                  -98.17 dB and decay rate of 6 dB/Octave.</span>
 <span class="c">%</span>
+<span class="c">%     &#39;truncgauss&#39; Gaussian window truncated at 1% of its height.</span>
+<span class="c">%                  Alternatively, a custom percentage can be appended to</span>
+<span class="c">%                  &#39;truncgauss&#39; e.g. &#39;truncgauss0.1&#39; will create Gaussian</span>
+<span class="c">%                  window truncated at 0.1% of its height.</span>
+<span class="c">%</span>
 <span class="c">%   FIRWIN understands the following flags at the end of the list of input</span>
 <span class="c">%   parameters:</span>
 <span class="c">%</span>
@@ -197,28 +203,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%     legend(&#39;Hann&#39;,&#39;Hamming&#39;,&#39;Blackman&#39;,&#39;Nuttall&#39;,&#39;Itersine&#39;);</span>
 <span class="c">%</span>
-<span class="c">%   See also:  pgauss, pbspline, firkaiser, normalize</span>
+<span class="c">%   See also:  freqwin, pgauss, pbspline, firkaiser, normalize</span>
 <span class="c">%</span>
 <span class="c">%   References:</span>
 <span class="c">%     A. V. Oppenheim and R. W. Schafer. Discrete-time signal processing.</span>
 <span class="c">%     Prentice Hall, Englewood Cliffs, NJ, 1989.</span>
 <span class="c">%     </span>
 <span class="c">%     A. Nuttall. Some windows with very good sidelobe behavior. IEEE Trans.</span>
-<span class="c">%     Acoust. Speech Signal Process., 29(1):84-91, 1981.</span>
+<span class="c">%     Acoust. Speech Signal Process., 29(1):84--91, 1981.</span>
 <span class="c">%     </span>
 <span class="c">%     F. Harris. On the use of windows for harmonic analysis with the</span>
-<span class="c">%     discrete Fourier transform. Proceedings of the IEEE, 66(1):51 - 83, jan</span>
-<span class="c">%     1978.</span>
+<span class="c">%     discrete Fourier transform. Proceedings of the IEEE, 66(1):51 -- 83,</span>
+<span class="c">%     jan 1978.</span>
 <span class="c">%     </span>
 <span class="c">%     E. Wesfreid and M. Wickerhauser. Adapted local trigonometric transforms</span>
-<span class="c">%     and speech processing. IEEE Trans. Signal Process., 41(12):3596-3600,</span>
+<span class="c">%     and speech processing. IEEE Trans. Signal Process., 41(12):3596--3600,</span>
 <span class="c">%     1993.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/firwin.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -238,12 +244,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">end</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">ischar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: First input argument must the name of a window.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
-  
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: First input argument must the name of a window.&#39;</span><span class="p">,</span><span class="c">...</span>
+        <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: M must be numeric.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>  
+<span class="k">end</span>
 
 <span class="c">% Always set to this</span>
 <span class="n">info</span><span class="p">.</span><span class="n">isfir</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
@@ -278,6 +288,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
+    <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     
     <span class="c">% Deal with tapering</span>
     <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">taper</span><span class="o">&lt;</span><span class="mi">1</span>
@@ -322,6 +333,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">x</span><span class="p">=</span><span class="n">M</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>
 
+<span class="n">startswith</span> <span class="p">=</span> <span class="s">&#39;truncgauss&#39;</span><span class="p">;</span>
+<span class="k">if</span> <span class="n">regexpi</span><span class="p">(</span><span class="n">name</span><span class="p">,[</span><span class="s">&#39;^&#39;</span><span class="p">,</span><span class="n">startswith</span><span class="p">])</span>
+     <span class="n">percent</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+     <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">numel</span><span class="p">(</span><span class="n">startswith</span><span class="p">)</span>
+            <span class="n">suffix</span> <span class="p">=</span> <span class="n">name</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">startswith</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
+            <span class="n">percent</span> <span class="p">=</span> <span class="n">str2double</span><span class="p">(</span><span class="n">suffix</span><span class="p">);</span>
+            <span class="k">if</span> <span class="nb">isnan</span><span class="p">(</span><span class="n">percent</span><span class="p">)</span>
+                <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Passed &quot;%s&quot; and &quot;%s&quot; cannot be parsed to a number.&#39;</span><span class="p">,</span><span class="c">...</span>
+                      <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">name</span><span class="p">,</span><span class="n">suffix</span><span class="p">);</span>
+            <span class="k">end</span>
+     <span class="k">end</span>
+     <span class="n">name</span> <span class="p">=</span> <span class="n">startswith</span><span class="p">;</span>
+<span class="k">end</span>
 
 <span class="n">do_sqrt</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
 <span class="k">switch</span> <span class="n">name</span>    
@@ -390,6 +414,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
  <span class="k">case</span> <span class="p">{</span><span class="s">&#39;nuttall03&#39;</span><span class="p">}</span>
   <span class="n">g</span><span class="p">=</span><span class="mf">0.3635819</span><span class="o">+</span><span class="mf">0.4891775</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">+</span><span class="mf">0.1365995</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="c">...</span>
       <span class="o">+</span><span class="mf">0.0106411</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+ 
+ <span class="k">case</span> <span class="p">{</span><span class="s">&#39;truncgauss&#39;</span><span class="p">}</span>
+  <span class="n">g</span> <span class="p">=</span> <span class="nb">exp</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="nb">log</span><span class="p">(</span><span class="n">percent</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">);</span>
   
  <span class="k">otherwise</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;Unknown window: %s.&#39;</span><span class="p">,</span><span class="n">name</span><span class="p">);</span>

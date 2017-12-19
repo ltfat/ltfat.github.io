@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FREQWIN - Frequency response window</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>H <span class="p">=</span><span class="w"> </span><span class="nf">freqwin</span><span class="p">(</span>name,L,bw,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>H <span class="p">=</span><span class="w"> </span><span class="nf">freqwin</span><span class="p">(</span>name,L,bw,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%FREQWIN Frequency response window</span>
 <span class="c">%   Usage: H = freqwin(name,L,bw);</span>
 <span class="c">%</span>
@@ -92,7 +92,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/freqwin.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -140,13 +140,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span> <span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">/</span><span class="mi">10</span><span class="p">);</span>
 <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span>
-  <span class="n">kv</span><span class="p">.</span><span class="n">shift</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
-
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_hp</span>
-  <span class="n">kv</span><span class="p">.</span><span class="n">shift</span><span class="p">=</span><span class="mf">0.5</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">shift</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_hp</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">shift</span><span class="p">=</span><span class="mf">0.5</span><span class="p">;</span> <span class="k">end</span>
 
 <span class="k">if</span> <span class="p">(</span> <span class="n">kv</span><span class="p">.</span><span class="n">shift</span> <span class="o">&gt;</span><span class="p">=</span> <span class="p">.</span><span class="mi">5</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">shift</span> <span class="o">&lt;</span> <span class="o">-</span><span class="p">.</span><span class="mi">5</span> <span class="p">)</span>
     <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Parameter shift must be in ]-.5,.5].&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
@@ -156,8 +151,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
      <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Parameter bw must be in ]0,fs].&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
+
 <span class="n">step</span> <span class="p">=</span> <span class="n">fs</span><span class="o">/</span><span class="n">L</span><span class="p">;</span> 
 <span class="n">bwrelheight</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">atheight</span><span class="p">;</span>
+
 <span class="n">H</span> <span class="p">=</span> <span class="p">(</span><span class="o">-</span><span class="n">kv</span><span class="p">.</span><span class="n">shift</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
 
 <span class="k">switch</span> <span class="n">winName</span>
@@ -172,10 +169,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">case</span> <span class="s">&#39;gammatone&#39;</span>
         <span class="n">definputgamma</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">order</span><span class="p">=</span><span class="mi">4</span><span class="p">;</span>
         <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;order&#39;</span><span class="p">},</span><span class="n">definputgamma</span><span class="p">,</span><span class="n">winArgs</span><span class="p">);</span>
+        <span class="k">if</span> <span class="n">order</span> <span class="o">&lt;</span><span class="p">=</span> <span class="mi">1</span>
+            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: order must be bigger than 1. (passed %.2f)&#39;</span><span class="p">,</span><span class="c">...</span>
+                  <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">order</span><span class="p">);</span>
+        <span class="k">end</span>
 
         <span class="n">gtInverse</span> <span class="p">=</span> <span class="p">@(</span><span class="n">yn</span><span class="p">)</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">yn</span>^<span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">/</span><span class="n">order</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
         <span class="n">dilation</span> <span class="p">=</span> <span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">gtInverse</span><span class="p">(</span><span class="n">bwrelheight</span><span class="p">)</span><span class="o">/</span><span class="n">step</span><span class="p">;</span>
-        <span class="n">H</span> <span class="p">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">/</span><span class="n">dilation</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="o">-</span><span class="n">order</span><span class="p">);</span>
+        <span class="n">peakpos</span> <span class="p">=</span> <span class="p">(</span><span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">dilation</span><span class="p">);</span>
+        <span class="n">peakmod</span> <span class="p">=</span> <span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">H</span><span class="o">*</span><span class="n">peakpos</span><span class="p">);</span>
+        <span class="n">H</span> <span class="p">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">H</span><span class="o">/</span><span class="n">dilation</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="o">-</span><span class="n">order</span><span class="p">)</span><span class="o">.*</span><span class="n">peakmod</span><span class="p">;</span>
     <span class="k">otherwise</span> 
         <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unknown window.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>

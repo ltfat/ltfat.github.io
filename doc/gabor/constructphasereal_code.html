@@ -43,12 +43,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">CONSTRUCTPHASEREAL - Construct phase for DGTREAL</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,newphase,usedmask,tgrad,fgrad]<span class="p">=</span><span class="nf">constructphasereal</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,newphase,usedmask,tgrad,fgrad]<span class="p">=</span><span class="nf">constructphasereal</span><span class="p">(</span>s,g,a,M,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%CONSTRUCTPHASEREAL  Construct phase for DGTREAL</span>
 <span class="c">%   Usage:  c=constructphasereal(s,g,a,M);</span>
 <span class="c">%           c=constructphasereal(s,g,a,M,tol);</span>
 <span class="c">%           c=constructphasereal(c,g,a,M,tol,mask);</span>
-<span class="c">%           c=constructphasereal(c,g,a,M,tol,mask,usephase);</span>
+<span class="c">%           c=constructphasereal(s,g,a,M,tol,mask,usephase);</span>
 <span class="c">%           [c,newphase,usedmask,tgrad,fgrad] = constructphasereal(...);</span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
@@ -91,8 +91,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   coefficients with known phase which is used in the output. Only the</span>
 <span class="c">%   phase of remaining coefficients (for which mask==0) is computed.</span>
 <span class="c">%</span>
-<span class="c">%   CONSTRUCTPHASEREAL(c,g,a,M,tol,mask,usephase) does the same as before</span>
-<span class="c">%   but uses the known phase values from usephase rather than from c.</span>
+<span class="c">%   CONSTRUCTPHASEREAL(s,g,a,M,tol,mask,usephase) does the same as before</span>
+<span class="c">%   but uses the known phase values from usephase rather than from s.</span>
 <span class="c">%</span>
 <span class="c">%   In addition, tol can be a vector containing decreasing values. In </span>
 <span class="c">%   that case, the algorithm is run numel(tol) times, initialized with</span>
@@ -125,7 +125,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/constructphasereal.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -150,15 +150,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mask</span><span class="p">=[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">usephase</span><span class="p">=[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;mask&#39;</span><span class="p">,</span><span class="s">&#39;usephase&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tgrad</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fgrad</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;mask&#39;</span><span class="p">,</span><span class="s">&#39;usephase&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="n">do_compgrad</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>  
+
+<span class="k">if</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isempty</span><span class="p">,{</span><span class="n">kv</span><span class="p">.</span><span class="n">tgrad</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">fgrad</span><span class="p">}))</span>
+    <span class="n">do_compgrad</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">all</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@</span><span class="nb">isempty</span><span class="p">,{</span><span class="n">kv</span><span class="p">.</span><span class="n">tgrad</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">fgrad</span><span class="p">}))</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Both fgrad nad tgrad must be defined.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> 
     <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: *s* must be numeric.&#39;</span><span class="p">,</span><span class="n">thismfilename</span><span class="p">);</span>
-<span class="k">end</span>
-
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Both mask and usephase must be used at the same time.&#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> 
@@ -177,9 +184,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span>
         <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: s and usephase must have the same size and usephase must&#39;</span><span class="p">,</span><span class="c">...</span>
-               <span class="s">&#39; be real.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">)</span>        
+               <span class="s">&#39; be real.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">);</span>
     <span class="k">end</span>
 <span class="k">else</span>
     <span class="n">usephase</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
@@ -201,29 +208,41 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
 
-<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-
-<span class="k">if</span> <span class="o">~</span><span class="n">info</span><span class="p">.</span><span class="n">gauss</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The window must be a Gaussian window (specified &#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;as a string or as a cell array)&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
-
 <span class="c">% Here we try to avoid calling gabphasegrad as it only works with full</span>
 <span class="c">% dgts.</span>
 <span class="n">abss</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-<span class="n">logs</span><span class="p">=</span><span class="nb">log</span><span class="p">(</span><span class="n">abss</span><span class="o">+</span><span class="nb">realmin</span><span class="p">);</span>
-<span class="n">tt</span><span class="p">=</span><span class="o">-</span><span class="mi">11</span><span class="p">;</span>
-<span class="n">logs</span><span class="p">(</span><span class="n">logs</span><span class="o">&lt;</span><span class="n">max</span><span class="p">(</span><span class="n">logs</span><span class="p">(:))</span><span class="o">+</span><span class="n">tt</span><span class="p">)=</span><span class="n">tt</span><span class="p">;</span>
 
-<span class="n">difforder</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
-<span class="n">fgrad</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="o">*</span><span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
-<span class="c">% Undo the scaling done by pderiv and scale properly</span>
-<span class="n">tgrad</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">M2</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">do_compgrad</span>
+    <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 
-<span class="c">% Fix the first and last rows .. the</span>
-<span class="c">% borders are symmetric so the centered difference is 0</span>
-<span class="n">tgrad</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="n">tgrad</span><span class="p">(</span><span class="k">end</span><span class="p">,:)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">info</span><span class="p">.</span><span class="n">gauss</span> <span class="o">&amp;&amp;</span> <span class="n">do_compgrad</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The window must be a Gaussian window (specified &#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;as a string or as a cell array)&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>
+
+    <span class="n">logs</span><span class="p">=</span><span class="nb">log</span><span class="p">(</span><span class="n">abss</span><span class="o">+</span><span class="nb">realmin</span><span class="p">);</span>
+    <span class="n">tt</span><span class="p">=</span><span class="o">-</span><span class="mi">11</span><span class="p">;</span>
+    <span class="n">logs</span><span class="p">(</span><span class="n">logs</span><span class="o">&lt;</span><span class="n">max</span><span class="p">(</span><span class="n">logs</span><span class="p">(:))</span><span class="o">+</span><span class="n">tt</span><span class="p">)=</span><span class="n">tt</span><span class="p">;</span>
+
+    <span class="n">difforder</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">fgrad</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="o">*</span><span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
+    <span class="c">% Undo the scaling done by pderiv and scale properly</span>
+    <span class="n">tgrad</span> <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">M2</span><span class="p">);</span>
+
+    <span class="c">% Fix the first and last rows .. the</span>
+    <span class="c">% borders are symmetric so the centered difference is 0</span>
+    <span class="n">tgrad</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">tgrad</span><span class="p">(</span><span class="k">end</span><span class="p">,:)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">tgrad</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">||</span>  <span class="n">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">fgrad</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: tgrad and fgrad must have the same size as s&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>
+    <span class="n">L</span> <span class="p">=</span> <span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">b</span> <span class="p">=</span> <span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+    <span class="n">tgrad</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">tgrad</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">fgrad</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">fgrad</span><span class="o">*</span><span class="n">b</span><span class="p">;</span>
+    <span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="k">end</span>
 
 <span class="p">[</span><span class="n">newphase</span><span class="p">,</span> <span class="n">usedmask</span><span class="p">]</span> <span class="p">=</span> <span class="n">comp_constructphasereal</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">);</span>
 

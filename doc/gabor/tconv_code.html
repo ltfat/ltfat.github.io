@@ -33,9 +33,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/operators/spreadop_code.html">spreadop</a></li>
-<li><a href="#BASEURL#/doc/operators/spreadfun_code.html">spreadfun</a></li>
-<li><a href="#BASEURL#/doc/operators/spreadinv_code.html">spreadinv</a></li>
+<li><a href="#BASEURL#/doc/operators/spreadop.html">spreadop</a></li>
+<li><a href="#BASEURL#/doc/operators/spreadfun.html">spreadfun</a></li>
+<li><a href="#BASEURL#/doc/operators/spreadinv.html">spreadinv</a></li>
 </ul>
 </p></div>
     </div>
@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">TCONV - Twisted convolution</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>h<span class="p">=</span><span class="nf">tconv</span><span class="p">(</span>f,g<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>h<span class="p">=</span><span class="nf">tconv</span><span class="p">(</span>f,g<span class="p">)</span><span class="w"></span>
 <span class="c">%TCONV  Twisted convolution</span>
 <span class="c">%   Usage:  h=tconv(f,g);</span>
 <span class="c">%</span>
@@ -76,7 +76,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/tconv.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -96,8 +96,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   TESTING: TEST_SPREAD</span>
 <span class="c">%   REFERENCE: REF_TCONV</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
-
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">~=</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input matrices must be same size.&#39;</span><span class="p">);</span>

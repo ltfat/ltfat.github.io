@@ -33,7 +33,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/operators/framemulappr_code.html">framemulappr</a></li>
+<li><a href="#BASEURL#/doc/operators/framemulappr.html">framemulappr</a></li>
 </ul>
 </p></div>
     </div>
@@ -41,7 +41,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">GABMULAPPR - Best Approximation by a Gabor multiplier</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[sym,lowb,upb]<span class="p">=</span><span class="nf">gabmulappr</span><span class="p">(</span>T,p2,p3,p4,p5<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[sym,lowb,upb]<span class="p">=</span><span class="nf">gabmulappr</span><span class="p">(</span>T,p2,p3,p4,p5<span class="p">);</span>
 <span class="c">%GABMULAPPR  Best Approximation by a Gabor multiplier</span>
 <span class="c">%   Usage:  sym=gabmulappr(T,a,M);</span>
 <span class="c">%           sym=gabmulappr(T,g,a,M);</span>
@@ -82,26 +82,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     M. Dörfler and B. Torrésani. Representation of operators in the</span>
 <span class="c">%     time-frequency domain and generalized Gabor multipliers. J. Fourier</span>
-<span class="c">%     Anal. Appl., 16(2):261-293, April 2010.</span>
+<span class="c">%     Anal. Appl., 16(2):261--293, April 2010.</span>
 <span class="c">%     </span>
 <span class="c">%     P. Balazs. Hilbert-Schmidt operators and frames - classification, best</span>
 <span class="c">%     approximation by multipliers and algorithms. International Journal of</span>
-<span class="c">%     Wavelets, Multiresolution and Information Processing, 6:315 - 330,</span>
+<span class="c">%     Wavelets, Multiresolution and Information Processing, 6:315 -- 330,</span>
 <span class="c">%     2008.</span>
 <span class="c">%     </span>
 <span class="c">%     P. Balazs. Basic definition and properties of Bessel multipliers.</span>
-<span class="c">%     Journal of Mathematical Analysis and Applications, 325(1):571-585,</span>
+<span class="c">%     Journal of Mathematical Analysis and Applications, 325(1):571--585,</span>
 <span class="c">%     January 2007.</span>
 <span class="c">%     </span>
 <span class="c">%     H. G. Feichtinger, M. Hampejs, and G. Kracher. Approximation of</span>
 <span class="c">%     matrices by Gabor multipliers. IEEE Signal Procesing Letters,</span>
-<span class="c">%     11(11):883-886, 2004.</span>
+<span class="c">%     11(11):883--886, 2004.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/operators/gabmulappr.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -120,7 +120,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% REFERENCE : REF_GABMULAPPR</span>
 <span class="c">% TESTING   : TEST_GABMULAPPR</span>
   
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 

@@ -33,7 +33,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/blockproc/block_code.html">block</a></li>
+<li><a href="#BASEURL#/doc/blockproc/block.html">block</a></li>
 </ul>
 </p></div>
     </div>
@@ -41,7 +41,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">BLOCKWRITE - Append block to an existing file</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">blockwrite</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">blockwrite</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
 <span class="c">%BLOCKWRITE  Append block to an existing file</span>
 <span class="c">%   Usage: blockwrite(f);</span>
 <span class="c">%</span>
@@ -60,7 +60,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockwrite.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -111,18 +111,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">% prepare data depending on mono/stereo:</span>
 <span class="k">if</span> <span class="n">W</span> <span class="o">==</span> <span class="mi">2</span>           <span class="c">% stereo</span>
-  <span class="n">f</span> <span class="p">=</span> <span class="n">f</span><span class="p">.</span><span class="s">&#39;;</span>
-<span class="s">  f = f(:);</span>
-<span class="s">end</span>
+  <span class="n">f</span> <span class="p">=</span> <span class="n">f</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
+  <span class="n">f</span> <span class="p">=</span> <span class="n">f</span><span class="p">(:);</span>
+<span class="k">end</span>
 
 
-<span class="s">% flength = dlength + 36;</span>
-<span class="s">% We need to read one field from the header and</span>
-<span class="s">% update two.</span>
-<span class="s">fid = fopen(filename,&#39;</span><span class="n">r</span><span class="o">+</span><span class="s">&#39;);</span>
+<span class="c">% flength = dlength + 36;</span>
+<span class="c">% We need to read one field from the header and</span>
+<span class="c">% update two.</span>
+<span class="n">fid</span> <span class="p">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">&#39;r+&#39;</span><span class="p">);</span>
 
-<span class="s">fseek(fid,40,-1);</span>
-<span class="s">dataLenInBytes = fread(fid,1,&#39;</span><span class="n">uint32</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="n">fseek</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">dataLenInBytes</span> <span class="p">=</span> <span class="n">fread</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;uint32&#39;</span><span class="p">);</span>
 <span class="n">dataLenInBytes</span> <span class="p">=</span> <span class="n">dataLenInBytes</span> <span class="o">+</span> <span class="n">filestruct</span><span class="p">.</span><span class="n">alignment</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
 <span class="n">fileLenInBytes</span> <span class="p">=</span> <span class="n">dataLenInBytes</span> <span class="o">+</span> <span class="mi">36</span><span class="p">;</span>
 

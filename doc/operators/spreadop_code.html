@@ -33,10 +33,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/tconv_code.html">tconv</a></li>
-<li><a href="#BASEURL#/doc/operators/spreadfun_code.html">spreadfun</a></li>
-<li><a href="#BASEURL#/doc/operators/spreadinv_code.html">spreadinv</a></li>
-<li><a href="#BASEURL#/doc/operators/spreadadj_code.html">spreadadj</a></li>
+<li><a href="#BASEURL#/doc/gabor/tconv.html">tconv</a></li>
+<li><a href="#BASEURL#/doc/operators/spreadfun.html">spreadfun</a></li>
+<li><a href="#BASEURL#/doc/operators/spreadinv.html">spreadinv</a></li>
+<li><a href="#BASEURL#/doc/operators/spreadadj.html">spreadadj</a></li>
 </ul>
 </p></div>
     </div>
@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">SPREADOP - Spreading operator</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>h<span class="p">=</span><span class="nf">spreadop</span><span class="p">(</span>f,coef<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>h<span class="p">=</span><span class="nf">spreadop</span><span class="p">(</span>f,coef<span class="p">)</span><span class="w"></span>
 <span class="c">%SPREADOP  Spreading operator</span>
 <span class="c">%   Usage: h=spreadop(f,c);</span>
 <span class="c">%</span>
@@ -73,13 +73,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     H. G. Feichtinger and W. Kozek. Operator quantization on LCA groups. In</span>
 <span class="c">%     H. G. Feichtinger and T. Strohmer, editors, Gabor Analysis and</span>
-<span class="c">%     Algorithms, chapter 7, pages 233-266. Birkhäuser, Boston, 1998.</span>
+<span class="c">%     Algorithms, chapter 7, pages 233--266. Birkhäuser, Boston, 1998.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/operators/spreadop.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -98,7 +98,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   TESTING: TEST_SPREAD</span>
 <span class="c">%   REFERENCE: REF_SPREADOP</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="nb">ndims</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span> <span class="o">||</span> <span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input symbol coef must be a square matrix.&#39;</span><span class="p">);</span>
@@ -132,29 +132,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="c">%  end;</span>
     <span class="c">%end;</span>
 
-    <span class="n">l</span><span class="p">=(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">    for ii=1:length(mr)</span>
-<span class="s">        bigmod=repmat(exp(l*mr(ii)),1,W);</span>
-<span class="s">        h=h+cv(ii)*(bigmod.*circshift(f,nr(ii)));</span>
-<span class="s">    end;</span>
+    <span class="n">l</span><span class="p">=(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">mr</span><span class="p">)</span>
+        <span class="n">bigmod</span><span class="p">=</span><span class="nb">repmat</span><span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="n">l</span><span class="o">*</span><span class="n">mr</span><span class="p">(</span><span class="n">ii</span><span class="p">)),</span><span class="mi">1</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
+        <span class="n">h</span><span class="p">=</span><span class="n">h</span><span class="o">+</span><span class="n">cv</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bigmod</span><span class="o">.*</span><span class="nb">circshift</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">nr</span><span class="p">(</span><span class="n">ii</span><span class="p">)));</span>
+    <span class="k">end</span><span class="p">;</span>
 
-<span class="s">else</span>
+<span class="k">else</span>
 
-<span class="s">  % This version only touches coef one column at a time, and it suited</span>
-<span class="s">  % if coef is sparse.</span>
-<span class="s">  </span>
-<span class="s">  if issparse(coef)</span>
-<span class="s">    for n=0:L-1</span>
-<span class="s">      % The &#39;</span><span class="n">full</span><span class="o">&#39;</span> <span class="n">below</span> <span class="n">is</span> <span class="n">required</span> <span class="k">for</span> <span class="n">Matlab</span> <span class="n">compatibility</span><span class="p">,</span> <span class="n">as</span>
+  <span class="c">% This version only touches coef one column at a time, and it suited</span>
+  <span class="c">% if coef is sparse.</span>
+  
+  <span class="k">if</span> <span class="n">issparse</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span>
+      <span class="c">% The &#39;full&#39; below is required for Matlab compatibility, as</span>
       <span class="c">% Matlab refuses to do an ifft of a sparse matrix.</span>
       <span class="n">cf</span><span class="p">=</span><span class="n">ifft</span><span class="p">(</span><span class="n">full</span><span class="p">(</span><span class="n">coef</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
-      <span class="n">modind</span><span class="p">=</span><span class="nb">mod</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="s">&#39;-n,L)+1;</span>
-<span class="s">      h=h+repmat(cf,1,W).*f(modind,:);</span>
-<span class="s">    end;            </span>
-<span class="s">  else</span>
-<span class="s">    for n=0:L-1</span>
-<span class="s">      cf=ifft(coef(:,n+1))*L;</span>
-<span class="s">      modind=mod((0:L-1).&#39;</span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+      <span class="n">modind</span><span class="p">=</span><span class="nb">mod</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;-</span><span class="n">n</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+      <span class="n">h</span><span class="p">=</span><span class="n">h</span><span class="o">+</span><span class="nb">repmat</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">W</span><span class="p">)</span><span class="o">.*</span><span class="n">f</span><span class="p">(</span><span class="n">modind</span><span class="p">,:);</span>
+    <span class="k">end</span><span class="p">;</span>            
+  <span class="k">else</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span>
+      <span class="n">cf</span><span class="p">=</span><span class="n">ifft</span><span class="p">(</span><span class="n">coef</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
+      <span class="n">modind</span><span class="p">=</span><span class="nb">mod</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;-</span><span class="n">n</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
       <span class="n">h</span><span class="p">=</span><span class="n">h</span><span class="o">+</span><span class="nb">repmat</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">W</span><span class="p">)</span><span class="o">.*</span><span class="n">f</span><span class="p">(</span><span class="n">modind</span><span class="p">,:);</span>
     <span class="k">end</span><span class="p">;</span>                            
   <span class="k">end</span><span class="p">;</span>

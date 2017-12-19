@@ -41,7 +41,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">IDFT - Inverse normalized Discrete Fourier Transform</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">idft</span><span class="p">(</span>c,N,dim<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">idft</span><span class="p">(</span>c,N,dim<span class="p">)</span><span class="w"></span>
 <span class="c">%IDFT  Inverse normalized Discrete Fourier Transform</span>
 <span class="c">%   Usage: f=idft(c);</span>
 <span class="c">%          f=idft(c,N,dim);</span>
@@ -64,7 +64,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/fourier/idft.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -83,7 +83,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   TESTING: TEST_IDFT</span>
 <span class="c">%   REFERENCE: TEST_DFT</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
   <span class="n">dim</span><span class="p">=[];</span>  

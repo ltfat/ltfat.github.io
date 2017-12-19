@@ -53,20 +53,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad(method,...)</span></tt> computes the time-frequency
-gradient of the phase of the <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span> of a signal. The derivative in time
-<em>tgrad</em> is the relative instantaneous frequency while the frequency
-derivative <em>fgrad</em> is the local group delay.</p>
-<p><em>tgrad</em> and <em>fgrad</em> measure the deviation from the current time and
-frequency, so a value of zero means that the instantaneous frequency is
-equal to the center frequency of the considered channel.</p>
-<p><em>tgrad</em> is scaled such that distances are measured in samples. Similarly,
-<em>fgrad</em> is scaled such that the Nyquist frequency (the highest possible
+<p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad(method,...)</span></tt> computes the relative
+time-frequency gradient of the phase of the <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span> of a signal.
+The derivative in time <em>tgrad</em> is the relative instantaneous
+frequency while the frequency derivative <em>fgrad</em> is the negative
+of the local group delay.</p>
+<p><em>tgrad</em> is a measure the deviation from the current channel frequency,
+so a value of zero means that the instantaneous frequency is equal to
+the center frequency of the considered channel, a positive value means
+the true absolute intantaneous frequency is higher than the current
+channel frequency and vice versa.
+Similarly, <em>fgrad</em> is a measure of deviation from the current time
+positions.</p>
+<p><em>fgrad</em> is scaled such that distances are measured in samples. Similarly,
+<em>tgrad</em> is scaled such that the Nyquist frequency (the highest possible
 frequency) corresponds to a value of L/2. The absolute time and
 frequency positions can be obtained as</p>
 <blockquote>
 tgradabs = bsxfun(&#64;plus,tgrad,fftindex(M)*L/M);
 fgradabs = bsxfun(&#64;plus,fgrad,(0:L/a-1)*a);</blockquote>
+<p>Please note that neither <em>tgrad</em> and <em>fgrad</em> nor <em>tgradabs</em> and
+<em>fgradabs</em> are true derivatives of the <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span> phase. To obtain the true
+phase derivatives, one has to explicitly pass either 'freqinv' or
+'timeinv' flags and scale both <em>tgrad</em> and <em>fgrad</em> by 2*pi/L.</p>
 <p>The computation of <em>tgrad</em> and <em>fgrad</em> is inaccurate when the absolute
 value of the Gabor coefficients is low. This is due to the fact the the
 phase of complex numbers close to the machine precision is almost
@@ -82,9 +91,6 @@ when <tt class="docutils literal">abs(c)</tt> is close to zero.</p>
 <td>Directly from the signal using algorithm by Auger and
 Flandrin.</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">'cross'</span></kbd></td>
-<td>Directly from the signal using algorithm by Nelson.</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">'phase'</span></kbd></td>
 <td>From the phase of a DGT of the signal. This is the
 classic method used in the phase vocoder.</td></tr>
@@ -92,6 +98,9 @@ classic method used in the phase vocoder.</td></tr>
 <kbd><span class="option">'abs'</span></kbd></td>
 <td>From the absolute value of the DGT. Currently this
 method works only for Gaussian windows.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'cross'</span></kbd></td>
+<td>Directly from the signal using algorithm by Nelson.</td></tr>
 </tbody>
 </table>
 <p><tt class="docutils literal"><span class="pre">[tgrad,fgrad]=gabphasegrad('dgt',f,g,a,M)</span></tt> computes the time-frequency
@@ -153,6 +162,17 @@ E.&nbsp;Chassande-Mottin, I.&nbsp;Daubechies, F.&nbsp;Auger, and P.&nbsp;Flandri
 J.&nbsp;Flanagan, D.&nbsp;Meinhart, R.&nbsp;Golden, and M.&nbsp;Sondhi.
  Phase Vocoder.
  <em>The Journal of the Acoustical Society of America</em>, 38:939, 1965.
+
+</p>
+
+<p><a name="ltfatnote042"></a>
+
+Z.&nbsp;Pr&#367;&scaron;a.
+ STFT and DGT phase conventions and phase derivatives
+  interpretation.
+ Technical report, Acoustics Research Institute, Austrian Academy of
+  Sciences, 2015.
+[&nbsp;<a href="http://ltfat.github.io/notes/ltfatnote042.pdf">.pdf</a>&nbsp;]
 
 </p>
 

@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">PLOTNSDGTREAL - Plot NSDGTREAL coefficients</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>coef <span class="p">=</span><span class="w"> </span><span class="nf">plotnsdgtreal</span><span class="p">(</span>coef,a,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>coef <span class="p">=</span><span class="w"> </span><span class="nf">plotnsdgtreal</span><span class="p">(</span>coef,a,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%PLOTNSDGTREAL Plot NSDGTREAL coefficients</span>
 <span class="c">%   Usage:  plotnsdgtreal(c,a,fs,dynrange);</span>
 <span class="c">%</span>
@@ -82,7 +82,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/nonstatgab/plotnsdgtreal.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -135,13 +135,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">coef</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">yres</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">xres</span><span class="p">);</span>
 <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">yres</span>
-  <span class="n">data</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="n">timepos</span><span class="p">,</span><span class="n">cwork</span><span class="p">(</span><span class="n">ii</span><span class="p">,:).</span><span class="s">&#39;,xr,&#39;</span><span class="n">nearest</span><span class="o">&#39;</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">  coef(ii,:)=data;</span>
-<span class="s">end;</span>
+  <span class="n">data</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="n">timepos</span><span class="p">,</span><span class="n">cwork</span><span class="p">(</span><span class="n">ii</span><span class="p">,:).</span><span class="o">&#39;</span><span class="p">,</span><span class="n">xr</span><span class="p">,</span><span class="s">&#39;nearest&#39;</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+  <span class="n">coef</span><span class="p">(</span><span class="n">ii</span><span class="p">,:)=</span><span class="n">data</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">yr=[0,1];</span>
+<span class="n">yr</span><span class="p">=[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span>
 
-<span class="s">coef=tfplot(coef,aplot,yr,&#39;</span><span class="n">argimport</span><span class="o">&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span>
+<span class="n">coef</span><span class="p">=</span><span class="n">tfplot</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">aplot</span><span class="p">,</span><span class="n">yr</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">nargout</span><span class="o">&lt;</span><span class="mi">1</span>
     <span class="n">clear</span> <span class="n">coef</span><span class="p">;</span>

@@ -42,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">PHASELOCKREAL - Phaselock Gabor coefficients</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>c <span class="p">=</span><span class="w"> </span><span class="nf">phaselockreal</span><span class="p">(</span>c,a,M,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c <span class="p">=</span><span class="w"> </span><span class="nf">phaselockreal</span><span class="p">(</span>c,a,M,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%PHASELOCKREAL  Phaselock Gabor coefficients</span>
 <span class="c">%   Usage:  c=phaselockreal(c,a,M);</span>
 <span class="c">%</span>
@@ -60,14 +60,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   References:</span>
 <span class="c">%     M. Puckette. Phase-locked vocoder. Applications of Signal Processing to</span>
-<span class="c">%     Audio and Acoustics, 1995., IEEE ASSP Workshop on, pages 222 -225,</span>
+<span class="c">%     Audio and Acoustics, 1995., IEEE ASSP Workshop on, pages 222 --225,</span>
 <span class="c">%     1995.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/phaselockreal.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -98,6 +98,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;M must be integer&#39;</span><span class="p">);</span>
 <span class="k">end</span><span class="p">;</span>
 
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">accuracy</span><span class="p">={</span><span class="s">&#39;normal&#39;</span><span class="p">,</span> <span class="s">&#39;precise&#39;</span><span class="p">};</span>
+<span class="n">flags</span><span class="p">=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
 <span class="n">M2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 <span class="n">M2user</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
 
@@ -107,15 +110,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 
-<span class="n">TimeInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-<span class="n">FreqInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">M2</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_normal</span>
+    <span class="n">TimeInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">FreqInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">M2</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
 
-<span class="n">phase</span> <span class="p">=</span> <span class="n">FreqInd</span><span class="o">&#39;*</span><span class="n">TimeInd</span><span class="p">;</span>
-<span class="n">phase</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="n">phase</span> <span class="p">=</span> <span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">phase</span><span class="o">/</span><span class="n">M</span><span class="p">);</span>
+    <span class="n">phase</span> <span class="p">=</span> <span class="n">FreqInd</span><span class="o">&#39;*</span><span class="n">TimeInd</span><span class="p">;</span>
+    <span class="n">phase</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+    <span class="n">phase</span> <span class="p">=</span> <span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">phase</span><span class="o">/</span><span class="n">M</span><span class="p">);</span>
 
-<span class="c">% Handle multisignals</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">phase</span><span class="p">);</span>
+    <span class="c">% Handle multisignals</span>
+    <span class="n">c</span><span class="p">=</span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">phase</span><span class="p">);</span>
+<span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_precise</span>
+    
+    <span class="n">frames</span> <span class="p">=</span> <span class="n">ifftreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">frames</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,:)</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">frames</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,:),</span><span class="o">-</span><span class="n">n</span><span class="o">*</span><span class="n">a</span><span class="p">);</span>
+    <span class="k">end</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="n">fftreal</span><span class="p">(</span><span class="n">frames</span><span class="p">);</span>
+    
+<span class="k">end</span>
 </pre></div>
 
 

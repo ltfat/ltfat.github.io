@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WFILT_REMEZ - Filters designed using Remez exchange algorithm</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[h,g,a,info]<span class="p">=</span><span class="nf">wfilt_remez</span><span class="p">(</span>L,K,B<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[h,g,a,info]<span class="p">=</span><span class="nf">wfilt_remez</span><span class="p">(</span>L,K,B<span class="p">)</span><span class="w"></span>
 <span class="c">%WFILT_REMEZ Filters designed using Remez exchange algorithm</span>
 <span class="c">%   Usage: [h,g,a]=wfilt_remez(L,K,B)</span>
 <span class="c">%</span>
@@ -62,13 +62,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     O. Rioul and P. Duhamel. A remez exchange algorithm for orthonormal</span>
 <span class="c">%     wavelets. Circuits and Systems II: Analog and Digital Signal</span>
-<span class="c">%     Processing, IEEE Transactions on, 41(8):550 -560, aug 1994.</span>
+<span class="c">%     Processing, IEEE Transactions on, 41(8):550 --560, aug 1994.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfilt_remez.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -104,12 +104,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">rh</span><span class="p">=</span><span class="n">fc_cceps</span><span class="p">(</span><span class="n">poly</span><span class="p">);</span>
 
 <span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span> <span class="p">=</span> <span class="nb">flipud</span><span class="p">(</span><span class="n">rh</span><span class="p">(:));</span>
-<span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span> <span class="p">=</span> <span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">rh</span><span class="p">)).</span><span class="s">&#39;.*flipud(g{1});</span>
+<span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span> <span class="p">=</span> <span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">rh</span><span class="p">)).</span><span class="o">&#39;.*</span><span class="nb">flipud</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span>
 
-<span class="s">% Default offset</span>
-<span class="s">d = [0,0];</span>
-<span class="s">  % Do a filter alignment according to &quot;center of gravity&quot;</span>
-<span class="s">  d(1) = -floor(sum((1:L)&#39;</span><span class="o">.*</span><span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span><span class="o">.^</span><span class="mi">2</span><span class="p">));</span>
+<span class="c">% Default offset</span>
+<span class="n">d</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span>
+  <span class="c">% Do a filter alignment according to &quot;center of gravity&quot;</span>
+  <span class="n">d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">sum</span><span class="p">((</span><span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="p">)</span><span class="o">&#39;.*</span><span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span><span class="o">.^</span><span class="mi">2</span><span class="p">));</span>
   <span class="n">d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">sum</span><span class="p">((</span><span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="p">)</span><span class="o">&#39;.*</span><span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">})</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="mi">2</span><span class="p">})</span><span class="o">.^</span><span class="mi">2</span><span class="p">));</span>
   <span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
       <span class="c">% Shift d(2) just a bit</span>

@@ -33,9 +33,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/rect2wil_code.html">rect2wil</a></li>
-<li><a href="#BASEURL#/doc/gabor/dwilt_code.html">dwilt</a></li>
-<li><a href="#BASEURL#/doc/gabor/wmdct_code.html">wmdct</a></li>
+<li><a href="#BASEURL#/doc/gabor/rect2wil.html">rect2wil</a></li>
+<li><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></li>
+<li><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></li>
 </ul>
 </p></div>
     </div>
@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WIL2RECT - Arrange Wilson coefficients in a rectangular layout</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>cout<span class="p">=</span><span class="nf">wil2rect</span><span class="p">(</span>cin<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>cout<span class="p">=</span><span class="nf">wil2rect</span><span class="p">(</span>cin<span class="p">);</span>
 <span class="c">%WIL2RECT  Arrange Wilson coefficients in a rectangular layout</span>
 <span class="c">%   Usage:  c=wil2rect(c);</span>
 <span class="c">%</span>
@@ -60,7 +60,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/wil2rect.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -75,7 +75,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
   
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
   
 <span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 <span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>

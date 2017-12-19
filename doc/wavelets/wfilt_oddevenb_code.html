@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WFILT_ODDEVENB - Kingsbury's symmetric odd filters</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_oddevenb</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_oddevenb</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
 <span class="c">%WFILT_ODDEVENB  Kingsbury&#39;s symmetric odd filters</span>
 <span class="c">%</span>
 <span class="c">%   Usage: [h,g,a] = wfilt_oddevenb(N);</span>
@@ -57,13 +57,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     N. Kingsbury. Complex wavelets for shift invariant analysis and</span>
 <span class="c">%     filtering of signals. Applied and Computational Harmonic Analysis,</span>
-<span class="c">%     10(3):234 - 253, 2001.</span>
+<span class="c">%     10(3):234 -- 253, 2001.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfilt_oddevenb.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -122,8 +122,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span>
 
     <span class="c">%garr = [garr(:,3:4),garr(:,1:2)];</span>
-    <span class="n">modrange</span> <span class="p">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">garr</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="s">&#39;;</span>
-<span class="s">    modrange2 = (-1).^((0:size(garr,1)-1) + offset).&#39;</span><span class="p">;</span>
+    <span class="n">modrange</span> <span class="p">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">garr</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+    <span class="n">modrange2</span> <span class="p">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">garr</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
     
     <span class="n">harr</span> <span class="p">=</span>       <span class="p">[</span><span class="n">garr</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">.*</span><span class="n">modrange2</span><span class="p">,</span><span class="c">...</span>
                   <span class="n">garr</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="n">modrange</span><span class="p">,</span><span class="c">...</span>

@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WPBEST - Best Tree selection</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,info] <span class="p">=</span><span class="w"> </span><span class="nf">wpbest</span><span class="p">(</span>f,w,J,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,info] <span class="p">=</span><span class="w"> </span><span class="nf">wpbest</span><span class="p">(</span>f,w,J,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%WPBEST  Best Tree selection</span>
 <span class="c">%   Usage: c = wpbest(f,w,J,cost);</span>
 <span class="c">%          [c,info] = wpbest(...);</span>
@@ -189,14 +189,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     </span>
 <span class="c">%     C. Taswell. Near-best basis selection algorithms with non-additive</span>
 <span class="c">%     information cost functions. In Proceedings of the IEEE International</span>
-<span class="c">%     Symposium on Time-Frequency and Time-Scale Analysis, pages 13-16. IEEE</span>
+<span class="c">%     Symposium on Time-Frequency and Time-Scale Analysis, pages 13--16. IEEE</span>
 <span class="c">%     Press, 1994.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wpbest.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -382,14 +382,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">v</span> <span class="p">=</span> <span class="n">sort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">(:)),</span><span class="s">&#39;descend&#39;</span><span class="p">);</span>
 
 <span class="n">k</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
-<span class="n">E</span> <span class="p">=</span> <span class="n">max</span><span class="p">((</span><span class="n">k</span><span class="p">.</span><span class="s">&#39;.^(1/p)).*v);</span>
+<span class="n">E</span> <span class="p">=</span> <span class="n">max</span><span class="p">((</span><span class="n">k</span><span class="p">.</span><span class="o">&#39;.^</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">))</span><span class="o">.*</span><span class="n">v</span><span class="p">);</span>
 
-<span class="s">function E = wcost_compa(x,p)</span>
-<span class="s">% Compresion Area Entropy, p&lt;2</span>
-<span class="s">%</span>
+<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_compa</span><span class="p">(</span>x,p<span class="p">)</span><span class="w"></span>
+<span class="c">% Compresion Area Entropy, p&lt;2</span>
+<span class="c">%</span>
 
-<span class="s">% 0&lt;p&lt;=2</span>
-<span class="s">assert(0&lt;p&amp;&amp;p&lt;=2,&#39;</span><span class="n">Parameter</span> <span class="n">p</span> <span class="n">have</span> <span class="n">to</span> <span class="n">be</span> <span class="n">in</span> <span class="n">the</span> <span class="n">range</span> <span class="p">]</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="c">% 0&lt;p&lt;=2</span>
+<span class="n">assert</span><span class="p">(</span><span class="mi">0</span><span class="o">&lt;</span><span class="n">p</span><span class="o">&amp;&amp;</span><span class="n">p</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;Parameter p have to be in the range ]0,2]&#39;</span><span class="p">);</span>
 <span class="n">N</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
 <span class="c">%u = x./norm(x);</span>
 <span class="n">v</span> <span class="p">=</span> <span class="n">sort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">(:)),</span><span class="s">&#39;descend&#39;</span><span class="p">);</span>

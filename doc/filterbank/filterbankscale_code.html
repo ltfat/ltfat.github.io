@@ -37,37 +37,40 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FILTERBANKSCALE - Scale filters in filterbank</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>g <span class="p">=</span><span class="w"> </span><span class="nf">filterbankscale</span><span class="p">(</span>g,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,scal] <span class="p">=</span><span class="w"> </span><span class="nf">filterbankscale</span><span class="p">(</span>g,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%FILTERBANKSCALE Scale filters in filterbank</span>
 <span class="c">%   Usage:  g=filterbankscale(g,scal)</span>
 <span class="c">%           g=filterbankscale(g,&#39;flag&#39;)</span>
 <span class="c">%           g=filterbankscale(g,L,&#39;flag&#39;)</span>
+<span class="c">%           [g,scal]=filterbankscale(...)</span>
 <span class="c">%</span>
-<span class="c">%   g=FILTERBANKSCALE(g,s) scales each filter in g by multiplying it</span>
+<span class="c">%   g=FILTERBANKSCALE(g,scal) scales each filter in g by multiplying it</span>
 <span class="c">%   with scal. scal can be either scalar or a vector of the same length</span>
-<span class="c">%   as g.</span>
-<span class="c">%   The function only works with filterbanks already instantiated </span>
-<span class="c">%   (returned from a function with a filter (of filters) suffix or run trough </span>
-<span class="c">%   FILTERBANKWIN) such that the elements of g must be either structs </span>
+<span class="c">%   as g. The function only works with filterbanks already instantiated</span>
+<span class="c">%   (returned from a function with a filter (of filters) suffix or run</span>
+<span class="c">%   trough FILTERBANKWIN) such that the elements of g must be either structs</span>
 <span class="c">%   with .h or .H fields or be plain numeric vectors.</span>
 <span class="c">%</span>
-<span class="c">%   g=FILTERBANKSCALE(g,&#39;flag&#39;) instead normalizes each filter to have </span>
-<span class="c">%   unit norm defined by &#39;flag&#39;. It can be any of the flags recognized by </span>
-<span class="c">%   NORMALIZE. The  normalization is done in the time domain by default. </span>
+<span class="c">%   g=FILTERBANKSCALE(g,&#39;flag&#39;) instead normalizes each filter to have</span>
+<span class="c">%   unit norm defined by &#39;flag&#39;. It can be any of the flags recognized by</span>
+<span class="c">%   NORMALIZE. The  normalization is done in the time domain by default.</span>
 <span class="c">%   The normalization can be done in frequency by passing extra flag &#39;freq&#39;.</span>
 <span class="c">%</span>
-<span class="c">%   g=FILTERBANKSCALE(g,L,&#39;flag&#39;) works as before, but some filters require </span>
+<span class="c">%   g=FILTERBANKSCALE(g,L,&#39;flag&#39;) works as before, but some filters require</span>
 <span class="c">%   knowing L to be instantialized to obtain their norm. The normalization</span>
-<span class="c">%   will be valid for the lengh L only. </span>
+<span class="c">%   will be valid for the lengh L only.</span>
 <span class="c">%</span>
-<span class="c">%   In any case, the returned filters will be in exactly the same format as </span>
+<span class="c">%   [g,scal]=FILTERBANKSCALE(g,...) additionally returns a vector scal </span>
+<span class="c">%   which contains scaling factors used.</span>
+<span class="c">%</span>
+<span class="c">%   In any case, the returned filters will be in exactly the same format as</span>
 <span class="c">%   the input filters.</span>
 <span class="c">%</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankscale.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -95,16 +98,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Try running filterbankwin without L. This should fail</span>
 <span class="c">% for any strange filter definitions like &#39;gauss&#39;,&#39;hann&#39;,{&#39;dual&#39;,...}</span>
 <span class="k">try</span>
-   <span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
+    <span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
 <span class="k">catch</span>
-   <span class="n">err</span> <span class="p">=</span> <span class="n">lasterror</span><span class="p">;</span>
-   <span class="k">if</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">err</span><span class="p">.</span><span class="n">identifier</span><span class="p">,</span><span class="s">&#39;L:undefined&#39;</span><span class="p">)</span>
-       <span class="c">% If it blotched because of the undefined L, explain that.</span>
-       <span class="c">% This should capture only formats like {&#39;dual&#39;,...} and {&#39;gauss&#39;}</span>
-       <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Function cannot handle g in such format. &#39;</span><span class="p">,</span><span class="c">...</span>
-              <span class="s">&#39;Consider pre-formatting the filterbank by &#39;</span><span class="p">,</span><span class="c">...</span>
-              <span class="s">&#39;calling g = FILTERBANKWIN(g,a) or &#39;</span><span class="p">,</span><span class="c">...</span>
-              <span class="s">&#39;g = FILTERBANKWIN(g,a,L) first.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="n">err</span> <span class="p">=</span> <span class="n">lasterror</span><span class="p">;</span>
+    <span class="k">if</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">err</span><span class="p">.</span><span class="n">identifier</span><span class="p">,</span><span class="s">&#39;L:undefined&#39;</span><span class="p">)</span>
+        <span class="c">% If it blotched because of the undefined L, explain that.</span>
+        <span class="c">% This should capture only formats like {&#39;dual&#39;,...} and {&#39;gauss&#39;}</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Function cannot handle g in such format. &#39;</span><span class="p">,</span><span class="c">...</span>
+        <span class="s">&#39;Consider pre-formatting the filterbank by &#39;</span><span class="p">,</span><span class="c">...</span>
+        <span class="s">&#39;calling g = FILTERBANKWIN(g,a) or &#39;</span><span class="p">,</span><span class="c">...</span>
+        <span class="s">&#39;g = FILTERBANKWIN(g,a,L) first.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
    <span class="k">else</span>
        <span class="c">% Otherwise just rethrow the error</span>
        <span class="n">error</span><span class="p">(</span><span class="n">err</span><span class="p">.</span><span class="n">message</span><span class="p">);</span>
@@ -119,127 +122,130 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% numeric vectors</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_norm_notset</span>
-   <span class="c">% No flag from normalize was set</span>
-   <span class="n">s</span> <span class="p">=</span> <span class="n">scalardistribute</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
+    <span class="c">% No flag from normalize was set</span>
+    <span class="n">scal</span> <span class="p">=</span> <span class="n">scalardistribute</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">)));</span>
 
-   <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-       <span class="k">if</span> <span class="n">isstruct</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span>
-           <span class="c">% Only work with .h or .H, any other struct field is not</span>
-           <span class="c">% relevant</span>
-           <span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;h&#39;</span><span class="p">)</span>
-               <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">)</span>
-                   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: g{ii}.h must be numeric&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">isstruct</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span>
+            <span class="c">% Only work with .h or .H, any other struct field is not</span>
+            <span class="c">% relevant</span>
+            <span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;h&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">)</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: g{ii}.h must be numeric&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
                <span class="k">end</span>
-               <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span> <span class="p">=</span> <span class="n">s</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">;</span>
+               <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span> <span class="p">=</span> <span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">;</span>
            <span class="k">elseif</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;H&#39;</span><span class="p">)</span>
                <span class="k">if</span> <span class="n">isa</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span>
-                   <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)</span> <span class="n">s</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+                   <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)</span> <span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
                <span class="k">elseif</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">)</span>
-                   <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="n">s</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">;</span>
+                   <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">;</span>
                <span class="k">else</span>
                    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: g{ii}.H must be either numeric or a &#39;</span><span class="p">,</span><span class="c">...</span>
-                          <span class="s">&#39; function handle&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+                   <span class="s">&#39; function handle&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
                <span class="k">end</span>
            <span class="k">else</span>
-              <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unrecognized filter struct format&#39;</span><span class="p">,</span><span class="c">...</span>
-                    <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+               <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unrecognized filter struct format&#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
            <span class="k">end</span>
        <span class="k">elseif</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span>
            <span class="c">% This is easy</span>
-           <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">s</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span>
+           <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span>
        <span class="k">else</span>
            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unrecognized filter format&#39;</span><span class="p">,</span><span class="c">...</span>
-                 <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+           <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
        <span class="k">end</span>
    <span class="k">end</span>
 <span class="k">else</span>
-   <span class="c">% Normalize flag was set</span>
-   <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-      <span class="n">L</span> <span class="p">=</span> <span class="n">arg1</span><span class="p">;</span> <span class="c">% can be still empty</span>
-      <span class="c">% Run again with L specified</span>
-      <span class="p">[</span><span class="n">g2</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">info</span><span class="p">]</span> <span class="p">=</span> <span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
+    <span class="n">scal</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c">% Normalize flag was set</span>
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="n">L</span> <span class="p">=</span> <span class="n">arg1</span><span class="p">;</span> <span class="c">% can be still empty</span>
+        <span class="c">% Run again with L specified</span>
+        <span class="p">[</span><span class="n">g2</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">info</span><span class="p">]</span> <span class="p">=</span> <span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
 
-      <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">L</span> <span class="o">&lt;</span> <span class="n">max</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="p">)</span>
-          <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: One of the windows is longer than the transform length.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-      <span class="k">end</span><span class="p">;</span>
+        <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">L</span> <span class="o">&lt;</span> <span class="n">max</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="p">)</span>
+            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: One of the windows is longer than the transform length.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+        <span class="k">end</span><span class="p">;</span>
 
-      <span class="k">if</span> <span class="n">isstruct</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span>
-          <span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;h&#39;</span><span class="p">)</span>
-              <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">)</span>
-                  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: g{ii}.h must be numeric&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-              <span class="k">end</span>
-              <span class="c">% Normalize either in time or in the frequency domain</span>
+        <span class="k">if</span> <span class="n">isstruct</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;h&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">)</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: g{ii}.h must be numeric&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+                <span class="k">end</span>
+                <span class="c">% Normalize either in time or in the frequency domain</span>
 
-              <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
-                  <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
-                  <span class="c">% Get frequency response and it&#39;s norm</span>
-                  <span class="n">H</span> <span class="p">=</span> <span class="n">comp_transferfunction</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">L</span><span class="p">);</span>
-                  <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">fn</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
-                  <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="o">/</span><span class="n">fn</span><span class="p">;</span>
-              <span class="k">else</span>
-                  <span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;fc&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">fc</span><span class="o">~=</span><span class="mi">0</span>
-                      <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span> <span class="c">% L is required to do a proper modulation</span>
-                  <span class="k">else</span>
-                      <span class="n">L</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">);</span>
-                  <span class="k">end</span>
-                  <span class="c">% Get impulse response with all the fields applied</span>
-                  <span class="n">tmpg</span> <span class="p">=</span> <span class="n">comp_filterbank_pre</span><span class="p">(</span><span class="n">g2</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="nb">inf</span><span class="p">);</span>
-                  <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">fn</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">tmpg</span><span class="p">{</span><span class="mi">1</span><span class="p">}.</span><span class="n">h</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
-                  <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="o">/</span><span class="n">fn</span><span class="p">;</span> 
-              <span class="k">end</span>
-          <span class="k">elseif</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;H&#39;</span><span class="p">)</span>
-              <span class="k">if</span> <span class="n">isa</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span>
-                  <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
-                  <span class="n">H</span> <span class="p">=</span> <span class="n">comp_transferfunction</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">L</span><span class="p">);</span>
-                  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
-                     <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">fn</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
-                     <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">/</span><span class="n">fn</span><span class="p">;</span>
-                  <span class="k">else</span>
-                     <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">fn</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">H</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
-                     <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">/</span><span class="n">fn</span><span class="p">;</span>
-                  <span class="k">end</span>
-              <span class="k">elseif</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">)</span>
-                  <span class="k">if</span> <span class="o">~</span><span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;L&#39;</span><span class="p">)</span>
-                      <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: g.H is numeric, but .L field is missing&#39;</span><span class="p">,</span><span class="c">...</span>
+                <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
+                    <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+                    <span class="c">% Get frequency response and it&#39;s norm</span>
+                    <span class="n">H</span> <span class="p">=</span> <span class="n">comp_transferfunction</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">L</span><span class="p">);</span>
+                    <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+                    <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="o">/</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+                <span class="k">else</span>
+                    <span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;fc&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">fc</span><span class="o">~=</span><span class="mi">0</span>
+                        <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span> <span class="c">% L is required to do a proper modulation</span>
+                    <span class="k">else</span>
+                        <span class="n">L</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">);</span>
+                    <span class="k">end</span>
+                    <span class="c">% Get impulse response with all the fields applied</span>
+                    <span class="n">tmpg</span> <span class="p">=</span> <span class="n">comp_filterbank_pre</span><span class="p">(</span><span class="n">g2</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="nb">inf</span><span class="p">);</span>
+                    <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">tmpg</span><span class="p">{</span><span class="mi">1</span><span class="p">}.</span><span class="n">h</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+                     <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="o">/</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+                <span class="k">end</span>
+            <span class="k">elseif</span> <span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;H&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">isa</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span>
+                    <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+                    <span class="n">H</span> <span class="p">=</span> <span class="n">comp_transferfunction</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">L</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
+                        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+                        <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">/</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+                    <span class="k">else</span>
+                        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">H</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+                        <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">/</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+                    <span class="k">end</span>
+                <span class="k">elseif</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="o">~</span><span class="n">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;L&#39;</span><span class="p">)</span>
+                        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: g.H is numeric, but .L field is missing&#39;</span><span class="p">,</span><span class="c">...</span>
+                        <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+                    <span class="k">end</span>
+                    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+                        <span class="n">L</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">L</span><span class="p">;</span>
+                    <span class="k">else</span>
+                        <span class="k">if</span> <span class="n">L</span> <span class="o">~=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">L</span>
+                            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: L and g.L are not equal&#39;</span><span class="p">,</span><span class="c">...</span>
                             <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-                  <span class="k">end</span>
-                  <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-                      <span class="n">L</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">L</span><span class="p">;</span>
-                  <span class="k">else</span>
-                      <span class="k">if</span> <span class="n">L</span> <span class="o">~=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">L</span>
-                          <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: L and g.L are not equal&#39;</span><span class="p">,</span><span class="c">...</span>
-                                <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-                      <span class="k">end</span>
-                  <span class="k">end</span>
-                  
-                  <span class="n">H</span> <span class="p">=</span> <span class="n">comp_transferfunction</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">L</span><span class="p">);</span>
-                  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
-                     <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">fn</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
-                     <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="o">/</span><span class="n">fn</span><span class="p">;</span>
-                  <span class="k">else</span>
-                     <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">fn</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">H</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
-                     <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="o">/</span><span class="n">fn</span><span class="p">;</span>
-                  <span class="k">end</span>
-              <span class="k">end</span>
-          <span class="k">else</span>
-             <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unrecognized filter struct format&#39;</span><span class="p">,</span><span class="c">...</span>
-                   <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-          <span class="k">end</span>
-      <span class="k">elseif</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span>
-          <span class="c">% This one is not so easy</span>
-          <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
-             <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
-             <span class="c">% We must use g2 here</span>
-             <span class="p">[</span><span class="o">~</span><span class="p">,</span> <span class="n">fn</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
-             <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span><span class="o">/</span><span class="n">fn</span><span class="p">;</span>
-          <span class="k">else</span>
-             <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span> 
-          <span class="k">end</span>
-      <span class="k">else</span>
-          <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unrecognized filter format&#39;</span><span class="p">,</span><span class="c">...</span>
-                <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-      <span class="k">end</span>
-   <span class="k">end</span>
+                        <span class="k">end</span>
+                    <span class="k">end</span>
+
+                    <span class="n">H</span> <span class="p">=</span> <span class="n">comp_transferfunction</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">L</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
+                        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+                        <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="o">/</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+                    <span class="k">else</span>
+                        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">H</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+                        <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">H</span><span class="o">/</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+                    <span class="k">end</span>
+                <span class="k">end</span>
+            <span class="k">else</span>
+                  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unrecognized filter struct format&#39;</span><span class="p">,</span><span class="c">...</span>
+                  <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+            <span class="k">end</span>
+        <span class="k">elseif</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">})</span>
+            <span class="c">% This one is not so easy</span>
+            <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
+                <span class="n">complain_L</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+                <span class="c">% We must use g2 here</span>
+                <span class="p">[</span><span class="o">~</span><span class="p">,</span> <span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">g2</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">h</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+                <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span><span class="o">/</span><span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+            <span class="k">else</span>
+                <span class="p">[</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span> <span class="n">scal</span><span class="p">(</span><span class="n">ii</span><span class="p">)]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>
+            <span class="k">end</span>
+        <span class="k">else</span>
+            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: SENTINEL. Unrecognized filter format&#39;</span><span class="p">,</span><span class="c">...</span>
+            <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="c">% Convert to a scaling factor</span>
+    <span class="n">scal</span> <span class="p">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">scal</span><span class="p">;</span>
 <span class="k">end</span>
 
 <span class="k">function</span><span class="w"> </span><span class="nf">complain_L</span><span class="p">(</span>L<span class="p">)</span><span class="w"></span>

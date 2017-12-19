@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FRAMEMULAPPR - Best Approximation of a matrix by a frame multiplier</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[s,TA]<span class="p">=</span><span class="nf">framemulappr</span><span class="p">(</span>Fa,Fs,T<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[s,TA]<span class="p">=</span><span class="nf">framemulappr</span><span class="p">(</span>Fa,Fs,T<span class="p">)</span><span class="w"></span>
 <span class="c">%FRAMEMULAPPR  Best Approximation of a matrix by a frame multiplier</span>
 <span class="c">%   Usage: s=framemulappr(Fa,Fs,T);</span>
 <span class="c">%         [s,TA]=framemulappr(Fa,Fs,T);</span>
@@ -68,7 +68,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/operators/framemulappr.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -137,16 +137,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">end</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="n">Gram</span> <span class="p">=</span> <span class="p">(</span><span class="n">Ds</span><span class="o">&#39;*</span><span class="n">Ds</span><span class="p">)</span><span class="o">.*</span><span class="p">((</span><span class="n">D</span><span class="o">&#39;*</span><span class="n">D</span><span class="p">).</span><span class="s">&#39;);</span>
+<span class="n">Gram</span> <span class="p">=</span> <span class="p">(</span><span class="n">Ds</span><span class="o">&#39;*</span><span class="n">Ds</span><span class="p">)</span><span class="o">.*</span><span class="p">((</span><span class="n">D</span><span class="o">&#39;*</span><span class="n">D</span><span class="p">).</span><span class="o">&#39;</span><span class="p">);</span>
 
-<span class="s">% upper symbol:</span>
-<span class="s">s = Gram\lowsym;</span>
-<span class="s">  </span>
-<span class="s">% synthesis</span>
-<span class="s">if nargout&gt;1</span>
-<span class="s">    TA = zeros(N,M);</span>
-<span class="s">    for ii = 1:Kd</span>
-<span class="s">        P = Ds(:,ii)*D(:,ii)&#39;</span><span class="p">;</span>
+<span class="c">% upper symbol:</span>
+<span class="n">s</span> <span class="p">=</span> <span class="n">Gram</span><span class="o">\</span><span class="n">lowsym</span><span class="p">;</span>
+  
+<span class="c">% synthesis</span>
+<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
+    <span class="n">TA</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">Kd</span>
+        <span class="n">P</span> <span class="p">=</span> <span class="n">Ds</span><span class="p">(:,</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">D</span><span class="p">(:,</span><span class="n">ii</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
         <span class="n">TA</span> <span class="p">=</span> <span class="n">TA</span> <span class="o">+</span> <span class="n">s</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">P</span><span class="p">;</span>
     <span class="k">end</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>

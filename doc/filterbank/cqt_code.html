@@ -42,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">CQT - Constant-Q non-stationary Gabor filterbank</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[c,Ls,g,shift,M] <span class="p">=</span><span class="w"> </span><span class="nf">cqt</span><span class="p">(</span>f,fmin,fmax,bins,fs,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,Ls,g,shift,M] <span class="p">=</span><span class="w"> </span><span class="nf">cqt</span><span class="p">(</span>f,fmin,fmax,bins,fs,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%CQT  Constant-Q non-stationary Gabor filterbank</span>
 <span class="c">%   Usage: [c,Ls,g,shift,M] = cqt(f,fmin,fmax,bins,fs,M)</span>
 <span class="c">%          [c,Ls,g,shift,M] = cqt(f,fmin,fmax,bins,fs)</span>
@@ -128,7 +128,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/cqt.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -195,61 +195,61 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">ll</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">);</span>
     <span class="n">fbas</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)))</span> <span class="p">=</span> <span class="c">...</span>
-        <span class="n">fmin</span><span class="o">*</span><span class="mf">2.</span>^<span class="p">(((</span><span class="n">kk</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">):(</span><span class="n">kk</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)).</span><span class="s">&#39;/bins(kk));</span>
-<span class="s">    ll = ll+bins(kk);</span>
-<span class="s">end</span>
+        <span class="n">fmin</span><span class="o">*</span><span class="mf">2.</span>^<span class="p">(((</span><span class="n">kk</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">):(</span><span class="n">kk</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)).</span><span class="o">&#39;/</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span>
+    <span class="n">ll</span> <span class="p">=</span> <span class="n">ll</span><span class="o">+</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">);</span>
+<span class="k">end</span>
 
-<span class="s">% Get rid of filters with frequency centers &gt;=fmax and nf</span>
-<span class="s">temp = find(fbas&gt;=fmax,1);</span>
-<span class="s">if fbas(temp) &gt;= nf</span>
-<span class="s">    fbas = fbas(1:temp-1);</span>
-<span class="s">else</span>
-<span class="s">    fbas = fbas(1:temp);</span>
-<span class="s">end</span>
+<span class="c">% Get rid of filters with frequency centers &gt;=fmax and nf</span>
+<span class="n">temp</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">fbas</span><span class="o">&gt;</span><span class="p">=</span><span class="n">fmax</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">fbas</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">&gt;</span><span class="p">=</span> <span class="n">nf</span>
+    <span class="n">fbas</span> <span class="p">=</span> <span class="n">fbas</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">else</span>
+    <span class="n">fbas</span> <span class="p">=</span> <span class="n">fbas</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="p">);</span>
+<span class="k">end</span>
 
-<span class="s">Lfbas = length(fbas);</span>
+<span class="n">Lfbas</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">fbas</span><span class="p">);</span>
 
-<span class="s">% Add filter at zero and nf frequencies</span>
-<span class="s">fbas = [0;fbas;nf];</span>
+<span class="c">% Add filter at zero and nf frequencies</span>
+<span class="n">fbas</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="n">fbas</span><span class="p">;</span><span class="n">nf</span><span class="p">];</span>
 
-<span class="s">% Mirror other filters</span>
-<span class="s">% Length of fbas is now 2*(Lfbas+1)</span>
-<span class="s">fbas(Lfbas+3:2*(Lfbas+1)) = fs-fbas(Lfbas+1:-1:2);</span>
+<span class="c">% Mirror other filters</span>
+<span class="c">% Length of fbas is now 2*(Lfbas+1)</span>
+<span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="p">=</span> <span class="n">fs</span><span class="o">-</span><span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">);</span>
 
-<span class="s">% Convert frequency to samples</span>
-<span class="s">fbas = fbas*(Ls/fs);</span>
+<span class="c">% Convert frequency to samples</span>
+<span class="n">fbas</span> <span class="p">=</span> <span class="n">fbas</span><span class="o">*</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">fs</span><span class="p">);</span>
 
-<span class="s">% Set bandwidths</span>
-<span class="s">bw = zeros(2*Lfbas+2,1);</span>
+<span class="c">% Set bandwidths</span>
+<span class="n">bw</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 
-<span class="s">% Bandwidth of the low-pass filter around 0</span>
-<span class="s">bw(1) = 2*fmin*(Ls/fs);</span>
-<span class="s">bw(2) = (fbas(2))*(2^(1/bins(1))-2^(-1/bins(1)));</span>
+<span class="c">% Bandwidth of the low-pass filter around 0</span>
+<span class="n">bw</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fmin</span><span class="o">*</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">fs</span><span class="p">);</span>
+<span class="n">bw</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span>^<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">-</span><span class="mi">2</span>^<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">)));</span>
 
-<span class="s">for k = [3:Lfbas , Lfbas+2]</span>
-<span class="s">    bw(k) = (fbas(k+1)-fbas(k-1));</span>
-<span class="s">end</span>
+<span class="k">for</span> <span class="n">k</span> <span class="p">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="n">Lfbas</span> <span class="p">,</span> <span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">bw</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">fbas</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="k">end</span>
 
-<span class="s">% Bandwidth of last filter before the one at the nf</span>
-<span class="s">bw(Lfbas+1) = (fbas(Lfbas+1))*(2^(1/bins(end))-2^(-1/bins(end)));</span>
+<span class="c">% Bandwidth of last filter before the one at the nf</span>
+<span class="n">bw</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span>^<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">))</span><span class="o">-</span><span class="mi">2</span>^<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)));</span>
 
-<span class="s">% Mirror bandwidths</span>
-<span class="s">bw(Lfbas+3:2*Lfbas+2) = bw(Lfbas+1:-1:2);</span>
+<span class="c">% Mirror bandwidths</span>
+<span class="n">bw</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bw</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">);</span>
 
-<span class="s">% Make frequency centers integers</span>
-<span class="s">posit = zeros(size(fbas));</span>
-<span class="s">posit(1:Lfbas+2) = floor(fbas(1:Lfbas+2));</span>
-<span class="s">posit(Lfbas+3:end) = ceil(fbas(Lfbas+3:end));</span>
+<span class="c">% Make frequency centers integers</span>
+<span class="n">posit</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">fbas</span><span class="p">));</span>
+<span class="n">posit</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">));</span>
+<span class="n">posit</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
 
-<span class="s">% Keeping center frequency and changing bandwidth =&gt; Q=fbas/bw</span>
-<span class="s">bw = keyvals.Qvar*bw;</span>
+<span class="c">% Keeping center frequency and changing bandwidth =&gt; Q=fbas/bw</span>
+<span class="n">bw</span> <span class="p">=</span> <span class="n">keyvals</span><span class="p">.</span><span class="n">Qvar</span><span class="o">*</span><span class="n">bw</span><span class="p">;</span>
 
-<span class="s">% M - number of coefficients in output bands (number of time channels).</span>
-<span class="s">if flags.do_fractional</span>
-<span class="s">    % Be pedantic about center frequencies by</span>
-<span class="s">    % sub-sample precision positioning of the frequency window.</span>
-<span class="s">    warning([&#39;</span><span class="n">Fractional</span> <span class="n">sampling</span> <span class="n">might</span> <span class="n">lead</span> <span class="n">to</span> <span class="n">a</span> <span class="n">warning</span> <span class="n">when</span> <span class="s">&#39;, ...</span>
-<span class="s">        &#39;</span><span class="n">computing</span> <span class="n">the</span> <span class="n">dual</span> <span class="n">system</span><span class="o">&#39;</span><span class="p">]);</span>
+<span class="c">% M - number of coefficients in output bands (number of time channels).</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fractional</span>
+    <span class="c">% Be pedantic about center frequencies by</span>
+    <span class="c">% sub-sample precision positioning of the frequency window.</span>
+    <span class="n">warning</span><span class="p">([</span><span class="s">&#39;Fractional sampling might lead to a warning when &#39;</span><span class="p">,</span> <span class="c">...</span>
+        <span class="s">&#39;computing the dual system&#39;</span><span class="p">]);</span>
     <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
     <span class="n">corr_shift</span> <span class="p">=</span> <span class="n">fbas</span><span class="o">-</span><span class="n">posit</span><span class="p">;</span>
     <span class="n">M</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">bw</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>

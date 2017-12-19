@@ -33,7 +33,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/sigproc/normalize_code.html">normalize</a></li>
+<li><a href="#BASEURL#/doc/sigproc/normalize.html">normalize</a></li>
 </ul>
 </p></div>
     </div>
@@ -41,7 +41,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">NOISE - Stochastic noise generator</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>outsig <span class="p">=</span><span class="w"> </span><span class="nf">noise</span><span class="p">(</span>siglen,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>outsig <span class="p">=</span><span class="w"> </span><span class="nf">noise</span><span class="p">(</span>siglen,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">% NOISE  Stochastic noise generator</span>
 <span class="c">%   Usage: outsig = noise(siglen,nsigs,type);</span>
 <span class="c">%</span>
@@ -91,7 +91,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/signals/noise.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -144,7 +144,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
   <span class="c">% ------ Computation -----------------------------------------------------</span>
   <span class="n">fmax</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">siglen</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-  <span class="n">f</span> <span class="p">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">:(</span><span class="n">fmax</span><span class="o">+</span><span class="mi">1</span><span class="p">)).</span><span class="s">&#39;</span><span class="err">;</span>
+  <span class="n">f</span> <span class="p">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">:(</span><span class="n">fmax</span><span class="o">+</span><span class="mi">1</span><span class="p">)).</span><span class="o">&#39;</span><span class="p">;</span>
   <span class="c">% 1/f amplitude factor</span>
   <span class="n">a</span> <span class="p">=</span> <span class="mf">1.</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
   <span class="c">% Random phase</span>

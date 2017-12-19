@@ -33,7 +33,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/zak_code.html">zak</a></li>
+<li><a href="#BASEURL#/doc/gabor/zak.html">zak</a></li>
 </ul>
 </p></div>
     </div>
@@ -41,7 +41,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">IZAK - Inverse Zak transform</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">izak</span><span class="p">(</span>c<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">izak</span><span class="p">(</span>c<span class="p">);</span>
 <span class="c">%IZAK  Inverse Zak transform</span>
 <span class="c">%   Usage:  f=izak(c);</span>
 <span class="c">%</span>
@@ -57,13 +57,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     </span>
 <span class="c">%     H. Bölcskei and F. Hlawatsch. Discrete Zak transforms, polyphase</span>
 <span class="c">%     transforms, and applications. IEEE Trans. Signal Process.,</span>
-<span class="c">%     45(4):851-866, april 1997.</span>
+<span class="c">%     45(4):851--866, april 1997.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/izak.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -82,7 +82,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   TESTING: TEST_ZAK</span>
 <span class="c">%   REFERENCE: OK</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="n">a</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 <span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>

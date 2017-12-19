@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">CQTFILTERS - CQT-spaced filters</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[g,a,fc,L]<span class="p">=</span><span class="nf">cqtfilters</span><span class="p">(</span>fs,fmin,fmax,bins,Ls,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,a,fc,L]<span class="p">=</span><span class="nf">cqtfilters</span><span class="p">(</span>fs,fmin,fmax,bins,Ls,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%CQTFILTERS   CQT-spaced filters</span>
 <span class="c">%   Usage:  [g,a,fc]=cqtfilters(fs,fmin,fmax,bins,Ls,varargin);</span>
 <span class="c">%           </span>
@@ -198,7 +198,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/cqtfilters.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -273,58 +273,58 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">ll</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">);</span>
     <span class="n">fc</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)))</span> <span class="p">=</span> <span class="c">...</span>
-        <span class="n">fmin</span><span class="o">*</span><span class="mf">2.</span>^<span class="p">(((</span><span class="n">kk</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">):(</span><span class="n">kk</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)).</span><span class="s">&#39;/bins(kk));</span>
-<span class="s">    ll = ll+bins(kk);</span>
-<span class="s">end</span>
+        <span class="n">fmin</span><span class="o">*</span><span class="mf">2.</span>^<span class="p">(((</span><span class="n">kk</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">):(</span><span class="n">kk</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)).</span><span class="o">&#39;/</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span>
+    <span class="n">ll</span> <span class="p">=</span> <span class="n">ll</span><span class="o">+</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">);</span>
+<span class="k">end</span>
 
-<span class="s">% Get rid of filters with frequency centers &gt;=fmax and nf</span>
-<span class="s">% This will leave the first bigger than fmax it it is lower than nf</span>
-<span class="s">temp = find(fc&gt;=fmax ,1);</span>
-<span class="s">if fc(temp) &gt;= nf</span>
-<span class="s">    fc = fc(1:temp-1);</span>
-<span class="s">else</span>
-<span class="s">    fc = fc(1:temp);</span>
-<span class="s">end</span>
+<span class="c">% Get rid of filters with frequency centers &gt;=fmax and nf</span>
+<span class="c">% This will leave the first bigger than fmax it it is lower than nf</span>
+<span class="n">temp</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">fc</span><span class="o">&gt;</span><span class="p">=</span><span class="n">fmax</span> <span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">fc</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">&gt;</span><span class="p">=</span> <span class="n">nf</span>
+    <span class="n">fc</span> <span class="p">=</span> <span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">else</span>
+    <span class="n">fc</span> <span class="p">=</span> <span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="p">);</span>
+<span class="k">end</span>
 
-<span class="s">M = length(fc);</span>
+<span class="n">M</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">fc</span><span class="p">);</span>
 
-<span class="s">% Add filter at zero and nf frequencies</span>
-<span class="s">fc = [0;fc;nf];</span>
-<span class="s">M2 = M + 2;</span>
+<span class="c">% Add filter at zero and nf frequencies</span>
+<span class="n">fc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="n">fc</span><span class="p">;</span><span class="n">nf</span><span class="p">];</span>
+<span class="n">M2</span> <span class="p">=</span> <span class="n">M</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
 
-<span class="s">% Set bandwidths</span>
-<span class="s">fsupp = zeros(M2,1);</span>
+<span class="c">% Set bandwidths</span>
+<span class="n">fsupp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 
-<span class="s">% Bandwidth of the low-pass filter around 0</span>
-<span class="s">fsupp(1) = 2*fmin;</span>
-<span class="s">fsupp(2) = (fc(2))*(2^(1/bins(1))-2^(-1/bins(1)));</span>
+<span class="c">% Bandwidth of the low-pass filter around 0</span>
+<span class="n">fsupp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fmin</span><span class="p">;</span>
+<span class="n">fsupp</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fc</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span>^<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">-</span><span class="mi">2</span>^<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">)));</span>
 
-<span class="s">for k = [3:M , M]</span>
-<span class="s">    fsupp(k) = (fc(k+1)-fc(k-1));</span>
-<span class="s">end</span>
+<span class="k">for</span> <span class="n">k</span> <span class="p">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="n">M</span> <span class="p">,</span> <span class="n">M</span><span class="p">]</span>
+    <span class="n">fsupp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fc</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">fc</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="k">end</span>
 
-<span class="s">fsupp(M+1) = (fc(M+1))*(2^(1/bins(end))-2^(-1/bins(end)));</span>
-<span class="s">fsupp(M+2) = 2*(nf-fc(end-1));</span>
+<span class="n">fsupp</span><span class="p">(</span><span class="n">M</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fc</span><span class="p">(</span><span class="n">M</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span>^<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">))</span><span class="o">-</span><span class="mi">2</span>^<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)));</span>
+<span class="n">fsupp</span><span class="p">(</span><span class="n">M</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">nf</span><span class="o">-</span><span class="n">fc</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
 
-<span class="s">% Keeping center frequency and changing bandwidth =&gt; Q=fbas/bw</span>
-<span class="s">% Do that only for the constant Q filters</span>
-<span class="s">fsupp(2:end-1) = kv.Qvar*fsupp(2:end-1);</span>
-<span class="s">% Lowpass and highpass filters has to be treated differently </span>
-<span class="s">fsupp([1,end]) = fsupp([1,end]);</span>
+<span class="c">% Keeping center frequency and changing bandwidth =&gt; Q=fbas/bw</span>
+<span class="c">% Do that only for the constant Q filters</span>
+<span class="n">fsupp</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Qvar</span><span class="o">*</span><span class="n">fsupp</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="c">% Lowpass and highpass filters has to be treated differently </span>
+<span class="n">fsupp</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">])</span> <span class="p">=</span> <span class="n">fsupp</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">]);</span>
 
-<span class="s">% Do not allow lower bandwidth than keyvals.min_win</span>
-<span class="s">fsuppmin = kv.min_win/Ls*fs;</span>
-<span class="s">for ii = 1:numel(fsupp)</span>
-<span class="s">    if fsupp(ii) &lt; fsuppmin;</span>
-<span class="s">        fsupp(ii) = fsuppmin;</span>
-<span class="s">    end</span>
-<span class="s">end</span>
+<span class="c">% Do not allow lower bandwidth than keyvals.min_win</span>
+<span class="n">fsuppmin</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">min_win</span><span class="o">/</span><span class="n">Ls</span><span class="o">*</span><span class="n">fs</span><span class="p">;</span>
+<span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">fsupp</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fsupp</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">fsuppmin</span><span class="p">;</span>
+        <span class="n">fsupp</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">fsuppmin</span><span class="p">;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 
-<span class="s">% Find suitable channel subsampling rates</span>
-<span class="s">aprecise=fs./fsupp;</span>
-<span class="s">aprecise=aprecise(:);</span>
-<span class="s">if any(aprecise&lt;1)</span>
-<span class="s">    error([&#39;</span><span class="c">%s: Bandwidth of one of the filters is bigger than fs. &#39;,...</span>
+<span class="c">% Find suitable channel subsampling rates</span>
+<span class="n">aprecise</span><span class="p">=</span><span class="n">fs</span><span class="o">./</span><span class="n">fsupp</span><span class="p">;</span>
+<span class="n">aprecise</span><span class="p">=</span><span class="n">aprecise</span><span class="p">(:);</span>
+<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">aprecise</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Bandwidth of one of the filters is bigger than fs. &#39;</span><span class="p">,</span><span class="c">...</span>
            <span class="s">&#39;Check fmin and fmax, number of bins and Qval&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 

@@ -31,7 +31,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="row">
     <div class="col-md-2">
         <div class="include" file='../include/docnav.html'></div>
-        <div id="seealso"><p></p></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/gabphasegrad.html">gabphasegrad</a></li>
+</ul>
+</p></div>
     </div>
     <div class="col-md-10">
 
@@ -83,7 +87,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <td>Instantaneous frequency relative to original position.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>fgrad</var></span></kbd></td>
-<td>Group delay relative to original position.</td></tr>
+<td>The negative of the local group delay.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>cs</var></span></kbd></td>
 <td>Filterbank spectrogram.</td></tr>
@@ -95,14 +99,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">[tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,L)</tt> computes the group
-delay <em>fgrad</em> and instantaneous frequency <em>tgrad</em> of the filterbank
-spectrogram <em>s</em> obtained from the signal <em>f</em> and filterbank
-parameters <em>g</em> and <em>a</em>. Both quantities are specified relative to the
-original coefficient position. <em>tgrad</em> is given in samples, while
-<em>fgrad</em> is given as values on the unit circle, easily converted into
-relative frequencies by <span class="math">\(\log(tgrad)/(pi*i)\)</span>.
-This routine uses the equivalence of the filterbank coefficients in
+<p><tt class="docutils literal">[tgrad,fgrad,s,c] = filterbankphasegrad(f,g,a,L)</tt> computes the
+relative instantaneous frequency <em>tgrad</em> and the negative of the group
+delay <em>fgrad</em> of the filterbank spectrogram <em>s</em> obtained from the
+signal <em>f</em> and filterbank parameters <em>g</em> and <em>a</em>.
+Both <em>tgrad</em> and <em>fgrad</em> are specified relative to the original
+coefficient position entirely similar to <span class="linkrole"><a href="#BASEURL#/doc/gabor/gabphasegrad.html">gabphasegrad</a></span>.
+<em>fgrad</em> is given in samples, while <em>tgrad</em> is given in normalised
+frequencies such that the absolute frequencies are in the range of ]-1,1].</p>
+<p>This routine uses the equivalence of the filterbank coefficients in
 each channel with coefficients obtained from an STFT obtained with a
 certain window (possibly different for every channel). As a consequence
 of this equivalence, the formulas derived in the reference apply.</p>

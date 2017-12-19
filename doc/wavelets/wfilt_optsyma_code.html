@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WFILT_OPTSYMA - Optimizatized Symmetric Self-Hilbertian Filters</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_optsyma</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_optsyma</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
 <span class="c">%WFILT_OPTSYMA  Optimizatized Symmetric Self-Hilbertian Filters </span>
 <span class="c">%</span>
 <span class="c">%   Usage: [h,g,a] = wfilt_optsyma(N);</span>
@@ -54,14 +54,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     B. Dumitrescu, I. Bayram, and I. W. Selesnick. Optimization of</span>
 <span class="c">%     symmetric self-hilbertian filters for the dual-tree complex wavelet</span>
-<span class="c">%     transform. IEEE Signal Process. Lett., 15:146-149, 2008.</span>
+<span class="c">%     transform. IEEE Signal Process. Lett., 15:146--149, 2008.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfilt_optsyma.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -153,9 +153,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="c">%         </span>
     <span class="n">harr</span> <span class="p">=</span> <span class="p">[</span><span class="c">...</span>
             <span class="n">hlp</span><span class="p">,</span><span class="c">...</span>
-            <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="n">range</span><span class="p">).</span><span class="s">&#39;.*flipud(hlp),...</span>
-<span class="s">            %flipud(hlp),...</span>
-<span class="s">            %(-1).^(range).&#39;</span><span class="o">.*</span><span class="n">hlp</span><span class="p">,</span><span class="c">...</span>
+            <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="n">range</span><span class="p">).</span><span class="o">&#39;.*</span><span class="nb">flipud</span><span class="p">(</span><span class="n">hlp</span><span class="p">),</span><span class="c">...</span>
+            <span class="c">%flipud(hlp),...</span>
+            <span class="c">%(-1).^(range).&#39;.*hlp,...</span>
             <span class="p">];</span>
         
 

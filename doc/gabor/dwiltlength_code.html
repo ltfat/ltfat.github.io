@@ -33,8 +33,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/dwilt_code.html">dwilt</a></li>
-<li><a href="#BASEURL#/doc/gabor/wmdct_code.html">wmdct</a></li>
+<li><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></li>
+<li><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></li>
 </ul>
 </p></div>
     </div>
@@ -42,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DWILTLENGTH - DWILT/WMDCT length from signal</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[L,tfr]<span class="p">=</span><span class="nf">dwiltlength</span><span class="p">(</span>Ls,M<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[L,tfr]<span class="p">=</span><span class="nf">dwiltlength</span><span class="p">(</span>Ls,M<span class="p">);</span>
 <span class="c">%DWILTLENGTH  DWILT/WMDCT length from signal</span>
 <span class="c">%   Usage: L=dwiltlength(Ls,M);</span>
 <span class="c">%</span>
@@ -66,7 +66,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/dwiltlength.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -81,7 +81,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: M must be a scalar&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>

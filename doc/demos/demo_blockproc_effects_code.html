@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_BLOCKPROC_EFFECTS - Various vocoder effects using DGT</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span><span class="nf">demo_blockproc_effects</span><span class="p">(</span>source,varargin<span class="p">)</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">demo_blockproc_effects</span><span class="p">(</span>source,varargin<span class="p">)</span><span class="w"> </span>
 <span class="c">%DEMO_BLOCKPROC_EFFECTS Various vocoder effects using DGT</span>
 <span class="c">%   Usage: demo_blockproc_effects(&#39;gspi.wav&#39;)</span>
 <span class="c">%</span>
@@ -67,7 +67,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_blockproc_effects.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -99,13 +99,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">haveWav</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">try</span>
-   <span class="n">ff</span> <span class="p">=</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">wavread</span><span class="p">(</span><span class="s">&#39;beat.wav&#39;</span><span class="p">);</span>
+   <span class="p">[</span><span class="n">ff</span><span class="p">,</span> <span class="n">fsbeat</span><span class="p">]</span> <span class="p">=</span> <span class="n">wavload</span><span class="p">(</span><span class="s">&#39;beat.wav&#39;</span><span class="p">);</span> <span class="n">ff</span> <span class="p">=</span> <span class="n">ff</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span>
    <span class="c">%ff = 0.8*resample(ff,4,1);</span>
-   <span class="n">ffblocks</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">postpad</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="nb">ceil</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">ff</span><span class="p">)</span><span class="o">/</span><span class="n">bufLen</span><span class="p">)</span><span class="o">*</span><span class="n">bufLen</span><span class="p">),</span><span class="n">bufLen</span><span class="p">,[]);</span>
+   <span class="n">ffblocks</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">postpad</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="nb">ceil</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">bufLen</span><span class="p">)</span><span class="o">*</span><span class="n">bufLen</span><span class="p">),</span><span class="n">bufLen</span><span class="p">,[]);</span>
    <span class="n">cidx</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
    <span class="n">haveWav</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="k">catch</span>
    <span class="n">warning</span><span class="p">(</span><span class="s">&#39;beat.wav not found. morphing effect is disabled.&#39;</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">haveWav</span> <span class="o">&amp;&amp;</span> <span class="n">fsbeat</span><span class="o">~=</span><span class="mi">44100</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: beat.wav must be sampled at 44.1 kHz.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 <span class="c">% Plain analysis params</span>

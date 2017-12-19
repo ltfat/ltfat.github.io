@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">BLOCKFIGURE - Block figure object</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>p <span class="p">=</span><span class="w"> </span><span class="nf">blockfigure</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>p <span class="p">=</span><span class="w"> </span><span class="nf">blockfigure</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%BLOCKFIGURE Block figure object</span>
 <span class="c">%   Usage: p=blockfigure();</span>
 <span class="c">%          p=blockfigure(&#39;cm&#39;,cmaps);</span>
@@ -63,7 +63,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockfigure.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -109,7 +109,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">cm</span><span class="p">)</span>
    <span class="c">% Create a default colormap.</span>
-   <span class="n">kv</span><span class="p">.</span><span class="n">cm</span> <span class="p">=</span> <span class="p">{</span><span class="n">jet</span><span class="p">(</span><span class="mi">256</span><span class="p">)};</span>
+   <span class="n">kv</span><span class="p">.</span><span class="n">cm</span> <span class="p">=</span> <span class="p">{</span><span class="n">ltfat_inferno</span><span class="p">()};</span>
 <span class="k">elseif</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">cm</span><span class="p">)</span>
    <span class="c">% Enclose the colormap to a single element cell array.</span>
    <span class="n">kv</span><span class="p">.</span><span class="n">cm</span> <span class="p">=</span> <span class="p">{</span><span class="n">kv</span><span class="p">.</span><span class="n">cm</span><span class="p">};</span>

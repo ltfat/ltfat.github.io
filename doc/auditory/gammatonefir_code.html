@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">GAMMATONEFIR - Gammatone filter coefficients</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>b<span class="p">=</span><span class="nf">gammatonefir</span><span class="p">(</span>fc,fs,varargin<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>b<span class="p">=</span><span class="nf">gammatonefir</span><span class="p">(</span>fc,fs,varargin<span class="p">);</span>
 <span class="c">%GAMMATONEFIR  Gammatone filter coefficients</span>
 <span class="c">%   Usage: b = gammatonefir(fc,fs,n,betamul);</span>
 <span class="c">%          b = gammatonefir(fc,fs,n);</span>
@@ -98,7 +98,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     A. Aertsen and P. Johannesma. Spectro-temporal receptive fields of</span>
 <span class="c">%     auditory neurons in the grassfrog. I. Characterization of tonal and</span>
-<span class="c">%     natural stimuli. Biol. Cybern, 38:223-234, 1980.</span>
+<span class="c">%     natural stimuli. Biol. Cybern, 38:223--234, 1980.</span>
 <span class="c">%     </span>
 <span class="c">%     B. R. Glasberg and B. Moore. Derivation of auditory filter shapes from</span>
 <span class="c">%     notched-noise data. Hearing Research, 47(1-2):103, 1990.</span>
@@ -107,7 +107,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/auditory/gammatonefir.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -179,27 +179,27 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
   <span class="n">nlast</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
 
-  <span class="n">t</span><span class="p">=[(</span><span class="mi">0</span><span class="p">:</span><span class="n">nfirst</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">fs</span><span class="o">-</span><span class="n">nfirst</span><span class="o">/</span><span class="n">fs</span><span class="o">+</span><span class="n">delay</span><span class="p">,(</span><span class="mi">0</span><span class="p">:</span><span class="n">nlast</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">fs</span><span class="o">+</span><span class="n">delay</span><span class="p">].</span><span class="s">&#39;;  </span>
+  <span class="n">t</span><span class="p">=[(</span><span class="mi">0</span><span class="p">:</span><span class="n">nfirst</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">fs</span><span class="o">-</span><span class="n">nfirst</span><span class="o">/</span><span class="n">fs</span><span class="o">+</span><span class="n">delay</span><span class="p">,(</span><span class="mi">0</span><span class="p">:</span><span class="n">nlast</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">fs</span><span class="o">+</span><span class="n">delay</span><span class="p">].</span><span class="o">&#39;</span><span class="p">;</span>  
 
-<span class="s">  % g(t) = a*t^(n-1)*cos(2*pi*fc*t)*exp(-2*pi*beta*t)</span>
-<span class="s">  if flags.do_real</span>
-<span class="s">    bwork = scalconst*t.^(4-1).*cos(2*pi*fc(ii)*t).*exp(-2*pi* ...</span>
-<span class="s">                                                      ourbeta(ii)*t);</span>
-<span class="s">  else</span>
-<span class="s">    bwork = scalconst*t.^(4-1).*exp(2*pi*i*fc(ii)*t).*exp(-2*pi* ...</span>
-<span class="s">                                                      ourbeta(ii)*t);</span>
-<span class="s">  end;</span>
+  <span class="c">% g(t) = a*t^(n-1)*cos(2*pi*fc*t)*exp(-2*pi*beta*t)</span>
+  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
+    <span class="n">bwork</span> <span class="p">=</span> <span class="n">scalconst</span><span class="o">*</span><span class="n">t</span><span class="o">.^</span><span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">fc</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span> <span class="c">...</span>
+                                                      <span class="n">ourbeta</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="p">);</span>
+  <span class="k">else</span>
+    <span class="n">bwork</span> <span class="p">=</span> <span class="n">scalconst</span><span class="o">*</span><span class="n">t</span><span class="o">.^</span><span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="n">fc</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span> <span class="c">...</span>
+                                                      <span class="n">ourbeta</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
 
-<span class="s">  if flags.do_peakphase</span>
-<span class="s">    bwork=bwork*exp(-2*pi*i*fc(ii)*delay);</span>
-<span class="s">  end;</span>
+  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_peakphase</span>
+    <span class="n">bwork</span><span class="p">=</span><span class="n">bwork</span><span class="o">*</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="n">fc</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">*</span><span class="n">delay</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
 
-<span class="s">  </span>
-<span class="s">  % Insert zeros before the start of the signal.</span>
-<span class="s">  %bwork = fftshift([bwork(1:nlast);zeros(n-nlast-nfirst,1);bwork(nlast+1:nlast+nfirst)]);</span>
-<span class="s">    </span>
-<span class="s">  bwork = normalize(bwork,flags.norm);  </span>
-<span class="s">  b{ii} = struct(&#39;</span><span class="n">h</span><span class="o">&#39;</span><span class="p">,</span><span class="n">bwork</span><span class="p">,</span><span class="s">&#39;offset&#39;</span><span class="p">,</span><span class="o">-</span><span class="n">nfirst</span><span class="p">,</span><span class="s">&#39;realonly&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  
+  <span class="c">% Insert zeros before the start of the signal.</span>
+  <span class="c">%bwork = fftshift([bwork(1:nlast);zeros(n-nlast-nfirst,1);bwork(nlast+1:nlast+nfirst)]);</span>
+    
+  <span class="n">bwork</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">bwork</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span>  
+  <span class="n">b</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">struct</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span><span class="n">bwork</span><span class="p">,</span><span class="s">&#39;offset&#39;</span><span class="p">,</span><span class="o">-</span><span class="n">nfirst</span><span class="p">,</span><span class="s">&#39;realonly&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 

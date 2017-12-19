@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WFILT_SYMORTH - Symmetric nearly-orthogonal and orthogonal nearly-symmetric</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_symorth</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_symorth</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
 <span class="c">%WFILT_SYMORTH  Symmetric nearly-orthogonal and orthogonal nearly-symmetric</span>
 <span class="c">%</span>
 <span class="c">%   Usage: [h,g,a] = wfilt_symorth(N);</span>
@@ -60,14 +60,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     F. Abdelnour and I. W. Selesnick. Symmetric nearly orthogonal and</span>
 <span class="c">%     orthogonal nearly symmetric wavelets. The Arabian Journal for Science</span>
-<span class="c">%     and Engineering, 29(2C):3 - 16, 2004.</span>
+<span class="c">%     and Engineering, 29(2C):3 -- 16, 2004.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfilt_symorth.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -102,9 +102,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
            <span class="o">-</span><span class="nb">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">16</span><span class="p">,</span><span class="c">...</span>
            <span class="o">-</span><span class="n">A</span><span class="p">,</span><span class="c">...</span>
            <span class="o">-</span><span class="n">A</span><span class="c">...</span>
-           <span class="p">].</span><span class="s">&#39;;</span>
-<span class="s">       </span>
-<span class="s">    harr = [flipud(hlp), (-1).^(1:numel(hlp)).&#39;</span><span class="o">.*</span><span class="n">hlp</span><span class="p">];</span>  
+           <span class="p">].</span><span class="o">&#39;</span><span class="p">;</span>
+       
+    <span class="n">harr</span> <span class="p">=</span> <span class="p">[</span><span class="nb">flipud</span><span class="p">(</span><span class="n">hlp</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">hlp</span><span class="p">)).</span><span class="o">&#39;.*</span><span class="n">hlp</span><span class="p">];</span>  
     
     <span class="n">garr</span> <span class="p">=</span> <span class="n">harr</span><span class="p">;</span>   
     <span class="n">info</span><span class="p">.</span><span class="n">istight</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -143,8 +143,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
           <span class="mf">0.0044852837</span>
           <span class="mf">0.0025454063</span>
          <span class="p">];</span>   
-    <span class="n">harr</span> <span class="p">=</span> <span class="p">[</span><span class="n">hlp</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">glp</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="s">&#39;.*flipud(glp)];</span>
-<span class="s">    garr = [glp, (-1).^(0:numel(hlp)-1).&#39;</span><span class="o">.*</span><span class="nb">flipud</span><span class="p">(</span><span class="n">hlp</span><span class="p">)];</span>
+    <span class="n">harr</span> <span class="p">=</span> <span class="p">[</span><span class="n">hlp</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">glp</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;.*</span><span class="nb">flipud</span><span class="p">(</span><span class="n">glp</span><span class="p">)];</span>
+    <span class="n">garr</span> <span class="p">=</span> <span class="p">[</span><span class="n">glp</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">hlp</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;.*</span><span class="nb">flipud</span><span class="p">(</span><span class="n">hlp</span><span class="p">)];</span>
     <span class="n">offset</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">];</span>
 <span class="k">case</span> <span class="mi">3</span>
     <span class="c">% Example 1. from the reference. Symmetric near-orthogonal</span>
@@ -191,8 +191,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <span class="o">-</span><span class="mf">0.0004607019</span>
          <span class="mf">0.0002809102</span>
     <span class="p">];</span> 
-    <span class="n">harr</span> <span class="p">=</span> <span class="p">[</span><span class="n">hlp</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">glp</span><span class="p">)).</span><span class="s">&#39;.*glp];</span>
-<span class="s">    garr = [glp, (-1).^(1:numel(hlp)).&#39;</span><span class="o">.*</span><span class="n">hlp</span><span class="p">];</span>
+    <span class="n">harr</span> <span class="p">=</span> <span class="p">[</span><span class="n">hlp</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">glp</span><span class="p">)).</span><span class="o">&#39;.*</span><span class="n">glp</span><span class="p">];</span>
+    <span class="n">garr</span> <span class="p">=</span> <span class="p">[</span><span class="n">glp</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">hlp</span><span class="p">)).</span><span class="o">&#39;.*</span><span class="n">hlp</span><span class="p">];</span>
     
     <span class="n">offset</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">9</span><span class="p">];</span>
   <span class="k">otherwise</span>

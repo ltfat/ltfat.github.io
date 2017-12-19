@@ -45,7 +45,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">GABPHASEDERIV - DGT phase derivatives</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[phased,c]<span class="p">=</span><span class="nf">gabphasederiv</span><span class="p">(</span>type,method,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[phased,c]<span class="p">=</span><span class="nf">gabphasederiv</span><span class="p">(</span>type,method,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%GABPHASEDERIV   DGT phase derivatives</span>
 <span class="c">%   Usage:  [phased,c] = gabphasederiv(dflag,&#39;dgt&#39;,f,g,a,M);</span>
 <span class="c">%            phased    = gabphasederiv(dflag,&#39;cross&#39;,f,g,a,M)</span>
@@ -153,7 +153,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                   This is usefull for the reassignment functions.</span>
 <span class="c">%</span>
 <span class="c">%   Please see ltfatnote042 for the description of relations between the</span>
-<span class="c">%   phase derivatives with differnet phase conventions. Note that for the</span>
+<span class="c">%   phase derivatives with different phase conventions. Note that for the</span>
 <span class="c">%   &#39;relative&#39; convention, the following holds:</span>
 <span class="c">%</span>
 <span class="c">%      gabphasederiv(&#39;t&#39;,...,&#39;relative&#39;) == gabphasederiv(&#39;t&#39;,...,&#39;freqinv&#39;)</span>
@@ -185,11 +185,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     F. Auger and P. Flandrin. Improving the readability of time-frequency</span>
 <span class="c">%     and time-scale representations by the reassignment method. IEEE Trans.</span>
-<span class="c">%     Signal Process., 43(5):1068-1089, 1995.</span>
+<span class="c">%     Signal Process., 43(5):1068--1089, 1995.</span>
 <span class="c">%     </span>
 <span class="c">%     E. Chassande-Mottin, I. Daubechies, F. Auger, and P. Flandrin.</span>
 <span class="c">%     Differential reassignment. Signal Processing Letters, IEEE,</span>
-<span class="c">%     4(10):293-294, 1997.</span>
+<span class="c">%     4(10):293--294, 1997.</span>
 <span class="c">%     </span>
 <span class="c">%     J. Flanagan, D. Meinhart, R. Golden, and M. Sondhi. Phase Vocoder. The</span>
 <span class="c">%     Journal of the Acoustical Society of America, 38:939, 1965.</span>
@@ -198,11 +198,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     reassignment. CoRR, abs/0903.3080, 2009.</span>
 <span class="c">%     </span>
 <span class="c">%     D. J. Nelson. Instantaneous higher order phase derivatives. Digital</span>
-<span class="c">%     Signal Processing, 12(2-3):416-428, 2002. [1]http ]</span>
+<span class="c">%     Signal Processing, 12(2-3):416--428, 2002. [1]http ]</span>
 <span class="c">%     </span>
 <span class="c">%     F. Auger, E. Chassande-Mottin, and P. Flandrin. On phase-magnitude</span>
 <span class="c">%     relationships in the short-time fourier transform. Signal Processing</span>
-<span class="c">%     Letters, IEEE, 19(5):267-270, May 2012.</span>
+<span class="c">%     Letters, IEEE, 19(5):267--270, May 2012.</span>
 <span class="c">%     </span>
 <span class="c">%     Z. Průša. STFT and DGT phase conventions and phase derivatives</span>
 <span class="c">%     interpretation. Technical report, Acoustics Research Institute,</span>
@@ -216,7 +216,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabphasederiv.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -241,7 +241,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">type</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">,</span><span class="s">&#39;tt&#39;</span><span class="p">,</span><span class="s">&#39;ff&#39;</span><span class="p">,</span><span class="s">&#39;tf&#39;</span><span class="p">,</span><span class="s">&#39;ft&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;phase&#39;</span><span class="p">,</span><span class="s">&#39;abs&#39;</span><span class="p">,</span><span class="s">&#39;cross&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;symphase&#39;</span><span class="p">,</span><span class="s">&#39;relative&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;gabphasederivconv&#39;</span><span class="p">};</span>
 
 <span class="n">typewascell</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -275,7 +275,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="s">&#39;, &#39;</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="n">foundFlags</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span><span class="n">ischar</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">el</span><span class="p">,</span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">)),</span><span class="c">...</span>
+<span class="n">diphaseconv</span> <span class="p">=</span> <span class="n">arg_gabphasederivconv</span><span class="p">;</span>
+<span class="n">foundFlags</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span><span class="n">ischar</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">el</span><span class="p">,</span><span class="n">diphaseconv</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">)),</span><span class="c">...</span>
     <span class="n">varargin</span><span class="p">);</span>
 <span class="n">flags1</span> <span class="p">=</span> <span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,{</span><span class="n">types</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">method</span><span class="p">,</span><span class="n">varargin</span><span class="p">{</span><span class="n">foundFlags</span><span class="p">}});</span>
 <span class="n">definput</span> <span class="p">=</span> <span class="p">[];</span> <span class="c">% Definput is used again later</span>
@@ -417,11 +418,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
                         <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
                             <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
                         <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
-<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
-<span class="s">                    end</span>
-<span class="s">                case &#39;</span><span class="n">tt</span><span class="o">&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="s">&#39;tt&#39;</span>
                     <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">dg</span><span class="p">)</span>
                         <span class="n">dg</span>  <span class="p">=</span> <span class="n">pderiv</span><span class="p">(</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">),[],</span><span class="n">Inf</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">);</span>
                         <span class="n">c_d</span> <span class="p">=</span> <span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">flipwin</span><span class="p">(</span><span class="n">dg</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
@@ -555,11 +556,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
                         <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
                             <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
                         <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
-<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
-<span class="s">                    end</span>
-<span class="s">                case &#39;</span><span class="n">tt</span><span class="o">&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="s">&#39;tt&#39;</span>
                     <span class="c">% Second derivatives should be independent of the phase</span>
                     <span class="c">% convention.</span>
                     <span class="c">% tgrad is already unwrapped along time, we can call pderiv</span>
@@ -677,12 +678,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
                         <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
                             <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span> <span class="n">phased</span><span class="p">;</span>
                         <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
-<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
-<span class="s">                    end</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
 
-<span class="s">                case &#39;</span><span class="n">ff</span><span class="o">&#39;</span>
+                <span class="k">case</span> <span class="s">&#39;ff&#39;</span>
                     <span class="c">% Mixed derivatives of log-magnitude give second derivative</span>
                     <span class="c">% of phase</span>
                     <span class="n">phased</span><span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">tfr</span><span class="o">*</span><span class="n">pderiv</span><span class="p">(</span><span class="n">fgrad</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">difforder</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">;</span>
@@ -804,11 +805,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
                         <span class="k">case</span> <span class="s">&#39;relative&#39;</span>
                             <span class="n">phased</span> <span class="p">=</span> <span class="o">-</span><span class="n">phased</span><span class="p">;</span>
                         <span class="k">case</span> <span class="s">&#39;freqinv&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a);</span>
-<span class="s">                        case &#39;</span><span class="n">symphase</span><span class="o">&#39;</span>
-                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="s">&#39;*a/2);</span>
-<span class="s">                    end</span>
-<span class="s">                case &#39;</span><span class="n">tt</span><span class="o">&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="p">);</span>
+                        <span class="k">case</span> <span class="s">&#39;symphase&#39;</span>
+                            <span class="n">phased</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">plus</span><span class="p">,</span><span class="n">phased</span><span class="p">,</span><span class="o">-</span><span class="n">fftindex</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="o">&#39;*</span><span class="n">a</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+                    <span class="k">end</span>
+                <span class="k">case</span> <span class="s">&#39;tt&#39;</span>
                     <span class="n">ccross</span> <span class="p">=</span> <span class="n">cright</span><span class="o">.*</span><span class="nb">conj</span><span class="p">(</span><span class="n">ccenterfi</span><span class="p">)</span><span class="o">.^</span><span class="mf">2.</span><span class="o">*</span><span class="n">cleft</span><span class="p">;</span>
                     <span class="n">phased</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">ccross</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
                 <span class="k">case</span> <span class="s">&#39;ff&#39;</span>

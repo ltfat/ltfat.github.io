@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">PLOTFILTERBANK - Plot filterbank and ufilterbank coefficients</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>C <span class="p">=</span><span class="w"> </span><span class="nf">plotfilterbank</span><span class="p">(</span>coef,a,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>C <span class="p">=</span><span class="w"> </span><span class="nf">plotfilterbank</span><span class="p">(</span>coef,a,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%PLOTFILTERBANK Plot filterbank and ufilterbank coefficients</span>
 <span class="c">%   Usage:  plotfilterbank(coef,a);</span>
 <span class="c">%           plotfilterbank(coef,a,fc);</span>
@@ -97,7 +97,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/plotfilterbank.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -163,42 +163,42 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
   <span class="n">C</span><span class="p">=</span><span class="n">interp1</span><span class="p">(</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Nc</span><span class="p">),</span><span class="n">C</span><span class="p">,</span><span class="c">...</span>
        <span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="s">&#39;nearest&#39;</span><span class="p">);</span>
-  <span class="n">C</span><span class="p">=</span><span class="n">C</span><span class="p">.</span><span class="s">&#39;;  </span>
-<span class="s">  delta_t=a*Nc/N;</span>
-<span class="s">end;</span>
+  <span class="n">C</span><span class="p">=</span><span class="n">C</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>  
+  <span class="n">delta_t</span><span class="p">=</span><span class="n">a</span><span class="o">*</span><span class="n">Nc</span><span class="o">/</span><span class="n">N</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">% Freq. pos is just number of the channel.</span>
-<span class="s">yr=1:M;</span>
+<span class="c">% Freq. pos is just number of the channel.</span>
+<span class="n">yr</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="p">;</span>
 
-<span class="s">if size(C,3)&gt;1</span>
-<span class="s">  error(&#39;</span><span class="n">Input</span> <span class="n">is</span> <span class="n">multidimensional</span><span class="p">.</span><span class="s">&#39;);</span>
-<span class="s">end;</span>
+<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input is multidimensional.&#39;</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">% Apply transformation to coefficients.</span>
-<span class="s">if flags.do_db</span>
-<span class="s">  C=20*log10(abs(C)+realmin);</span>
-<span class="s">end;</span>
+<span class="c">% Apply transformation to coefficients.</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_db</span>
+  <span class="n">C</span><span class="p">=</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="o">+</span><span class="nb">realmin</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">if flags.do_dbsq</span>
-<span class="s">  C=10*log10(abs(C)+realmin);</span>
-<span class="s">end;</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_dbsq</span>
+  <span class="n">C</span><span class="p">=</span><span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="o">+</span><span class="nb">realmin</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">if flags.do_linsq</span>
-<span class="s">  C=abs(C).^2;</span>
-<span class="s">end;</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_linsq</span>
+  <span class="n">C</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">if flags.do_linabs</span>
-<span class="s">  C=abs(C);</span>
-<span class="s">end;</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_linabs</span>
+  <span class="n">C</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">C</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">if flags.do_lin</span>
-<span class="s">  if ~isreal(C)</span>
-<span class="s">    error([&#39;</span><span class="n">Complex</span> <span class="n">valued</span> <span class="n">input</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">plotted</span> <span class="n">using</span> <span class="n">the</span> &quot;<span class="n">lin</span>&quot; <span class="n">flag</span><span class="p">.</span><span class="s">&#39;,...</span>
-<span class="s">           &#39;</span><span class="n">Please</span> <span class="n">use</span> <span class="n">the</span> &quot;<span class="n">linsq</span>&quot; <span class="n">or</span> &quot;<span class="n">linabs</span>&quot; <span class="n">flag</span><span class="p">.</span><span class="s">&#39;]);</span>
-<span class="s">  end;</span>
-<span class="s">end;</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_lin</span>
+  <span class="k">if</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">([</span><span class="s">&#39;Complex valued input cannot be plotted using the &quot;lin&quot; flag.&#39;</span><span class="p">,</span><span class="c">...</span>
+           <span class="s">&#39;Please use the &quot;linsq&quot; or &quot;linabs&quot; flag.&#39;</span><span class="p">]);</span>
+  <span class="k">end</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 
-<span class="s">% &#39;</span><span class="n">dynrange</span><span class="o">&#39;</span> <span class="n">parameter</span> <span class="n">is</span> <span class="n">handled</span> <span class="n">by</span> <span class="n">converting</span> <span class="n">it</span> <span class="n">into</span> <span class="n">clim</span>
+<span class="c">% &#39;dynrange&#39; parameter is handled by converting it into clim</span>
 <span class="c">% clim overrides dynrange, so do nothing if clim is already specified</span>
 <span class="k">if</span>  <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">dynrange</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">clim</span><span class="p">)</span>
   <span class="n">maxclim</span><span class="p">=</span><span class="n">max</span><span class="p">(</span><span class="n">C</span><span class="p">(:));</span>

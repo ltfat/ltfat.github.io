@@ -49,7 +49,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 c=constructphasereal(s,g,a,M);
 c=constructphasereal(s,g,a,M,tol);
 c=constructphasereal(c,g,a,M,tol,mask);
-c=constructphasereal(c,g,a,M,tol,mask,usephase);
+c=constructphasereal(s,g,a,M,tol,mask,usephase);
 [c,newphase,usedmask,tgrad,fgrad] = constructphasereal(...);
 </pre>
 </div>
@@ -128,8 +128,8 @@ By default, <em>tol</em> has the value 1e-10.</p>
 be converted to logical true (anything other than 0) determine
 coefficients with known phase which is used in the output. Only the
 phase of remaining coefficients (for which mask==0) is computed.</p>
-<p><tt class="docutils literal">constructphasereal(c,g,a,M,tol,mask,usephase)</tt> does the same as before
-but uses the known phase values from <em>usephase</em> rather than from <em>c</em>.</p>
+<p><tt class="docutils literal">constructphasereal(s,g,a,M,tol,mask,usephase)</tt> does the same as before
+but uses the known phase values from <em>usephase</em> rather than from <em>s</em>.</p>
 <p>In addition, <em>tol</em> can be a vector containing decreasing values. In
 that case, the algorithm is run <tt class="docutils literal">numel(tol)</tt> times, initialized with
 the result from the previous step in the 2nd and the further steps.</p>

@@ -33,8 +33,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/frames/frsynmatrix_code.html">frsynmatrix</a></li>
-<li><a href="#BASEURL#/doc/operators/operatormatrix_code.html">operatormatrix</a></li>
+<li><a href="#BASEURL#/doc/frames/frsynmatrix.html">frsynmatrix</a></li>
+<li><a href="#BASEURL#/doc/operators/operatormatrix.html">operatormatrix</a></li>
 </ul>
 </p></div>
     </div>
@@ -42,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">TFMAT - Matrix of transform / operator</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>F<span class="p">=</span><span class="nf">tfmat</span><span class="p">(</span>ttype,p2,p3,p4,p5<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>F<span class="p">=</span><span class="nf">tfmat</span><span class="p">(</span>ttype,p2,p3,p4,p5<span class="p">)</span><span class="w"></span>
 <span class="c">%TFMAT Matrix of transform / operator</span>
 <span class="c">%   Usage:  F=tfmat(&#39;fourier&#39;,L);</span>
 <span class="c">%           F=tfmat(&#39;dcti&#39;,L);</span>
@@ -111,7 +111,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/deprecated/tfmat.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -135,43 +135,43 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="k">switch</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">ttype</span><span class="p">))</span>
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;fourier&#39;</span><span class="p">,</span><span class="s">&#39;dft&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">idft</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">));</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dcti&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dcti</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dctii&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dctii</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dctiii&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dctiii</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dctiv&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dctiv</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dsti&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dsti</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dstii&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dstii</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dstiii&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dstiii</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dstiv&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">dstiv</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">p2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;gabor&#39;</span><span class="p">,</span><span class="s">&#39;dgt&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">g</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>    
     <span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">4</span>
       <span class="n">L</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
@@ -185,7 +185,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">F</span><span class="p">=</span><span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;wilson&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">g</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>    
     <span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">3</span>
       <span class="n">L</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
@@ -198,7 +198,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">F</span><span class="p">=</span><span class="n">idwilt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g</span><span class="p">);</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">g</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>    
     <span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">3</span>
       <span class="n">L</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
@@ -211,13 +211,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">F</span><span class="p">=</span><span class="n">iwmdct</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g</span><span class="p">);</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;spread&#39;</span><span class="p">,</span><span class="s">&#39;spreadop&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">c</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
     <span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
     <span class="n">F</span><span class="p">=</span><span class="n">spreadop</span><span class="p">(</span><span class="nb">eye</span><span class="p">(</span><span class="n">L</span><span class="p">),</span><span class="n">c</span><span class="p">);</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;gabmul&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span> 
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">sym</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
     <span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">sym</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">sym</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
@@ -240,7 +240,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">end</span><span class="p">;</span>
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;ndgt&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">g</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
     <span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
     <span class="n">M</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span>
@@ -261,7 +261,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     
 
   <span class="k">case</span> <span class="p">{</span><span class="s">&#39;zak&#39;</span><span class="p">}</span>
-    <span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nargin</span><span class="p">))</span>
+    <span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
     <span class="n">L</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
     <span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
     <span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>

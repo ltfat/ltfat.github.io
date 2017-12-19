@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FILTERBANKREALTIGHT - Tight filters of filterbank for real signals only</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>gtout<span class="p">=</span><span class="nf">filterbankrealtight</span><span class="p">(</span>g,a,L<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>gtout<span class="p">=</span><span class="nf">filterbankrealtight</span><span class="p">(</span>g,a,L<span class="p">)</span><span class="w"></span>
 <span class="c">%FILTERBANKREALTIGHT  Tight filters of filterbank for real signals only </span>
 <span class="c">%   Usage:  gt=filterbankrealtight(g,a,L);</span>
 <span class="c">%           gt=filterbankrealtight(g,a);</span>
@@ -70,7 +70,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankrealtight.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -134,11 +134,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     
     <span class="n">Ha</span><span class="p">=</span><span class="n">sqrtm</span><span class="p">(</span><span class="n">Ha</span><span class="o">*</span><span class="n">Ha</span><span class="o">&#39;+</span><span class="n">Hb</span><span class="o">*</span><span class="n">Hb</span><span class="o">&#39;</span><span class="p">)</span><span class="o">\</span><span class="n">Ha</span><span class="p">;</span>
     
-    <span class="n">gt</span><span class="p">(:,</span><span class="n">idx_a</span><span class="p">)=</span><span class="n">Ha</span><span class="p">.</span><span class="s">&#39;;</span>
-<span class="s">  end;</span>
-<span class="s">  % gt was created transposed because the indexing gt(:,idx_a)</span>
-<span class="s">  % is much faster than gt(idx_a,:)</span>
-<span class="s">  gt =  gt.&#39;</span><span class="p">;</span>
+    <span class="n">gt</span><span class="p">(:,</span><span class="n">idx_a</span><span class="p">)=</span><span class="n">Ha</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
+  <span class="k">end</span><span class="p">;</span>
+  <span class="c">% gt was created transposed because the indexing gt(:,idx_a)</span>
+  <span class="c">% is much faster than gt(idx_a,:)</span>
+  <span class="n">gt</span> <span class="p">=</span>  <span class="n">gt</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
   
   <span class="n">gt</span><span class="p">=</span><span class="n">ifft</span><span class="p">(</span><span class="n">gt</span><span class="p">)</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
   

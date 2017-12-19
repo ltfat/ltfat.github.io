@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DSFT - Discrete Symplectic Fourier Transform</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>F<span class="p">=</span><span class="nf">dsft</span><span class="p">(</span>F<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>F<span class="p">=</span><span class="nf">dsft</span><span class="p">(</span>F<span class="p">);</span>
 <span class="c">%DSFT  Discrete Symplectic Fourier Transform</span>
 <span class="c">%   Usage:  C=dsft(F);</span>
 <span class="c">%</span>
@@ -58,13 +58,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     H. G. Feichtinger, M. Hazewinkel, N. Kaiblinger, E. Matusiak, and</span>
 <span class="c">%     M. Neuhauser. Metaplectic operators on c^n. The Quarterly Journal of</span>
-<span class="c">%     Mathematics, 59(1):15-28, 2008.</span>
+<span class="c">%     Mathematics, 59(1):15--28, 2008.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/dsft.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -83,7 +83,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   TESTING: TEST_DSFT </span>
 <span class="c">%   REFERENCE: REF_DSFT</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="n">D</span><span class="p">=</span><span class="nb">ndims</span><span class="p">(</span><span class="n">F</span><span class="p">);</span>
 
@@ -94,15 +94,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">W</span><span class="o">==</span><span class="mi">1</span>
-  <span class="n">F</span><span class="p">=</span><span class="n">dft</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">F</span><span class="p">).</span><span class="s">&#39;);</span>
-<span class="s">else</span>
-<span class="s">  % Apply to set of planes.</span>
-<span class="s">  </span>
-<span class="s">  R1=size(F,1);</span>
-<span class="s">  R2=size(F,2);</span>
-<span class="s">  Fo=zeros(R2,R1,W,assert_classname(F));</span>
-<span class="s">  for w=1:W</span>
-<span class="s">    Fo(:,:,w)=dft(idft(F(:,:,w).&#39;</span><span class="p">));</span>
+  <span class="n">F</span><span class="p">=</span><span class="n">dft</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">F</span><span class="p">).</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="k">else</span>
+  <span class="c">% Apply to set of planes.</span>
+  
+  <span class="n">R1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">R2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">Fo</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span><span class="n">R1</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">F</span><span class="p">));</span>
+  <span class="k">for</span> <span class="n">w</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">W</span>
+    <span class="n">Fo</span><span class="p">(:,:,</span><span class="n">w</span><span class="p">)=</span><span class="n">dft</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">F</span><span class="p">(:,:,</span><span class="n">w</span><span class="p">).</span><span class="o">&#39;</span><span class="p">));</span>
   <span class="k">end</span><span class="p">;</span>
   <span class="n">F</span><span class="p">=</span><span class="n">Fo</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>

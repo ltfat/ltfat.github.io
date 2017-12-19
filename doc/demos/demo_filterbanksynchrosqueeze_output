@@ -1,6 +1,6 @@
 Direct reconstruction MSE:
-   From the coefficients: 3.534701e-03
-   From the synchrosqueezed coefficients: 3.534701e-03
+   From the coefficients: 2.903446e-03
+   From the synchrosqueezed coefficients: 2.903446e-03
 Equalized reconstruction MSE:
-   From the coefficients: 8.672141e-16
-   From the synchrosqueezed coefficients: 7.195536e-16
+   From the coefficients: 8.629907e-16
+   From the synchrosqueezed coefficients: 7.117775e-16

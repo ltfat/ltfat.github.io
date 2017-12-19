@@ -33,11 +33,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/dwilt_code.html">dwilt</a></li>
-<li><a href="#BASEURL#/doc/gabor/wilwin_code.html">wilwin</a></li>
-<li><a href="#BASEURL#/doc/gabor/wmdct_code.html">wmdct</a></li>
-<li><a href="#BASEURL#/doc/gabor/wilorth_code.html">wilorth</a></li>
-<li><a href="#BASEURL#/doc/fourier/isevenfunction_code.html">isevenfunction</a></li>
+<li><a href="#BASEURL#/doc/gabor/dwilt.html">dwilt</a></li>
+<li><a href="#BASEURL#/doc/gabor/wilwin.html">wilwin</a></li>
+<li><a href="#BASEURL#/doc/gabor/wmdct.html">wmdct</a></li>
+<li><a href="#BASEURL#/doc/gabor/wilorth.html">wilorth</a></li>
+<li><a href="#BASEURL#/doc/fourier/isevenfunction.html">isevenfunction</a></li>
 </ul>
 </p></div>
     </div>
@@ -45,7 +45,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WILDUAL - Wilson dual window</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[gamma]<span class="p">=</span><span class="nf">wildual</span><span class="p">(</span>g,M,L<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[gamma]<span class="p">=</span><span class="nf">wildual</span><span class="p">(</span>g,M,L<span class="p">)</span><span class="w"></span>
 <span class="c">%WILDUAL  Wilson dual window</span>
 <span class="c">%   Usage:  gamma=wildual(g,M);</span>
 <span class="c">%           gamma=wildual(g,M,L);</span>
@@ -86,7 +86,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/wildual.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -105,7 +105,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   TESTING: TEST_DWILT</span>
 <span class="c">%   REFERENCE: OK</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">2</span>
     <span class="n">L</span><span class="p">=[];</span>

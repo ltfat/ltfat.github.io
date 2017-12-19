@@ -33,10 +33,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/gabor/dgt_code.html">dgt</a></li>
-<li><a href="#BASEURL#/doc/gabor/idgt_code.html">idgt</a></li>
-<li><a href="#BASEURL#/doc/gabor/gabdual_code.html">gabdual</a></li>
-<li><a href="#BASEURL#/doc/gabor/gabtight_code.html">gabtight</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></li>
+<li><a href="#BASEURL#/doc/gabor/idgt.html">idgt</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabdual.html">gabdual</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabtight.html">gabtight</a></li>
 </ul>
 </p></div>
     </div>
@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">GABMUL - Apply Gabor multiplier</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>h<span class="p">=</span><span class="nf">gabmul</span><span class="p">(</span>f,c,p3,p4,p5<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>h<span class="p">=</span><span class="nf">gabmul</span><span class="p">(</span>f,c,p3,p4,p5<span class="p">)</span><span class="w"></span>
 <span class="c">%GABMUL  Apply Gabor multiplier</span>
 <span class="c">%   Usage:  h=gabmul(f,c,a);</span>
 <span class="c">%           h=gabmul(f,c,g,a);</span>
@@ -91,7 +91,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/deprecated/gabmul.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -109,7 +109,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">warning</span><span class="p">([</span><span class="s">&#39;LTFAT: GABMUL has been deprecated, please use FRAMEMUL &#39;</span> <span class="c">...</span>
          <span class="s">&#39;instead. See the help on GABMUL for more details.&#39;</span><span class="p">]);</span>   
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 <span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>

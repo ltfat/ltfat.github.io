@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">BLFILTER - Construct a band-limited filter</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>gout<span class="p">=</span><span class="nf">blfilter</span><span class="p">(</span>winname,fsupp,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>gout<span class="p">=</span><span class="nf">blfilter</span><span class="p">(</span>winname,fsupp,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%BLFILTER  Construct a band-limited filter</span>
 <span class="c">%   Usage:  g=blfilter(winname,fsupp,fc);</span>
 <span class="c">%           g=blfilter(winname,fsupp,fc,...);</span>
@@ -73,7 +73,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                 fsupp and the centre frequency fc is specified in Hz.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;complex&#39;   Make the filter complex valued if the centre frequency</span>
-<span class="c">%                 is non-zero.necessary. This is the default.</span>
+<span class="c">%                 is non-zero. This is the default.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;real&#39;      Make the filter real-valued if the centre frequency</span>
 <span class="c">%                 is non-zero.</span>
@@ -131,7 +131,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/blfilter.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -193,8 +193,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">Nfilt</span>
     <span class="n">g</span><span class="p">=</span><span class="n">struct</span><span class="p">();</span>
-    
-
     
     <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_1</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_area</span> 
         <span class="n">g</span><span class="p">.</span><span class="n">H</span><span class="p">=@(</span><span class="n">L</span><span class="p">)</span>    <span class="n">fftshift</span><span class="p">(</span><span class="n">firwin</span><span class="p">(</span><span class="n">wn</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">max</span><span class="p">([</span><span class="n">kv</span><span class="p">.</span><span class="n">min_win</span><span class="p">,</span><span class="c">...</span>

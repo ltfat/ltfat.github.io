@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">AUDFILTBW - Bandwidth of auditory filter</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>bw <span class="p">=</span><span class="w"> </span><span class="nf">audfiltbw</span><span class="p">(</span>fc,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>bw <span class="p">=</span><span class="w"> </span><span class="nf">audfiltbw</span><span class="p">(</span>fc,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%AUDFILTBW  Bandwidth of auditory filter</span>
 <span class="c">%   Usage: bw = audfiltbw(fc)</span>
 <span class="c">%</span>
@@ -90,7 +90,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/auditory/audfiltbw.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -109,7 +109,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
 <span class="c">% ------ Checking of input parameters ---------</span>
   
-<span class="c">% error(nargchk(1,1,nargin));</span>
+<span class="c">% narginchk(1,1);</span>
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">1</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>

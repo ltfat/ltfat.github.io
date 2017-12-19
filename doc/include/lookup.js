@@ -421,4 +421,4 @@ var globalfunlist = {
    zak:'gabor/zak',
 };
 
- var toolboxversion='2.2.0'; 
+ var toolboxversion='2.2.1'; 

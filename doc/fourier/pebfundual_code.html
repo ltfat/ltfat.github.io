@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">PEBFUNDUAL - Dual window of sampled, periodized EB-spline</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[gd,nlen] <span class="p">=</span><span class="w"> </span><span class="nf">pebfundual</span><span class="p">(</span>w,a,M,L,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[gd,nlen] <span class="p">=</span><span class="w"> </span><span class="nf">pebfundual</span><span class="p">(</span>w,a,M,L,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%PEBFUNDUAL Dual window of sampled, periodized EB-spline</span>
 <span class="c">%   Usage: g=pebfundual(w,a,M,L)</span>
 <span class="c">%          g=pebfundual({w,width},a,M,L)</span>
@@ -144,7 +144,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/fourier/pebfundual.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.2.0</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -286,8 +286,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">z1</span> <span class="p">=</span> <span class="n">z0</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">;</span>
 
     <span class="n">lz1</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">z1</span><span class="p">);</span>
-    <span class="n">z1</span> <span class="p">=</span> <span class="nb">repmat</span><span class="p">(</span><span class="n">z1</span><span class="p">.</span><span class="s">&#39;,1,m) + repmat([-m+1:0],lz1,1);</span>
-<span class="s">    z1 = z1(:)&#39;</span><span class="p">;</span>
+    <span class="n">z1</span> <span class="p">=</span> <span class="nb">repmat</span><span class="p">(</span><span class="n">z1</span><span class="p">.</span><span class="o">&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="nb">repmat</span><span class="p">([</span><span class="o">-</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">lz1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">z1</span> <span class="p">=</span> <span class="n">z1</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">;</span>
     <span class="n">Y</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">z1</span><span class="p">));</span>
 
     <span class="n">index</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span> <span class="p">(</span><span class="n">z1</span><span class="o">&gt;</span><span class="p">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">z1</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">2</span><span class="p">));</span>

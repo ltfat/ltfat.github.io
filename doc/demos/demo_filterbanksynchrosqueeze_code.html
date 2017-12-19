@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_FILTERBANKSYNCHROSQUEEZE - Filterbank synchrosqueezing and inversion</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="c">%DEMO_FILTERBANKSYNCHROSQUEEZE Filterbank synchrosqueezing and inversion</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_FILTERBANKSYNCHROSQUEEZE Filterbank synchrosqueezing and inversion</span>
 <span class="c">%</span>
 <span class="c">%   The demo shows that the synchrosqueezed filterbank representation can be </span>
 <span class="c">%   directly used to reconstruct the original signal.</span>
@@ -61,7 +61,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   References:</span>
 <span class="c">%     N. Holighaus, Z. Průša, and P. L. Søndergaard. Reassignment and</span>
 <span class="c">%     synchrosqueezing for general time-frequency filter banks, subsampling</span>
-<span class="c">%     and processing. Signal Processing, 125:1-8, 2016. [1]http ]</span>
+<span class="c">%     and processing. Signal Processing, 125:1--8, 2016. [1]http ]</span>
 <span class="c">%     </span>
 <span class="c">%     References</span>
 <span class="c">%     </span>
@@ -71,7 +71,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_filterbanksynchrosqueeze.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -112,8 +112,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">plotfilterbank</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="mi">60</span><span class="p">);</span>
 
 <span class="c">% Reformat the coefficients to matrices</span>
-<span class="n">cmat</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="s">&#39;);</span>
-<span class="s">csmat = cell2mat(cs.&#39;</span><span class="p">);</span>
+<span class="n">cmat</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="n">csmat</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">cs</span><span class="p">.</span><span class="o">&#39;</span><span class="p">);</span>
 
 <span class="c">% Compute the overall analysis filterbank response.</span>
 <span class="n">Frespall</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">filterbankfreqz</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Ls</span><span class="p">),</span><span class="mi">2</span><span class="p">);</span>

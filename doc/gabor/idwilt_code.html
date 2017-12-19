@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">IDWILT - Inverse discrete Wilson transform</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[f,g]<span class="p">=</span><span class="nf">idwilt</span><span class="p">(</span>c,g,Ls<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[f,g]<span class="p">=</span><span class="nf">idwilt</span><span class="p">(</span>c,g,Ls<span class="p">)</span><span class="w"></span>
 <span class="c">%IDWILT  Inverse discrete Wilson transform</span>
 <span class="c">%   Usage:  f=idwilt(c,g);</span>
 <span class="c">%           f=idwilt(c,g,Ls);</span>
@@ -78,13 +78,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     </span>
 <span class="c">%     Y.-P. Lin and P. Vaidyanathan. Linear phase cosine modulated maximally</span>
 <span class="c">%     decimated filter banks with perfectreconstruction. IEEE Trans. Signal</span>
-<span class="c">%     Process., 43(11):2525-2539, 1995.</span>
+<span class="c">%     Process., 43(11):2525--2539, 1995.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/idwilt.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -103,7 +103,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   TESTING: TEST_DWILT</span>
 <span class="c">%   REFERENCE: OK</span>
 
-<span class="n">error</span><span class="p">(</span><span class="n">nargchk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">nargin</span><span class="p">));</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
 
 <span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 <span class="n">N</span><span class="p">=</span><span class="mi">2</span><span class="o">*</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>

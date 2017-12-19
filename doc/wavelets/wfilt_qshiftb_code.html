@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WFILT_QSHIFTB - Improved Orthogonality and Symmetry properties</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_qshiftb</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[h,g,a,info] <span class="p">=</span><span class="w"> </span><span class="nf">wfilt_qshiftb</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
 <span class="c">%WFILT_QSHIFTB  Improved Orthogonality and Symmetry properties </span>
 <span class="c">%</span>
 <span class="c">%   Usage: [h,g,a] = wfilt_qshiftb(N);</span>
@@ -53,19 +53,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% </span>
 <span class="c">%   References:</span>
 <span class="c">%     N. G. Kingsbury. A dual-tree complex wavelet transform with improved</span>
-<span class="c">%     orthogonality and symmetry properties. In ICIP, pages 375-378, 2000.</span>
+<span class="c">%     orthogonality and symmetry properties. In ICIP, pages 375--378, 2000.</span>
 <span class="c">%     </span>
 <span class="c">%     N. Kingsbury. Design of q-shift complex wavelets for image processing</span>
 <span class="c">%     using frequency domain energy minimization. In Image Processing, 2003.</span>
 <span class="c">%     ICIP 2003. Proceedings. 2003 International Conference on, volume 1,</span>
-<span class="c">%     pages I-1013-16 vol.1, Sept 2003.</span>
+<span class="c">%     pages I--1013--16 vol.1, Sept 2003.</span>
 <span class="c">%     </span>
 <span class="c">%</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfilt_qshiftb.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -94,13 +94,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%         </span>
     <span class="n">harr</span> <span class="p">=</span> <span class="p">[</span><span class="c">...</span>
             <span class="nb">flipud</span><span class="p">(</span><span class="n">hlp</span><span class="p">),</span><span class="c">...</span>
-            <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="n">range</span><span class="p">).</span><span class="s">&#39;.*hlp,...</span>
-<span class="s">            ];</span>
-<span class="s">        </span>
+            <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="n">range</span><span class="p">).</span><span class="o">&#39;.*</span><span class="n">hlp</span><span class="p">,</span><span class="c">...</span>
+            <span class="p">];</span>
+        
 
-<span class="s">htmp=mat2cell(harr,size(harr,1),ones(1,size(harr,2)));</span>
+<span class="n">htmp</span><span class="p">=</span><span class="n">mat2cell</span><span class="p">(</span><span class="n">harr</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">harr</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">harr</span><span class="p">,</span><span class="mi">2</span><span class="p">)));</span>
 
-<span class="s">h(1:2,1) = cellfun(@(hEl)struct(&#39;</span><span class="n">h</span><span class="o">&#39;</span><span class="p">,</span><span class="n">hEl</span><span class="p">,</span><span class="s">&#39;offset&#39;</span><span class="p">,</span><span class="n">offset</span><span class="p">),</span><span class="n">htmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span><span class="c">...</span>
+<span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">hEl</span><span class="p">)</span><span class="n">struct</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span><span class="n">hEl</span><span class="p">,</span><span class="s">&#39;offset&#39;</span><span class="p">,</span><span class="n">offset</span><span class="p">),</span><span class="n">htmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span><span class="c">...</span>
                    <span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 <span class="n">g</span> <span class="p">=</span> <span class="n">h</span><span class="p">;</span>
 </pre></div>

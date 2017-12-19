@@ -33,8 +33,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/fourier/pbspline_code.html">pbspline</a></li>
-<li><a href="#BASEURL#/doc/fourier/middlepad_code.html">middlepad</a></li>
+<li><a href="#BASEURL#/doc/fourier/pbspline.html">pbspline</a></li>
+<li><a href="#BASEURL#/doc/fourier/middlepad.html">middlepad</a></li>
 </ul>
 </p></div>
     </div>
@@ -42,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_PBSPLINE - How to use PBSPLINE</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="c">%DEMO_PBSPLINE  How to use PBSPLINE</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_PBSPLINE  How to use PBSPLINE</span>
 <span class="c">%</span>
 <span class="c">%   This script illustrates various properties of the</span>
 <span class="c">%   PBSPLINE function.</span>
@@ -61,7 +61,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_pbspline.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -151,37 +151,37 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
-<span class="n">xplot</span><span class="p">=(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="s">&#39;;</span>
+<span class="n">xplot</span><span class="p">=(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
 
-<span class="s">subplot(3,2,1);</span>
-<span class="s">plot(xplot,fftshift(g1),...</span>
-<span class="s">     xplot,circshift(fftshift(g1),a),...</span>
-<span class="s">     xplot,circshift(fftshift(g1),-a));</span>
-<span class="s">title(&#39;</span><span class="n">Zero</span> <span class="n">order</span> <span class="n">spline</span><span class="p">.</span><span class="s">&#39;);</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="c">...</span>
+     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="c">...</span>
+     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Zero order spline.&#39;</span><span class="p">);</span>
 
-<span class="s">subplot(3,2,2);</span>
-<span class="s">plot(xplot,fftshift(g1d));</span>
-<span class="s">title(&#39;</span><span class="n">Dual</span> <span class="n">window</span><span class="p">.</span><span class="s">&#39;);</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1d</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span>
 
-<span class="s">subplot(3,2,3);</span>
-<span class="s">plot(xplot,fftshift(g2),...</span>
-<span class="s">     xplot,circshift(fftshift(g2),a),...</span>
-<span class="s">     xplot,circshift(fftshift(g2),-a));</span>
-<span class="s">title(&#39;</span><span class="n">First</span> <span class="n">order</span> <span class="n">spline</span><span class="p">.</span><span class="s">&#39;);</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="c">...</span>
+     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="c">...</span>
+     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;First order spline.&#39;</span><span class="p">);</span>
 
-<span class="s">subplot(3,2,4);</span>
-<span class="s">plot(xplot,fftshift(g2d));</span>
-<span class="s">title(&#39;</span><span class="n">Dual</span> <span class="n">window</span><span class="p">.</span><span class="s">&#39;);</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2d</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span>
 
-<span class="s">subplot(3,2,5);</span>
-<span class="s">plot(xplot,fftshift(g3),...</span>
-<span class="s">     xplot,circshift(fftshift(g3),a),...</span>
-<span class="s">     xplot,circshift(fftshift(g3),-a));</span>
-<span class="s">title(&#39;</span><span class="n">Second</span> <span class="n">order</span> <span class="n">spline</span><span class="p">.</span><span class="s">&#39;);</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="c">...</span>
+     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="c">...</span>
+     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Second order spline.&#39;</span><span class="p">);</span>
 
-<span class="s">subplot(3,2,6);</span>
-<span class="s">plot(xplot,fftshift(g3d));</span>
-<span class="s">title(&#39;</span><span class="n">Dual</span> <span class="n">window</span><span class="p">.</span><span class="s">&#39;</span><span class="err">);</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3d</span><span class="p">));</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span>
 </pre></div>
 
 

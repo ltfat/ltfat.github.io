@@ -33,7 +33,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/sigproc/qam4_code.html">qam4</a></li>
+<li><a href="#BASEURL#/doc/sigproc/qam4.html">qam4</a></li>
 </ul>
 </p></div>
     </div>
@@ -41,7 +41,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">IQAM4 - Inverse QAM of order 4</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span class="k">function</span><span class="w"> </span>xo<span class="p">=</span><span class="nf">iqam4</span><span class="p">(</span>xi<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>xo<span class="p">=</span><span class="nf">iqam4</span><span class="p">(</span>xi<span class="p">)</span><span class="w"></span>
 <span class="c">%IQAM4  Inverse QAM of order 4</span>
 <span class="c">%</span>
 <span class="c">%    IQAM4(xi) demodulates a signal mapping the input coefficients to the</span>
@@ -55,7 +55,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/iqam4.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.1.2</span>
+<span class="c">% This file is part of LTFAT version 2.2.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -89,15 +89,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">% Reverse the optimal bit ordering.</span>
 <span class="n">reversebitorder</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">reversebitorder</span><span class="p">(</span><span class="n">bitorder</span><span class="o">+</span><span class="mi">1</span><span class="p">)=(</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">).</span><span class="s">&#39;;</span>
+<span class="n">reversebitorder</span><span class="p">(</span><span class="n">bitorder</span><span class="o">+</span><span class="mi">1</span><span class="p">)=(</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
 
-<span class="s">% Apply the reverse ordering</span>
-<span class="s">work=reversebitorder(work+1);</span>
+<span class="c">% Apply the reverse ordering</span>
+<span class="n">work</span><span class="p">=</span><span class="n">reversebitorder</span><span class="p">(</span><span class="n">work</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
 
-<span class="s">xo=zeros(nbits,symbols);</span>
-<span class="s">% Reconstruct the bits</span>
-<span class="s">for bit=1:nbits</span>
-<span class="s">  xo(bit,:)=bitget(work,bit).&#39;</span><span class="p">;</span>
+<span class="n">xo</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">nbits</span><span class="p">,</span><span class="n">symbols</span><span class="p">);</span>
+<span class="c">% Reconstruct the bits</span>
+<span class="k">for</span> <span class="n">bit</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">nbits</span>
+  <span class="n">xo</span><span class="p">(</span><span class="n">bit</span><span class="p">,:)=</span><span class="n">bitget</span><span class="p">(</span><span class="n">work</span><span class="p">,</span><span class="n">bit</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="n">xo</span><span class="p">=</span><span class="n">xo</span><span class="p">(:);</span>
