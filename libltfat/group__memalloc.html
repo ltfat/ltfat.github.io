@@ -117,6 +117,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga0a7a8487b9aff53e9c2943ef6dc7be32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga314d7873f25503c28bc58666006ffd2c"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__memalloc.html#ga314d7873f25503c28bc58666006ffd2c">ltfat_realloc</a> (void *ptr, size_t nold, size_t nnew)</td></tr>
 <tr class="separator:ga314d7873f25503c28bc58666006ffd2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga53bf72088ad5aec9738afc85647d7165"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__memalloc.html#ga53bf72088ad5aec9738afc85647d7165">ltfat_postpad</a> (void *ptr, size_t nold, size_t nnew)</td></tr>
+<tr class="separator:ga53bf72088ad5aec9738afc85647d7165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab1d677e5ca0f39eb8b93d26e5432097b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gab1d677e5ca0f39eb8b93d26e5432097b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const void *ptr)</td></tr>
 <tr class="separator:gab1d677e5ca0f39eb8b93d26e5432097b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,10 +164,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
 </dl>
 <h4>Function versions</h4>
 <p><code> void* <a class="el" href="group__memalloc.html#ga0a7a8487b9aff53e9c2943ef6dc7be32">ltfat_calloc(size_t nmemb, size_t size)</a>;</code></p>
-<p><code> double* ltfat_calloc_d(size_t size);</code></p>
-<p><code> ltfat_complex_d* ltfat_calloc_dc(size_t size);</code></p>
-<p><code> float* ltfat_calloc_s(size_t size);</code></p>
-<p><code> ltfat_complex_s* ltfat_calloc_sc(size_t size); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
+<p><code> double* ltfat_calloc_d(size_t nmemb);</code></p>
+<p><code> ltfat_complex_d* ltfat_calloc_dc(size_t nmemb);</code></p>
+<p><code> float* ltfat_calloc_s(size_t nmemb);</code></p>
+<p><code> ltfat_complex_s* ltfat_calloc_sc(size_t nmemb); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
 
 </div>
 </div>
@@ -199,6 +201,46 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
 
 </div>
 </div>
+<a class="anchor" id="ga53bf72088ad5aec9738afc85647d7165"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* ltfat_postpad </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nnew</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Increase the size of a memory block</p>
+<p>The function will call <em>ltfat_realloc</em> only if <em>nnew</em> &gt; <em>nold</em> and sets the padded elements to 0. Otherwise it does nothing. The function works as <em>ltfat_calloc</em> if <em>ptr==NULL</em> and <em>nold</em> is ignored.</p>
+<h4>Function versions</h4>
+<p><code> void* <a class="el" href="group__memalloc.html#ga314d7873f25503c28bc58666006ffd2c">ltfat_realloc(void *ptr, size_t noldbytes, size_t nnewbytes)</a>;</code></p>
+<p><code>double* ltfat_realloc_d(double *ptr, size_t nold, size_t nnew);</code></p>
+<p><code>ltfat_complex_d* ltfat_realloc_dc(ltfat_complex_d *ptr, size_t nold, size_t nnew);</code></p>
+<p><code>float* ltfat_realloc_s(float *ptr, size_t nold, size_t nnew);</code></p>
+<p><code>ltfat_complex_s* ltfat_realloc_sc(ltfat_complex_s *ptr, size_t nold, size_t nnew); </code> </p><dl class="section return"><dt>Returns</dt><dd>Valid pointer or NULL if the memory allocation failed. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga314d7873f25503c28bc58666006ffd2c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -229,11 +271,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
       </table>
 </div><div class="memdoc">
 <p>Re-allocate memory block</p>
-<p>The function will re-allocate <em>nold</em> element array to <em>nnew</em> element array of the corresponding type. The void* version of the function accepts the sizes in bytes.</p>
-<p>The function works as <em>ltfat_malloc(nnew)</em> if <em>ptr==NULL</em> and <em>nold</em> is ignored.</p>
+<p>The function will re-allocate <em>nold</em> element array to <em>nnew</em> element array of the corresponding type. The void* version of the function accepts the sizes in bytes. The input memory block <em>ptr</em> is freed if it is not NULL. The function works as <em>ltfat_malloc(nnew)</em> if <em>ptr==NULL</em> and <em>nold</em> is ignored.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>Size of the block.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the input block </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nold</td><td>Size of the input block </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nnew</td><td>Size of the output block</td></tr>
   </table>
   </dd>
 </dl>
@@ -270,8 +313,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ltfat_free</b> (const
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Thu Sep 1 2016 19:34:54</i>
-<!-- Generated on Thu Sep 1 2016 19:34:54 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Mar 1 2018 21:36:55</i>
+<!-- Generated on Thu Mar 1 2018 21:36:55 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>

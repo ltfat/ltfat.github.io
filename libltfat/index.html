@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libltfat: libltfat - Large Time-Frequency Alalysis Toolbox Library</title>
+<title>libltfat: libltfat - Large Time-Frequency Analysis Toolbox Library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -95,14 +95,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">libltfat - Large Time-Frequency Alalysis Toolbox Library </div>  </div>
+<div class="title">libltfat - Large Time-Frequency Analysis Toolbox Library </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><dl class="section warning"><dt>Warning</dt><dd>This is work in progress. It is only relevant to the <a href="https://github.com/ltfat/libltfat/tree/refactor">refactor branch</a>.</dd></dl>
-<p>The library contains implementation of the following time-frequency transforms:</p>
-<ul>
-<li><a class="el" href="dgttheory.html">Discrete Gabor transform (also called STFT)</a></li>
-</ul>
+<div class="textblock"><p><a href="https://github.com/ltfat/libltfat">Fork libltfat on Github</a></p>
+<p>This is the standalone back end library of <a href="http://ltfat.github.io/">LTFAT</a> the Matlab/Octave toolbox for working with time-frequency analysis and synthesis. It is intended both as an educational and a computational tool. The toolbox provides a large number of linear transforms including Gabor and wavelet transforms along with routines for constructing windows (filter prototypes) and routines for manipulating coefficients</p>
 <h2>Function naming convention </h2>
 <p>The function names are in the following format:</p>
 <p><code>ltfat_&lt;function_name&gt;</code>[_&lt;d|s|dc|sc&gt;](&lt;parameters&gt;)</p>
@@ -125,10 +122,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dd>
 Additionally, the <code>LTFAT_TYPE</code> type will be used whenever there is a version of the function for each of the four aforementioned types.</dd></dl>
 <h2>Compatibility </h2>
-<p>Source code of the library comply with both C99 and C++11 standards.</p>
+<p>The source code of the library complies with both C99 and C++11 standards.</p>
 <p>When compiled with C99 enabled, <code>ltfat_complex_d</code> and <code>ltfat_complex_s</code> are effectively the following typedefs:</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> complex <span class="keywordtype">double</span> ltfat_complex_d;</div><div class="line"><span class="keyword">typedef</span> complex <span class="keywordtype">float</span> ltfat_complex_s;</div></div><!-- fragment --><p> Where <code>complex</code> <code>double</code> and <code>complex</code> <code>float</code> types are a <a href="http://en.cppreference.com/w/c/numeric/complex">C99 feature</a>.</p>
-<p>When compiled with C++11 enabled, the following typedefs are used: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> std::complex&lt;double&gt; ltfat_complex_d;</div><div class="line"><span class="keyword">typedef</span> std::complex&lt;float&gt; ltfat_complex_s;</div></div><!-- fragment --><p> Description can be found here <a href="http://en.cppreference.com/w/cpp/numeric/complex">std::complex</a>.</p>
+<p>When compiled with C++11 enabled, the following typedefs are used: </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> std::complex&lt;double&gt; ltfat_complex_d;</div><div class="line"><span class="keyword">typedef</span> std::complex&lt;float&gt; ltfat_complex_s;</div></div><!-- fragment --><p> The description can be found here <a href="http://en.cppreference.com/w/cpp/numeric/complex">std::complex</a>.</p>
 <p>Arrays of complex data types from both C99 and C++11 are binary compatible with simple arrays of basic types with the real and the imaginary parts interleaved in memory.</p>
 <p>Therefore, in C99 it is legal to do the following casts </p><div class="fragment"><div class="line">complex <span class="keywordtype">double</span> c[] = {{1.0,2.0},{3.0,4.0},{5.0,6.0}};</div><div class="line">double (*c2)[2] = (double(*)[2]) c;</div><div class="line"><span class="comment">// c2[n][0] is identical to creal(c[n]) and c2[n][1] is identical to cimag(c[n])</span></div><div class="line"><span class="comment">// Or even</span></div><div class="line"><span class="keywordtype">double</span> *c3 = (<span class="keywordtype">double</span>*) c;</div><div class="line"><span class="comment">// and c3[2*n] is identical to creal(c[n]) and c3[2*n+1] is identical to cimag(c[n])</span></div></div><!-- fragment --><p>Similarly, in C++11 one can do </p><div class="fragment"><div class="line">std::complex&lt;double&gt; c[] = {{1.0,2.0},{3.0,4.0},{5.0,6.0}};</div><div class="line">double (*c2)[2] = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">double</span>(*)[2]<span class="keyword">&gt;</span>(c);</div><div class="line"><span class="comment">// c2[n][0] is identical to real(c[n]) and c2[n][1] is identical to imag(c[n])</span></div><div class="line"><span class="comment">// Or even</span></div><div class="line"><span class="keywordtype">double</span> *c3 = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">double</span>*<span class="keyword">&gt;</span>( c);</div><div class="line"><span class="comment">// and c3[2*n] is identical to real(c[n]) and c3[2*n+1] is identical to imag(c[n])</span></div></div><!-- fragment --><dl class="section warning"><dt>Warning</dt><dd>The other way around i.e. casting <code>double*</code> (memory allocated as an array of <code>double</code>) to <code>complex</code> <code>double*</code> or <code>std::complex&lt;double&gt;*</code> might not work. See this <a href="http://stackoverflow.com/questions/23198943/is-it-legal-to-cast-float-to-stdcomplexfloat">stackoverflow question</a>.</dd></dl>
 <h2>Linking </h2>
@@ -143,12 +140,11 @@ Additionally, the <code>LTFAT_TYPE</code> type will be used whenever there is a 
 <td>Compatibility (C++11 and <code>LTFAT_CINTERFACE</code> defined)</td><td><code>double</code>[2]</td><td><code>double</code>[][2]</td><td><code>double(*)</code>[2] </td></tr>
 </table>
 <p><code>ltfat_complex_s</code> expands the same way.</p>
-<dl class="section warning"><dt>Warning</dt><dd>When using C99, you should n ot include <code>fftw3.h</code> before <code><a class="el" href="ltfat_8h_source.html">ltfat.h</a></code>. The issue is described here <a href="http://www.fftw.org/doc/Complex-numbers.html">FFTW doc</a> Basically <code>complex.h</code> must be included before <code>fftw3.h</code> and <code><a class="el" href="ltfat_8h_source.html">ltfat.h</a></code> does that.</dd></dl>
 <h2>Arrays, matrices and naming conventions </h2>
 <p>The multidimensional arrays are contiguous in memory and therefore, they are reffered to by a single pointer and the individual dimensions are accessed trough an offset.</p>
 <p>When an array represents a matrix, it is assumed that the columns are the first dimension and therefore they are stored continuously in memory.</p>
-<p>In the function headers, the data arrays are denoted with array brackets [] and a pointer is used whenever refering to a single object. This distinction is just cosmetics as the arrays decay to pointers anyway.</p>
-<p>Array sizes, indexes etc. are represented using  ltfat_int : </p><div class="fragment"><div class="line"><span class="keyword">typedef</span> ptrdiff_t ltfat_int;</div></div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Size of  ptrdiff_t is system dependent.</dd></dl>
+<p>In the function headers, the data arrays are denoted with array brackets [] and a pointer is used whenever referring to a single object. This distinction is just cosmetics as the arrays decay to pointers anyway.</p>
+<p>Array sizes, indexes etc. are represented using  ltfat_int , which is defined as: </p><div class="fragment"><div class="line"><span class="preprocessor">#ifdef LTFAT_LARGEARRAYS</span></div><div class="line"><span class="keyword">typedef</span> ptrdiff_t ltfat_int;</div><div class="line"><span class="preprocessor">#else</span></div><div class="line"><span class="keyword">typedef</span> <span class="keywordtype">int</span>       ltfat_int;</div><div class="line"><span class="preprocessor">#endif </span></div></div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Size of  ptrdiff_t is system dependent.</dd></dl>
 <p>Further, the following naming conventions are used consistently: </p><a class="anchor" id="multi_row"></a>
 <table class="doxtable">
 <caption>Argument naming</caption>
@@ -157,7 +153,7 @@ Additionally, the <code>LTFAT_TYPE</code> type will be used whenever there is a 
 <tr>
 <td>f</td><td>Time domain signal </td></tr>
 <tr>
-<td>g,gd,gt</td><td>Window, canonical dual window, canonical tight window  </td></tr>
+<td>g,gd,gt</td><td>Window (filter), canonical dual window, canonical tight window  </td></tr>
 <tr>
 <td>c</td><td>Coefficients </td></tr>
 <tr>
@@ -169,14 +165,14 @@ Additionally, the <code>LTFAT_TYPE</code> type will be used whenever there is a 
 <tr>
 <td>L</td><td>Integer. Length of the signal.  </td></tr>
 <tr>
-<td>N</td><td>Integer. Nuber of time shifts: N=L/a. </td></tr>
+<td>N</td><td>Integer. Number of time shifts: N=L/a. </td></tr>
 <tr>
 <td>W</td><td>Integer. Number of signal channels. </td></tr>
 </table>
 <h2>Error handling </h2>
 <p>Every function which returns a status code should be checked by the user. Additionally, the error message is printed to the standard error stream. This behavior can be turned off or a custom error handler can be registered. For details see <a class="el" href="group__error.html">Error handling</a></p>
 <h2>Plans </h2>
-<p>When repeated computations with the same settings are desired, it is convenient to create a <b>plan</b> using the appropriate *_init function, call the *_execute function multiple times and destroy the plan by calling the *_done function. The plan usually contains some precomputed read-only data, working arrays and FFTW plans. The plan is represented as a pointer to an opaque structure and here is an example how to use it: </p><div class="fragment"><div class="line">dgt_long_plan_d* plan = NULL;</div><div class="line"></div><div class="line">dgt_long_init_d(f, g, L, W, a, M, c, ptype, FFTW_ESTIMATE, &amp;plan)</div><div class="line"><span class="comment">// Fill in c after calling init. The FFTW planning routine migh have written </span></div><div class="line"><span class="comment">// something to it.</span></div><div class="line"></div><div class="line">dgt_long_execute_d(plan);</div><div class="line"><span class="comment">// Refresh data in f and call execute again  </span></div><div class="line"></div><div class="line">dgt_long_done_d(&amp;plan);</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Please note that due to the <a href="https://github.com/FFTW/fftw3/issues/16">limitation of FFTW</a> the *_init routines are not re-entrant because of the FFTW planning happening in them. Therefore, the *_init functions cannot be called simultaneously on different threads even when creating completely separate plans.</dd>
+<p>When repeated computations with the same settings are desired, it is convenient to create a <b>plan</b> using the appropriate *_init function, call the *_execute function multiple times and destroy the plan by calling the *_done function. The plan usually contains some precomputed read-only data, working arrays and other plans. The plan is represented as a pointer to an opaque structure and here is an example how to use it: </p><div class="fragment"><div class="line">dgt_long_plan_d* plan = NULL;</div><div class="line"></div><div class="line">dgt_long_init_d(f, g, L, W, a, M, c, ptype, FFTW_ESTIMATE, &amp;plan)</div><div class="line"><span class="comment">// Fill in c after calling init. The FFTW planning routine migh have written </span></div><div class="line"><span class="comment">// something to it.</span></div><div class="line"></div><div class="line">dgt_long_execute_d(plan);</div><div class="line"><span class="comment">// Refresh data in f and call execute again  </span></div><div class="line"></div><div class="line">dgt_long_done_d(&amp;plan);</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Please note that due to the <a href="https://github.com/FFTW/fftw3/issues/16">limitation of FFTW</a> the *_init routines are not re-entrant because of the FFTW planning happening in them. Therefore, the *_init functions cannot be called simultaneously on different threads even when creating completely separate plans.</dd>
 <dd>
 Further, the *_execute functions are reentrant and thread-safe, but not when executed on a single plan concurrently on separate threads. This is a contrast with the FFTW execute function, which is thread safe even for a single plan. This limitation comes from the fact that the LTFAT plan contains some working buffers.</dd></dl>
 <h2>States </h2>
@@ -188,8 +184,8 @@ Further, the *_execute functions are reentrant and thread-safe, but not when exe
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Thu Sep 1 2016 19:34:56</i>
-<!-- Generated on Thu Sep 1 2016 19:34:56 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Mar 1 2018 21:36:55</i>
+<!-- Generated on Thu Mar 1 2018 21:36:55 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>

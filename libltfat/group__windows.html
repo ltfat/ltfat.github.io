@@ -106,29 +106,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Enumerations</h2></td></tr>
 <tr class="memitem:ga4a6959a2f609b9feb3aab9b4dfe9f62b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga4a6959a2f609b9feb3aab9b4dfe9f62b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>LTFAT_FIRWIN</b> { <br />
 &#160;&#160;<b>LTFAT_HANN</b>, 
-<b>LTFAT_HANNING</b>, 
-<b>LTFAT_NUTTALL10</b>, 
+<b>LTFAT_HANNING</b> =LTFAT_HANN, 
+<b>LTFAT_NUTTALL10</b> =LTFAT_HANN, 
 <b>LTFAT_SQRTHANN</b>, 
 <br />
-&#160;&#160;<b>LTFAT_COSINE</b>, 
-<b>LTFAT_SINE</b>, 
+&#160;&#160;<b>LTFAT_COSINE</b> =LTFAT_SQRTHANN, 
+<b>LTFAT_SINE</b> =LTFAT_SQRTHANN, 
 <b>LTFAT_HAMMING</b>, 
 <b>LTFAT_NUTTALL01</b>, 
 <br />
 &#160;&#160;<b>LTFAT_SQUARE</b>, 
-<b>LTFAT_RECT</b>, 
+<b>LTFAT_RECT</b> =LTFAT_SQUARE, 
 <b>LTFAT_TRIA</b>, 
-<b>LTFAT_TRIANGULAR</b>, 
+<b>LTFAT_TRIANGULAR</b> =LTFAT_TRIA, 
 <br />
-&#160;&#160;<b>LTFAT_BARTLETT</b>, 
+&#160;&#160;<b>LTFAT_BARTLETT</b> =LTFAT_TRIA, 
 <b>LTFAT_SQRTTRIA</b>, 
 <b>LTFAT_BLACKMAN</b>, 
 <b>LTFAT_BLACKMAN2</b>, 
 <br />
 &#160;&#160;<b>LTFAT_NUTTALL</b>, 
-<b>LTFAT_NUTTALL12</b>, 
+<b>LTFAT_NUTTALL12</b> =LTFAT_NUTTALL, 
 <b>LTFAT_OGG</b>, 
-<b>LTFAT_ITERSINE</b>, 
+<b>LTFAT_ITERSINE</b> =LTFAT_OGG, 
 <br />
 &#160;&#160;<b>LTFAT_NUTTALL20</b>, 
 <b>LTFAT_NUTTALL11</b>, 
@@ -136,7 +136,8 @@ Enumerations</h2></td></tr>
 <b>LTFAT_NUTTALL30</b>, 
 <br />
 &#160;&#160;<b>LTFAT_NUTTALL21</b>, 
-<b>LTFAT_NUTTALL03</b>
+<b>LTFAT_NUTTALL03</b>, 
+<b>LTFAT_TRUNCGAUSS01</b>
 <br />
  }</td></tr>
 <tr class="separator:ga4a6959a2f609b9feb3aab9b4dfe9f62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,7 +184,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Creates real, whole-point symmetric, zero delay window.</p>
 <dl class="section note"><dt>Note</dt><dd>Please note that the window format is slightly unusual i.e. the (unique) peak of the window is at index [0] of the array and the left tail is circularly wrapped such that the ends of both tails meet in the middle of the array. <a class="el" href="group__utils.html#ga31166ac9725c5959d388003cc839dc87">fftshift()</a> can be used to format the array to the usual format with peak in the middle.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__utils.html#gacfbba69d900da11d241da378e46ffd16">normalize</a> <a class="el" href="group__utils.html#ga31166ac9725c5959d388003cc839dc87">fftshift</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__utils.html#gae2ad14e3485adb838b64308737512dff">normalize</a> <a class="el" href="group__utils.html#ga31166ac9725c5959d388003cc839dc87">fftshift</a></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">win</td><td>Window type </td></tr>
@@ -352,8 +353,8 @@ Functions</h2></td></tr>
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Thu Sep 1 2016 19:34:54</i>
-<!-- Generated on Thu Sep 1 2016 19:34:54 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Mar 1 2018 21:36:55</i>
+<!-- Generated on Thu Mar 1 2018 21:36:55 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>

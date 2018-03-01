@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['ltfat_5fnormalize_5f1',['LTFAT_NORMALIZE_1',['../group__utils.html#ggab299a63c46d9a7cfe78ea3e589ed989fabb56d71c5a2d016942a5a255bb7f2037',1,'ciutils.h']]],
-  ['ltfat_5fnormalize_5f2',['LTFAT_NORMALIZE_2',['../group__utils.html#ggab299a63c46d9a7cfe78ea3e589ed989fadf7f6999d14c13a8f78c5ca9a1bae52b',1,'ciutils.h']]],
-  ['ltfat_5fnormalize_5farea',['LTFAT_NORMALIZE_AREA',['../group__utils.html#ggab299a63c46d9a7cfe78ea3e589ed989fa8cb73bbaf3255763719ea7e2dd107c10',1,'ciutils.h']]],
-  ['ltfat_5fnormalize_5fenergy',['LTFAT_NORMALIZE_ENERGY',['../group__utils.html#ggab299a63c46d9a7cfe78ea3e589ed989fa1deb5298c88e4a4d76e1c5d520873568',1,'ciutils.h']]],
-  ['ltfat_5fnormalize_5finf',['LTFAT_NORMALIZE_INF',['../group__utils.html#ggab299a63c46d9a7cfe78ea3e589ed989fab62c80655e0b614e4685bbcc20670492',1,'ciutils.h']]],
-  ['ltfat_5fnormalize_5fnull',['LTFAT_NORMALIZE_NULL',['../group__utils.html#ggab299a63c46d9a7cfe78ea3e589ed989fa087d7f3b8771af2fba7beb82f7daeb92',1,'ciutils.h']]],
-  ['ltfat_5fnormalize_5fpeak',['LTFAT_NORMALIZE_PEAK',['../group__utils.html#ggab299a63c46d9a7cfe78ea3e589ed989fa477405c0f52b71e59af86e1c28faaeff',1,'ciutils.h']]]
+  ['ltfat_5fnorm_5f1',['LTFAT_NORM_1',['../group__utils.html#gga9d6025189a69caf861c6488da3bea9b0aa264f1f6851c45c90ac8a827260af147',1,'ciutils.h']]],
+  ['ltfat_5fnorm_5f2',['LTFAT_NORM_2',['../group__utils.html#gga9d6025189a69caf861c6488da3bea9b0a859c0bfaaa4efc6f8a5615b2f9aa6b12',1,'ciutils.h']]],
+  ['ltfat_5fnorm_5farea',['LTFAT_NORM_AREA',['../group__utils.html#gga9d6025189a69caf861c6488da3bea9b0a00faa3a0ff84ce8b85f73e6da2259bfa',1,'ciutils.h']]],
+  ['ltfat_5fnorm_5fenergy',['LTFAT_NORM_ENERGY',['../group__utils.html#gga9d6025189a69caf861c6488da3bea9b0ad4ec98c44f2acc55e70bc6bb7a66caae',1,'ciutils.h']]],
+  ['ltfat_5fnorm_5finf',['LTFAT_NORM_INF',['../group__utils.html#gga9d6025189a69caf861c6488da3bea9b0a3192e4d1b6119861df5b9d3433246f8a',1,'ciutils.h']]],
+  ['ltfat_5fnorm_5fnull',['LTFAT_NORM_NULL',['../group__utils.html#gga9d6025189a69caf861c6488da3bea9b0a0ed0025507f063c152cc8a0d971419e5',1,'ciutils.h']]],
+  ['ltfat_5fnorm_5fpeak',['LTFAT_NORM_PEAK',['../group__utils.html#gga9d6025189a69caf861c6488da3bea9b0abb8235d2b51dfec8bc2c3542d6536329',1,'ciutils.h']]]
 ];

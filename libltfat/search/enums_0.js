@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ltfat_5fnormalize_5ft',['ltfat_normalize_t',['../group__utils.html#gab299a63c46d9a7cfe78ea3e589ed989f',1,'ciutils.h']]],
+  ['ltfat_5fnorm_5ft',['ltfat_norm_t',['../group__utils.html#ga9d6025189a69caf861c6488da3bea9b0',1,'ciutils.h']]],
   ['ltfat_5fphaseconvention',['ltfat_phaseconvention',['../group__dgtcommon.html#gaf40897e4deb7d9bf6bba38f5856df4c5',1,'dgt_common.h']]]
 ];

@@ -117,21 +117,24 @@ Enumerations</h2></td></tr>
 <b>LTFATERR_INITFAILED</b> = -3, 
 <br />
 &#160;&#160;<b>LTFATERR_NULLPOINTER</b> = -4, 
-<b>LTFATERR_BADARG</b> = -5, 
-<b>LTFATERR_NOTPOSARG</b> = -6, 
-<b>LTFATERR_NOTINRANGE</b> = -7, 
+<b>LTFATERR_EMPTY</b> = -5, 
+<b>LTFATERR_BADARG</b> = -6, 
+<b>LTFATERR_NOTPOSARG</b> = -7, 
 <br />
-&#160;&#160;<b>LTFATERR_OVERFLOW</b> = -8, 
-<b>LTFATERR_UNDERFLOW</b> = -9, 
-<b>LTFATERR_CANNOTHAPPEN</b> = -10, 
-<b>LTFATERR_BADSIZE</b> = -11, 
+&#160;&#160;<b>LTFATERR_NOTINRANGE</b> = -8, 
+<b>LTFATERR_OVERFLOW</b> = -9, 
+<b>LTFATERR_UNDERFLOW</b> = -10, 
+<b>LTFATERR_CANNOTHAPPEN</b> = -11, 
 <br />
-&#160;&#160;<b>LTFATERR_BADREQSIZE</b> = -12, 
-<b>LTFATERR_NOTSUPPORTED</b> = -13, 
+&#160;&#160;<b>LTFATERR_BADSIZE</b> = -12, 
+<b>LTFATERR_BADREQSIZE</b> = -13, 
+<b>LTFATERR_NOTSUPPORTED</b> = -14, 
 <b>LTFATERR_BADTRALEN</b> = -99, 
-<b>LTFATERR_NOTAFRAME</b> = -100, 
 <br />
-&#160;&#160;<b>LTFATERR_NOTPAINLESS</b> = -101
+&#160;&#160;<b>LTFATERR_NOTAFRAME</b> = -100, 
+<b>LTFATERR_NOTPAINLESS</b> = -101, 
+<b>LTFATERR_NOTPOSDEFMATRIX</b> = -102, 
+<b>LTFATERR_NOBLASLAPACK</b> = -200
 <br />
  }</td></tr>
 <tr class="separator:ga53198984a08b594936c7bc9c815947bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,8 +147,7 @@ Functions</h2></td></tr>
 <tr class="separator:gaec2798bde75bed75c6b7b902e1ab7128"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>Errors are negative numbers. Positive numbers are reserved for other purposes (like returning number of samples written)</p>
-<dl class="section note"><dt>Note</dt><dd>The error handling system was inspired by the GNU Scientific library <a href="http://www.gnu.org/software/gsl/manual/html_node/Error-Handling.html#Error-Handling">GNU Scientific library error handling</a>. </dd></dl>
+<p>Errors are negative numbers. Positive numbers are reserved for other purposes (like returning number of samples written) </p>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ga478450b480625bee9a03c91b3645df83"></a>
 <div class="memitem">
@@ -213,8 +215,8 @@ Functions</h2></td></tr>
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Thu Sep 1 2016 19:34:54</i>
-<!-- Generated on Thu Sep 1 2016 19:34:54 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Mar 1 2018 21:36:55</i>
+<!-- Generated on Thu Mar 1 2018 21:36:55 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>

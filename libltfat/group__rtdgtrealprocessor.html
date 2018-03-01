@@ -109,16 +109,22 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga825cfa2dc31f629bfa441a95a96ecccf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga825cfa2dc31f629bfa441a95a96ecccf">rtdgtreal_processor_init</a> (const LTFAT_REAL ga[], ltfat_int gal, const LTFAT_REAL gs[], ltfat_int gsl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state **plan)</td></tr>
-<tr class="separator:ga825cfa2dc31f629bfa441a95a96ecccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ce7f15a656fe3618803a70b3c11e8c3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga2ce7f15a656fe3618803a70b3c11e8c3">rtdgtreal_processor_init</a> (const LTFAT_REAL ga[], ltfat_int gal, const LTFAT_REAL gs[], ltfat_int gsl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, ltfat_int procDelay, rtdgtreal_processor_state **plan)</td></tr>
+<tr class="separator:ga2ce7f15a656fe3618803a70b3c11e8c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6bee3e61b2fdc8cf34eaa097e9f79d67"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga6bee3e61b2fdc8cf34eaa097e9f79d67">rtdgtreal_processor_reset</a> (rtdgtreal_processor_state *p)</td></tr>
 <tr class="separator:ga6bee3e61b2fdc8cf34eaa097e9f79d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga897bbdfb137f227bf0b9f713a009aab6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga897bbdfb137f227bf0b9f713a009aab6">rtdgtreal_processor_init_win</a> (LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, rtdgtreal_processor_state **plan)</td></tr>
-<tr class="separator:ga897bbdfb137f227bf0b9f713a009aab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadbb08beaa9449c0f1bfe8cd70adf1b88"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gadbb08beaa9449c0f1bfe8cd70adf1b88">rtdgtreal_processor_init_win</a> (LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M, ltfat_int Wmax, ltfat_int bufLenMax, ltfat_int procDelay, rtdgtreal_processor_state **plan)</td></tr>
+<tr class="separator:gadbb08beaa9449c0f1bfe8cd70adf1b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad56bc9222cb9c1d6405e09a5b87509eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gad56bc9222cb9c1d6405e09a5b87509eb">rtdgtreal_processor_execute</a> (rtdgtreal_processor_state *p, const LTFAT_REAL *in[], ltfat_int L, ltfat_int W, LTFAT_REAL *out[])</td></tr>
 <tr class="separator:gad56bc9222cb9c1d6405e09a5b87509eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafd2cd133301df401bff34bb3e7771fe0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gafd2cd133301df401bff34bb3e7771fe0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>rtdgtreal_processor_execute_gen</b> (rtdgtreal_processor_state *p, const LTFAT_REAL **in, ltfat_int inLen, ltfat_int chanNo, ltfat_int outLen, LTFAT_REAL **out)</td></tr>
+<tr class="separator:gafd2cd133301df401bff34bb3e7771fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafeac95101dafbac68ab4ccc20aec63cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gafeac95101dafbac68ab4ccc20aec63cc">rtdgtreal_processor_execute_compact</a> (rtdgtreal_processor_state *p, const LTFAT_REAL in[], ltfat_int len, ltfat_int chanNo, LTFAT_REAL out[])</td></tr>
 <tr class="separator:gafeac95101dafbac68ab4ccc20aec63cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga774713dd772dac6031965d13b95476a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga774713dd772dac6031965d13b95476a9"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>rtdgtreal_processor_execute_gen_compact</b> (rtdgtreal_processor_state *p, const LTFAT_REAL *in, ltfat_int inLen, ltfat_int chanNo, ltfat_int outLen, LTFAT_REAL *out)</td></tr>
+<tr class="separator:ga774713dd772dac6031965d13b95476a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7c896343f9ab147419952a8bd8f71765"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#ga7c896343f9ab147419952a8bd8f71765">rtdgtreal_processor_done</a> (rtdgtreal_processor_state **plan)</td></tr>
 <tr class="separator:ga7c896343f9ab147419952a8bd8f71765"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad213fe94fd04f66b48cbcc5b689641c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__rtdgtrealprocessor.html#gad213fe94fd04f66b48cbcc5b689641c7">rtdgtreal_processor_setcallback</a> (rtdgtreal_processor_state *p, <a class="el" href="group__rtdgtrealprocessor.html#gad872de7006d42304569b5bcc8486c764">rtdgtreal_processor_callback</a> *callback, void *userdata)</td></tr>
@@ -373,7 +379,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga825cfa2dc31f629bfa441a95a96ecccf"></a>
+<a class="anchor" id="ga2ce7f15a656fe3618803a70b3c11e8c3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -428,6 +434,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">ltfat_int&#160;</td>
+          <td class="paramname"><em>procDelay</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">rtdgtreal_processor_state **&#160;</td>
           <td class="paramname"><em>plan</em>&#160;</td>
         </tr>
@@ -477,7 +489,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga897bbdfb137f227bf0b9f713a009aab6"></a>
+<a class="anchor" id="gadbb08beaa9449c0f1bfe8cd70adf1b88"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -516,6 +528,12 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">ltfat_int&#160;</td>
           <td class="paramname"><em>bufLenMax</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ltfat_int&#160;</td>
+          <td class="paramname"><em>procDelay</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -655,8 +673,8 @@ Functions</h2></td></tr>
 <small>
 Copyright (C) 2004 - 2016  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2016  Zdeněk Průša 
-<br />Generated: <i>Thu Sep 1 2016 19:34:54</i>
-<!-- Generated on Thu Sep 1 2016 19:34:54 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Mar 1 2018 21:36:55</i>
+<!-- Generated on Thu Mar 1 2018 21:36:55 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.11 -->
 </small>
