@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['canonical_20dual_20and_20tight_20windows',['Canonical dual and tight windows',['../group__gabdual.html',1,'']]]
+  ['block_20stream_20processor',['Block Stream Processor',['../group__block__processor.html',1,'']]]
 ];
