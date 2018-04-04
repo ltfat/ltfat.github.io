@@ -151,11 +151,13 @@ var globalfunlist = {
    framered:'frames/framered',
    frametf2coef:'frames/frametf2coef',
    frametight:'frames/frametight',
+   framevectornorms:'frames/framevectornorms',
    frana:'frames/frana',
    franabp:'frames/franabp',
    franagrouplasso:'frames/franagrouplasso',
    franaiter:'frames/franaiter',
    franalasso:'frames/franalasso',
+   franamp:'frames/franamp',
    freqfilter:'sigproc/freqfilter',
    freqtoaud:'auditory/freqtoaud',
    freqtoerb:'auditory/freqtoerb',
@@ -264,6 +266,7 @@ var globalfunlist = {
    middlepad:'fourier/middlepad',
    modcent:'fourier/modcent',
    mulaclab:'base/mulaclab',
+   multidgtrealmp:'gabor/multidgtrealmp',
    nextfastfft:'fourier/nextfastfft',
    noise:'signals/noise',
    nonu2ucfmt:'filterbank/nonu2ucfmt',
@@ -421,4 +424,4 @@ var globalfunlist = {
    zak:'gabor/zak',
 };
 
- var toolboxversion='2.2.1'; 
+ var toolboxversion='2.3.0'; 

@@ -1,0 +1,177 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FRAMEVECTORNORMS - Norm of frame vectors</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="framevectornorms.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/frames/frsynmatrix.html">frsynmatrix</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FRAMEVECTORNORMS - Norm of frame vectors</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>vnorms <span class="p">=</span><span class="w"> </span><span class="nf">framevectornorms</span><span class="p">(</span>F,L,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%FRAMEVECTORNORMS  Norm of frame vectors </span>
+<span class="c">%   Usage: vnorms = framevectornorms(F,L)</span>
+<span class="c">%          vnorms = framevectornorms(F,L,idx)</span>
+<span class="c">%</span>
+<span class="c">%   Input parameters:</span>
+<span class="c">%       F        : Frame definition</span>
+<span class="c">%       L        : System length</span>
+<span class="c">%       idx      : Index (or range) of vector(s)</span>
+<span class="c">%   Output parameters:</span>
+<span class="c">%       vnorms   : Vector norms</span>
+<span class="c">%</span>
+<span class="c">%   FRAMEVECTORNORMS(F,L) returns 2-norms of vectors of frame F for</span>
+<span class="c">%   system length L. The number of vectors in a frame (and the length of</span>
+<span class="c">%   the output vector) can be obtained as frameclength(F,L).</span>
+<span class="c">%</span>
+<span class="c">%   FRAMEVECTORNORMS(F,L,idx) returns 2-norms of vectors with indices </span>
+<span class="c">%   idx. Elements in idx must be in range 1:frameclength(F,L).</span>
+<span class="c">%</span>
+<span class="c">%   Real-valued-input frames</span>
+<span class="c">%   ------------------------</span>
+<span class="c">%</span>
+<span class="c">%   By default, the function returns the norm of vectors used for</span>
+<span class="c">%   synthesis. Frames like &#39;dgtreal&#39;, &#39;filterbankreal&#39; do not contain the </span>
+<span class="c">%   &#39;&#39;redundant&#39;&#39; conjugate-symmetrix vectors and their synthesis operator</span>
+<span class="c">%   is not linear. Therefore the vectors used in synthesis do not have </span>
+<span class="c">%   an explicit form and their norm is unspecified. The vectors used for </span>
+<span class="c">%   analysis are well defined and can be obtained by passing additional</span>
+<span class="c">%   flag &#39;ana&#39;.</span>
+<span class="c">%</span>
+<span class="c">%   See also: frsynmatrix</span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/framevectornorms.html</span>
+
+<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.3.0</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%AUTHOR: Zdenek Prusa</span>
+
+<span class="n">thismfile</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">idx</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">anasyn</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;syn&#39;</span><span class="p">,</span><span class="s">&#39;ana&#39;</span><span class="p">};</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">idx</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;idx&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="n">Lcheck</span> <span class="p">=</span> <span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">Lcheck</span><span class="o">~=</span><span class="n">L</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Incompatible frame length. Next compatible one is %i.&#39;</span><span class="p">,</span><span class="c">...</span>
+          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">Lcheck</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">F</span><span class="p">.</span><span class="n">realinput</span> <span class="o">&amp;&amp;</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_syn</span>
+     <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The real-valued-input frame synthesis opearor is &#39;</span> <span class="c">...</span>
+            <span class="s">&#39;non-linear, therefore the vector norms are undefined. &#39;</span> <span class="c">... </span>
+            <span class="s">&#39;To get norms of the vectors used in the analysis pass &#39;</span> <span class="c">...</span>
+            <span class="s">&#39;&#39;&#39;ana&#39;&#39;&#39;</span><span class="p">],</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="n">N</span> <span class="p">=</span> <span class="n">frameclength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">N</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">idx</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Requested vector index is not in range 1:%d&#39;</span><span class="p">,</span> <span class="c">...</span>
+          <span class="n">thismfile</span><span class="p">,</span><span class="n">N</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="n">F</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="n">vnorms</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+    
+<span class="k">switch</span> <span class="n">F</span><span class="p">.</span><span class="n">type</span>
+    <span class="k">case</span> <span class="s">&#39;gen&#39;</span>
+        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">vnorms</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">(:,</span><span class="n">idx</span><span class="p">));</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span>
+        <span class="n">vnorms</span><span class="p">(:)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">);</span>
+    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">}</span>
+        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">]</span> <span class="p">=</span> <span class="n">filterbankscale</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">);</span>
+        <span class="n">channorm</span> <span class="p">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">scal</span><span class="p">;</span>
+        <span class="n">subidx</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">L</span><span class="o">./</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">))];</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">vnorms</span><span class="p">)</span>
+           <span class="n">vnorms</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">channorm</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span> <span class="n">idx</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">subidx</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s">&#39;last&#39;</span><span class="p">));</span>
+        <span class="k">end</span>
+    <span class="k">case</span> <span class="p">{</span> <span class="s">&#39;dft&#39;</span><span class="p">,</span><span class="s">&#39;dftreal&#39;</span><span class="p">,</span><span class="c">...</span>
+           <span class="s">&#39;dcti&#39;</span><span class="p">,</span><span class="s">&#39;dctii&#39;</span><span class="p">,</span><span class="s">&#39;dctiii&#39;</span><span class="p">,</span><span class="s">&#39;dctiv&#39;</span><span class="p">,</span><span class="c">...</span>
+           <span class="s">&#39;dsti&#39;</span><span class="p">,</span><span class="s">&#39;dstii&#39;</span><span class="p">,</span><span class="s">&#39;dstiii&#39;</span><span class="p">,</span><span class="s">&#39;dstiv&#39;</span> <span class="p">}</span>
+         <span class="n">vnorms</span><span class="p">(:)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">otherwise</span>
+        <span class="c">% Fallback option</span>
+        <span class="k">if</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_syn</span>
+            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unsupported frame.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+        <span class="k">end</span>
+
+        <span class="n">ctmp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">vnorms</span><span class="p">)</span>
+            <span class="n">ctmp</span><span class="p">(</span><span class="n">idx</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">vnorms</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">ctmp</span><span class="p">));</span>
+            <span class="n">ctmp</span><span class="p">(:)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

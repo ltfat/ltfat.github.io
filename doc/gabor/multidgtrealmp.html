@@ -1,0 +1,217 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>MULTIDGTREALMP - Matching Pursuit Decomposition with Multi-Gabor Dictionary</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="multidgtrealmp_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></li>
+<li><a href="#BASEURL#/doc/gabor/idgtreal.html">idgtreal</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">MULTIDGTREALMP - Matching Pursuit Decomposition with Multi-Gabor Dictionary</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+c = multidgtrealmp(f,dicts)
+c = multidgtrealmp(f,dicts,errdb,maxit)
+[c,frec,info] = multidgtrealmp(...)
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>f</var></span></kbd></td>
+<td>Input signal</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>dicts</var></span></kbd></td>
+<td>Dictionaries. Format {g1,a1,M1,g2,a2,M2,...}</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>errdb</var></span></kbd></td>
+<td>Target normalized approximation error in dB</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>maxit</var></span></kbd></td>
+<td>Maximum number of iterations.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>c</var></span></kbd></td>
+<td>Sparse representation</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>frec</var></span></kbd></td>
+<td>Reconstructed signal</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>info</var></span></kbd></td>
+<td>Struct with additional output paramerets</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal"><span class="pre">multidgtrealmp(f,{g1,a1,M1,g2,a2,M2,...,gW,aW,MW})</span></tt> returns sparse
+representation of a signal in <tt class="docutils literal">W</tt> Gabor dictionaries using the
+fast matching pursuit algorithm. <tt class="docutils literal">gw</tt> is a Gabor window defined
+as in <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></span> and <span class="linkrole"><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></span>, <tt class="docutils literal">aw</tt> is a hop factor, <tt class="docutils literal">Mw</tt> is the number of
+frequency channels. All <tt class="docutils literal">aw</tt> and <tt class="docutils literal">Mw</tt> must be divisible by <tt class="docutils literal"><span class="pre">min(a1,...,aW)</span></tt>.
+The algorithm will try to reach -40 dB relative approximation error
+in at most <tt class="docutils literal">numel(f)</tt> iterations.
+The function returns a cell-array with elements storing coefficients
+for individual Gabor systems such that they can be directly used in
+<span class="linkrole"><a href="#BASEURL#/doc/gabor/idgtreal.html">idgtreal</a></span>.</p>
+<p><tt class="docutils literal">multidgtrealmp(f,dicts,errdb,maxit)</tt> tries to reach normalized
+approximation error <em>errdb</em> dB in at most <em>maxit</em> iterations.</p>
+<p><tt class="docutils literal">[c,frec,info] = <span class="pre">multidgtrealmp(...)</span></tt> in addition returns the
+aproximation <em>frec</em> and a struct <tt class="docutils literal">info</tt> with the following fields:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">.iter</span></kbd></td>
+<td>Number of iterations done.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.atoms</span></kbd></td>
+<td>Number of atoms selected.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.relres</span></kbd></td>
+<td>Final approximation error.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.synthetize</span></kbd></td>
+<td>Anonymous function which can be used to synthetize from
+the (modified) coefficients as
+<tt class="docutils literal">frec = <span class="pre">sum(info.synthetize(c),dim)</span></tt>
+where <tt class="docutils literal">dim=2</tt> if the input <em>f</em> was a column vector and
+<tt class="docutils literal">dim=1</tt> if it was a row vector.</td></tr>
+</tbody>
+</table>
+<p>The normalized approximation error is computed as
+<tt class="docutils literal"><span class="pre">err=norm(f-frec)/norm(f)</span></tt>.</p>
+<p>The function takes the following optional parameters at the end of
+the line of input arguments:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'kenrnthr',<var>kt</var></span></kbd></td>
+<td>Kernel threshold. Must be in range ]0,1]. Default is 1e-4.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'timeinv'</span></kbd></td>
+<td>Use the time invariant phase convention. The
+default is 'freqinv'.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'pedanticsearch'</span></kbd></td>
+<td>Be pedantic about the energy of pairs of conjugated
+atoms in the selection step. Disbaled by default.</td></tr>
+</tbody>
+</table>
+<p>The computational routine is only available in C. Use <span class="linkrole"><a href="#BASEURL#/doc/base/ltfatmex.html">ltfatmex</a></span> to
+to compile it.</p>
+</div>
+<div class="section" id="algorithms">
+<h2>Algorithms</h2>
+<p>By default, the function uses the fast MP using approximate update
+in the coefficient domain as described in:</p>
+<pre class="literal-block">
+&quot;Z. Prusa, Fast Matching Pursuit with Multi-Gabor Dictionaries&quot;
+</pre>
+<p>The kernel threshold limits the minimum approximation error which
+can be reached. For example the default threshold 1e-4 in general
+allows achieving at least -40 dB.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples</h2>
+<p>The following example shows the decomposition in 3 dictionaries and
+plots contributions from the individual dictionaries and the residual.:</p>
+<pre class="literal-block">
+[f,fs] = gspi;
+[c, frec, info] = multidgtrealmp(f,...
+{'blackman',128,512,'blackman',512,2048,'blackman',2048,8192});
+frecd = info.synthetize(c);
+figure(1);
+xvals = (0:numel(f)-1)/fs;
+subplot(4,1,1); plot(xvals,frecd(:,1));ylim([-0.5,0.5]);
+subplot(4,1,2); plot(xvals,frecd(:,2));ylim([-0.5,0.5]);
+subplot(4,1,3); plot(xvals,frecd(:,3));ylim([-0.5,0.5]);
+subplot(4,1,4); plot(xvals,f-frec);ylim([-0.5,0.5]); xlabel('Time (s)');
+</pre>
+<img alt="multidgtrealmp_1_1.png" class="align-center" src="multidgtrealmp_1_1.png" />
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="mazh93"></a>
+
+S.&nbsp;Mallat and Z.&nbsp;Zhang.
+ Matching pursuits with time-frequency dictionaries.
+ <em>IEEE Trans. Signal Process.</em>, 41(12):3397--3415, 1993.
+
+</p>
+
+<p><a name="ltfatnote052"></a>
+
+Z.&nbsp;Pr&#367;&scaron;a.
+ Fast matching pursuit with multi-gabor dictionaries.
+ <em>Submitted.</em>, 2018.
+[&nbsp;<a href="https://ltfat.github.io/notes/ltfatnote052.pdf">.pdf</a>&nbsp;]
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

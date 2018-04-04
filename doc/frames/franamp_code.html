@@ -1,0 +1,272 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FRANAMP - Frame Analysis by Matching Pursuit</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="franamp.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
+<li><a href="#BASEURL#/doc/frames/frsyn.html">frsyn</a></li>
+<li><a href="#BASEURL#/doc/frames/framevectornorms.html">framevectornorms</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FRANAMP - Frame Analysis by Matching Pursuit</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c, frec, info] <span class="p">=</span><span class="w"> </span><span class="nf">franamp</span><span class="p">(</span>F,f,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%FRANAMP  Frame Analysis by Matching Pursuit</span>
+<span class="c">%   Usage:  c = franamp(F,f)</span>
+<span class="c">%           c = franamp(F,f,errdb,maxit)</span>
+<span class="c">%           [c,frec,info] = franamp(...)</span>
+<span class="c">%</span>
+<span class="c">%   Input parameters:</span>
+<span class="c">%       F        : Frame definition</span>
+<span class="c">%       f        : Input signal</span>
+<span class="c">%       errdb    : Target normalized approximation error in dB</span>
+<span class="c">%       maxit    : Maximum number of iterations.</span>
+<span class="c">%   Output parameters:</span>
+<span class="c">%       c        : Sparse representation</span>
+<span class="c">%       frec     : Reconstructed signal</span>
+<span class="c">%       info     : Struct with additional output paramerets</span>
+<span class="c">%</span>
+<span class="c">%   FRANAMP(F,f) returns sparse representation of a signal in a</span>
+<span class="c">%   dictionary given by vectors of frame F using the orthogonal matching</span>
+<span class="c">%   pursuit algorithm.</span>
+<span class="c">%</span>
+<span class="c">%   FRANAMP(F,f,errdb,maxit) tries to reach normalized approximation error </span>
+<span class="c">%   errdb dB in at most maxit iterations. </span>
+<span class="c">%</span>
+<span class="c">%   [c,frec,info] = FRANAMP(...) in addition returns the aproximated</span>
+<span class="c">%   signal frec and a struct info with the following fields:</span>
+<span class="c">%</span>
+<span class="c">%     .iter    Number of iterations done.</span>
+<span class="c">%</span>
+<span class="c">%     .relres  Vector of length .iter with approximation error progress. </span>
+<span class="c">%</span>
+<span class="c">%   The normalized approximation error is computed as </span>
+<span class="c">%   err=norm(f-frec)/norm(f). The relationship between the output </span>
+<span class="c">%   coefficients and the approximation is frec = frsyn(F,c).</span>
+<span class="c">%</span>
+<span class="c">%   The function takes the following optional parameters at the end of</span>
+<span class="c">%   the line of input arguments:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;print&#39;    Display the progress.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;printstep&#39;,p</span>
+<span class="c">%                If &#39;print&#39; is specified, then print every p&#39;th</span>
+<span class="c">%                iteration. Default value is 10;</span>
+<span class="c">%</span>
+<span class="c">%   Algorithms</span>
+<span class="c">%   ----------</span>
+<span class="c">%</span>
+<span class="c">%   The implementation of OMP was taken from the sparsify_0.5 toolbox by</span>
+<span class="c">%   Thomas Blumensath </span>
+<span class="c">%   http://www.personal.soton.ac.uk/tb1m08/sparsify/sparsify.html</span>
+<span class="c">%   See help of greed_omp.</span>
+<span class="c">%   In fact, the sparsify toolbox implements several flavors of OMP</span>
+<span class="c">%   implementation. They can be chosen using the following flags:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;auto&#39;  Selects a suitable OMP algorithm according to the size of the problem.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;qr&#39;    QR based method</span>
+<span class="c">%</span>
+<span class="c">%     &#39;chol&#39;  Cholesky based method</span>
+<span class="c">%</span>
+<span class="c">%     &#39;cg&#39;    Conjugate Gradient Pursuit</span>
+<span class="c">%</span>
+<span class="c">%   Additionally:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;mp&#39;    Classical (non-orthogonal) matching pursuit.</span>
+<span class="c">%</span>
+<span class="c">%   Examples</span>
+<span class="c">%   --------</span>
+<span class="c">%</span>
+<span class="c">%   The following example show the development of the approx. error for the</span>
+<span class="c">%   MP and OMP algorithms. :</span>
+<span class="c">%</span>
+<span class="c">%   [f,fs] = greasy; F = frame(&#39;dgt&#39;,&#39;hann&#39;,256,1024);</span>
+<span class="c">%   maxit = 4000;</span>
+<span class="c">%   [c1,~,info1] = franamp(F,f,&#39;omp&#39;,&#39;cg&#39;,&#39;maxit&#39;,maxit);</span>
+<span class="c">%   [c2,~,info2] = franamp(F,f,&#39;mp&#39;,&#39;maxit&#39;,maxit);</span>
+<span class="c">%   plot(20*log10([info1.relres,info2.relres]));</span>
+<span class="c">%   legend({&#39;OMP&#39;,&#39;MP&#39;});</span>
+<span class="c">%</span>
+<span class="c">%   See also: frame, frsyn, framevectornorms</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     S. Mallat and Z. Zhang. Matching pursuits with time-frequency</span>
+<span class="c">%     dictionaries. IEEE Trans. Signal Process., 41(12):3397--3415, 1993.</span>
+<span class="c">%     </span>
+<span class="c">%     Y. C. Pati, R. Rezaiifar, and P. S. Krishnaprasad. Orthogonal matching</span>
+<span class="c">%     pursuit: Recursive function approximation with applications to wavelet</span>
+<span class="c">%     decomposition. In Proc. 27th Asilomar Conference on Signals, Systems</span>
+<span class="c">%     and Computers, pages 40--44 vol.1, Nov 1993.</span>
+<span class="c">%     </span>
+<span class="c">%     T. Blumensath and M. E. Davies. Gradient pursuits. IEEE Tran. Signal</span>
+<span class="c">%     Processing, 56(6):2370--2382, 2008.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/franamp.html</span>
+
+<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
+<span class="c">% This file is part of LTFAT version 2.3.0</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%AUTHOR: Zdenek Prusa, Thomas Blumensath</span>
+
+<span class="n">thismfile</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">F</span><span class="p">.</span><span class="n">realinput</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Real-input-only frames not supported yet.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+<span class="k">end</span>
+    
+<span class="c">% Define initial value for flags and key/value pairs.</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">errdb</span><span class="p">=</span><span class="o">-</span><span class="mi">40</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span><span class="p">={</span><span class="s">&#39;omp&#39;</span><span class="p">,</span><span class="s">&#39;mp&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">ompver</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;qr&#39;</span><span class="p">,</span><span class="s">&#39;chol&#39;</span><span class="p">,</span><span class="s">&#39;cg&#39;</span><span class="p">};</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;errdb&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
+<span class="c">% Change f to correct shape.</span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Input signal can be single channel only.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">errdb</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Target error must be lower than 0 dB.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="n">L</span><span class="p">=</span><span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">),</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span> <span class="p">=</span> <span class="n">L</span><span class="p">;</span> <span class="k">end</span>
+<span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="p">[];</span>
+
+<span class="n">fpad</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="n">fnorm</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">fpad</span><span class="p">);</span>
+
+<span class="c">% Initialize solution</span>
+<span class="n">r0</span> <span class="p">=</span> <span class="n">fpad</span><span class="p">;</span>
+<span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">relresiter</span> <span class="p">=</span> <span class="n">fnorm</span><span class="p">;</span>
+<span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">fnorm</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">frameclength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">frec</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="p">[];</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
+
+<span class="n">vectnfact</span> <span class="p">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">framevectornorms</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;ana&#39;</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_mp</span>
+    <span class="n">errtol</span> <span class="p">=</span>  <span class="n">fnorm</span><span class="o">*</span><span class="mi">10</span>^<span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="o">/</span><span class="mi">20</span><span class="p">);</span>
+    <span class="n">z</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">r0</span><span class="p">)</span><span class="o">.*</span><span class="n">vectnfact</span><span class="p">;</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">z</span><span class="p">));</span>
+    <span class="k">while</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="o">&lt;</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span> <span class="o">&amp;&amp;</span> <span class="n">relresiter</span> <span class="o">&gt;</span> <span class="n">errtol</span>
+        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">idx</span><span class="p">]=</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span>  <span class="n">z</span> <span class="p">));</span>
+        <span class="n">c</span><span class="p">(</span><span class="n">idx</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="p">=</span> <span class="n">c</span><span class="p">(</span><span class="n">idx</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">+</span> <span class="n">z</span><span class="p">(</span><span class="n">idx</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">vectnfact</span><span class="p">(</span><span class="n">idx</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+        <span class="c">% F.frsyn(tc) is inconvenient since the approximation can</span>
+        <span class="c">% be build incrementally using single atom in each iteration.</span>
+        <span class="c">% We however do not have access to indivitual atoms.</span>
+        <span class="n">r0</span> <span class="p">=</span> <span class="n">fpad</span> <span class="o">-</span> <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+        <span class="n">z</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">r0</span><span class="p">)</span><span class="o">.*</span><span class="n">vectnfact</span><span class="p">;</span>
+      
+        <span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">relresiter</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">r0</span><span class="p">);</span> 
+        <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">)</span> <span class="p">=</span> <span class="n">relresiter</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
+           <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>        
+              <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Iteration %d: relative error = %f\n&#39;</span><span class="p">,</span><span class="c">...</span>
+                      <span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">relresiter</span><span class="p">);</span>
+           <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">)</span><span class="o">./</span><span class="n">fnorm</span><span class="p">;</span>
+<span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_omp</span>
+    <span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">relres</span><span class="p">]</span> <span class="p">=</span> <span class="n">greed_omp</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">,</span><span class="n">frameclength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">),</span><span class="c">...</span>
+                             <span class="s">&#39;stopCrit&#39;</span><span class="p">,</span><span class="s">&#39;mse&#39;</span><span class="p">,</span><span class="c">...</span>
+                             <span class="s">&#39;stopTol&#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">r0</span><span class="p">)</span>^<span class="mi">2</span><span class="o">*</span><span class="mi">10</span>^<span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">,</span><span class="c">...</span>
+                             <span class="s">&#39;maxIter&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="c">...</span>
+                             <span class="s">&#39;solver&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">ompver</span><span class="p">,</span><span class="c">...</span>
+                             <span class="s">&#39;P_trans&#39;</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">,</span><span class="c">...</span>
+                             <span class="s">&#39;vecNormFac&#39;</span><span class="p">,</span><span class="n">vectnfact</span><span class="p">);</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">relres</span><span class="o">*</span><span class="n">L</span><span class="p">)</span><span class="o">./</span><span class="n">fnorm</span><span class="p">;</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c">% Reconstruction</span>
+<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
+  <span class="n">frec</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+  <span class="n">frec</span> <span class="p">=</span> <span class="n">frec</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Ls</span><span class="p">,:);</span>
+  <span class="n">frec</span> <span class="p">=</span> <span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">frec</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span>
+<span class="k">end</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
