@@ -171,21 +171,27 @@ Parameter setup struct</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
 Retrieving information from the state</h2></td></tr>
-<tr class="memitem:gae350a41f9d1abca2defc921b4fe10c0d"><td class="memItemLeft" align="right" valign="top"><a id="gae350a41f9d1abca2defc921b4fe10c0d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_errdb</b> (const dgtrealmp_state *p, double *err)</td></tr>
+<tr class="memitem:gae350a41f9d1abca2defc921b4fe10c0d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multidgtrealmp.html#gae350a41f9d1abca2defc921b4fe10c0d">dgtrealmp_get_errdb</a> (const dgtrealmp_state *p, double *err)</td></tr>
 <tr class="separator:gae350a41f9d1abca2defc921b4fe10c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9b910480a8ad0037265086d7b6eb06a4"><td class="memItemLeft" align="right" valign="top"><a id="ga9b910480a8ad0037265086d7b6eb06a4"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_numatoms</b> (const dgtrealmp_state *p, size_t *atoms)</td></tr>
+<tr class="memitem:ga9b910480a8ad0037265086d7b6eb06a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multidgtrealmp.html#ga9b910480a8ad0037265086d7b6eb06a4">dgtrealmp_get_numatoms</a> (const dgtrealmp_state *p, size_t *atoms)</td></tr>
 <tr class="separator:ga9b910480a8ad0037265086d7b6eb06a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab1dc5c6a1bc8755128256e881d716a42"><td class="memItemLeft" align="right" valign="top"><a id="gab1dc5c6a1bc8755128256e881d716a42"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_numiters</b> (const dgtrealmp_state *p, size_t *iters)</td></tr>
+<tr class="memitem:gab1dc5c6a1bc8755128256e881d716a42"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multidgtrealmp.html#gab1dc5c6a1bc8755128256e881d716a42">dgtrealmp_get_numiters</a> (const dgtrealmp_state *p, size_t *iters)</td></tr>
 <tr class="separator:gab1dc5c6a1bc8755128256e881d716a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa344dbf6ff5f183b30e88983c96ebf7f"><td class="memItemLeft" align="right" valign="top"><a id="gaa344dbf6ff5f183b30e88983c96ebf7f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_rescoefs</b> (const dgtrealmp_state *p, int dictid, ltfat_int *M2, ltfat_int *N, LTFAT_COMPLEX *cres)</td></tr>
-<tr class="separator:gaa344dbf6ff5f183b30e88983c96ebf7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab35b6e775fa228eeced173b7afef41e8"><td class="memItemLeft" align="right" valign="top"><a id="gab35b6e775fa228eeced173b7afef41e8"></a>
-ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_dictno</b> (const dgtrealmp_state *p)</td></tr>
+<tr class="memitem:ga136fd66fcd7d28e6b3c6116565dcdaa7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multidgtrealmp.html#ga136fd66fcd7d28e6b3c6116565dcdaa7">dgtrealmp_get_rescoefs</a> (const dgtrealmp_state *p, int dictid, LTFAT_COMPLEX **cres)</td></tr>
+<tr class="separator:ga136fd66fcd7d28e6b3c6116565dcdaa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga20fcbbcda5b60e389034e1d7333de399"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multidgtrealmp.html#ga20fcbbcda5b60e389034e1d7333de399">dgtrealmp_get_coefdims</a> (const dgtrealmp_state *p, int dictid, ltfat_int *M2, ltfat_int *N)</td></tr>
+<tr class="separator:ga20fcbbcda5b60e389034e1d7333de399"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab35b6e775fa228eeced173b7afef41e8"><td class="memItemLeft" align="right" valign="top">ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multidgtrealmp.html#gab35b6e775fa228eeced173b7afef41e8">dgtrealmp_get_dictno</a> (const dgtrealmp_state *p)</td></tr>
 <tr class="separator:gab35b6e775fa228eeced173b7afef41e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Changing state parameters</h2></td></tr>
+<tr class="memitem:ga3e494ee1c0e0a92b49eb93efb10c6a87"><td class="memItemLeft" align="right" valign="top"><a id="ga3e494ee1c0e0a92b49eb93efb10c6a87"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_set_iterstep</b> (dgtrealmp_state *p, size_t iterstep)</td></tr>
+<tr class="separator:ga3e494ee1c0e0a92b49eb93efb10c6a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e757ae561186d0323dea4363bbbe2b8"><td class="memItemLeft" align="right" valign="top"><a id="ga2e757ae561186d0323dea4363bbbe2b8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_set_iterstepcallback</b> (dgtrealmp_state *p, <a class="el" href="group__multidgtrealmp.html#ga502e95d1cff23216df5653cca73aa5b2">dgtrealmp_iterstep_callback</a> *callback, void *userdata)</td></tr>
+<tr class="separator:ga2e757ae561186d0323dea4363bbbe2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Typedef Documentation</h2>
@@ -200,22 +206,19 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Callback template to be called every iterstep iteration</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__multidgtrealmp.html#ga19e55b8cc742c97140abc53e9205e151">dgtrealmp_setparbuf_iterstep</a> <a class="el" href="group__multidgtrealmp.html#ga776b8351934f8bb923ebd5f6e7593d03">dgtrealmp_setparbuf_iterstepcallback</a></dd></dl>
+<p>Callback template to be called every iterstep iteration. <em>c</em> </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__multidgtrealmp.html#ga19e55b8cc742c97140abc53e9205e151">dgtrealmp_setparbuf_iterstep</a> <a class="el" href="group__multidgtrealmp.html#ga776b8351934f8bb923ebd5f6e7593d03">dgtrealmp_setparbuf_iterstepcallback</a> <a class="el" href="group__multidgtrealmp.html#gab35b6e775fa228eeced173b7afef41e8">dgtrealmp_get_dictno</a> <a class="el" href="group__multidgtrealmp.html#ga20fcbbcda5b60e389034e1d7333de399">dgtrealmp_get_coefdims</a></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">[in/out]</td><td>userdata User defined struct </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">userdata</td><td>User defined struct </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">state</td><td>State struct </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">[in/out]</td><td>cres Coefficient domain residual </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">[in/out]</td><td>c Selected coefficients </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">atoms</td><td>Number of selected atoms so far </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">iters</td><td>Number of iterations performed so far </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">errdb</td><td>Approximation error estimate <br />
- </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">c</td><td>Selected coefficients</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Status code: =0 continue iterations, &gt;0 stop, &lt;0 stop with error </dd></dl>
+<h4>Versions</h4>
+<p><code> typedef int ltfat_dgtrealmp_iterstep_callback_d(void* userdata, ltfat_dgtrealmp_state_d* state, ltfat_complex_d* c[]);</code></p>
+<p><code>typedef int ltfat_dgtrealmp_iterstep_callback_s(void* userdata, ltfat_dgtrealmp_state_s* state, ltfat_complex_s* c[]); </code> </p><dl class="section return"><dt>Returns</dt><dd>Status code: =0 continue iterations, &gt;0 stop, &lt;0 stop with error </dd></dl>
 
 </div>
 </div>
@@ -246,11 +249,11 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_done_d( ltfat_dgtrealmp_parbuf_d** pb);</code></p>
 <p><code>ltfat_dgtrealmp_done_s( ltfat_dgtrealmp_parbuf_s** pb); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone">At least one of the following was NULL: <em>pb</em>, <em>p</em>   </td></tr>
+<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone"><em>p</em> is NULL   </td></tr>
 </table>
 </dd></dl>
 
@@ -296,18 +299,18 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p>Execute DGTREAL Matching Pursuit</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">[in/out]</td><td>p DGTREALMP state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Input signal </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cout</td><td>Output coefficients </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">fout</td><td>Output signal</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Input signal, array of length L </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cout</td><td>Output coefficients, array of length equal to the number of dictionaries </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fout</td><td>Output signal, array of length L</td></tr>
   </table>
   </dd>
 </dl>
-<h4>Versions</h4>
+<p>The required size of an array cout[dictid] can be obtained from <a class="el" href="group__multidgtrealmp.html#ga2111ad7ec3db74d1bdf13584802d1320">dgtrealmp_getparbuf_coeflen()</a>, individual dimensions from <a class="el" href="group__multidgtrealmp.html#ga20fcbbcda5b60e389034e1d7333de399">dgtrealmp_get_coefdims()</a> </p><h4>Versions</h4>
 <p><code> ltfat_dgtrealmp_execute_d( ltfat_dgtrealmp_state_d* p, const double f[], ltfat_complex_d* cout[], double fout[]);</code></p>
 <p><code>ltfat_dgtrealmp_execute_s( ltfat_dgtrealmp_state_s* p, const float f[], ltfat_complex_s* cout[], float fout[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -358,13 +361,13 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Execute DGTREAL Matching Pursuit with flat coefficient layout</p>
+<p>Execute DGTREAL Matching Pursuit with flat coefficient layout.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">[in/out]</td><td>p DGTREALMP state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Input signal </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cout</td><td>Output coefficients </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">fout</td><td>Output signal</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Input signal, length L </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cout</td><td>Output coefficients, length obtainable from <a class="el" href="group__multidgtrealmp.html#gac48b6046e11a7c8c4f79c2997f6fa95d">dgtrealmp_getparbuf_coeflen_compact()</a> </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fout</td><td>Output signal, length L</td></tr>
   </table>
   </dd>
 </dl>
@@ -372,7 +375,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_execute_compact_d( ltfat_dgtrealmp_state_d* p, const double f[], ltfat_complex_d cout[], double fout[]);</code></p>
 <p><code>ltfat_dgtrealmp_execute_compact_s( ltfat_dgtrealmp_state_s* p, const float f[], ltfat_complex_s cout[], float fout[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -420,18 +423,17 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p>Perform DGTREAL Matching Pursuit decomposition</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">[in/out]</td><td>p DGTREALMP state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Input signal </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cout</td><td>Output coefficients </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">fout</td><td>Output signal</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Input signal, length L </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cout</td><td>Output coefficients, array of length equal to the number of dictionaries</td></tr>
   </table>
   </dd>
 </dl>
-<h4>Versions</h4>
+<p>The required size of an array cout[dictid] can be obtained from <a class="el" href="group__multidgtrealmp.html#ga2111ad7ec3db74d1bdf13584802d1320">dgtrealmp_getparbuf_coeflen()</a>, individual dimensions from <a class="el" href="group__multidgtrealmp.html#ga20fcbbcda5b60e389034e1d7333de399">dgtrealmp_get_coefdims()</a> </p><h4>Versions</h4>
 <p><code> ltfat_dgtrealmp_execute_decompose_d( ltfat_dgtrealmp_state_d* p, const double f[], ltfat_complex_d* c[]);</code></p>
 <p><code>ltfat_dgtrealmp_execute_decompose_s( ltfat_dgtrealmp_state_s* p, const float f[], ltfat_complex_s* c[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -482,21 +484,20 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Perform DGTREAL Matching Pursuit synthesis</p>
+<p>Perform Multi-DGTREAL synthesis</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">[in/out]</td><td>p DGTREALMP state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Input signal </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cout</td><td>Output coefficients </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">fout</td><td>Output signal</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">c</td><td>Input coefficients, array of length equal to the number of dictionaries [in] dict_mask Dictionary mask. NULL or array of length equal to the number of dictionaries. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">f</td><td>Output signal, length L</td></tr>
   </table>
   </dd>
 </dl>
-<h4>Versions</h4>
-<p><code> ltfat_dgtrealmp_execute_decompose_d( ltfat_dgtrealmp_state_d* p, const double f[], ltfat_complex_d* cout[]);</code></p>
-<p><code>ltfat_dgtrealmp_execute_decompose_s( ltfat_dgtrealmp_state_s* p, const float f[], ltfat_complex_s* cout[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<p>The function will synthesize only from dictionary coefficients for which <em>dict_mask</em>[dictid] is not 0. If NULL all coefficients are used. </p><h4>Versions</h4>
+<p><code> ltfat_dgtrealmp_execute_synthesize_d( ltfat_dgtrealmp_state_d* p, const ltfat_complex_d* cout[], int dict_mask[], double f[]);</code></p>
+<p><code>ltfat_dgtrealmp_execute_synthesize_s( ltfat_dgtrealmp_state_s* p, const ltfat_complex_s* cout[], int dict_mask[], float f[]); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -505,6 +506,298 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <td class="markdownTableBodyNone">LTFATERR_BADSIZE  </td><td class="markdownTableBodyNone">Length of the window <em>gl</em> was less or equal to 0.   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
 <td class="markdownTableBodyNone">LTFATERR_NOMEM  </td><td class="markdownTableBodyNone">Indicates that heap allocation failed   </td></tr>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<a id="ga20fcbbcda5b60e389034e1d7333de399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga20fcbbcda5b60e389034e1d7333de399">&#9670;&nbsp;</a></span>dgtrealmp_get_coefdims()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dgtrealmp_get_coefdims </td>
+          <td>(</td>
+          <td class="paramtype">const dgtrealmp_state *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dictid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ltfat_int *&#160;</td>
+          <td class="paramname"><em>M2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ltfat_int *&#160;</td>
+          <td class="paramname"><em>N</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get dimensions of the coefficient matrix for dictionary dictid</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dictid</td><td>Dictionary index </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">M2</td><td>Number of rows </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">N</td><td>Number of cols</td></tr>
+  </table>
+  </dd>
+</dl>
+<h4>Versions</h4>
+<p><code> ltfat_dgtrealmp_get_coefdims_d( ltfat_dgtrealmp_state_d* p, int dictid, ltfat_int* M2, ltfat_int* N);</code></p>
+<p><code>ltfat_dgtrealmp_get_coefdims_s( ltfat_dgtrealmp_state_s* p, int dictid, ltfat_int* M2, ltfat_int* N); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone">At least one of the following was NULL: <em>p</em>, <em>M2</em>, <em>N</em>   </td></tr>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<a id="gab35b6e775fa228eeced173b7afef41e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab35b6e775fa228eeced173b7afef41e8">&#9670;&nbsp;</a></span>dgtrealmp_get_dictno()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ltfat_int dgtrealmp_get_dictno </td>
+          <td>(</td>
+          <td class="paramtype">const dgtrealmp_state *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the number of dictionaries</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>DGTREALMP state</td></tr>
+  </table>
+  </dd>
+</dl>
+<h4>Versions</h4>
+<p><code> ltfat_dgtrealmp_get_dictno_d( ltfat_dgtrealmp_state_d* p);</code></p>
+<p><code>ltfat_dgtrealmp_get_dictno_s( ltfat_dgtrealmp_state_s* p); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone">At least one of the following was NULL: <em>p</em>   </td></tr>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<a id="gae350a41f9d1abca2defc921b4fe10c0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae350a41f9d1abca2defc921b4fe10c0d">&#9670;&nbsp;</a></span>dgtrealmp_get_errdb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dgtrealmp_get_errdb </td>
+          <td>(</td>
+          <td class="paramtype">const dgtrealmp_state *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get current normalized error</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>Error in dB</td></tr>
+  </table>
+  </dd>
+</dl>
+<h4>Versions</h4>
+<p><code> ltfat_dgtrealmp_get_errdb_d( ltfat_dgtrealmp_state_d* p, double* err);</code></p>
+<p><code>ltfat_dgtrealmp_get_errdb_s( ltfat_dgtrealmp_state_s* p, double* err); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone">At least one of the following was NULL: <em>p</em>   </td></tr>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<a id="ga9b910480a8ad0037265086d7b6eb06a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9b910480a8ad0037265086d7b6eb06a4">&#9670;&nbsp;</a></span>dgtrealmp_get_numatoms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dgtrealmp_get_numatoms </td>
+          <td>(</td>
+          <td class="paramtype">const dgtrealmp_state *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramname"><em>atoms</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get current number of selected atoms</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">atoms</td><td>Number of selected atoms</td></tr>
+  </table>
+  </dd>
+</dl>
+<h4>Versions</h4>
+<p><code> ltfat_dgtrealmp_get_numatoms_d( ltfat_dgtrealmp_state_d* p, size_t* atoms);</code></p>
+<p><code>ltfat_dgtrealmp_get_numatoms_s( ltfat_dgtrealmp_state_s* p, size_t* atoms); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone">At least one of the following was NULL: <em>p</em>, <em>atoms</em>   </td></tr>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<a id="gab1dc5c6a1bc8755128256e881d716a42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab1dc5c6a1bc8755128256e881d716a42">&#9670;&nbsp;</a></span>dgtrealmp_get_numiters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dgtrealmp_get_numiters </td>
+          <td>(</td>
+          <td class="paramtype">const dgtrealmp_state *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramname"><em>iters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get current number of iterations done</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">iters</td><td>Number of iterations done</td></tr>
+  </table>
+  </dd>
+</dl>
+<h4>Versions</h4>
+<p><code> ltfat_dgtrealmp_get_numiters_d( ltfat_dgtrealmp_state_d* p, size_t* iters);</code></p>
+<p><code>ltfat_dgtrealmp_get_numiters_s( ltfat_dgtrealmp_state_s* p, size_t* iters); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone">At least one of the following was NULL: <em>p</em>, <em>atoms</em>   </td></tr>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<a id="ga136fd66fcd7d28e6b3c6116565dcdaa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga136fd66fcd7d28e6b3c6116565dcdaa7">&#9670;&nbsp;</a></span>dgtrealmp_get_rescoefs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dgtrealmp_get_rescoefs </td>
+          <td>(</td>
+          <td class="paramtype">const dgtrealmp_state *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dictid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LTFAT_COMPLEX **&#160;</td>
+          <td class="paramname"><em>cres</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get pointer to an array of residual coefficients</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>DGTREALMP state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dictid</td><td>Dictionary index </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cres</td><td>Pointer to a pointer to be initialized</td></tr>
+  </table>
+  </dd>
+</dl>
+<h4>Versions</h4>
+<p><code> ltfat_dgtrealmp_get_rescoefs_d( ltfat_dgtrealmp_state_d* p, int dictid, ltfat_complex_d** cres);</code></p>
+<p><code>ltfat_dgtrealmp_get_rescoefs_s( ltfat_dgtrealmp_state_s* p, int dictid, ltfat_complex_s** cres); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LTFATERR_NULLPOINTER  </td><td class="markdownTableBodyNone">At least one of the following was NULL: <em>p</em>, <em>M2</em>, <em>N</em>   </td></tr>
 </table>
 </dd></dl>
 
@@ -554,7 +847,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_getparbuf_coeflen_d( ltfat_dgtrealmp_parbuf_d* p, ltfat_int Ls, ltfat_int dictid);</code></p>
 <p><code>ltfat_dgtrealmp_getparbuf_coeflen_s( ltfat_dgtrealmp_parbuf_s* p, ltfat_int Ls, ltfat_int dictid); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -601,7 +894,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_getparbuf_coeflen_compact_d( ltfat_dgtrealmp_parbuf_d* p, ltfat_int Ls);</code></p>
 <p><code>ltfat_dgtrealmp_getparbuf_coeflen_compact_s( ltfat_dgtrealmp_parbuf_s* p, ltfat_int Ls); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -637,7 +930,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_getparbuf_dictno_d( ltfat_dgtrealmp_parbuf_d* p);</code></p>
 <p><code>ltfat_dgtrealmp_getparbuf_dictno_s( ltfat_dgtrealmp_parbuf_s* p); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -684,7 +977,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_getparbuf_siglen_d( ltfat_dgtrealmp_parbuf_d* p, ltfat_int Ls);</code></p>
 <p><code>ltfat_dgtrealmp_getparbuf_siglen_s( ltfat_dgtrealmp_parbuf_s* p, ltfat_int Ls); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -736,10 +1029,10 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
   </dd>
 </dl>
 <h4>Versions</h4>
-<p><code> ltfat_dgtrealmp_init_d( ltfat_dgtrealmp_parbuf_d* pb, ltfat_dgtrealmp_state_d** p);</code></p>
-<p><code>ltfat_dgtrealmp_init_s( ltfat_dgtrealmp_parbuf_s* pb, ltfat_dgtrealmp_state_s** p); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
+<p><code> ltfat_dgtrealmp_init_d( ltfat_dgtrealmp_parbuf_d* pb, ltfat_int L, ltfat_dgtrealmp_state_d** p);</code></p>
+<p><code>ltfat_dgtrealmp_init_s( ltfat_dgtrealmp_parbuf_s* pb, ltfat_int L, ltfat_dgtrealmp_state_s** p); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -780,7 +1073,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_modparbuf_lasttight_d( ltfat_dgtrealmp_parbuf_d* p);</code></p>
 <p><code>ltfat_dgtrealmp_modparbuf_lasttight_s( ltfat_dgtrealmp_parbuf_s* p); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -848,7 +1141,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_parbuf_add_firwin_d( ltfat_dgtrealmp_parbuf_d* parbuf, LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M );</code></p>
 <p><code>ltfat_dgtrealmp_parbuf_add_firwin_s( ltfat_dgtrealmp_parbuf_s* parbuf, LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M ); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -902,7 +1195,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_parbuf_add_gausswin_d( ltfat_dgtrealmp_parbuf_d* parbuf, LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M );</code></p>
 <p><code>ltfat_dgtrealmp_parbuf_add_gausswin_s( ltfat_dgtrealmp_parbuf_s* parbuf, LTFAT_FIRWIN win, ltfat_int gl, ltfat_int a, ltfat_int M ); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -970,7 +1263,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_parbuf_add_genwin_d( ltfat_dgtrealmp_parbuf_d* parbuf, double g[], ltfat_int gl, ltfat_int a, ltfat_int M );</code></p>
 <p><code>ltfat_dgtrealmp_parbuf_add_genwin_s( ltfat_dgtrealmp_parbuf_s* parbuf, float g[], ltfat_int gl, ltfat_int a, ltfat_int M ); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1006,7 +1299,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_parbuf_done_d( ltfat_dgtrealmp_parbuf_d** parbuf);</code></p>
 <p><code>ltfat_dgtrealmp_parbuf_done_s( ltfat_dgtrealmp_parbuf_s** parbuf); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1050,7 +1343,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_parbuf_init_d( ltfat_dgtrealmp_parbuf_d** p);</code></p>
 <p><code>ltfat_dgtrealmp_parbuf_init_s( ltfat_dgtrealmp_parbuf_s** p); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1097,7 +1390,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_errtoldb_d( ltfat_dgtrealmp_parbuf_d* p, double errtoldb);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_errtoldb_s( ltfat_dgtrealmp_parbuf_s* p, double errtoldb); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1144,7 +1437,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_iterstep_d( ltfat_dgtrealmp_parbuf_d* p, size_t iterstep);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_iterstep_s( ltfat_dgtrealmp_parbuf_s* p, size_t iterstep); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1185,11 +1478,11 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
         </tr>
       </table>
 </div><div class="memdoc">
-<h4>Versions</h4>
+<p>Register callback function to be called every iterstep iteration </p><h4>Versions</h4>
 <p><code> ltfat_dgtrealmp_setparbuf_iterstepcallback_d( ltfat_dgtrealmp_parbuf_d* p, ltfat_dgtrealmp_execute_iterstep_callback_d* callback, void* userdata);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_iterstepcallback_s( ltfat_dgtrealmp_parbuf_s* p, ltfat_dgtrealmp_execute_iterstep_callback_s* callback, void* userdata); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1236,7 +1529,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_kernrelthr_d( ltfat_dgtrealmp_parbuf_d* p, double thr);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_kernrelthr_s( ltfat_dgtrealmp_parbuf_s* p, double thr); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1283,7 +1576,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_maxatoms_d( ltfat_dgtrealmp_parbuf_d* p, size_t maxatoms);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_maxatoms_s( ltfat_dgtrealmp_parbuf_s* p, size_t maxatoms); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1330,7 +1623,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_maxit_d( ltfat_dgtrealmp_parbuf_d* p, size_t maxit);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_maxit_s( ltfat_dgtrealmp_parbuf_s* p, size_t maxit); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1377,7 +1670,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_pedanticsearch_d( ltfat_dgtrealmp_parbuf_d* p, int do_pedantic);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_pedanticsearch_s( ltfat_dgtrealmp_parbuf_s* p, int do_pedantic); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1424,7 +1717,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_phaseconv_d( ltfat_dgtrealmp_parbuf_d* p, ltfat_phaseconvention pconv);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_phaseconv_s( ltfat_dgtrealmp_parbuf_s* p, ltfat_phaseconvention pconv); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1471,7 +1764,7 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <p><code> ltfat_dgtrealmp_setparbuf_snrdb_d( ltfat_dgtrealmp_parbuf_d* p, double snrdb);</code></p>
 <p><code>ltfat_dgtrealmp_setparbuf_snrdb_s( ltfat_dgtrealmp_parbuf_s* p, double snrdb); </code> </p><dl class="section return"><dt>Returns</dt><dd><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description ----------------------&mdash;   </th></tr>
+<th class="markdownTableHeadNone">Status code  </th><th class="markdownTableHeadNone">Description   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">LTFATERR_SUCCESS  </td><td class="markdownTableBodyNone">Indicates no error   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -1488,8 +1781,8 @@ ltfat_int&#160;</td><td class="memItemRight" valign="bottom"><b>dgtrealmp_get_di
 <small>
 Copyright (C) 2004 - 2018  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2018  Zdeněk Průša 
-<br />Generated: <i>Thu Apr 5 2018 13:00:00</i>
-<!-- Generated on Thu Apr 5 2018 13:00:00 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Apr 5 2018 18:15:36</i>
+<!-- Generated on Thu Apr 5 2018 18:15:36 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.14 -->
 </small>
