@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['error_20handling',['Error handling',['../group__error.html',1,'']]]
+  ['gabor_20windows',['Gabor Windows',['../group__windows.html',1,'']]]
 ];

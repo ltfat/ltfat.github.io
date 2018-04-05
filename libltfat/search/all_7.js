@@ -3,7 +3,7 @@ var searchData=
   ['libltfat_20_2d_20large_20time_2dfrequency_20analysis_20toolbox_20library',['libltfat - Large Time-Frequency Analysis Toolbox Library',['../index.html',1,'']]],
   ['long2fir',['long2fir',['../group__utils.html#ga5a184c3e1169a13f48fd734ba290e847',1,'ciutils.h']]],
   ['ltfat_5fcalloc',['ltfat_calloc',['../group__memalloc.html#ga0a7a8487b9aff53e9c2943ef6dc7be32',1,'memalloc.h']]],
-  ['ltfat_5fdgt_5fgetpar_5fphaseconv',['ltfat_dgt_getpar_phaseconv',['../group__dgtwrapper.html#ga8ddc604b415e506ab6c805f8640e0a0c',1,'dgtwrapper_typeconstant.h']]],
+  ['ltfat_5fdgt_5fgetpar_5fphaseconv',['ltfat_dgt_getpar_phaseconv',['../group__dgtwrapper.html#gaf05861b35fa1dd720ee9e1a67c1ef17c',1,'dgtwrapper_typeconstant.h']]],
   ['ltfat_5fdgt_5fparams_5fallocdef',['ltfat_dgt_params_allocdef',['../group__dgtwrapper.html#ga2722d306ff709af9fc81df2591ea9e76',1,'dgtwrapper_typeconstant.h']]],
   ['ltfat_5fdgt_5fparams_5ffree',['ltfat_dgt_params_free',['../group__dgtwrapper.html#ga2624a924d755d4384a189a1c9bbfc029',1,'dgtwrapper_typeconstant.h']]],
   ['ltfat_5fdgt_5fsetpar_5ffftwflags',['ltfat_dgt_setpar_fftwflags',['../group__dgtwrapper.html#gaab60bd429e21212edd0c9ce3d283c4a7',1,'dgtwrapper_typeconstant.h']]],

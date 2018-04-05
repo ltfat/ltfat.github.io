@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['default_5frtdgtreal_5fprocessor_5fcallback',['default_rtdgtreal_processor_callback',['../group__rtdgtrealprocessor.html#gaf0304050d74d13107b331626eb644933',1,'rtdgtreal.h']]],
   ['discrete_20gabor_20transform',['Discrete Gabor Transform',['../group__dgt.html',1,'']]],
   ['dgt2dgtreal',['dgt2dgtreal',['../group__utils.html#gad1b35eb7c5aed68360a435e001ac8d40',1,'tiutils.h']]],
   ['dgt_5fdone',['dgt_done',['../group__dgtwrapper.html#gae779ec1c882457004b5e2a2819ec66bb',1,'dgtwrapper.h']]],
@@ -15,7 +14,7 @@ var searchData=
   ['dgt_5fget_5fa',['dgt_get_a',['../group__dgtwrapper.html#gacfd85a5d085d07436b83fa976ba0187f',1,'dgtwrapper.h']]],
   ['dgt_5fget_5fl',['dgt_get_L',['../group__dgtwrapper.html#ga918832c778fa52d997756ef69e550abc',1,'dgtwrapper.h']]],
   ['dgt_5fget_5fm',['dgt_get_M',['../group__dgtwrapper.html#gac036bf94425d0d8d4b65c84f5ded60ef',1,'dgtwrapper.h']]],
-  ['dgt_5fget_5fphaseconv',['dgt_get_phaseconv',['../group__dgtwrapper.html#ga2d39cec63e4c23d13c44fe09b9541149',1,'dgtwrapper.h']]],
+  ['dgt_5fget_5fphaseconv',['dgt_get_phaseconv',['../group__dgtwrapper.html#ga48b5b16cb7cfccae31c307610516860f',1,'dgtwrapper.h']]],
   ['dgt_5fget_5fw',['dgt_get_W',['../group__dgtwrapper.html#ga6d7f1f72d01c3c91b0f120797fb2f29f',1,'dgtwrapper.h']]],
   ['dgt_5finit',['dgt_init',['../group__dgtwrapper.html#ga214d50a4f78d5acbfc44d133443dc352',1,'dgtwrapper.h']]],
   ['dgt_5finit_5fgen',['dgt_init_gen',['../group__dgtwrapper.html#gab24227f46eb0552350e67e2ed4e57ab5',1,'dgtwrapper.h']]],
@@ -44,7 +43,7 @@ var searchData=
   ['dgtreal_5fget_5fa',['dgtreal_get_a',['../group__dgtwrapper.html#ga35172ac329e3e4ef0d9b8e49313dbbd2',1,'dgtrealwrapper.h']]],
   ['dgtreal_5fget_5fl',['dgtreal_get_L',['../group__dgtwrapper.html#ga6f721921920327e3f9566ace6341cfdc',1,'dgtrealwrapper.h']]],
   ['dgtreal_5fget_5fm',['dgtreal_get_M',['../group__dgtwrapper.html#gaba22a9b0eb83dccacd0400f46feeffe6',1,'dgtrealwrapper.h']]],
-  ['dgtreal_5fget_5fphaseconv',['dgtreal_get_phaseconv',['../group__dgtwrapper.html#ga1f7c909e3f9a6f0202c35c40b297a64b',1,'dgtrealwrapper.h']]],
+  ['dgtreal_5fget_5fphaseconv',['dgtreal_get_phaseconv',['../group__dgtwrapper.html#ga3d3a8c7a074fb91265e78839ad4cba91',1,'dgtrealwrapper.h']]],
   ['dgtreal_5fget_5fw',['dgtreal_get_W',['../group__dgtwrapper.html#gab338dbd0bb4333b5adf452b995e191a3',1,'dgtrealwrapper.h']]],
   ['dgtreal_5finit',['dgtreal_init',['../group__dgtwrapper.html#gaa685b7ec156eb534ae078601103b5e84',1,'dgtrealwrapper.h']]],
   ['dgtreal_5finit_5fgen',['dgtreal_init_gen',['../group__dgtwrapper.html#ga2ead8a8efed4ee979f405c06127ac950',1,'dgtrealwrapper.h']]],

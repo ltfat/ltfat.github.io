@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['block_20stream_20processor',['Block Stream Processor',['../group__block__processor.html',1,'']]]
+  ['discrete_20gabor_20transform',['Discrete Gabor Transform',['../group__dgt.html',1,'']]],
+  ['discrete_20gabor_20transform_20analysis_2dsynthesis',['Discrete Gabor Transform analysis-synthesis',['../group__dgtwrapper.html',1,'']]]
 ];

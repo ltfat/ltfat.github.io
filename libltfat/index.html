@@ -86,7 +86,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a href="https://github.com/ltfat/libltfat">Fork libltfat on Github</a></p>
-<p>This is the standalone back end library of <a href="http://ltfat.github.io/">LTFAT</a> the Matlab/Octave toolbox for working with time-frequency analysis and synthesis. It is intended both as an educational and a computational tool. The toolbox provides a large number of linear transforms including Gabor and wavelet transforms along with routines for constructing windows (filter prototypes) and routines for manipulating coefficients</p>
+<p>This is the documentation page for the standalone back end library of <a href="http://ltfat.github.io/">LTFAT</a> the Matlab/Octave toolbox for working with time-frequency analysis and synthesis. It is intended both as an educational and a computational tool. The toolbox provides a large number of linear transforms including Gabor and wavelet transforms along with routines for constructing windows (filter prototypes) and routines for manipulating coefficients</p>
 <h2>Modules </h2>
 <p>The following modules are included in the libltfat repository and can be optionally compiled:</p>
 <ul>
@@ -137,6 +137,7 @@ Additionally, the <code>LTFAT_TYPE</code> type will be used whenever there is a 
 <p>When an array represents a matrix, it is assumed that the columns are the first dimension and therefore they are stored continuously in memory.</p>
 <p>In the function headers, the data arrays are denoted with array brackets [] and a pointer is used whenever referring to a single object. This distinction is just cosmetics as the arrays decay to pointers anyway.</p>
 <p>Array sizes, indexes etc. are represented using  ltfat_int , which is defined as: </p><div class="fragment"><div class="line"><span class="preprocessor">#ifdef LTFAT_LARGEARRAYS</span></div><div class="line"><span class="keyword">typedef</span> ptrdiff_t ltfat_int;</div><div class="line"><span class="preprocessor">#else</span></div><div class="line"><span class="keyword">typedef</span> <span class="keywordtype">int</span>       ltfat_int;</div><div class="line"><span class="preprocessor">#endif </span></div></div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Size of  ptrdiff_t is system dependent.</dd></dl>
+<p>Use <a class="el" href="group__version.html#gae71d9e8b9012d99a1a6f496987e6000b">ltfat_int_is_compatible()</a> to test whether your signed integer type size is compatible with the one libltfat was compiled with. It is crucial the sizes match whenever an array of integers is passed to a libltfat function.</p>
 <p>Further, the following naming conventions are used consistently: </p><a class="anchor" id="multi_row"></a>
 <table class="doxtable">
 <caption>Argument naming</caption>
@@ -164,7 +165,7 @@ Additionally, the <code>LTFAT_TYPE</code> type will be used whenever there is a 
 <h2>Error handling </h2>
 <p>Every function which returns a status code should be checked by the user. Additionally, the error message is printed to the standard error stream. This behavior can be turned off or a custom error handler can be registered. For details see <a class="el" href="group__error.html">Error handling</a></p>
 <h2>Plans </h2>
-<p>When repeated computations with the same settings are desired, it is convenient to create a <b>plan</b> using the appropriate *_init function, call the *_execute function multiple times and destroy the plan by calling the *_done function. The plan usually contains some precomputed read-only data, working arrays and other plans. The plan is represented as a pointer to an opaque structure and here is an example how to use it: </p><div class="fragment"><div class="line">dgt_long_plan_d* plan = NULL;</div><div class="line"></div><div class="line">dgt_long_init_d(f, g, L, W, a, M, c, ptype, FFTW_ESTIMATE, &amp;plan)</div><div class="line"><span class="comment">// Fill in c after calling init. The FFTW planning routine migh have written </span></div><div class="line"><span class="comment">// something to it.</span></div><div class="line"></div><div class="line">dgt_long_execute_d(plan);</div><div class="line"><span class="comment">// Refresh data in f and call execute again  </span></div><div class="line"></div><div class="line">dgt_long_done_d(&amp;plan);</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Please note that due to the <a href="https://github.com/FFTW/fftw3/issues/16">limitation of FFTW</a> the *_init routines are not re-entrant because of the FFTW planning happening in them. Therefore, the *_init functions cannot be called simultaneously on different threads even when creating completely separate plans.</dd>
+<p>When repeated computations with the same settings are desired, it is convenient to create a <b>plan</b> using the appropriate *_init function, call the *_execute function multiple times and destroy the plan by calling the *_done function. The plan usually contains some precomputed read-only data, working arrays and other plans. The plan is represented as a pointer to an opaque structure and here is an example how to use it: </p><div class="fragment"><div class="line">ltfat_dgt_long_plan_d* plan = NULL;</div><div class="line"></div><div class="line">ltfat_dgt_long_init_d(f, g, L, W, a, M, c, ptype, FFTW_ESTIMATE, &amp;plan)</div><div class="line"><span class="comment">// Fill in c after calling init. The FFTW planning routine migh have written </span></div><div class="line"><span class="comment">// something to it.</span></div><div class="line"></div><div class="line">ltfat_dgt_long_execute_d(plan);</div><div class="line"><span class="comment">// Refresh data in f and call execute again  </span></div><div class="line"></div><div class="line">ltfat_dgt_long_done_d(&amp;plan);</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Please note that due to the <a href="https://github.com/FFTW/fftw3/issues/16">limitation of FFTW</a> the *_init routines are not re-entrant because of the FFTW planning happening in them. Therefore, the *_init functions cannot be called simultaneously on different threads even when creating completely separate plans.</dd>
 <dd>
 Further, the *_execute functions are reentrant and thread-safe, but not when executed on a single plan concurrently on separate threads. This is a contrast with the FFTW execute function, which is thread safe even for a single plan. This limitation comes from the fact that the LTFAT plan contains some working buffers.</dd></dl>
 <h2>States </h2>
@@ -176,8 +177,8 @@ Further, the *_execute functions are reentrant and thread-safe, but not when exe
 <small>
 Copyright (C) 2004 - 2018  Peter L. Søndergaard <br />
 Copyright (C) 2013 - 2018  Zdeněk Průša 
-<br />Generated: <i>Tue Mar 27 2018 12:57:10</i>
-<!-- Generated on Tue Mar 27 2018 12:57:10 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
+<br />Generated: <i>Thu Apr 5 2018 13:00:00</i>
+<!-- Generated on Thu Apr 5 2018 13:00:00 for libltfat by &#38;#160;<a href="http://www.doxygen.org/index.html"> -->
 <!-- <img class="footer" src="doxygen.png" alt="doxygen"/> -->
 <!-- </a> 1.8.14 -->
 </small>
