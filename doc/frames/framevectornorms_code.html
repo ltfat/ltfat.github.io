@@ -65,7 +65,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   By default, the function returns the norm of vectors used for</span>
 <span class="c">%   synthesis. Frames like &#39;dgtreal&#39;, &#39;filterbankreal&#39; do not contain the </span>
-<span class="c">%   &#39;&#39;redundant&#39;&#39; conjugate-symmetrix vectors and their synthesis operator</span>
+<span class="c">%   &#39;&#39;redundant&#39;&#39; conjugate-symmetric vectors and their synthesis operator</span>
 <span class="c">%   is not linear. Therefore the vectors used in synthesis do not have </span>
 <span class="c">%   an explicit form and their norm is unspecified. The vectors used for </span>
 <span class="c">%   analysis are well defined and can be obtained by passing additional</span>
@@ -76,7 +76,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/frames/framevectornorms.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.0</span>
+<span class="c">% This file is part of LTFAT version 2.3.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -99,6 +99,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
 
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">idx</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;auto&#39;</span><span class="p">,</span> <span class="s">&#39;slow&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">anasyn</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;syn&#39;</span><span class="p">,</span><span class="s">&#39;ana&#39;</span><span class="p">};</span>
 <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">idx</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;idx&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
@@ -129,35 +130,62 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">F</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
 <span class="n">vnorms</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
-    
-<span class="k">switch</span> <span class="n">F</span><span class="p">.</span><span class="n">type</span>
-    <span class="k">case</span> <span class="s">&#39;gen&#39;</span>
-        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">vnorms</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">(:,</span><span class="n">idx</span><span class="p">));</span>
-    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span>
-        <span class="n">vnorms</span><span class="p">(:)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">);</span>
-    <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">}</span>
-        <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">]</span> <span class="p">=</span> <span class="n">filterbankscale</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">);</span>
-        <span class="n">channorm</span> <span class="p">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">scal</span><span class="p">;</span>
-        <span class="n">subidx</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">L</span><span class="o">./</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">))];</span>
-        <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">vnorms</span><span class="p">)</span>
-           <span class="n">vnorms</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">channorm</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span> <span class="n">idx</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">subidx</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s">&#39;last&#39;</span><span class="p">));</span>
-        <span class="k">end</span>
-    <span class="k">case</span> <span class="p">{</span> <span class="s">&#39;dft&#39;</span><span class="p">,</span><span class="s">&#39;dftreal&#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;dcti&#39;</span><span class="p">,</span><span class="s">&#39;dctii&#39;</span><span class="p">,</span><span class="s">&#39;dctiii&#39;</span><span class="p">,</span><span class="s">&#39;dctiv&#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;dsti&#39;</span><span class="p">,</span><span class="s">&#39;dstii&#39;</span><span class="p">,</span><span class="s">&#39;dstiii&#39;</span><span class="p">,</span><span class="s">&#39;dstiv&#39;</span> <span class="p">}</span>
-         <span class="n">vnorms</span><span class="p">(:)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">otherwise</span>
-        <span class="c">% Fallback option</span>
-        <span class="k">if</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_syn</span>
-            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unsupported frame.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
-        <span class="k">end</span>
 
-        <span class="n">ctmp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-        <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">vnorms</span><span class="p">)</span>
-            <span class="n">ctmp</span><span class="p">(</span><span class="n">idx</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-            <span class="n">vnorms</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">ctmp</span><span class="p">));</span>
-            <span class="n">ctmp</span><span class="p">(:)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="k">end</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span>
+    <span class="k">switch</span> <span class="n">F</span><span class="p">.</span><span class="n">type</span>
+        <span class="k">case</span> <span class="s">&#39;gen&#39;</span>
+            <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">vnorms</span><span class="p">]</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">(:,</span><span class="n">idx</span><span class="p">));</span>
+        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span>
+            <span class="n">vnorms</span><span class="p">(:)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">);</span>
+        <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">}</span>
+            <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">scal</span><span class="p">]</span> <span class="p">=</span> <span class="n">filterbankscale</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">);</span>
+            <span class="n">channorm</span> <span class="p">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">scal</span><span class="p">;</span>
+            <span class="n">subidx</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">L</span><span class="o">./</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">))];</span>
+            <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">vnorms</span><span class="p">)</span>
+               <span class="n">vnorms</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">channorm</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span> <span class="n">idx</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">subidx</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s">&#39;last&#39;</span><span class="p">));</span>
+            <span class="k">end</span>
+        <span class="k">case</span> <span class="p">{</span> <span class="s">&#39;dft&#39;</span><span class="p">,</span><span class="s">&#39;dftreal&#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;dcti&#39;</span><span class="p">,</span><span class="s">&#39;dctii&#39;</span><span class="p">,</span><span class="s">&#39;dctiii&#39;</span><span class="p">,</span><span class="s">&#39;dctiv&#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;dsti&#39;</span><span class="p">,</span><span class="s">&#39;dstii&#39;</span><span class="p">,</span><span class="s">&#39;dstiii&#39;</span><span class="p">,</span><span class="s">&#39;dstiv&#39;</span><span class="p">,</span> <span class="s">&#39;identity&#39;</span><span class="p">}</span>
+             <span class="n">vnorms</span><span class="p">(:)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">case</span> <span class="s">&#39;fwt&#39;</span>
+            <span class="p">[</span><span class="n">g</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">({</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">,</span><span class="s">&#39;dwt&#39;</span><span class="p">});</span>
+            <span class="n">vnorms</span> <span class="p">=</span> <span class="n">framevectornorms</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)),</span><span class="n">L</span><span class="p">,</span><span class="n">idx</span><span class="p">);</span>
+        <span class="k">case</span> <span class="s">&#39;ufwt&#39;</span>
+            <span class="n">g</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">({</span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">,</span><span class="s">&#39;dwt&#39;</span><span class="p">});</span>
+            <span class="n">vnorms</span> <span class="p">=</span> <span class="n">framevectornorms</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)),</span><span class="n">L</span><span class="p">,</span><span class="n">idx</span><span class="p">);</span>
+        <span class="k">case</span> <span class="s">&#39;wfbt&#39;</span>
+            <span class="p">[</span><span class="n">g</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="n">wt</span><span class="p">);</span>
+            <span class="n">vnorms</span> <span class="p">=</span> <span class="n">framevectornorms</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)),</span><span class="n">L</span><span class="p">,</span><span class="n">idx</span><span class="p">);</span>
+        <span class="k">case</span> <span class="s">&#39;uwfbt&#39;</span>
+            <span class="n">g</span> <span class="p">=</span> <span class="n">wfbt2filterbank</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">info</span><span class="p">.</span><span class="n">wt</span><span class="p">);</span>
+            <span class="n">vnorms</span> <span class="p">=</span> <span class="n">framevectornorms</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)),</span><span class="n">L</span><span class="p">,</span><span class="n">idx</span><span class="p">);</span>
+        <span class="k">case</span> <span class="s">&#39;fusion&#39;</span>
+            <span class="n">idxaccum</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frames</span><span class="p">)</span>
+                <span class="n">atno</span> <span class="p">=</span> <span class="n">frameclength</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frames</span><span class="p">{</span><span class="n">p</span><span class="p">},</span><span class="n">L</span><span class="p">);</span>
+                <span class="n">thisframeidx</span> <span class="p">=</span> <span class="n">idx</span><span class="p">(</span><span class="n">idx</span> <span class="o">&gt;</span><span class="p">=</span> <span class="n">idxaccum</span> <span class="o">&amp;</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">idxaccum</span> <span class="o">+</span> <span class="n">atno</span><span class="p">);</span>
+                <span class="n">vnorms</span><span class="p">(</span><span class="n">thisframeidx</span><span class="p">)</span> <span class="p">=</span> <span class="c">...</span>
+                    <span class="n">F</span><span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">*</span><span class="n">framevectornorms</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frames</span><span class="p">{</span><span class="n">p</span><span class="p">},</span><span class="n">L</span><span class="p">,</span><span class="n">thisframeidx</span><span class="o">-</span><span class="n">idxaccum</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+                <span class="n">idxaccum</span> <span class="p">=</span> <span class="n">idxaccum</span> <span class="o">+</span> <span class="n">atno</span><span class="p">;</span>
+            <span class="k">end</span>
+        <span class="k">otherwise</span>
+            <span class="n">flags</span><span class="p">.</span><span class="n">do_slow</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_slow</span>
+    <span class="c">% Fallback option</span>
+    <span class="k">if</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_syn</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unsupported frame.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+    <span class="k">end</span>
+
+    <span class="n">ctmp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">vnorms</span><span class="p">)</span>
+        <span class="n">ctmp</span><span class="p">(</span><span class="n">idx</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">vnorms</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">ctmp</span><span class="p">));</span>
+        <span class="n">ctmp</span><span class="p">(:)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">end</span>
 <span class="k">end</span>
 </pre></div>
 

@@ -114,12 +114,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   The following example show the development of the approx. error for the</span>
 <span class="c">%   MP and OMP algorithms. :</span>
 <span class="c">%</span>
-<span class="c">%   [f,fs] = greasy; F = frame(&#39;dgt&#39;,&#39;hann&#39;,256,1024);</span>
-<span class="c">%   maxit = 4000;</span>
-<span class="c">%   [c1,~,info1] = franamp(F,f,&#39;omp&#39;,&#39;cg&#39;,&#39;maxit&#39;,maxit);</span>
-<span class="c">%   [c2,~,info2] = franamp(F,f,&#39;mp&#39;,&#39;maxit&#39;,maxit);</span>
-<span class="c">%   plot(20*log10([info1.relres,info2.relres]));</span>
-<span class="c">%   legend({&#39;OMP&#39;,&#39;MP&#39;});</span>
+<span class="c">%       [f,fs] = greasy; F = frame(&#39;dgt&#39;,&#39;hann&#39;,256,1024);</span>
+<span class="c">%       maxit = 4000;</span>
+<span class="c">%       [c1,~,info1] = franamp(F,f,&#39;omp&#39;,&#39;cg&#39;,&#39;maxit&#39;,maxit);</span>
+<span class="c">%       [c2,~,info2] = franamp(F,f,&#39;mp&#39;,&#39;maxit&#39;,maxit);</span>
+<span class="c">%       plot(20*log10([info1.relres,info2.relres]));</span>
+<span class="c">%       legend({&#39;OMP&#39;,&#39;MP&#39;});</span>
 <span class="c">%</span>
 <span class="c">%   See also: frame, frsyn, framevectornorms</span>
 <span class="c">%</span>
@@ -139,7 +139,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/frames/franamp.html</span>
 
 <span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.0</span>
+<span class="c">% This file is part of LTFAT version 2.3.1</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

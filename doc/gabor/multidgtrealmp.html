@@ -119,6 +119,15 @@ aproximation <em>frec</em> and a struct <tt class="docutils literal">info</tt> w
 <kbd><span class="option">.relres</span></kbd></td>
 <td>Final approximation error.</td></tr>
 <tr><td class="option-group">
+<kbd><span class="option">.g</span></kbd></td>
+<td>Cell array of numeric windows used in the multi-dictionary</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.a</span></kbd></td>
+<td>Array of hop factors for indivitual dictionaries</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.M</span></kbd></td>
+<td>Array of numbers of channels for individual dictionaries</td></tr>
+<tr><td class="option-group">
 <kbd><span class="option">.synthetize</span></kbd></td>
 <td>Anonymous function which can be used to synthetize from
 the (modified) coefficients as
@@ -146,6 +155,10 @@ default is 'freqinv'.</td></tr>
 <kbd><span class="option">'pedanticsearch'</span></kbd></td>
 <td>Be pedantic about the energy of pairs of conjugated
 atoms in the selection step. Disbaled by default.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'algorithm',<var>alg</var></span></kbd></td>
+<td>Algorithm to use. Available:
+'mp'(default),'selfprojmp','cyclicmp'</td></tr>
 </tbody>
 </table>
 <p>The computational routine is only available in C. Use <span class="linkrole"><a href="#BASEURL#/doc/base/ltfatmex.html">ltfatmex</a></span> to
