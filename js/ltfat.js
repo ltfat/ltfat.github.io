@@ -11,6 +11,9 @@ $(document).ready(function(){
     $('a[href^="#BASEURL#"]').attr('href',function(i,el){
         return relativetoabsolute(el);
     });
+
+    // Make all img responsive
+    $("img").each(function(index){$(this).addClass( "img-responsive") });
 });
 
 function includefiles(){
