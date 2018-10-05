@@ -141,7 +141,7 @@ the wavelet. The default value is 10^(-5).</td></tr>
 </tbody>
 </table>
 <p>The format of the output is controlled by the following flags:
-'full' (default),'econ','asblfilter':</p>
+'full' (default),'econ','asfreqfilter':</p>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
@@ -153,8 +153,7 @@ the wavelet. The default value is 10^(-5).</td></tr>
 <kbd><span class="option">'econ'</span></kbd></td>
 <td>The output is a <tt class="docutils literal">numel(scale)</tt> cell array with
 individual freq. domain wavelets truncated to the
-length of the effective support given by parametar
-'efsuppthr'.</td></tr>
+length of the effective support given by parameter 'efsuppthr'.</td></tr>
 </tbody>
 </table>
 <dl class="docutils">
@@ -208,11 +207,21 @@ applied.</p>
 <p><tt class="docutils literal">C</tt> is a normalization constant.</p>
 <p>Cauchy wavelet</p>
 <blockquote>
-H = C xi^{frac{alpha-1}{2}} exp( -2pixi )<!-- math: H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi ) -->
+<p>H = C xi^{frac{alpha-1}{2}} exp( -2pixi )</p>
+<div class="math">
+\begin{equation*}
+H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi )
+\end{equation*}
+</div>
 </blockquote>
 <p>Morse wavelet</p>
 <blockquote>
-H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )<!-- math: H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} ) -->
+<p>H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )</p>
+<div class="math">
+\begin{equation*}
+H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} )
+\end{equation*}
+</div>
 </blockquote>
 </div>
 

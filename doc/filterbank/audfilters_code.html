@@ -123,55 +123,56 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   AUDFILTERS accepts the following optional parameters:</span>
 <span class="c">%</span>
-<span class="c">%     &#39;spacing&#39;,b       Specify the spacing between the filters, measured in</span>
-<span class="c">%                       scale units. Default value is b=1 for the scales</span>
-<span class="c">%                       &#39;erb&#39;, &#39;erb83&#39; and &#39;bark&#39;; the default is b=100 for</span>
-<span class="c">%                       &#39;mel&#39; and &#39;mel1000&#39;.</span>
+<span class="c">%     &#39;spacing&#39;,b        Specify the spacing between the filters, measured in</span>
+<span class="c">%                        scale units. Default value is b=1 for the scales</span>
+<span class="c">%                        &#39;erb&#39;, &#39;erb83&#39; and &#39;bark&#39;; the default is b=100 for</span>
+<span class="c">%                        &#39;mel&#39; and &#39;mel1000&#39;.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;bwmul&#39;,bwmul     Bandwidth of the filters relative to the bandwidth</span>
-<span class="c">%                       returned by AUDFILTBW. Default value is bwmul=1 for </span>
-<span class="c">%                       the scales &#39;erb&#39;, &#39;erb83&#39; and &#39;bark&#39;; the default is </span>
-<span class="c">%                       b=100 for &#39;mel&#39; and &#39;mel1000&#39;.</span>
+<span class="c">%     &#39;bwmul&#39;,bwmul      Bandwidth of the filters relative to the bandwidth</span>
+<span class="c">%                        returned by AUDFILTBW. Default value is bwmul=1 for </span>
+<span class="c">%                        the scales &#39;erb&#39;, &#39;erb83&#39; and &#39;bark&#39;; the default is </span>
+<span class="c">%                        b=100 for &#39;mel&#39; and &#39;mel1000&#39;.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;redmul&#39;,redmul   Redundancy multiplier. Increasing the value of this</span>
-<span class="c">%                       will make the system more redundant by lowering the</span>
-<span class="c">%                       channel downsampling rates. It is only used if the</span>
-<span class="c">%                       filterbank is a non-uniform filterbank. Default</span>
-<span class="c">%                       value is 1. If the value is less than one, the</span>
-<span class="c">%                       system may no longer be painless.</span>
+<span class="c">%     &#39;redmul&#39;,redmul    Redundancy multiplier. Increasing the value of this</span>
+<span class="c">%                        will make the system more redundant by lowering the</span>
+<span class="c">%                        channel downsampling rates. It is only used if the</span>
+<span class="c">%                        filterbank is a non-uniform filterbank. Default</span>
+<span class="c">%                        value is 1. If the value is less than one, the</span>
+<span class="c">%                        system may no longer be painless.</span>
 <span class="c">% </span>
-<span class="c">%     &#39;redtar&#39;,redtar   Target redundancy. The downsampling factors will be</span>
-<span class="c">%                       adjusted to achieve a redundancy as close as possible</span>
-<span class="c">%                       to &#39;redtar&#39;.</span>
+<span class="c">%     &#39;redtar&#39;,redtar    Target redundancy. The downsampling factors will be</span>
+<span class="c">%                        adjusted to achieve a redundancy as close as possible</span>
+<span class="c">%                        to &#39;redtar&#39;.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;M&#39;,M             Specify the total number of filters between fmin and </span>
-<span class="c">%                       fmax. If this parameter is specified, it overwrites the</span>
-<span class="c">%                       &#39;spacing&#39; parameter.</span>
+<span class="c">%     &#39;M&#39;,M              Specify the total number of filters between fmin and </span>
+<span class="c">%                        fmax. If this parameter is specified, it overwrites the</span>
+<span class="c">%                        &#39;spacing&#39; parameter.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;symmetric&#39;       Create filters that are symmetric around their centre</span>
-<span class="c">%                       frequency. This is the default.</span>
+<span class="c">%     &#39;symmetric&#39;        Create filters that are symmetric around their centre</span>
+<span class="c">%                        frequency. This is the default.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;warped&#39;          Create asymmetric filters that are symmetric on the</span>
-<span class="c">%                       auditory scale. </span>
+<span class="c">%     &#39;warped&#39;           Create asymmetric filters that are symmetric on the</span>
+<span class="c">%                        auditory scale. </span>
 <span class="c">%</span>
-<span class="c">%     &#39;complex&#39;         Construct a filterbank that covers the entire</span>
-<span class="c">%                       frequency range instead of just the positive </span>
-<span class="c">%                       frequencies this allows the analysis of complex</span>
-<span class="c">%                       valued signals.</span>
+<span class="c">%     &#39;complex&#39;          Construct a filterbank that covers the entire</span>
+<span class="c">%                        frequency range instead of just the positive </span>
+<span class="c">%                        frequencies this allows the analysis of complex</span>
+<span class="c">%                        valued signals.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;nosubprec&#39;       Disable subsample window positions.</span>
+<span class="c">%     &#39;nosubprec&#39;        Disable subsample window positions.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;trunc_at&#39;        When using a prototype defined in FREQWIN, a hard </span>
-<span class="c">%                       thresholding of the filters at the specified threshold </span>
-<span class="c">%                       value is performed to reduce their support size. </span>
-<span class="c">%                       The default value is trunc_at=10e-5. When no </span>
-<span class="c">%                       truncation is desired, trunc_at=0 should be chosen.</span>
-<span class="c">%                       This value is ignored when a prototype shape from</span>
-<span class="c">%                       FIRWIN was chosen.</span>
+<span class="c">%     &#39;trunc_at&#39;         When using a prototype defined in FREQWIN, a hard </span>
+<span class="c">%                        thresholding of the filters at the specified threshold </span>
+<span class="c">%                        value is performed to reduce their support size. </span>
+<span class="c">%                        The default value is trunc_at=10e-5. When no </span>
+<span class="c">%                        truncation is desired, trunc_at=0 should be chosen.</span>
+<span class="c">%                        This value is ignored when a prototype shape from</span>
+<span class="c">%                        FIRWIN was chosen.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;min_win&#39;,min_win Minimum admissible window length (in samples).</span>
-<span class="c">%                       Default is 4. This restrict the windows not</span>
-<span class="c">%                       to become too narrow when L is low.</span>
+<span class="c">%     &#39;min_win&#39;,min_win  Minimum admissible window length (in samples).</span>
+<span class="c">%                        Default is 4. This restrict the windows not</span>
+<span class="c">%                        to become too narrow when L is low.</span>
+<span class="c">%</span>
 <span class="c">%</span>
 <span class="c">%   Examples:</span>
 <span class="c">%   ---------</span>

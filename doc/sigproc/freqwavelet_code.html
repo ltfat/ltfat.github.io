@@ -99,14 +99,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                      the wavelet. The default value is 10^(-5).</span>
 <span class="c">%</span>
 <span class="c">%   The format of the output is controlled by the following flags:</span>
-<span class="c">%   &#39;full&#39; (default),&#39;econ&#39;,&#39;asblfilter&#39;:</span>
+<span class="c">%   &#39;full&#39; (default),&#39;econ&#39;,&#39;asfreqfilter&#39;:</span>
 <span class="c">%</span>
 <span class="c">%     &#39;full&#39;           The output is a L x numel(scale) matrix.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;econ&#39;           The output is a numel(scale) cell array with</span>
 <span class="c">%                      individual freq. domain wavelets truncated to the</span>
-<span class="c">%                      length of the effective support given by parametar</span>
-<span class="c">%                      &#39;efsuppthr&#39;.</span>
+<span class="c">%                      length of the effective support given by parameter &#39;efsuppthr&#39;.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;asfreqfilter&#39;   As &#39;econ&#39;, but the elements of the cell-array are</span>
 <span class="c">%                      filter structs with fields .H and .foff as in </span>
@@ -149,30 +148,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%       H = C xi^{frac{alpha-1}{2}} exp( -2pixi )</span>
 <span class="c">%</span>
-<span class="c">%          math: H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi )</span>
-<span class="c">%</span>
 <span class="c">%   Morse wavelet</span>
 <span class="c">%</span>
 <span class="c">%       H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )</span>
 <span class="c">%</span>
-<span class="c">%          math: H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} )</span>
-<span class="c">%</span>
 <span class="c">%   See also: normalize, filterbank, blfilter</span>
-
-<span class="c">% AUTHORS: Zdenek Prusa, Nicki Holighaus, Gunther Koliander</span>
-
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-
-<span class="k">if</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: L must be a scalar&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
-
-<span class="k">if</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">name</span> <span class="p">=</span> <span class="p">{</span><span class="n">name</span><span class="p">};</span> <span class="k">end</span>
-
-<span class="n">freqwavelettypes</span> <span class="p">=</span> <span class="n">getfield</span><span class="p">(</span><span class="n">arg_freqwavelet</span><span class="p">(),</span><span class="s">&#39;flags&#39;</span><span class="p">,</span><span class="s">&#39;wavelettype&#39;</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="o">~</span><span class="n">ischar</span><span class="p">(</span><span class="n">name</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span> <span class="o">||</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">name</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">freqwavelettypes</span><span class="p">))</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: First input argument must the name of a supported window.&#39;</span><span class="p">,</span><span class="c">...</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/freqwavelet.html</span>
 
@@ -191,6 +171,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">% AUTHORS: Zdenek Prusa, Nicki Holighaus, Gunther Koliander</span>
+
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: L must be a scalar&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">name</span> <span class="p">=</span> <span class="p">{</span><span class="n">name</span><span class="p">};</span> <span class="k">end</span>
+
+<span class="n">freqwavelettypes</span> <span class="p">=</span> <span class="n">getfield</span><span class="p">(</span><span class="n">arg_freqwavelet</span><span class="p">(),</span><span class="s">&#39;flags&#39;</span><span class="p">,</span><span class="s">&#39;wavelettype&#39;</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="o">~</span><span class="n">ischar</span><span class="p">(</span><span class="n">name</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span> <span class="o">||</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">name</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">freqwavelettypes</span><span class="p">))</span>
+  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: First input argument must the name of a supported window.&#39;</span><span class="p">,</span><span class="c">...</span>
         <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
