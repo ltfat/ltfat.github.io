@@ -154,13 +154,13 @@ the wavelet. The default value is 10^(-5).</td></tr>
 <td>The output is a <tt class="docutils literal">numel(scale)</tt> cell array with
 individual freq. domain wavelets truncated to the
 length of the effective support given by parameter 'efsuppthr'.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'asfreqfilter'</span></kbd></td>
+<td>As <tt class="docutils literal">'econ'</tt>, but the elements of the cell-array are
+filter structs with fields .H and .foff as in
+<span class="linkrole"><a href="#BASEURL#/doc/sigproc/blfilter.html">blfilter</a></span> to be used in <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</td></tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>'asfreqfilter'   As 'econ= but the elements of the cell-array are'</dt>
-<dd>filter structs with fields .H and .foff as in
-<span class="linkrole"><a href="#BASEURL#/doc/sigproc/blfilter.html">blfilter</a></span> to be used in <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</dd>
-</dl>
 <p><tt class="docutils literal"><span class="pre">[H,info]=freqwavelet(...)</span></tt> additionally returns a struct with the
 following fields:</p>
 <table class="docutils option-list" frame="void" rules="none">
@@ -207,7 +207,7 @@ applied.</p>
 <p><tt class="docutils literal">C</tt> is a normalization constant.</p>
 <p>Cauchy wavelet</p>
 <blockquote>
-<p>H = C xi^{frac{alpha-1}{2}} exp( -2pixi )</p>
+<!-- H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi ) -->
 <div class="math">
 \begin{equation*}
 H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi )
@@ -216,7 +216,7 @@ H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi )
 </blockquote>
 <p>Morse wavelet</p>
 <blockquote>
-<p>H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )</p>
+<!-- H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} ) -->
 <div class="math">
 \begin{equation*}
 H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} )

@@ -114,10 +114,11 @@ the positive valued coefficients <tt class="docutils literal">s</tt>.</p>
 <p>If <tt class="docutils literal">s</tt> is the absolute value of filterbank coefficients comming from
 a filterbank with filters with center frequencies <em>fc</em> and time-frequency
 ratios <em>tfr</em> and subsampling factors <em>a</em> i.e.:</p>
-<blockquote>
+<pre class="literal-block">
 [g,a,~,~,info] = ...filters(...);
 c = filterbank(f,g,a);
-s = abs(c);</blockquote>
+s = abs(c);
+</pre>
 <p>then <tt class="docutils literal">filterbankconstphase(s,a,info.fc,info.tfr)</tt> will attempt to
 reconstruct <em>c</em>.</p>
 <p><tt class="docutils literal">filterbankconstphase(c,a,fc,tfr,mask)</tt> accepts real or complex valued
@@ -135,7 +136,6 @@ This is directly compatible with <span class="linkrole"><a href="#BASEURL#/doc/f
 <div class="section" id="addition-parameters">
 <h2>Addition parameters</h2>
 <p>The function accepts the following additional paramaters:</p>
-<blockquote>
 <dl class="docutils">
 <dt>'tol',tol</dt>
 <dd>The phase is computed only for coefficients above <tt class="docutils literal">tol</tt>. The
@@ -163,7 +163,6 @@ contrast to 'filterbank', the 'wavelet' option does not contain the
 term involving the derivative of <tt class="docutils literal">sqrt(tfr)</tt>.
 See the references for more details.</dd>
 </dl>
-</blockquote>
 <p>This function requires a computational subroutine that is only
 available in C. Use <span class="linkrole"><a href="#BASEURL#/doc/base/ltfatmex.html">ltfatmex</a></span> to compile it.</p>
 </div>
