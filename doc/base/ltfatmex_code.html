@@ -88,8 +88,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/ltfatmex.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -127,6 +127,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">comptarget</span><span class="p">={</span><span class="s">&#39;release&#39;</span><span class="p">,</span><span class="s">&#39;debug&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">command</span><span class="p">={</span><span class="s">&#39;compile&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;test&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">={</span><span class="s">&#39;noverbose&#39;</span><span class="p">,</span><span class="s">&#39;verbose&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">mexapi</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;legacy&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mexfile</span> <span class="p">=</span> <span class="p">[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">jobs</span> <span class="p">=</span> <span class="p">[];</span>
 
 <span class="n">s</span> <span class="p">=</span> <span class="n">which</span><span class="p">(</span><span class="s">&#39;ltfatarghelper&#39;</span><span class="p">);</span>
@@ -312,8 +314,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     
     <span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span> <span class="p">=</span> <span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">,</span><span class="c">...</span>
                       <span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="n">ext</span><span class="p">,</span><span class="s">&#39;dfftw&#39;</span><span class="p">,</span><span class="n">dfftw</span><span class="p">,</span><span class="s">&#39;sfftw&#39;</span><span class="p">,</span><span class="n">sfftw</span><span class="p">,</span><span class="c">...</span>
-                      <span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">,</span><span class="c">...</span>
-                      <span class="s">&#39;comptarget&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">comptarget</span><span class="p">,</span><span class="s">&#39;jobs&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">);</span>
+                      <span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">mexfile</span><span class="p">,</span><span class="c">...</span>
+                      <span class="s">&#39;comptarget&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">comptarget</span><span class="p">,</span><span class="s">&#39;jobs&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">,</span><span class="c">...</span>
+                      <span class="n">flags</span><span class="p">.</span><span class="n">mexapi</span><span class="p">);</span>
 
     <span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">status</span><span class="p">)</span>
       <span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Done.&#39;</span><span class="p">);</span>
@@ -566,6 +569,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">portaudio</span><span class="p">=[];</span>
   <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">extra</span><span class="p">=[];</span>
   <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">jobs</span> <span class="p">=[];</span>
+  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">targetapi</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;legacy&#39;</span><span class="p">};</span>
   <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">={</span><span class="s">&#39;noverbose&#39;</span><span class="p">,</span><span class="s">&#39;verbose&#39;</span><span class="p">};</span>
   <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
   
@@ -601,10 +605,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
      <span class="n">systemCommand</span> <span class="p">=</span> <span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">extra</span><span class="p">,</span><span class="s">&#39;=1&#39;</span><span class="p">];</span> 
   <span class="k">end</span>
   
-  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">)</span>
-     <span class="n">systemCommand</span> <span class="p">=</span> <span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">];</span>  
-  <span class="k">end</span>
-  
   <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)</span>
       <span class="k">if</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)</span>
         <span class="n">systemCommand</span> <span class="p">=</span> <span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; -j%d&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)];</span>
@@ -612,12 +612,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <span class="n">systemCommand</span> <span class="p">=</span> <span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; -j%s&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)];</span>  
       <span class="k">end</span>
   <span class="k">end</span>
+ 
+  <span class="k">if</span> <span class="o">~</span><span class="n">isoctave</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_legacy</span>
+      <span class="n">matlabversion</span> <span class="p">=</span> <span class="n">version</span><span class="p">(</span><span class="s">&#39;-release&#39;</span><span class="p">);</span>
+      <span class="k">if</span> <span class="n">str2double</span><span class="p">(</span><span class="n">matlabversion</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">))</span> <span class="o">&gt;</span><span class="p">=</span> <span class="mi">2018</span>
+          <span class="n">systemCommand</span> <span class="p">=</span> <span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="s">&#39; POST2018a=1&#39;</span><span class="p">];</span> 
+      <span class="k">end</span>
+  <span class="k">end</span>
 
   <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_verbose</span>
       <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Calling:\n    %s\n\n&#39;</span><span class="p">,</span><span class="n">systemCommand</span><span class="p">);</span>
   <span class="k">end</span>
+  
+  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">)</span>
+       <span class="k">if</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">),</span> <span class="n">kv</span><span class="p">.</span><span class="n">target</span> <span class="p">=</span> <span class="p">{</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">};</span> <span class="k">end</span>
+       <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">)</span>
+           <span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]=</span><span class="n">system</span><span class="p">([</span><span class="n">systemCommand</span><span class="p">,</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">{</span><span class="n">ii</span><span class="p">}]);</span>
+       <span class="k">end</span>
+  <span class="k">else</span>
+        <span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]=</span><span class="n">system</span><span class="p">(</span><span class="n">systemCommand</span><span class="p">);</span>
+  <span class="k">end</span>
     
-  <span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]=</span><span class="n">system</span><span class="p">(</span><span class="n">systemCommand</span><span class="p">);</span>
+
   
   <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_verbose</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="n">isoctave</span>
      <span class="nb">disp</span><span class="p">(</span><span class="n">result</span><span class="p">);</span> 

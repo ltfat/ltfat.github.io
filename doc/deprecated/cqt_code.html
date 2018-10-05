@@ -1,0 +1,385 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>CQT - Constant-Q non-stationary Gabor filterbank</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="cqt.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/deprecated/icqt.html">icqt</a></li>
+<li><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">CQT - Constant-Q non-stationary Gabor filterbank</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,Ls,g,shift,M] <span class="p">=</span><span class="w"> </span><span class="nf">cqt</span><span class="p">(</span>f,fmin,fmax,bins,fs,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%CQT  Constant-Q non-stationary Gabor filterbank</span>
+<span class="c">%   Usage: [c,Ls,g,shift,M] = cqt(f,fmin,fmax,bins,fs,M)</span>
+<span class="c">%          [c,Ls,g,shift,M] = cqt(f,fmin,fmax,bins,fs)</span>
+<span class="c">%          [c,Ls,g,shift] = cqt(...)</span>
+<span class="c">%          [c,Ls] = cqt(...)</span>
+<span class="c">%          c = cqt(...)</span>
+<span class="c">%</span>
+<span class="c">%   Input parameters: </span>
+<span class="c">%         f         : The signal to be analyzed (For multichannel</span>
+<span class="c">%                     signals, input should be a matrix which each</span>
+<span class="c">%                     column storing a channel of the signal).</span>
+<span class="c">%         fmin      : Minimum frequency (in Hz)</span>
+<span class="c">%         fmax      : Maximum frequency (in Hz)</span>
+<span class="c">%         bins      : Vector consisting of the number of bins per octave</span>
+<span class="c">%         fs        : Sampling rate (in Hz)</span>
+<span class="c">%         M         : Number of time channels (optional)</span>
+<span class="c">%                     If M is constant, the output is converted to a</span>
+<span class="c">%                     matrix</span>
+<span class="c">%   Output parameters:</span>
+<span class="c">%         c         : Transform coefficients (matrix or cell array)</span>
+<span class="c">%         Ls        : Original signal length (in samples)</span>
+<span class="c">%         g         : Cell array of Fourier transforms of the analysis </span>
+<span class="c">%                     windows</span>
+<span class="c">%         shift     : Vector of frequency shifts</span>
+<span class="c">%         M         : Number of time channels</span>
+<span class="c">%</span>
+<span class="c">%   This function computes a constant-Q transform via non-stationary Gabor</span>
+<span class="c">%   filterbanks. Given the signal f, the constant-Q parameters fmin,</span>
+<span class="c">%   fmax and bins, as well as the sampling rate fs of f, the</span>
+<span class="c">%   corresponding constant-Q coefficients c are given as output. For</span>
+<span class="c">%   reconstruction, the length of f and the filterbank parameters can</span>
+<span class="c">%   be returned also.</span>
+<span class="c">% </span>
+<span class="c">%   The transform produces phase-locked coefficients in the</span>
+<span class="c">%   sense that each filter is considered to be centered at</span>
+<span class="c">%   0 and the signal itself is modulated accordingly.</span>
+<span class="c">%</span>
+<span class="c">%   Optional input arguments arguments can be supplied like this:</span>
+<span class="c">%       </span>
+<span class="c">%       cqt(f,fmin,fmax,bins,fs,&#39;min_win&#39;,min_win)</span>
+<span class="c">%</span>
+<span class="c">%   The arguments must be character strings followed by an</span>
+<span class="c">%   argument:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;min_win&#39;,min_win        Minimum admissible window length </span>
+<span class="c">%                              (in samples) </span>
+<span class="c">%</span>
+<span class="c">%     &#39;Qvar&#39;,Qvar              Bandwidth variation factor</span>
+<span class="c">%</span>
+<span class="c">%     &#39;M_fac&#39;,M_fac            Number of time channels are rounded to </span>
+<span class="c">%                              multiples of this</span>
+<span class="c">%</span>
+<span class="c">%     &#39;winfun&#39;,winfun          Filter prototype (see FIRWIN for available </span>
+<span class="c">%                              filters)</span>
+<span class="c">%     &#39;fractional&#39;             Allow fractional shifts and bandwidths</span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Example:</span>
+<span class="c">%   --------</span>
+<span class="c">%</span>
+<span class="c">%   The following example shows analysis and synthesis with CQT and ICQT:</span>
+<span class="c">%</span>
+<span class="c">%     [f,fs] = gspi;</span>
+<span class="c">%     fmin = 200;</span>
+<span class="c">%     fmax = fs/2;</span>
+<span class="c">%     [c,Ls,g,shift,M] = cqt(f,fmin,fmax,48,fs);</span>
+<span class="c">%     fr = icqt(c,g,shift,Ls);</span>
+<span class="c">%     rel_err = norm(f-fr)/norm(f);</span>
+<span class="c">%     plotfilterbank(c,Ls./M,[],fs,&#39;dynrange&#39;,60);</span>
+<span class="c">%</span>
+<span class="c">%   See also:  icqt, firwin</span>
+<span class="c">% </span>
+<span class="c">%   References:</span>
+<span class="c">%     N. Holighaus, M. Dörfler, G. A. Velasco, and T. Grill. A framework for</span>
+<span class="c">%     invertible, real-time constant-Q transforms. IEEE Transactions on</span>
+<span class="c">%     Audio, Speech and Language Processing, 21(4):775 --785, 2013.</span>
+<span class="c">%     </span>
+<span class="c">%     G. A. Velasco, N. Holighaus, M. Dörfler, and T. Grill. Constructing an</span>
+<span class="c">%     invertible constant-Q transform with non-stationary Gabor frames.</span>
+<span class="c">%     Proceedings of DAFX11, 2011.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%   Url: http://ltfat.github.io/doc/deprecated/cqt.html</span>
+
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">% Authors: Nicki Holighaus, Gino Velasco</span>
+<span class="c">% Date: 10.04.13</span>
+
+<span class="n">warning</span><span class="p">([</span><span class="s">&#39;LTFAT: CQT has been deprecated and will be removed&#39;</span><span class="p">,</span><span class="c">...</span>
+         <span class="s">&#39; in the future releases, please use CQTFILTERS and FILTERBANK instead.&#39;</span><span class="p">]);</span>   
+
+<span class="c">%% Check input arguments</span>
+<span class="k">if</span> <span class="n">nargin</span> <span class="o">&lt;</span> <span class="mi">5</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;Not enough input arguments&#39;</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c">% Set defaults</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">usrM</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Qvar</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">M_fac</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">min_win</span> <span class="p">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">winfun</span> <span class="p">=</span> <span class="s">&#39;hann&#39;</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">fractype</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;nofractional&#39;</span><span class="p">,</span><span class="s">&#39;fractional&#39;</span><span class="p">};</span>
+
+<span class="c">% Check input arguments</span>
+
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">keyvals</span><span class="p">,</span><span class="n">usrM</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;usrM&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+
+<span class="c">%% Create the CQ-NSGT dictionary</span>
+
+<span class="c">% Nyquist frequency</span>
+<span class="n">nf</span> <span class="p">=</span> <span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+<span class="c">% Limit fmax</span>
+<span class="k">if</span> <span class="n">fmax</span> <span class="o">&gt;</span> <span class="n">nf</span>
+    <span class="n">fmax</span> <span class="p">=</span> <span class="n">nf</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c">% Number of octaves</span>
+<span class="n">b</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="nb">log2</span><span class="p">(</span><span class="n">fmax</span><span class="o">/</span><span class="n">fmin</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="c">% Constant number of bins in each octave</span>
+    <span class="n">bins</span> <span class="p">=</span> <span class="n">bins</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">elseif</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">b</span>
+    <span class="c">% Pick bins for octaves for which it was not specified.</span>
+    <span class="n">bins</span> <span class="p">=</span> <span class="n">bins</span><span class="p">(:);</span>
+    <span class="n">bins</span><span class="p">(</span> <span class="n">bins</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span> <span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">bins</span> <span class="p">=</span> <span class="p">[</span><span class="n">bins</span> <span class="p">;</span> <span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">),</span><span class="mi">1</span><span class="p">)];</span>
+<span class="k">end</span>
+
+<span class="c">% Prepare frequency centers in Hz</span>
+<span class="n">fbas</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">bins</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">ll</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">);</span>
+    <span class="n">fbas</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)))</span> <span class="p">=</span> <span class="c">...</span>
+        <span class="n">fmin</span><span class="o">*</span><span class="mf">2.</span>^<span class="p">(((</span><span class="n">kk</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">):(</span><span class="n">kk</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)).</span><span class="o">&#39;/</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span>
+    <span class="n">ll</span> <span class="p">=</span> <span class="n">ll</span><span class="o">+</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c">% Get rid of filters with frequency centers &gt;=fmax and nf</span>
+<span class="n">temp</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">fbas</span><span class="o">&gt;</span><span class="p">=</span><span class="n">fmax</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">if</span> <span class="n">fbas</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">&gt;</span><span class="p">=</span> <span class="n">nf</span>
+    <span class="n">fbas</span> <span class="p">=</span> <span class="n">fbas</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">else</span>
+    <span class="n">fbas</span> <span class="p">=</span> <span class="n">fbas</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="n">Lfbas</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">fbas</span><span class="p">);</span>
+
+<span class="c">% Add filter at zero and nf frequencies</span>
+<span class="n">fbas</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="n">fbas</span><span class="p">;</span><span class="n">nf</span><span class="p">];</span>
+
+<span class="c">% Mirror other filters</span>
+<span class="c">% Length of fbas is now 2*(Lfbas+1)</span>
+<span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="p">=</span> <span class="n">fs</span><span class="o">-</span><span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c">% Convert frequency to samples</span>
+<span class="n">fbas</span> <span class="p">=</span> <span class="n">fbas</span><span class="o">*</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">fs</span><span class="p">);</span>
+
+<span class="c">% Set bandwidths</span>
+<span class="n">bw</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c">% Bandwidth of the low-pass filter around 0</span>
+<span class="n">bw</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fmin</span><span class="o">*</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">fs</span><span class="p">);</span>
+<span class="n">bw</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span>^<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">-</span><span class="mi">2</span>^<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">)));</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="p">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="n">Lfbas</span> <span class="p">,</span> <span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">bw</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">fbas</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="k">end</span>
+
+<span class="c">% Bandwidth of last filter before the one at the nf</span>
+<span class="n">bw</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span>^<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">))</span><span class="o">-</span><span class="mi">2</span>^<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)));</span>
+
+<span class="c">% Mirror bandwidths</span>
+<span class="n">bw</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bw</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c">% Make frequency centers integers</span>
+<span class="n">posit</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">fbas</span><span class="p">));</span>
+<span class="n">posit</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">));</span>
+<span class="n">posit</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">fbas</span><span class="p">(</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
+
+<span class="c">% Keeping center frequency and changing bandwidth =&gt; Q=fbas/bw</span>
+<span class="n">bw</span> <span class="p">=</span> <span class="n">keyvals</span><span class="p">.</span><span class="n">Qvar</span><span class="o">*</span><span class="n">bw</span><span class="p">;</span>
+
+<span class="c">% M - number of coefficients in output bands (number of time channels).</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fractional</span>
+    <span class="c">% Be pedantic about center frequencies by</span>
+    <span class="c">% sub-sample precision positioning of the frequency window.</span>
+    <span class="n">warning</span><span class="p">([</span><span class="s">&#39;Fractional sampling might lead to a warning when &#39;</span><span class="p">,</span> <span class="c">...</span>
+        <span class="s">&#39;computing the dual system&#39;</span><span class="p">]);</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
+    <span class="n">corr_shift</span> <span class="p">=</span> <span class="n">fbas</span><span class="o">-</span><span class="n">posit</span><span class="p">;</span>
+    <span class="n">M</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">bw</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">else</span>
+    <span class="c">% Using the integer frequency window position.</span>
+    <span class="n">bw</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">bw</span><span class="p">);</span>
+    <span class="n">M</span> <span class="p">=</span> <span class="n">bw</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="c">% Do not allow lower bandwidth than keyvals.min_win</span>
+<span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bw</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">keyvals</span><span class="p">.</span><span class="n">min_win</span><span class="p">;</span>
+        <span class="n">bw</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">keyvals</span><span class="p">.</span><span class="n">min_win</span><span class="p">;</span>
+        <span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="p">=</span> <span class="n">bw</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fractional</span>
+    <span class="c">% Generate windows, while providing the x values.</span>
+    <span class="c">% x - shift correction</span>
+    <span class="c">% y - window length</span>
+    <span class="c">% z - &#39;safe&#39; window length</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">)</span> <span class="c">...</span>
+        <span class="n">firwin</span><span class="p">(</span><span class="n">keyvals</span><span class="p">.</span><span class="n">winfun</span><span class="p">,([</span><span class="mi">0</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">z</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">z</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;-</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">y</span><span class="p">),</span><span class="n">corr_shift</span><span class="p">,</span><span class="c">...</span>
+        <span class="n">bw</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">else</span>
+    <span class="c">% Generate window, normalize to</span>
+    <span class="n">g</span> <span class="p">=</span> <span class="n">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">firwin</span><span class="p">(</span><span class="n">keyvals</span><span class="p">.</span><span class="n">winfun</span><span class="p">,</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="c">...</span>
+        <span class="n">bw</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c">% keyvals.M_fac is granularity of output bands lengths</span>
+<span class="c">% Round M to next integer multiple of keyvals.M_fac</span>
+<span class="n">M</span> <span class="p">=</span> <span class="n">keyvals</span><span class="p">.</span><span class="n">M_fac</span><span class="o">*</span><span class="nb">ceil</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">keyvals</span><span class="p">.</span><span class="n">M_fac</span><span class="p">);</span>
+
+<span class="c">% Middle-pad windows at 0 and Nyquist frequencies</span>
+<span class="c">% with constant region (tapering window) if the bandwidth is larger than</span>
+<span class="c">% of the next in line window.</span>
+<span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">Lfbas</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">g</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span> <span class="p">=</span> <span class="nb">ones</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">g</span><span class="p">{</span><span class="n">kk</span><span class="p">}((</span><span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):(</span><span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="c">...</span>
+            <span class="nb">ceil</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span> <span class="p">=</span> <span class="n">firwin</span><span class="p">(</span><span class="s">&#39;hann&#39;</span><span class="p">,</span><span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="o">+</span><span class="mi">1</span><span class="p">));</span>
+        <span class="n">g</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c">% The number of frequency channels</span>
+<span class="n">N</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">posit</span><span class="p">);</span>  
+
+<span class="c">% Handle the user defined output bands lengths.</span>
+<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">usrM</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">usrM</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">M</span> <span class="p">=</span> <span class="n">usrM</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">elseif</span> <span class="nb">numel</span><span class="p">(</span><span class="n">usrM</span><span class="p">)</span><span class="o">==</span><span class="n">N</span>
+        <span class="n">M</span> <span class="p">=</span> <span class="n">usrM</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Number of enties of parameter M does not comply &#39;</span><span class="p">,</span><span class="c">...</span>
+               <span class="s">&#39;with the number of frequency channels.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>    
+<span class="k">end</span>
+
+<span class="c">%% The CQ-NSG transform</span>
+
+<span class="c">% some preparation</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+
+<span class="n">c</span><span class="p">=</span><span class="n">cell</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="c">% Initialisation of the result</span>
+
+<span class="c">% Obtain input type</span>
+<span class="n">ftype</span> <span class="p">=</span> <span class="n">assert_classname</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="c">% The actual transform</span>
+
+<span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">N</span>
+    <span class="n">Lg</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span>
+    
+    <span class="n">idx</span> <span class="p">=</span> <span class="p">[</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">Lg</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)];</span>
+    <span class="n">win_range</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">posit</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">Ls</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">Lg</span> <span class="c">% if the number of frequency channels is too small,</span>
+        <span class="c">% aliasing is introduced</span>
+        <span class="n">col</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">));</span>
+        <span class="n">temp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">col</span><span class="o">*</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">W</span><span class="p">,</span><span class="n">ftype</span><span class="p">);</span>
+        
+        <span class="n">temp</span><span class="p">([</span><span class="k">end</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)],:)</span> <span class="p">=</span> <span class="c">...</span>
+            <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:),</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}(</span><span class="n">idx</span><span class="p">));</span>
+        <span class="n">temp</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">col</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
+        
+        <span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="nb">squeeze</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="mi">2</span><span class="p">)));</span>
+        
+        <span class="c">% Using c = cellfun(@(x) squeeze(ifft(x)),c,&#39;UniformOutput&#39;,0);</span>
+        <span class="c">% outside the loop instead does not provide speedup; instead it is</span>
+        <span class="c">% slower in most cases.</span>
+    <span class="k">else</span>
+        <span class="n">temp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">W</span><span class="p">,</span><span class="n">ftype</span><span class="p">);</span>
+        <span class="n">temp</span><span class="p">([</span><span class="k">end</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)],:)</span> <span class="p">=</span> <span class="c">...</span>
+            <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:),</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}(</span><span class="n">idx</span><span class="p">));</span>
+        
+        <span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">ifft</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c">% Reshape to a matrix if coefficient bands have uniform lengths.</span>
+<span class="c">% This is maybe too confuzing.</span>
+<span class="k">if</span> <span class="n">max</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">==</span> <span class="n">min</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c">% Return relative shifts between filters in frequency in samples</span>
+<span class="c">% This does not correctly handle the fractional frequency positioning.</span>
+<span class="k">if</span> <span class="n">nargout</span> <span class="o">&gt;</span> <span class="mi">3</span>
+    <span class="n">shift</span> <span class="p">=</span> <span class="p">[</span><span class="nb">mod</span><span class="p">(</span><span class="o">-</span><span class="n">posit</span><span class="p">(</span><span class="k">end</span><span class="p">),</span><span class="n">Ls</span><span class="p">);</span> <span class="n">diff</span><span class="p">(</span><span class="n">posit</span><span class="p">)];</span>
+<span class="k">end</span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

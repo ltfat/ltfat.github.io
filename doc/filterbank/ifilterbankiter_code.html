@@ -132,8 +132,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/ifilterbankiter.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -154,19 +154,35 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">tolchooser</span><span class="p">.</span><span class="n">single</span><span class="p">=</span><span class="mf">1e-5</span><span class="p">;</span>
 
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="n">classofc</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">={</span><span class="s">&#39;pcg&#39;</span><span class="p">,</span><span class="s">&#39;cg&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="nb">real</span><span class="p">={</span><span class="s">&#39;real&#39;</span><span class="p">,</span><span class="s">&#39;complex&#39;</span><span class="p">};</span>
 <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
-    <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
+        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;ufilterbankreal&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+    <span class="k">else</span>
+        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+    <span class="k">end</span>
 <span class="k">else</span>
-    <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
+        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+    <span class="k">else</span>
+        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
+    <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">relres</span><span class="p">,</span><span class="n">iter</span><span class="p">]</span> <span class="p">=</span> <span class="n">frsyniter</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">framenative2coef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">c</span><span class="p">),</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>cl <span class="p">=</span><span class="w"> </span><span class="nf">classofc</span><span class="p">(</span>c<span class="p">)</span><span class="w"></span>
+<span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">cl</span> <span class="p">=</span> <span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span>
+<span class="k">else</span>
+    <span class="n">cl</span> <span class="p">=</span> <span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="k">end</span>
 </pre></div>
 
 

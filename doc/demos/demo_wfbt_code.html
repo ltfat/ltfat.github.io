@@ -76,8 +76,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_wfbt.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -94,7 +94,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">% Load a test signal and resample it to 48 kHz since such sampling</span>
 <span class="c">% rate is assumed in the reference.</span>
-<span class="n">f</span> <span class="p">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">greasy</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">=</span> <span class="n">dctresample</span><span class="p">(</span><span class="n">greasy</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="nb">numel</span><span class="p">(</span><span class="n">greasy</span><span class="p">));</span>
 <span class="n">fs</span> <span class="p">=</span> <span class="mi">48000</span><span class="p">;</span>
 
 <span class="c">% Bark-like filterbank tree</span>

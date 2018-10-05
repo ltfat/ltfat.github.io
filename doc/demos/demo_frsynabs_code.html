@@ -60,11 +60,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%      This figure shows a spectrogram of an iterative reconstruction of the</span>
 <span class="c">%      target spectrogram using the Griffin-Lim projection method.</span>
 <span class="c">%</span>
-<span class="c">%   Figure 4: Iterative reconstruction using the BFGS method.</span>
-<span class="c">%</span>
-<span class="c">%      This figure shows a spectrogram of an iterative reconstruction of the</span>
-<span class="c">%      target spectrogram using the BFGS method.</span>
-<span class="c">%</span>
 <span class="c">%   The BFGS method makes use of the minFunc software. To use the BFGS method, </span>
 <span class="c">%   please install the minFunc software from:</span>
 <span class="c">%   http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.</span>
@@ -73,8 +68,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_frsynabs.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -105,10 +100,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 <span class="n">sig_griflim</span> <span class="p">=</span> <span class="n">frsynabs</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">scoef</span><span class="p">);</span>
 <span class="n">sgram</span><span class="p">(</span><span class="n">sig_griflim</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
-
-<span class="n">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-<span class="n">sig_bfgs</span> <span class="p">=</span> <span class="n">frsynabs</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">scoef</span><span class="p">,</span><span class="s">&#39;bfgs&#39;</span><span class="p">);</span>
-<span class="n">sgram</span><span class="p">(</span><span class="n">sig_bfgs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
 </pre></div>
 
 

@@ -1,0 +1,213 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>CQT - Constant-Q non-stationary Gabor filterbank</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="cqt_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/deprecated/icqt.html">icqt</a></li>
+<li><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">CQT - Constant-Q non-stationary Gabor filterbank</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+[c,Ls,g,shift,M] = cqt(f,fmin,fmax,bins,fs,M)
+[c,Ls,g,shift,M] = cqt(f,fmin,fmax,bins,fs)
+[c,Ls,g,shift] = cqt(...)
+[c,Ls] = cqt(...)
+c = cqt(...)
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>f</var></span></kbd></td>
+<td>The signal to be analyzed (For multichannel
+signals, input should be a matrix which each
+column storing a channel of the signal).</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>fmin</var></span></kbd></td>
+<td>Minimum frequency (in Hz)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>fmax</var></span></kbd></td>
+<td>Maximum frequency (in Hz)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>bins</var></span></kbd></td>
+<td>Vector consisting of the number of bins per octave</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>fs</var></span></kbd></td>
+<td>Sampling rate (in Hz)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>M</var></span></kbd></td>
+<td>Number of time channels (optional)
+If M is constant, the output is converted to a
+matrix</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>c</var></span></kbd></td>
+<td>Transform coefficients (matrix or cell array)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>Ls</var></span></kbd></td>
+<td>Original signal length (in samples)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>g</var></span></kbd></td>
+<td>Cell array of Fourier transforms of the analysis
+windows</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>shift</var></span></kbd></td>
+<td>Vector of frequency shifts</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>M</var></span></kbd></td>
+<td>Number of time channels</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p>This function computes a constant-Q transform via non-stationary Gabor
+filterbanks. Given the signal <em>f</em>, the constant-Q parameters <em>fmin</em>,
+<em>fmax</em> and <em>bins</em>, as well as the sampling rate <em>fs</em> of <em>f</em>, the
+corresponding constant-Q coefficients <em>c</em> are given as output. For
+reconstruction, the length of <em>f</em> and the filterbank parameters can
+be returned also.</p>
+<p>The transform produces phase-locked coefficients in the
+sense that each filter is considered to be centered at
+0 and the signal itself is modulated accordingly.</p>
+<p>Optional input arguments arguments can be supplied like this:</p>
+<pre class="literal-block">
+cqt(f,fmin,fmax,bins,fs,'min_win',min_win)
+</pre>
+<p>The arguments must be character strings followed by an
+argument:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'min_win',<var>min_win</var></span></kbd></td>
+<td>Minimum admissible window length
+(in samples)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'Qvar',<var>Qvar</var></span></kbd></td>
+<td>Bandwidth variation factor</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'M_fac',<var>M_fac</var></span></kbd></td>
+<td>Number of time channels are rounded to
+multiples of this</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'winfun',<var>winfun</var></span></kbd></td>
+<td>Filter prototype (see <span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> for available
+filters)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'fractional'</span></kbd></td>
+<td>Allow fractional shifts and bandwidths</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="example">
+<h2>Example:</h2>
+<p>The following example shows analysis and synthesis with <span class="linkrole"><a href="#BASEURL#/doc/deprecated/cqt.html">cqt</a></span> and <span class="linkrole"><a href="#BASEURL#/doc/deprecated/icqt.html">icqt</a></span>:</p>
+<pre class="literal-block">
+[f,fs] = gspi;
+fmin = 200;
+fmax = fs/2;
+[c,Ls,g,shift,M] = cqt(f,fmin,fmax,48,fs);
+fr = icqt(c,g,shift,Ls);
+rel_err = norm(f-fr)/norm(f);
+plotfilterbank(c,Ls./M,[],fs,'dynrange',60);
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+[Warning: LTFAT: CQT has been deprecated and will be removed in the future releases, please use CQTFILTERS and
+FILTERBANK instead.]
+[&gt; In cqt (line 79)
+  In plotexec (line 8)]
+[Warning: LTFAT: ICQT has been deprecated and will be removed in the future releases, please use FILTERBANKDUAL
+and IFILTERBANK or IFILTERBANK instead.]
+[&gt; In icqt (line 34)
+  In plotexec (line 9)]
+</pre>
+<img alt="cqt_1_1.png" class="align-center" src="cqt_1_1.png" />
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="dogrhove12"></a>
+
+N.&nbsp;Holighaus, M.&nbsp;D&ouml;rfler, G.&nbsp;A. Velasco, and T.&nbsp;Grill.
+ A framework for invertible, real-time constant-Q transforms.
+ <em>IEEE Transactions on Audio, Speech and Language Processing</em>,
+  21(4):775 --785, 2013.
+
+</p>
+
+<p><a name="dogrhove11"></a>
+
+G.&nbsp;A. Velasco, N.&nbsp;Holighaus, M.&nbsp;D&ouml;rfler, and T.&nbsp;Grill.
+ Constructing an invertible constant-Q transform with
+  non-stationary Gabor frames.
+ <em>Proceedings of DAFX11</em>, 2011.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

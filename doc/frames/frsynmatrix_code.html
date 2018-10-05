@@ -76,8 +76,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/frames/frsynmatrix.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -127,22 +127,58 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
             <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
         <span class="c">%end;</span>
 <span class="k">else</span>
-    
-  <span class="c">% Generic code handles all frames where there are no extra coefficients</span>
-  <span class="c">% in the representation</span>
   <span class="n">Ncoef</span> <span class="p">=</span> <span class="n">framered</span><span class="p">(</span><span class="n">F</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
   <span class="c">% sprintf for Octave compatibility</span>
   <span class="n">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Ncoef</span><span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">))</span><span class="o">&lt;</span><span class="mf">1e-3</span><span class="p">,</span><span class="c">...</span>
          <span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;%s: There is a bug. Ncoef=%d should be an integer.&#39;</span><span class="p">,</span><span class="c">...</span>
          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">Ncoef</span><span class="p">));</span>
+  <span class="c">% Fix the system length</span>
+  <span class="n">Faccel</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
   <span class="n">Ncoef</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">);</span>
   <span class="n">G</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">Ncoef</span><span class="p">);</span>
-  <span class="n">tmpf</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">tmpf</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">for</span> <span class="n">n</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">Ncoef</span>
-      <span class="n">G</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span> <span class="p">=</span> <span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tmpf</span><span class="p">);</span>
-      <span class="n">tmpf</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">tmpf</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+  
+  <span class="n">Ftype</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">;</span>
+  
+  <span class="k">if</span> <span class="n">strcmpi</span><span class="p">(</span><span class="n">Ftype</span><span class="p">,</span><span class="s">&#39;filterbank&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">all</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="c">% Only integer-subsamped filterbanks are translation-invariant</span>
+      <span class="n">Ftype</span> <span class="p">=</span> <span class="s">&#39;regfilterbank&#39;</span><span class="p">;</span>
+  <span class="k">end</span>
+
+  <span class="k">switch</span> <span class="n">Ftype</span>
+      <span class="k">case</span> <span class="p">{</span><span class="s">&#39;ufwt&#39;</span><span class="p">,</span><span class="s">&#39;uwfbt&#39;</span><span class="p">,</span><span class="s">&#39;uwpfbt&#39;</span><span class="p">}</span>
+          <span class="k">for</span> <span class="n">nstep</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="p">:</span><span class="n">Ncoef</span>
+              <span class="n">G</span><span class="p">(:,</span><span class="n">nstep</span><span class="p">)</span> <span class="p">=</span> <span class="n">comp_framevector</span><span class="p">(</span><span class="n">Faccel</span><span class="p">,</span> <span class="n">Ncoef</span><span class="p">,</span> <span class="n">nstep</span><span class="p">);</span>
+              <span class="k">for</span> <span class="n">l</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span>
+                 <span class="n">G</span><span class="p">(:,</span> <span class="n">nstep</span><span class="o">+</span><span class="n">l</span><span class="p">)</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">G</span><span class="p">(:,</span> <span class="n">nstep</span><span class="o">+</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+              <span class="k">end</span>
+          <span class="k">end</span>
+      <span class="k">case</span> <span class="p">{</span><span class="s">&#39;wfbt&#39;</span><span class="p">,</span><span class="s">&#39;wpfbt&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">,</span><span class="s">&#39;regfilterbank&#39;</span><span class="p">}</span>
+          <span class="n">cnative</span> <span class="p">=</span> <span class="n">framecoef2native</span><span class="p">(</span><span class="n">Faccel</span><span class="p">,</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+          <span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">cnative</span><span class="p">)</span>
+              <span class="n">Lc</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span> <span class="nb">size</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">cnative</span><span class="p">);</span>
+          <span class="k">else</span>
+              <span class="n">Lc</span> <span class="p">=</span> <span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">cnative</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">size</span><span class="p">(</span><span class="n">cnative</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+          <span class="k">end</span>
+          <span class="n">nstep</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">Lc</span><span class="p">)</span>
+              <span class="n">G</span><span class="p">(:,</span><span class="n">nstep</span><span class="p">)</span> <span class="p">=</span> <span class="n">comp_framevector</span><span class="p">(</span><span class="n">Faccel</span><span class="p">,</span> <span class="n">Ncoef</span><span class="p">,</span> <span class="n">nstep</span><span class="p">);</span>
+              <span class="k">for</span> <span class="n">l</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">Lc</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+                 <span class="n">G</span><span class="p">(:,</span> <span class="n">nstep</span><span class="o">+</span><span class="n">l</span><span class="p">)</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">G</span><span class="p">(:,</span> <span class="n">nstep</span> <span class="o">+</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">L</span><span class="o">/</span><span class="n">Lc</span><span class="p">(</span><span class="n">ii</span><span class="p">));</span>
+              <span class="k">end</span>              
+              <span class="n">nstep</span> <span class="p">=</span> <span class="n">nstep</span> <span class="o">+</span> <span class="n">Lc</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+          <span class="k">end</span>
+      <span class="k">otherwise</span>
+          <span class="n">tmpf</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">tmpf</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="k">for</span> <span class="n">n</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">Ncoef</span>
+              <span class="n">G</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span> <span class="p">=</span> <span class="n">Faccel</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">tmpf</span><span class="p">);</span>
+              <span class="n">tmpf</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">tmpf</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+          <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span>g <span class="p">=</span><span class="w"> </span><span class="nf">comp_framevector</span><span class="p">(</span>Faccel,Ncoef,nidx<span class="p">)</span><span class="w"></span>
+<span class="n">tmpf</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">tmpf</span><span class="p">(</span><span class="n">nidx</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">g</span> <span class="p">=</span> <span class="n">Faccel</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">tmpf</span><span class="p">);</span>
 </pre></div>
 
 

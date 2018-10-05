@@ -104,6 +104,10 @@ undecimated wavelet packet filterbank tree can be constructed by selecting
 similar to this, you can enter the name of any of the cosine or sine
 transforms <span class="linkrole"><a href="#BASEURL#/doc/fourier/dcti.html">dcti</a></span>, <span class="linkrole"><a href="#BASEURL#/doc/fourier/dctii.html">dctii</a></span>, <span class="linkrole"><a href="#BASEURL#/doc/fourier/dctiii.html">dctiii</a></span>, <span class="linkrole"><a href="#BASEURL#/doc/fourier/dctiv.html">dctiv</a></span>, <span class="linkrole"><a href="#BASEURL#/doc/fourier/dsti.html">dsti</a></span>, <span class="linkrole"><a href="#BASEURL#/doc/fourier/dstii.html">dstii</a></span>,
 <span class="linkrole"><a href="#BASEURL#/doc/fourier/dstiii.html">dstiii</a></span> or <span class="linkrole"><a href="#BASEURL#/doc/fourier/dstiv.html">dstiv</a></span>.</p>
+<p><tt class="docutils literal"><span class="pre">frame('reddft',red)</span></tt> constructs so called harmonic Parseval tight
+frame or redundant dft with redundancy <tt class="docutils literal">red</tt>. The frame accepts any
+<tt class="docutils literal">red</tt>, but <span class="linkrole"><a href="#BASEURL#/doc/frames/frana.html">frana</a></span> will only work for signal lengths <tt class="docutils literal">Ls</tt> for which
+the number of coefficients <tt class="docutils literal">Ls*red</tt> is an integer.</p>
 <p><tt class="docutils literal"><span class="pre">frame('dftreal')</span></tt> constructs a normalized <span class="linkrole"><a href="#BASEURL#/doc/fourier/fftreal.html">fftreal</a></span> basis for
 real-valued signals of even length only. The basis is normalized
 to ensure that is it orthonormal.</p>

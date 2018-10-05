@@ -54,7 +54,8 @@ H = freqwin(name,L,bw);
 <p><tt class="docutils literal">freqwin(name,L,bw)</tt> returns a frequency window <em>name</em> of length <em>L</em>
 with the mainlobe -6dB (half height) bandwidth <em>bw</em>. It is intended to
 represent frequency response of a band-pass filter/window with
-bandwidth <em>bw</em>. The bandwidth is given in normalised frequencies.</p>
+bandwidth <em>bw</em>. The bandwidth is given in frequencies normalized
+to the Nyquist rate.</p>
 <p>The function is not periodically wrapped should it be nonzero outside
 of the <em>L</em> samples (as opposed to e.g. <span class="linkrole"><a href="#BASEURL#/doc/fourier/pgauss.html">pgauss</a></span>).</p>
 <p>The following windows can be used in place of <em>name</em>:</p>

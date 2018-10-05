@@ -189,7 +189,7 @@ to 'redtar'.</dd>
 frequency. This is the default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'warped'</span></kbd></td>
-<td>Create asymmetric filters that are asymmetric on the
+<td>Create asymmetric filters that are symmetric on the
 auditory scale.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'complex'</span></kbd></td>
@@ -197,6 +197,9 @@ auditory scale.</td></tr>
 frequency range instead of just the positive
 frequencies this allows the analysis of complex
 valued signals.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nosubprec'</span></kbd></td>
+<td>Disable subsample window positions.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'trunc_at'</span></kbd></td>
 <td>When using a prototype defined in <span class="linkrole"><a href="#BASEURL#/doc/sigproc/freqwin.html">freqwin</a></span>, a hard
@@ -261,7 +264,7 @@ filterbankfreqz(g,a,L,fs,'plot','linabs','posfreq');
 <pre class="literal-block">
 ans =
 
-   8.2506e-15
+   7.4235e-15
 </pre>
 <img alt="audfilters_2_1.png" class="align-center" src="audfilters_2_1.png" />
 <img alt="audfilters_2_2.png" class="align-center" src="audfilters_2_2.png" />

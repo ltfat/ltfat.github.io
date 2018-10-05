@@ -84,8 +84,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/freqfilter.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -126,10 +126,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Sanitize</span>
 <span class="n">kv</span><span class="p">.</span><span class="n">fc</span><span class="p">=</span><span class="n">modcent</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">fc</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 
-<span class="n">Lw</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">,</span><span class="n">bw</span><span class="p">)</span> <span class="n">min</span><span class="p">(</span><span class="nb">ceil</span><span class="p">(</span><span class="n">bw</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">bwtruncmul</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">),</span><span class="n">L</span><span class="p">);</span>
+<span class="n">Lw</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">,</span><span class="n">bw</span><span class="p">)</span> <span class="n">min</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">bw</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">bwtruncmul</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">),</span><span class="n">L</span><span class="p">);</span>
     
 <span class="n">fsRestricted</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">,</span><span class="n">bw</span><span class="p">)</span> <span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="o">/</span><span class="n">L</span><span class="o">*</span><span class="n">Lw</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">bw</span><span class="p">);</span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">pedantic</span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_pedantic</span>
     <span class="n">fc_offset</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">,</span><span class="n">fc</span><span class="p">)</span> <span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">fc</span><span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">fc</span><span class="p">);</span>
 <span class="k">else</span>
     <span class="n">fc_offset</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">,</span><span class="n">fc</span><span class="p">)</span> <span class="mi">0</span><span class="p">;</span>

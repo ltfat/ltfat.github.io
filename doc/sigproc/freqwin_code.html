@@ -50,7 +50,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   FREQWIN(name,L,bw) returns a frequency window name of length L </span>
 <span class="c">%   with the mainlobe -6dB (half height) bandwidth bw. It is intended to</span>
 <span class="c">%   represent frequency response of a band-pass filter/window with </span>
-<span class="c">%   bandwidth bw. The bandwidth is given in normalised frequencies.</span>
+<span class="c">%   bandwidth bw. The bandwidth is given in frequencies normalized</span>
+<span class="c">%   to the Nyquist rate.</span>
 <span class="c">%</span>
 <span class="c">%   The function is not periodically wrapped should it be nonzero outside</span>
 <span class="c">%   of the L samples (as opposed to e.g. PGAUSS).</span>
@@ -91,8 +92,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/freqwin.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -138,7 +139,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">shift</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fs</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">atheight</span> <span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">/</span><span class="mi">10</span><span class="p">);</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">,</span><span class="s">&#39;freqwin&#39;</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">shift</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span> <span class="k">end</span>
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_hp</span><span class="p">,</span> <span class="n">kv</span><span class="p">.</span><span class="n">shift</span><span class="p">=</span><span class="mf">0.5</span><span class="p">;</span> <span class="k">end</span>

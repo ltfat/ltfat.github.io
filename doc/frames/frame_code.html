@@ -111,6 +111,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   transforms DCTI, DCTII, DCTIII, DCTIV, DSTI, DSTII,</span>
 <span class="c">%   DSTIII or DSTIV.</span>
 <span class="c">%</span>
+<span class="c">%   FRAME(&#39;reddft&#39;,red) constructs so called harmonic Parseval tight</span>
+<span class="c">%   frame or redundant dft with redundancy red. The frame accepts any </span>
+<span class="c">%   red, but FRANA will only work for signal lengths Ls for which </span>
+<span class="c">%   the number of coefficients Ls*red is an integer.</span>
+<span class="c">%</span>
 <span class="c">%   FRAME(&#39;dftreal&#39;) constructs a normalized FFTREAL basis for</span>
 <span class="c">%   real-valued signals of even length only. The basis is normalized</span>
 <span class="c">%   to ensure that is it orthonormal.</span>
@@ -176,8 +181,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/frames/frame.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -320,11 +325,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">case</span> <span class="s">&#39;identity&#39;</span>
     <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">=@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">insig</span><span class="p">;</span>
     <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">=@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">insig</span><span class="p">;</span>
-    
+ 
   <span class="k">case</span> <span class="s">&#39;dft&#39;</span>
     <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">=@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">dft</span><span class="p">(</span><span class="n">insig</span><span class="p">,[],</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">=@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">idft</span><span class="p">(</span><span class="n">insig</span><span class="p">,[],</span><span class="mi">1</span><span class="p">);</span>
     
+  <span class="k">case</span> <span class="s">&#39;reddft&#39;</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">red</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="n">nargin</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">F</span><span class="p">.</span><span class="n">red</span> <span class="p">=</span> <span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span> <span class="k">end</span>
+    <span class="k">if</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="p">)</span> <span class="o">||</span> <span class="n">F</span><span class="p">.</span><span class="n">red</span> <span class="o">&lt;</span> <span class="mi">1</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Redundancy must be greater or equal to 1.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="k">end</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">frana</span>     <span class="p">=</span> <span class="p">@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">dft</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="o">*</span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span>     <span class="p">=</span> <span class="p">@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">postpad</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">insig</span><span class="p">,[],</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="p">);</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">lengthcoef</span><span class="p">=</span> <span class="p">@(</span><span class="n">Ncoef</span><span class="p">)</span> <span class="n">Ncoef</span><span class="o">/</span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="p">;</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">clength</span>   <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)</span> <span class="n">L</span><span class="o">*</span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="p">;</span>
+
   <span class="k">case</span> <span class="s">&#39;dftreal&#39;</span>
     <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">=@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">fftreal</span><span class="p">(</span><span class="n">insig</span><span class="p">,[],</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
     <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">=@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">ifftreal</span><span class="p">(</span><span class="n">insig</span><span class="p">,(</span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">((</span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">);</span>

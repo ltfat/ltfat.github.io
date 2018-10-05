@@ -34,7 +34,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
 <li><a href="#BASEURL#/doc/filterbank/erbfilters.html">erbfilters</a></li>
-<li><a href="#BASEURL#/doc/filterbank/cqt.html">cqt</a></li>
+<li><a href="#BASEURL#/doc/deprecated/cqt.html">cqt</a></li>
 <li><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></li>
 <li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
 </ul>
@@ -88,7 +88,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <td>Downsampling rate for each channel.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>fc</var></span></kbd></td>
-<td>Center frequency of each channel.</td></tr>
+<td>Center frequency of each channel (in Hz).</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>L</var></span></kbd></td>
 <td>Next admissible length suitable for the generated filters.</td></tr>
@@ -142,14 +142,13 @@ and low redundancy at the same time are desirable.</p>
 <tr><td class="option-group">
 <kbd><span class="option">'Qvar',<var>Qvar</var></span></kbd></td>
 <td>Bandwidth variation factor. Multiplies the
-calculated bandwidth. Default value is <em>1</em>.
-If the value is less than one, the
+calculated bandwidth (divides Q).
+Default value is <em>1</em>.
+If the value is larger than one, the
 system may no longer be painless.</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">'subprec'</span></kbd></td>
-<td>Allow subsample window positions and
-bandwidths to better approximate the constant-Q
-property.</td></tr>
+<kbd><span class="option">'nosubprec'</span></kbd></td>
+<td>Disable subsample window positions.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'complex'</span></kbd></td>
 <td>Construct a filter bank that covers the entire
@@ -220,7 +219,7 @@ filterbankfreqz(g,a,L,fs,'plot','linabs','posfreq');
 <pre class="literal-block">
 ans =
 
-   8.2993e-15
+   7.6689e-15
 </pre>
 <img alt="cqtfilters_2_1.png" class="align-center" src="cqtfilters_2_1.png" />
 <img alt="cqtfilters_2_2.png" class="align-center" src="cqtfilters_2_2.png" />

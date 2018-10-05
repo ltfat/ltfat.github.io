@@ -34,7 +34,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
 <li><a href="#BASEURL#/doc/filterbank/erbfilters.html">erbfilters</a></li>
-<li><a href="#BASEURL#/doc/filterbank/cqt.html">cqt</a></li>
+<li><a href="#BASEURL#/doc/deprecated/cqt.html">cqt</a></li>
 <li><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></li>
 <li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
 </ul>
@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">CQTFILTERS - CQT-spaced filters</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,a,fc,L]<span class="p">=</span><span class="nf">cqtfilters</span><span class="p">(</span>fs,fmin,fmax,bins,Ls,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,a,fc,L,info]<span class="p">=</span><span class="nf">cqtfilters</span><span class="p">(</span>fs,fmin,fmax,bins,Ls,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%CQTFILTERS   CQT-spaced filters</span>
 <span class="c">%   Usage:  [g,a,fc]=cqtfilters(fs,fmin,fmax,bins,Ls,varargin);</span>
 <span class="c">%           </span>
@@ -58,7 +58,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Output parameters:</span>
 <span class="c">%      g     : Cell array of filters.</span>
 <span class="c">%      a     : Downsampling rate for each channel.</span>
-<span class="c">%      fc    : Center frequency of each channel.</span>
+<span class="c">%      fc    : Center frequency of each channel (in Hz).</span>
 <span class="c">%      L     : Next admissible length suitable for the generated filters.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a,fc]=CQTFILTERS(fs,fmin,fmax,bins,Ls) constructs a set of</span>
@@ -109,13 +109,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   CQTFILTERS accepts the following optional parameters:</span>
 <span class="c">%</span>
 <span class="c">%     &#39;Qvar&#39;,Qvar           Bandwidth variation factor. Multiplies the</span>
-<span class="c">%                           calculated bandwidth. Default value is 1.</span>
-<span class="c">%                           If the value is less than one, the</span>
+<span class="c">%                           calculated bandwidth (divides Q). </span>
+<span class="c">%                           Default value is 1.</span>
+<span class="c">%                           If the value is larger than one, the</span>
 <span class="c">%                           system may no longer be painless.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;subprec&#39;             Allow subsample window positions and</span>
-<span class="c">%                           bandwidths to better approximate the constant-Q</span>
-<span class="c">%                           property.</span>
+<span class="c">%     &#39;nosubprec&#39;           Disable subsample window positions.</span>
 <span class="c">%</span>
 <span class="c">%     &#39;complex&#39;             Construct a filter bank that covers the entire</span>
 <span class="c">%                           frequency range. When missing, only positive</span>
@@ -197,8 +196,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/cqtfilters.html</span>
 
-<span class="c">% Copyright (C) 2005-2016 Peter L. Soendergaard &lt;peter@sonderport.dk&gt;.</span>
-<span class="c">% This file is part of LTFAT version 2.3.1</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
+<span class="c">% This file is part of LTFAT version 2.4.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -220,9 +219,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%% Check input arguments</span>
 <span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;fs&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span><span class="s">&#39;fmin&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">fmax</span><span class="p">,</span><span class="s">&#39;fmax&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="n">complainif_notposscalar</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;fs&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="n">complainif_notposscalar</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span><span class="s">&#39;fmin&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="n">complainif_notposscalar</span><span class="p">(</span><span class="n">fmax</span><span class="p">,</span><span class="s">&#39;fmax&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span><span class="s">&#39;bins&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 
@@ -230,22 +229,40 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: fmin has to be less than fmax.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;firwin&#39;</span><span class="p">};</span>
+<span class="n">firwinflags</span><span class="p">=</span><span class="n">getfield</span><span class="p">(</span><span class="n">arg_firwin</span><span class="p">,</span><span class="s">&#39;flags&#39;</span><span class="p">,</span><span class="s">&#39;wintype&#39;</span><span class="p">);</span>
+<span class="n">freqwinflags</span><span class="p">=</span><span class="n">getfield</span><span class="p">(</span><span class="n">arg_freqwin</span><span class="p">,</span><span class="s">&#39;flags&#39;</span><span class="p">,</span><span class="s">&#39;wintype&#39;</span><span class="p">);</span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">wintype</span> <span class="p">=</span> <span class="p">[</span> <span class="n">firwinflags</span><span class="p">,</span> <span class="n">freqwinflags</span><span class="p">];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Qvar</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">redmul</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">min_win</span> <span class="p">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">trunc_at</span><span class="p">=</span><span class="mi">10</span>^<span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">);</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="nb">real</span>     <span class="p">=</span> <span class="p">{</span><span class="s">&#39;real&#39;</span><span class="p">,</span><span class="s">&#39;complex&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">subprec</span>  <span class="p">=</span> <span class="p">{</span><span class="s">&#39;nosubprec&#39;</span><span class="p">,</span><span class="s">&#39;subprec&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">subprec</span>  <span class="p">=</span> <span class="p">{</span><span class="s">&#39;subprec&#39;</span><span class="p">,</span><span class="s">&#39;nosubprec&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">sampling</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;regsampling&#39;</span><span class="p">,</span><span class="s">&#39;uniform&#39;</span><span class="p">,</span><span class="c">...</span>
                            <span class="s">&#39;fractional&#39;</span><span class="p">,</span><span class="s">&#39;fractionaluniform&#39;</span><span class="p">};</span>
 
+<span class="p">[</span><span class="n">varargin</span><span class="p">,</span><span class="n">winCell</span><span class="p">]</span> <span class="p">=</span> <span class="n">arghelper_filterswinparser</span><span class="p">(</span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">wintype</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">winCell</span><span class="p">),</span> <span class="n">winCell</span> <span class="p">=</span> <span class="p">{</span><span class="n">flags</span><span class="p">.</span><span class="n">wintype</span><span class="p">};</span> <span class="k">end</span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_subprec</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: TO DO: Subsample window positioning is not implemented yet.&#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="p">[</span><span class="n">filterfunc</span><span class="p">,</span><span class="n">winbw</span><span class="p">]</span> <span class="p">=</span> <span class="n">helper_filtergeneratorfunc</span><span class="p">(</span><span class="c">...</span>
+                          <span class="n">flags</span><span class="p">.</span><span class="n">wintype</span><span class="p">,</span><span class="n">winCell</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">min_win</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">trunc_at</span><span class="p">,</span><span class="c">...</span>
+                          <span class="p">[],</span><span class="n">flags</span><span class="p">.</span><span class="n">do_subprec</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+     
+<span class="n">winbw_hann</span> <span class="p">=</span> <span class="mf">0.3750</span><span class="p">;</span>
+<span class="k">switch</span> <span class="n">flags</span><span class="p">.</span><span class="n">wintype</span>
+    <span class="k">case</span> <span class="n">firwinflags</span>
+       <span class="n">winbw</span> <span class="p">=</span> <span class="n">winbw</span><span class="o">/</span><span class="n">winbw_hann</span><span class="p">;</span>
+    <span class="k">case</span> <span class="n">freqwinflags</span>
+       <span class="c">% Adjusting Qvar such that the filters have the same erb as the</span>
+       <span class="c">% Hann window</span>
+       <span class="n">winbw</span> <span class="p">=</span> <span class="n">winbw</span><span class="o">/</span><span class="n">winbw_hann</span><span class="p">;</span>
+       <span class="n">kv</span><span class="p">.</span><span class="n">Qvar</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Qvar</span><span class="o">/</span><span class="p">(</span><span class="n">winbw</span><span class="p">);</span>
 <span class="k">end</span>
+
+
 <span class="c">% Nyquist frequency</span>
 <span class="n">nf</span> <span class="p">=</span> <span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 
@@ -257,7 +274,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Number of octaves</span>
 <span class="n">b</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="nb">log2</span><span class="p">(</span><span class="n">fmax</span><span class="o">/</span><span class="n">fmin</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
 
-<span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="c">% Constant number of bins in each octave</span>
     <span class="n">bins</span> <span class="p">=</span> <span class="n">bins</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 <span class="k">elseif</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">b</span>
@@ -271,7 +288,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">fc</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">bins</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
 
 <span class="n">ll</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
     <span class="n">fc</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)))</span> <span class="p">=</span> <span class="c">...</span>
         <span class="n">fmin</span><span class="o">*</span><span class="mf">2.</span>^<span class="p">(((</span><span class="n">kk</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">):(</span><span class="n">kk</span><span class="o">*</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)).</span><span class="o">&#39;/</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span>
     <span class="n">ll</span> <span class="p">=</span> <span class="n">ll</span><span class="o">+</span><span class="n">bins</span><span class="p">(</span><span class="n">kk</span><span class="p">);</span>
@@ -336,35 +353,35 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%% Compute the downsampling rate</span>
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_regsampling</span>
-        <span class="c">% Find minimum a in each octave and floor23 it.</span>
-        <span class="n">s</span> <span class="p">=</span> <span class="n">M</span><span class="o">-</span><span class="n">cumsum</span><span class="p">(</span><span class="n">bins</span><span class="p">);</span>
-        <span class="n">bins</span><span class="p">=</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">find</span><span class="p">(</span><span class="n">s</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-        <span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="o">-</span><span class="n">M</span><span class="p">);</span>
-        <span class="n">aocts</span> <span class="p">=</span> <span class="n">mat2cell</span><span class="p">(</span><span class="n">aprecise</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">bins</span><span class="p">);</span>
-        <span class="n">aocts</span> <span class="p">=</span> <span class="p">[{</span><span class="n">aprecise</span><span class="p">(</span><span class="mi">1</span><span class="p">)};</span><span class="n">aocts</span><span class="p">;</span><span class="n">aprecise</span><span class="p">(</span><span class="k">end</span><span class="p">)];</span>
-        <span class="c">%aocts{1} = [aprecise(1);aocts{1}];</span>
-        <span class="c">%aocts{end} = [aocts{end};aprecise(end)];</span>
-        <span class="n">a</span><span class="p">=</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">aEl</span><span class="p">)</span> <span class="n">floor23</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">aEl</span><span class="p">)),</span><span class="n">aocts</span><span class="p">);</span>
+    <span class="c">% Find minimum a in each octave and floor23 it.</span>
+    <span class="n">s</span> <span class="p">=</span> <span class="n">M</span><span class="o">-</span><span class="n">cumsum</span><span class="p">(</span><span class="n">bins</span><span class="p">);</span>
+    <span class="n">bins</span><span class="p">=</span><span class="n">bins</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">find</span><span class="p">(</span><span class="n">s</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+    <span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">bins</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="o">-</span><span class="n">M</span><span class="p">);</span>
+    <span class="n">aocts</span> <span class="p">=</span> <span class="n">mat2cell</span><span class="p">(</span><span class="n">aprecise</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">bins</span><span class="p">);</span>
+    <span class="n">aocts</span> <span class="p">=</span> <span class="p">[{</span><span class="n">aprecise</span><span class="p">(</span><span class="mi">1</span><span class="p">)};</span><span class="n">aocts</span><span class="p">;</span><span class="n">aprecise</span><span class="p">(</span><span class="k">end</span><span class="p">)];</span>
+    <span class="c">%aocts{1} = [aprecise(1);aocts{1}];</span>
+    <span class="c">%aocts{end} = [aocts{end};aprecise(end)];</span>
+    <span class="n">a</span><span class="p">=</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">aEl</span><span class="p">)</span> <span class="n">floor23</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">aEl</span><span class="p">)),</span><span class="n">aocts</span><span class="p">);</span>
 
-        <span class="c">% Determine the minimal transform length lcm(a)</span>
+    <span class="c">% Determine the minimal transform length lcm(a)</span>
+    <span class="n">L</span> <span class="p">=</span> <span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+
+    <span class="c">% Heuristic trying to reduce lcm(a)</span>
+    <span class="k">while</span> <span class="n">L</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">*</span><span class="n">Ls</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">maxa</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+        <span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">maxa</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
         <span class="n">L</span> <span class="p">=</span> <span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+    <span class="k">end</span>
 
-        <span class="c">% Heuristic trying to reduce lcm(a)</span>
-        <span class="k">while</span> <span class="n">L</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">*</span><span class="n">Ls</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
-            <span class="n">maxa</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
-            <span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">maxa</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-            <span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
-            <span class="n">L</span> <span class="p">=</span> <span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-        <span class="k">end</span>
-
-        <span class="c">% Deal the integer subsampling factors</span>
-        <span class="n">a</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">aoEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">)</span> <span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">aoEl</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">aEl</span><span class="p">,</span><span class="c">...</span>
-            <span class="n">aocts</span><span class="p">,</span><span class="n">mat2cell</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="mi">1</span><span class="p">)),</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+    <span class="c">% Deal the integer subsampling factors</span>
+    <span class="n">a</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">aoEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">)</span> <span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">aoEl</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">aEl</span><span class="p">,</span><span class="c">...</span>
+        <span class="n">aocts</span><span class="p">,</span><span class="n">mat2cell</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="mi">1</span><span class="p">)),</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
 
 <span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fractional</span>
-        <span class="n">L</span> <span class="p">=</span> <span class="n">Ls</span><span class="p">;</span>
-        <span class="n">N</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">./</span><span class="n">aprecise</span><span class="p">);</span>
-        <span class="n">a</span><span class="p">=[</span><span class="nb">repmat</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">N</span><span class="p">];</span>
+    <span class="n">L</span> <span class="p">=</span> <span class="n">Ls</span><span class="p">;</span>
+    <span class="n">N</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">./</span><span class="n">aprecise</span><span class="p">);</span>
+    <span class="n">a</span><span class="p">=[</span><span class="nb">repmat</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">N</span><span class="p">];</span>
 <span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fractionaluniform</span>
     <span class="n">L</span> <span class="p">=</span> <span class="n">Ls</span><span class="p">;</span>
     <span class="n">aprecise</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">min</span><span class="p">(</span><span class="n">aprecise</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
@@ -397,11 +414,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">fsupp</span><span class="p">=[</span><span class="n">fsupp</span><span class="p">;</span><span class="nb">flipud</span><span class="p">(</span><span class="n">fsupp</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">M2</span><span class="o">-</span><span class="mi">1</span><span class="p">))];</span>
 <span class="k">end</span><span class="p">;</span>
 
+
+
 <span class="c">% This is actually much faster than the vectorized call.</span>
 <span class="n">g</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">fc</span><span class="p">));</span>
 <span class="k">for</span> <span class="n">m</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-  <span class="n">g</span><span class="p">{</span><span class="n">m</span><span class="p">}</span> <span class="p">=</span> <span class="n">blfilter</span><span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">wintype</span><span class="p">,</span><span class="n">fsupp</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="n">fc</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="s">&#39;fs&#39;</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;scal&#39;</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="c">...</span>
-                  <span class="s">&#39;inf&#39;</span><span class="p">,</span><span class="s">&#39;min_win&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">min_win</span><span class="p">);</span>
+    <span class="n">g</span><span class="p">{</span><span class="n">m</span><span class="p">}</span> <span class="p">=</span> <span class="n">filterfunc</span><span class="p">(</span><span class="n">fsupp</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="n">fc</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="n">scal</span><span class="p">(</span><span class="n">m</span><span class="p">));</span>
+  <span class="c">% g{m} = blfilter(flags.wintype,fsupp(m),fc(m),&#39;fs&#39;,fs,&#39;scal&#39;,scal(m),...</span>
+  <span class="c">%                 &#39;inf&#39;,&#39;min_win&#39;,kv.min_win);</span>
 <span class="k">end</span>
 
 
@@ -418,6 +438,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
                              <span class="n">scal</span><span class="p">(</span><span class="n">kkpairs</span><span class="p">(</span><span class="n">idx</span><span class="p">)),</span><span class="s">&#39;inf&#39;</span><span class="p">);</span>
     <span class="k">end</span>
 <span class="k">end</span>
+
+<span class="n">winbwrat</span> <span class="p">=</span> <span class="n">winbw</span><span class="o">/</span><span class="mf">2.0106</span><span class="p">;</span>
+<span class="n">basebw</span> <span class="p">=</span> <span class="mf">1.875657</span><span class="p">;</span>
+
+<span class="n">info</span><span class="p">.</span><span class="n">fc</span>  <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fc</span><span class="o">/</span><span class="n">fs</span><span class="p">;</span>
+<span class="n">info</span><span class="p">.</span><span class="n">tfr</span> <span class="p">=</span> <span class="p">@(</span><span class="n">L</span><span class="p">)(</span><span class="mi">1</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="mf">1.</span><span class="o">/</span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">fsupp</span><span class="o">*</span><span class="n">winbwrat</span><span class="o">/</span><span class="n">fs</span><span class="p">)</span><span class="o">./</span><span class="n">basebw</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
 </pre></div>
 
 
