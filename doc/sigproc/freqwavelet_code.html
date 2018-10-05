@@ -65,18 +65,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   The supported wavelets that can be used in place of name (the actual</span>
 <span class="c">%   equations can be found at the end of this help):</span>
 <span class="c">%</span>
-<span class="c">%       &#39;cauchy&#39;    Cauchy wavelet with alpha=100. Custom order=(alpha-1)/2</span>
-<span class="c">%                   (with alpha&gt;1) can be set by {&#39;cauchy&#39;,alpha}. The</span>
-<span class="c">%                   higher the order, the narrower and more symmetric the</span>
-<span class="c">%                   wavelet. A numericaly stable formula is used in order</span>
-<span class="c">%                   to allow support even for very high alpha e.g.</span>
-<span class="c">%                   milions.</span>
+<span class="c">%     &#39;cauchy&#39;    Cauchy wavelet with alpha=100. Custom order=(alpha-1)/2</span>
+<span class="c">%                 (with alpha&gt;1) can be set by {&#39;cauchy&#39;,alpha}. The</span>
+<span class="c">%                 higher the order, the narrower and more symmetric the</span>
+<span class="c">%                 wavelet. A numericaly stable formula is used in order</span>
+<span class="c">%                 to allow support even for very high alpha e.g.</span>
+<span class="c">%                 milions.</span>
 <span class="c">%</span>
-<span class="c">%       &#39;morse&#39;     Morse wavelet with alpha=100 and gamma=3. Both parameters</span>
-<span class="c">%                   can be set directly by {&#39;morse&#39;,alpha,gamma}. alpha</span>
-<span class="c">%                   has the same role as for &#39;cauchy&#39;, gamma is the</span>
-<span class="c">%                   &#39;skewness&#39; parameter. &#39;morse&#39; becomes &#39;cauchy&#39; for</span>
-<span class="c">%                   gamma=1.</span>
+<span class="c">%     &#39;morse&#39;     Morse wavelet with alpha=100 and gamma=3. Both parameters</span>
+<span class="c">%                 can be set directly by {&#39;morse&#39;,alpha,gamma}. alpha</span>
+<span class="c">%                 has the same role as for &#39;cauchy&#39;, gamma is the</span>
+<span class="c">%                 &#39;skewness&#39; parameter. &#39;morse&#39; becomes &#39;cauchy&#39; for</span>
+<span class="c">%                 gamma=1.</span>
 <span class="c">%</span>
 <span class="c">%   FREQWAVELET(name,L,scale) returns a &quot;dilated&quot; version of the wavelet.</span>
 <span class="c">%   The positive scalar scale controls both the bandwidth and the center</span>
@@ -89,52 +89,52 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   The following additional flags and key-value parameters are available:</span>
 <span class="c">%</span>
-<span class="c">%       &#39;basefc&#39;,fc     Normalized center frequency of the mother wavelet</span>
-<span class="c">%                       (scale=1). The default is 0.1.</span>
+<span class="c">%     &#39;basefc&#39;,fc      Normalized center frequency of the mother wavelet</span>
+<span class="c">%                      (scale=1). The default is 0.1.</span>
 <span class="c">%</span>
-<span class="c">%       &#39;bwthr&#39;,bwthr   The height at which the bandwidth is computed.</span>
-<span class="c">%                       The default value is 10^(-3/10) (~0.5).</span>
+<span class="c">%     &#39;bwthr&#39;,bwthr    The height at which the bandwidth is computed.</span>
+<span class="c">%                      The default value is 10^(-3/10) (~0.5).</span>
 <span class="c">%</span>
-<span class="c">%       &#39;efsuppthr&#39;,thr The threshold determinig the effective support of</span>
-<span class="c">%                       the wavelet. The default value is 10^(-5).</span>
+<span class="c">%     &#39;efsuppthr&#39;,thr  The threshold determinig the effective support of</span>
+<span class="c">%                      the wavelet. The default value is 10^(-5).</span>
 <span class="c">%</span>
 <span class="c">%   The format of the output is controlled by the following flags:</span>
 <span class="c">%   &#39;full&#39; (default),&#39;econ&#39;,&#39;asblfilter&#39;:</span>
 <span class="c">%</span>
-<span class="c">%       &#39;full&#39;          The output is a L x numel(scale) matrix.</span>
+<span class="c">%     &#39;full&#39;           The output is a L x numel(scale) matrix.</span>
 <span class="c">%</span>
-<span class="c">%       &#39;econ&#39;          The output is a numel(scale) cell array with</span>
-<span class="c">%                       individual freq. domain wavelets truncated to the</span>
-<span class="c">%                       length of the effective support given by parametar</span>
-<span class="c">%                       &#39;efsuppthr&#39;.</span>
+<span class="c">%     &#39;econ&#39;           The output is a numel(scale) cell array with</span>
+<span class="c">%                      individual freq. domain wavelets truncated to the</span>
+<span class="c">%                      length of the effective support given by parametar</span>
+<span class="c">%                      &#39;efsuppthr&#39;.</span>
 <span class="c">%</span>
-<span class="c">%       &#39;asfreqfilter&#39;  As &#39;econ&#39;, but the elements of the cell-array are</span>
-<span class="c">%                       filter structs with fields .H and .foff as in </span>
-<span class="c">%                       BLFILTER to be used in FILTERBANK and related. </span>
+<span class="c">%     &#39;asfreqfilter&#39;   As &#39;econ&#39;, but the elements of the cell-array are</span>
+<span class="c">%                      filter structs with fields .H and .foff as in </span>
+<span class="c">%                      BLFILTER to be used in FILTERBANK and related. </span>
 <span class="c">%</span>
 <span class="c">%   [H,info]=FREQWAVELET(...) additionally returns a struct with the</span>
 <span class="c">%   following fields:</span>
 <span class="c">%</span>
-<span class="c">%       .fc             Normalized center frequency.</span>
+<span class="c">%     .fc             Normalized center frequency.</span>
 <span class="c">%</span>
-<span class="c">%       .foff           Index of the first sample above the effective</span>
-<span class="c">%                       support threshold (minus one). </span>
-<span class="c">%                       It can be directly used to convert the &#39;econ&#39;</span>
-<span class="c">%                       output to &#39;full&#39; by circshift(postpad(H,L),foff).</span>
+<span class="c">%     .foff           Index of the first sample above the effective</span>
+<span class="c">%                     support threshold (minus one). </span>
+<span class="c">%                     It can be directly used to convert the &#39;econ&#39;</span>
+<span class="c">%                     output to &#39;full&#39; by circshift(postpad(H,L),foff).</span>
 <span class="c">%</span>
-<span class="c">%       .fsupplen       Length of the effective support (with values above efsuppthr.).</span>
+<span class="c">%     .fsupplen       Length of the effective support (with values above efsuppthr.).</span>
 <span class="c">%</span>
-<span class="c">%       .scale          The scale used.</span>
+<span class="c">%     .scale          The scale used.</span>
 <span class="c">%</span>
-<span class="c">%       .dilation       The actual dilation used in the formula.</span>
+<span class="c">%     .dilation       The actual dilation used in the formula.</span>
 <span class="c">%</span>
-<span class="c">%       .bw             Relative bandwidth at -3 dB (half of the height).</span>
+<span class="c">%     .bw             Relative bandwidth at -3 dB (half of the height).</span>
 <span class="c">%</span>
-<span class="c">%       .tfr            Time-frequency ratio of a Gaussian with the same</span>
-<span class="c">%                       bandwidth as the wavelet.</span>
+<span class="c">%     .tfr            Time-frequency ratio of a Gaussian with the same</span>
+<span class="c">%                     bandwidth as the wavelet.</span>
 <span class="c">%</span>
-<span class="c">%       .a_natural      Fractional natural subsampling factors in the</span>
-<span class="c">%                       format acceptable by FILTERBANK and related.</span>
+<span class="c">%     .a_natural      Fractional natural subsampling factors in the</span>
+<span class="c">%                     format acceptable by FILTERBANK and related.</span>
 <span class="c">%</span>
 <span class="c">%   Additionally, the function accepts flags to normalize the output.</span>
 <span class="c">%   Please see the help of NORMALIZE. By default, no normaliazation is</span>
@@ -147,15 +147,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   Cauchy wavelet</span>
 <span class="c">%</span>
-<span class="c">%       H = C xi^{frec{alpha-1}{2}} exp( -2pixi )</span>
+<span class="c">%       H = C xi^{frac{alpha-1}{2}} exp( -2pixi )</span>
 <span class="c">%</span>
-<span class="c">%          math: H = C \xi^{\frec{\alpha-1}{2}} exp( -2\pi\xi )</span>
+<span class="c">%          math: H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi )</span>
 <span class="c">%</span>
 <span class="c">%   Morse wavelet</span>
 <span class="c">%</span>
-<span class="c">%       H = C xi^{frec{alpha-1}{2gamma}} exp( -2pixi^{gamma} )</span>
+<span class="c">%       H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )</span>
 <span class="c">%</span>
-<span class="c">%          math: H = C \xi^{\frec{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} )</span>
+<span class="c">%          math: H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} )</span>
 <span class="c">%</span>
 <span class="c">%   See also: normalize, filterbank, blfilter</span>
 

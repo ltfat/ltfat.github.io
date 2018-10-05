@@ -167,17 +167,11 @@ channel downsampling rates. It is only used if the
 filterbank is a non-uniform filterbank. Default
 value is <em>1</em>. If the value is less than one, the
 system may no longer be painless.</td></tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>'redtar=redtar Target redundancy. The downsampling factors will be'</dt>
-<dd>adjusted to achieve a redundancy as close as possible
-to 'redtar'.</dd>
-</dl>
-<table class="docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'redtar',<var>redtar</var></span></kbd></td>
+<td>Target redundancy. The downsampling factors will be
+adjusted to achieve a redundancy as close as possible
+to 'redtar'.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'M',<var>M</var></span></kbd></td>
 <td>Specify the total number of filters between <em>fmin</em> and
@@ -209,13 +203,13 @@ The default value is <em>trunc_at=10e-5</em>. When no
 truncation is desired, <em>trunc_at=0</em> should be chosen.
 This value is ignored when a prototype shape from
 <span class="linkrole"><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></span> was chosen.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'min_win',<var>min_win</var></span></kbd></td>
-<td>Minimum admissible window length (in samples).
-Default is <em>4</em>. This restrict the windows not
-to become too narrow when <em>L</em> is low.</td></tr>
 </tbody>
 </table>
+<dl class="docutils">
+<dt>'min_win=min_win Minimum admissible window length (in samples).'</dt>
+<dd>Default is <em>4</em>. This restrict the windows not
+to become too narrow when <em>L</em> is low.</dd>
+</dl>
 </div>
 <div class="section" id="examples">
 <h2>Examples:</h2>

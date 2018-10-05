@@ -92,21 +92,27 @@ that the peak is positioned at the frequency 0.1 relative to the Nyquist
 rate (fs/2).</p>
 <p>The supported wavelets that can be used in place of <tt class="docutils literal">name</tt> (the actual
 equations can be found at the end of this help):</p>
-<blockquote>
-<dl class="docutils">
-<dt>'cauchy'    Cauchy wavelet with alpha=100. Custom order=(alpha-1)/2</dt>
-<dd>(with alpha&gt;1) can be set by <tt class="docutils literal"><span class="pre">{'cauchy',alpha}</span></tt>. The
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'cauchy'</span></kbd></td>
+<td>Cauchy wavelet with alpha=100. Custom order=(alpha-1)/2
+(with alpha&gt;1) can be set by <tt class="docutils literal"><span class="pre">{'cauchy',alpha}</span></tt>. The
 higher the order, the narrower and more symmetric the
 wavelet. A numericaly stable formula is used in order
 to allow support even for very high <tt class="docutils literal">alpha</tt> e.g.
-milions.</dd>
-<dt>'morse'     Morse wavelet with alpha=100 and gamma=3. Both parameters</dt>
-<dd>can be set directly by <tt class="docutils literal"><span class="pre">{'morse',alpha,gamma}</span></tt>. <tt class="docutils literal">alpha</tt>
+milions.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'morse'</span></kbd></td>
+<td>Morse wavelet with alpha=100 and gamma=3. Both parameters
+can be set directly by <tt class="docutils literal"><span class="pre">{'morse',alpha,gamma}</span></tt>. <tt class="docutils literal">alpha</tt>
 has the same role as for 'cauchy', <tt class="docutils literal">gamma</tt> is the
 'skewness' parameter. 'morse' becomes 'cauchy' for
-gamma=1.</dd>
-</dl>
-</blockquote>
+gamma=1.</td></tr>
+</tbody>
+</table>
 <p><tt class="docutils literal">freqwavelet(name,L,scale)</tt> returns a &quot;dilated&quot; version of the wavelet.
 The positive scalar <tt class="docutils literal">scale</tt> controls both the bandwidth and the center
 frequency. Values greater than 1 make the wavelet wider (and narrower
@@ -116,51 +122,83 @@ limitted to the range of &quot;positive&quot; frequencies ]0,1] (up to Nyquist r
 If <tt class="docutils literal">scale</tt> is a vector, the output is a <tt class="docutils literal">L x numel(scale)</tt> matrix with
 the individual wavelets as columns.</p>
 <p>The following additional flags and key-value parameters are available:</p>
-<blockquote>
-<dl class="docutils">
-<dt>'basefc',fc     Normalized center frequency of the mother wavelet</dt>
-<dd>(scale=1). The default is 0.1.</dd>
-<dt>'bwthr',bwthr   The height at which the bandwidth is computed.</dt>
-<dd>The default value is 10^(-3/10) (~0.5).</dd>
-<dt>'efsuppthr',thr The threshold determinig the effective support of</dt>
-<dd>the wavelet. The default value is 10^(-5).</dd>
-</dl>
-</blockquote>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'basefc',<var>fc</var></span></kbd></td>
+<td>Normalized center frequency of the mother wavelet
+(scale=1). The default is 0.1.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'bwthr',<var>bwthr</var></span></kbd></td>
+<td>The height at which the bandwidth is computed.
+The default value is 10^(-3/10) (~0.5).</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'efsuppthr',<var>thr</var></span></kbd></td>
+<td>The threshold determinig the effective support of
+the wavelet. The default value is 10^(-5).</td></tr>
+</tbody>
+</table>
 <p>The format of the output is controlled by the following flags:
 'full' (default),'econ','asblfilter':</p>
-<blockquote>
-<p>'full'          The output is a <tt class="docutils literal">L x numel(scale)</tt> matrix.</p>
-<dl class="docutils">
-<dt>'econ'          The output is a <tt class="docutils literal">numel(scale)</tt> cell array with</dt>
-<dd>individual freq. domain wavelets truncated to the
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'full'</span></kbd></td>
+<td>The output is a <tt class="docutils literal">L x numel(scale)</tt> matrix.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'econ'</span></kbd></td>
+<td>The output is a <tt class="docutils literal">numel(scale)</tt> cell array with
+individual freq. domain wavelets truncated to the
 length of the effective support given by parametar
-'efsuppthr'.</dd>
-<dt>'asfreqfilter'  As 'econ', but the elements of the cell-array are</dt>
+'efsuppthr'.</td></tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>'asfreqfilter'   As 'econ= but the elements of the cell-array are'</dt>
 <dd>filter structs with fields .H and .foff as in
 <span class="linkrole"><a href="#BASEURL#/doc/sigproc/blfilter.html">blfilter</a></span> to be used in <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</dd>
 </dl>
-</blockquote>
 <p><tt class="docutils literal"><span class="pre">[H,info]=freqwavelet(...)</span></tt> additionally returns a struct with the
 following fields:</p>
-<blockquote>
-<p>.fc             Normalized center frequency.</p>
-<dl class="docutils">
-<dt>.foff           Index of the first sample above the effective</dt>
-<dd>support threshold (minus one).
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">.fc</span></kbd></td>
+<td>Normalized center frequency.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.foff</span></kbd></td>
+<td>Index of the first sample above the effective
+support threshold (minus one).
 It can be directly used to convert the 'econ'
-output to 'full' by <tt class="docutils literal"><span class="pre">circshift(postpad(H,L),foff)</span></tt>.</dd>
-</dl>
-<p>.fsupplen       Length of the effective support (with values above efsuppthr.).</p>
-<p>.scale          The scale used.</p>
-<p>.dilation       The actual dilation used in the formula.</p>
-<p>.bw             Relative bandwidth at -3 dB (half of the height).</p>
-<dl class="docutils">
-<dt>.tfr            Time-frequency ratio of a Gaussian with the same</dt>
-<dd>bandwidth as the wavelet.</dd>
-<dt>.a_natural      Fractional natural subsampling factors in the</dt>
-<dd>format acceptable by <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</dd>
-</dl>
-</blockquote>
+output to 'full' by <tt class="docutils literal"><span class="pre">circshift(postpad(H,L),foff)</span></tt>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.fsupplen</span></kbd></td>
+<td>Length of the effective support (with values above efsuppthr.).</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.scale</span></kbd></td>
+<td>The scale used.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.dilation</span></kbd></td>
+<td>The actual dilation used in the formula.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.bw</span></kbd></td>
+<td>Relative bandwidth at -3 dB (half of the height).</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.tfr</span></kbd></td>
+<td>Time-frequency ratio of a Gaussian with the same
+bandwidth as the wavelet.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.a_natural</span></kbd></td>
+<td>Fractional natural subsampling factors in the
+format acceptable by <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</td></tr>
+</tbody>
+</table>
 <p>Additionally, the function accepts flags to normalize the output.
 Please see the help of <span class="linkrole"><a href="#BASEURL#/doc/sigproc/normalize.html">normalize</a></span>. By default, no normaliazation is
 applied.</p>
@@ -170,11 +208,11 @@ applied.</p>
 <p><tt class="docutils literal">C</tt> is a normalization constant.</p>
 <p>Cauchy wavelet</p>
 <blockquote>
-H = C xi^{frec{alpha-1}{2}} exp( -2pixi )<!-- math: H = C \xi^{\frec{\alpha-1}{2}} exp( -2\pi\xi ) -->
+H = C xi^{frac{alpha-1}{2}} exp( -2pixi )<!-- math: H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi ) -->
 </blockquote>
 <p>Morse wavelet</p>
 <blockquote>
-H = C xi^{frec{alpha-1}{2gamma}} exp( -2pixi^{gamma} )<!-- math: H = C \xi^{\frec{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} ) -->
+H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )<!-- math: H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} ) -->
 </blockquote>
 </div>
 
