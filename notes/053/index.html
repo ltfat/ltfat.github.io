@@ -7,8 +7,8 @@
 <meta NAME="keywords" CONTENT="gabor, signal processing, matlab,
 octave"/>
 <title> 
-On the derivatives of the Continuous Wavelet Transform -- with Application to
-Phaseless Reconstruction
+Characterization of Analytic Wavelet Transforms
+and a New Phaseless Reconstruction Algorithm
 </title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
@@ -27,16 +27,32 @@ Phaseless Reconstruction
 <div class="row">
 
 <div class="page-header">
-    <h1>On the derivatives of the Continuous Wavelet Transform -- with Application to
-        Phaseless Reconstruction</h1>
+    <h1>Characterization of Analytic Wavelet Transforms
+and a New Phaseless Reconstruction Algorithm</h1>
    Nicki Holighaus, Günther Koliander, Zdeněk Průša and Luis Daniel Abreu
 </div>
 <div class="well">
 <strong>Abstract:</strong>
 <p>
- We present an expression of the partial derivatives of the continuous wavelet transform, which results in phase-magnitude relationships similar to the short-time Fourier transform (STFT) setting and valid for a generalized family of Cauchy wavelets. We show that the existence of such relations is equivalent to analyticity of the wavelet transform up to a multiplicative weight and a scaling of the mother wavelet. The phase-magnitude relations lead to consequences in phaseless reconstruction, the application of which is considered in detail and comparison to previous methods are provided. 
-  It is shown that the proposed method provides significant performance gains and a great flexibility regarding accuracy versus complexity.
-  Additionally, we discuss the relation between scalogram reassignment operators and the wavelet transform phase gradient and present an observation on the phase around zeros of the wavelet transform.
+ We obtain a characterization of all wavelets leading
+to analytic wavelet transforms (WT), resulting in a new
+generalization of the Cauchy wavelets. The characterization is
+obtained as a by-product of the theoretical foundations of a new
+method for wavelet phase reconstruction from magnitude-only
+coefficients. The cornerstone of our analysis is an expression of
+the partial derivatives of the continuous WT, which results in
+phase-magnitude relationships similar to the short-time Fourier
+transform (STFT) setting and valid for the generalized family of
+Cauchy wavelets. We show that the existence of such relations
+is equivalent to analyticity of the WT up to a multiplicative
+weight and a scaling of the mother wavelet. The implementation
+of the new phaseless reconstruction method is considered in
+detail and compared to previous methods. It is shown that the
+proposed method provides significant performance gains and a
+great flexibility regarding accuracy versus complexity. Additionally,
+we discuss the relation between scalogram reassignment
+operators and the wavelet transform phase gradient and present
+an observation on the phase around zeros of the WT.
 </p>
 <p>
 The preprint is available <a href="../ltfatnote053.pdf">here</a>.
@@ -79,7 +95,11 @@ The preprint is available <a href="../ltfatnote053.pdf">here</a>.
                 </th></tr>
             </table>
         </div>
-
+        <p>
+	In every subfigure of Figure 1 of the manuscript, signals are reordered by performance of 
+	R-FGLIM (FGLIM_RAND). A reference for the used ordering is available here:
+	<a href="./ltfatnote053_ranking_alphas.pdf">here</a>
+	</p>
         <table class="comptable small text-center errtable" cellspacing="0" cellpadding="0"
             id="errtable2">
             <tr><td></td>
@@ -648,6 +668,11 @@ The preprint is available <a href="../ltfatnote053.pdf">here</a>.
                 </th></tr>
             </table>
         </div>
+        <p>
+	In every subfigure of Figure 1 of the manuscript, signals are reordered by performance of 
+	R-FGLIM (FGLIM_RAND). A reference for the used ordering is available here:
+	<a href="./ltfatnote053_ranking_alphas.pdf">here</a>
+	</p>
 
         <table class="comptable small text-center errtable" cellspacing="0" cellpadding="0"
             id="errtable3">
@@ -1217,6 +1242,11 @@ The preprint is available <a href="../ltfatnote053.pdf">here</a>.
                 </th></tr>
             </table>
         </div>
+        <p>
+	In every subfigure of Figure 1 of the manuscript, signals are reordered by performance of 
+	R-FGLIM (FGLIM_RAND). A reference for the used ordering is available here:
+	<a href="./ltfatnote053_ranking_alphas.pdf">here</a>
+	</p>
 
         <table class="comptable small text-center errtable" cellspacing="0" cellpadding="0"
             id="errtable4">
@@ -1786,6 +1816,11 @@ The preprint is available <a href="../ltfatnote053.pdf">here</a>.
                 </th></tr>
             </table>
         </div>
+        <p>
+	In every subfigure of Figure 2 of the manuscript, signals are reordered by performance of 
+	Med-High redundancy (K/a = 10). A reference for the used ordering is available here:
+	<a href="./ltfatnote053_ranking_redundancies.pdf">here</a>
+	</p>
 
         <table class="comptable small text-center errtable" cellspacing="0" cellpadding="0"
             id="errtable5">
