@@ -1,0 +1,44 @@
+
+
+td.clickable:hover {
+background-color: yellow;
+cursor: default;
+}
+
+.comptable {
+    border-collapse: collapse;
+}
+
+.comptable tr td, .comptable tr th  {
+    border: 1px solid black;
+}
+
+.stickycont, table {
+margin: auto;
+}
+
+.is_stuck {
+background-color: rgb(100,100,100);
+border-radius: 5px;
+}
+
+.errtable tr:nth-child(even) {
+    background-color: rgb(160,160,160)
+}
+
+td.clickable {
+/* background-color: gray; */
+}
+
+.carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(70,70,70,.25);
+}
+
+.carousel-indicators .active {
+  background-color: #444;
+}
+
+.carousel-indicators {
+  bottom:0px;
+}
