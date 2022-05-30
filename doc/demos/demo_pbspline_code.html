@@ -42,146 +42,146 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_PBSPLINE - How to use PBSPLINE</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="c">%DEMO_PBSPLINE  How to use PBSPLINE</span>
-<span class="c">%</span>
-<span class="c">%   This script illustrates various properties of the</span>
-<span class="c">%   PBSPLINE function.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 1: Three first splines</span>
-<span class="c">%</span>
-<span class="c">%      This figure shows the three first splines (order 0,1 and 2)</span>
-<span class="c">%      and their dual windows.</span>
-<span class="c">%</span>
-<span class="c">%      Note that they are calculated for an even number of the parameter a,</span>
-<span class="c">%      meaning that they are not exactly splines, but a slightly smoother</span>
-<span class="c">%      construction, that still form a partition of unity.</span>
-<span class="c">%</span>
-<span class="c">%   See also: pbspline, middlepad</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_pbspline.html</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_PBSPLINE  How to use PBSPLINE</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This script illustrates various properties of the</span><span class="w"></span>
+<span class="c">%   PBSPLINE function.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 1: Three first splines</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      This figure shows the three first splines (order 0,1 and 2)</span><span class="w"></span>
+<span class="c">%      and their dual windows.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      Note that they are calculated for an even number of the parameter a,</span><span class="w"></span>
+<span class="c">%      meaning that they are not exactly splines, but a slightly smoother</span><span class="w"></span>
+<span class="c">%      construction, that still form a partition of unity.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: pbspline, middlepad</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_pbspline.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Type &quot;help demo_pbspline&quot; to see a description of how this demo works.&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Type &quot;help demo_pbspline&quot; to see a description of how this demo works.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Setup parameters and length of signal.</span>
-<span class="c">% Note that it must hold that L=M*b=N*a for some integers</span>
-<span class="c">% b and N, and that a &lt;= M</span>
+<span class="c">% Setup parameters and length of signal.</span><span class="w"></span>
+<span class="c">% Note that it must hold that L=M*b=N*a for some integers</span><span class="w"></span>
+<span class="c">% b and N, and that a &lt;= M</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="mi">72</span><span class="p">;</span>  <span class="c">% Length of signal.</span>
-<span class="n">a</span><span class="p">=</span><span class="mi">6</span><span class="p">;</span>   <span class="c">% Time shift.</span>
-<span class="n">M</span><span class="p">=</span><span class="mi">9</span><span class="p">;</span>   <span class="c">% Number of modulations.</span>
+<span class="n">L</span><span class="p">=</span><span class="mi">72</span><span class="p">;</span><span class="w">  </span><span class="c">% Length of signal.</span><span class="w"></span>
+<span class="n">a</span><span class="p">=</span><span class="mi">6</span><span class="p">;</span><span class="w">   </span><span class="c">% Time shift.</span><span class="w"></span>
+<span class="n">M</span><span class="p">=</span><span class="mi">9</span><span class="p">;</span><span class="w">   </span><span class="c">% Number of modulations.</span><span class="w"></span>
 
-<span class="c">% Calculate the frequency shift.</span>
-<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+<span class="c">% Calculate the frequency shift.</span><span class="w"></span>
+<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% The following call creates a B-spline of order 2.</span>
-<span class="c">% The translates of a multiple of &#39;a&#39; of this function</span>
-<span class="c">% creates a partition of unity.</span>
-<span class="c">% &#39;ntaps&#39; contains the number of non-zero elements of g</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">ntaps</span><span class="p">]=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% The following call creates a B-spline of order 2.</span><span class="w"></span>
+<span class="c">% The translates of a multiple of &#39;a&#39; of this function</span><span class="w"></span>
+<span class="c">% creates a partition of unity.</span><span class="w"></span>
+<span class="c">% &#39;ntaps&#39; contains the number of non-zero elements of g</span><span class="w"></span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">ntaps</span><span class="p">]=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Length of the generated window:&#39;</span><span class="p">);</span>
-<span class="n">ntaps</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Length of the generated window:&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">ntaps</span><span class="w"></span>
 
-<span class="c">% This DFT of g is real and whole point even</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Norm of imaginary part. Should be close to zero.&#39;</span><span class="p">);</span>
-<span class="n">norm</span><span class="p">(</span><span class="nb">imag</span><span class="p">(</span><span class="n">dft</span><span class="p">(</span><span class="n">g</span><span class="p">)))</span>
+<span class="s">%</span><span class="w"> </span><span class="s">This</span><span class="w"> </span><span class="s">DFT</span><span class="w"> </span><span class="s">of</span><span class="w"> </span><span class="s">g</span><span class="w"> </span><span class="s">is</span><span class="w"> </span><span class="s">real</span><span class="w"> </span><span class="s">and</span><span class="w"> </span><span class="s">whole</span><span class="w"> </span><span class="s">point</span><span class="w"> </span><span class="s">even</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Norm of imaginary part. Should be close to zero.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">norm</span><span class="p">(</span><span class="nb">imag</span><span class="p">(</span><span class="n">dft</span><span class="p">(</span><span class="n">g</span><span class="p">)))</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Window is whole point even. Should be 1.&#39;</span><span class="p">);</span>
-<span class="n">isevenfunction</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Window is whole point even. Should be 1.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">isevenfunction</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
 
-<span class="c">% We can cut g to length ntap without loosing any information:</span>
-<span class="c">% Cut g</span>
-<span class="n">gcut</span><span class="p">=</span><span class="n">middlepad</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">ntaps</span><span class="p">);</span>
+<span class="c">% We can cut g to length ntap without loosing any information:</span><span class="w"></span>
+<span class="c">% Cut g</span><span class="w"></span>
+<span class="n">gcut</span><span class="p">=</span><span class="n">middlepad</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">ntaps</span><span class="p">);</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Length of g after cutting.&#39;</span><span class="p">);</span>
-<span class="nb">length</span><span class="p">(</span><span class="n">gcut</span><span class="p">)</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Length of g after cutting.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">length</span><span class="p">(</span><span class="n">gcut</span><span class="p">)</span><span class="w"></span>
 
-<span class="c">% extend gcut again</span>
-<span class="n">gextend</span><span class="p">=</span><span class="n">middlepad</span><span class="p">(</span><span class="n">gcut</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="c">% extend gcut again</span><span class="w"></span>
+<span class="n">gextend</span><span class="p">=</span><span class="n">middlepad</span><span class="p">(</span><span class="n">gcut</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% gextend is identical to g</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;difference between original g, and gextend.&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Should be close to zero.&#39;</span><span class="p">);</span>
-<span class="n">norm</span><span class="p">(</span><span class="n">g</span><span class="o">-</span><span class="n">gextend</span><span class="p">)</span>
+<span class="c">% gextend is identical to g</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;difference between original g, and gextend.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Should be close to zero.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">norm</span><span class="p">(</span><span class="n">g</span><span class="o">-</span><span class="n">gextend</span><span class="p">)</span><span class="w"></span>
 
 
-<span class="c">% Plot the three first splines and their canonical dual windows:</span>
+<span class="c">% Plot the three first splines and their canonical dual windows:</span><span class="w"></span>
 
-<span class="c">% Calculate the splines.</span>
-<span class="n">g1</span><span class="p">=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-<span class="n">g2</span><span class="p">=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-<span class="n">g3</span><span class="p">=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Calculate the splines.</span><span class="w"></span>
+<span class="n">g1</span><span class="p">=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="n">g2</span><span class="p">=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="n">g3</span><span class="p">=</span><span class="n">pbspline</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Calculate their dual windows.</span>
-<span class="n">g1d</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="n">g2d</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="n">g3d</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g3</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="c">% Calculate their dual windows.</span><span class="w"></span>
+<span class="n">g1d</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="n">g2d</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="n">g3d</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g3</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Standard note on plotting:</span>
-<span class="c">%</span>
-<span class="c">% - All windows have real DFTs, but Matlab does not</span>
-<span class="c">%   always recoqnize this, so we have to filter away</span>
-<span class="c">%   the small imaginary part by calling REAL(...)</span>
-<span class="c">%</span>
-<span class="c">% - The windows are all centered around zero, but this</span>
-<span class="c">%   is not visually pleasing, so the window must be</span>
-<span class="c">%   shifted to the middle by an FFTSHIFT</span>
-<span class="c">%</span>
+<span class="c">% Standard note on plotting:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% - All windows have real DFTs, but Matlab does not</span><span class="w"></span>
+<span class="c">%   always recoqnize this, so we have to filter away</span><span class="w"></span>
+<span class="c">%   the small imaginary part by calling REAL(...)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% - The windows are all centered around zero, but this</span><span class="w"></span>
+<span class="c">%   is not visually pleasing, so the window must be</span><span class="w"></span>
+<span class="c">%   shifted to the middle by an FFTSHIFT</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">xplot</span><span class="p">=(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="n">xplot</span><span class="p">=(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="o">&#39;</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="c">...</span>
-     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="c">...</span>
-     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Zero order spline.&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">     </span><span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">     </span><span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g1</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Zero order spline.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g1d</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g1d</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="c">...</span>
-     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="c">...</span>
-     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;First order spline.&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">     </span><span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">     </span><span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g2</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;First order spline.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g2d</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g2d</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="c">...</span>
-     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="c">...</span>
-     <span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Second order spline.&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">     </span><span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="n">a</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">     </span><span class="n">xplot</span><span class="p">,</span><span class="nb">circshift</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g3</span><span class="p">),</span><span class="o">-</span><span class="n">a</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Second order spline.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">fftshift</span><span class="p">(</span><span class="n">g3d</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">g3d</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Dual window.&#39;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

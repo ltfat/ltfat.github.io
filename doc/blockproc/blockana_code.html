@@ -44,254 +44,254 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">BLOCKANA - Blockwise analysis interface</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[c, fola] = blockana</span><span class="p">(</span>F, f, fola<span class="p">)</span><span class="w"></span>
-<span class="c">%BLOCKANA Blockwise analysis interface</span>
-<span class="c">%   Usage: c=blockana(F, f)</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%      Fa   : Analysis frame object.    </span>
-<span class="c">%      f    : Block of signal.</span>
-<span class="c">%      fola : Explicitly defined overlap</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%      c    : Block coefficients.</span>
-<span class="c">%      fola : Stored overlap</span>
-<span class="c">%</span>
-<span class="c">%   c=BLOCKANA(Fa,f) calculates the coefficients c of the signal block f using </span>
-<span class="c">%   the frame defined by F. The block overlaps are handled according to the </span>
-<span class="c">%   F.blokalg. Assuming BLOCKANA is called in the loop only once, fola*</span>
-<span class="c">%   can be omitted and the overlaps are handled in the background</span>
-<span class="c">%   automatically.    </span>
-<span class="c">%</span>
-<span class="c">%   See also: block, blocksyn, blockplay</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     N. Holighaus, M. Dörfler, G. A. Velasco, and T. Grill. A framework for</span>
-<span class="c">%     invertible, real-time constant-Q transforms. IEEE Transactions on</span>
-<span class="c">%     Audio, Speech and Language Processing, 21(4):775 --785, 2013.</span>
-<span class="c">%     </span>
-<span class="c">%     Z. Průša. Segmentwise Discrete Wavelet Transform. PhD thesis, Brno</span>
-<span class="c">%     University of Technology, Brno, 2012.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockana.html</span>
+<span class="c">%BLOCKANA Blockwise analysis interface</span><span class="w"></span>
+<span class="c">%   Usage: c=blockana(F, f)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%      Fa   : Analysis frame object.    </span><span class="w"></span>
+<span class="c">%      f    : Block of signal.</span><span class="w"></span>
+<span class="c">%      fola : Explicitly defined overlap</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%      c    : Block coefficients.</span><span class="w"></span>
+<span class="c">%      fola : Stored overlap</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   c=BLOCKANA(Fa,f) calculates the coefficients c of the signal block f using </span><span class="w"></span>
+<span class="c">%   the frame defined by F. The block overlaps are handled according to the </span><span class="w"></span>
+<span class="c">%   F.blokalg. Assuming BLOCKANA is called in the loop only once, fola*</span><span class="w"></span>
+<span class="c">%   can be omitted and the overlaps are handled in the background</span><span class="w"></span>
+<span class="c">%   automatically.    </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: block, blocksyn, blockplay</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     N. Holighaus, M. Dörfler, G. A. Velasco, and T. Grill. A framework for</span><span class="w"></span>
+<span class="c">%     invertible, real-time constant-Q transforms. IEEE Transactions on</span><span class="w"></span>
+<span class="c">%     Audio, Speech and Language Processing, 21(4):775 --785, 2013.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     Z. Průša. Segmentwise Discrete Wavelet Transform. PhD thesis, Brno</span><span class="w"></span>
+<span class="c">%     University of Technology, Brno, 2012.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockana.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-    
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;BLOCKANA&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;BLOCKANA&#39;</span><span class="p">);</span>
-    
-    <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-       <span class="n">fola</span> <span class="p">=</span> <span class="p">[];</span>
-    <span class="k">end</span>
-    
-    <span class="k">if</span> <span class="o">~</span><span class="n">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;blockalg&#39;</span><span class="p">)</span>
-        <span class="n">F</span><span class="p">.</span><span class="n">blockalg</span> <span class="p">=</span> <span class="s">&#39;naive&#39;</span><span class="p">;</span>
-    <span class="k">end</span>
-    
-    <span class="c">% Block length</span>
-    <span class="n">Lb</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    
-    <span class="k">if</span> <span class="o">~</span><span class="n">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">)</span>
-         <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The frame object was not accelerated. See &#39;</span><span class="p">,</span><span class="c">...</span>
-                <span class="s">&#39;BLOCKFRAMEACCEL.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    <span class="k">end</span>
-    
-    <span class="c">% Next block index start (from a global point of view, starting with zero)</span>
-    <span class="n">nextSb</span> <span class="p">=</span> <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getPos&#39;</span><span class="p">);</span>
-    <span class="c">% Block index start (from a global point of view, starting with zero)</span>
-    <span class="n">Sb</span> <span class="p">=</span> <span class="n">nextSb</span><span class="o">-</span><span class="n">Lb</span><span class="p">;</span>
-    
-    <span class="n">do_sliced</span> <span class="p">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">blockalg</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">);</span>
-    <span class="n">do_segola</span> <span class="p">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">blockalg</span><span class="p">,</span><span class="s">&#39;segola&#39;</span><span class="p">);</span>
-    
-    <span class="k">if</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">blockalg</span><span class="p">,</span><span class="s">&#39;naive&#39;</span><span class="p">)</span>
-       <span class="k">if</span> <span class="n">F</span><span class="p">.</span><span class="n">L</span> <span class="o">&lt;</span> <span class="n">Lb</span>
-          <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The frame object was accelerated with incompatible &#39;</span><span class="p">,</span><span class="c">...</span>
-                 <span class="s">&#39;length. The block length is %i but the accelerated &#39;</span><span class="p">,</span><span class="c">...</span>
-                 <span class="s">&#39;length is %i.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">Lb</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">);</span>
-       <span class="k">end</span>
-       <span class="c">% Most general. Should work for anything.</span>
-       <span class="c">% Produces awful block artifacts when coefficients are altered.</span>
-       <span class="n">f</span> <span class="p">=</span> <span class="p">[</span><span class="n">f</span><span class="p">;</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">))];</span>
-       <span class="n">c</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-    <span class="k">elseif</span> <span class="n">do_sliced</span> <span class="o">||</span> <span class="n">do_segola</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">    </span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;BLOCKANA&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;BLOCKANA&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">       </span><span class="n">fola</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;blockalg&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">F</span><span class="p">.</span><span class="n">blockalg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;naive&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Block length</span><span class="w"></span>
+<span class="w">    </span><span class="n">Lb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: The frame object was not accelerated. See &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                </span><span class="s">&#39;BLOCKFRAMEACCEL.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Next block index start (from a global point of view, starting with zero)</span><span class="w"></span>
+<span class="w">    </span><span class="n">nextSb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getPos&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Block index start (from a global point of view, starting with zero)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Sb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nextSb</span><span class="o">-</span><span class="n">Lb</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">do_sliced</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">blockalg</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">do_segola</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">blockalg</span><span class="p">,</span><span class="s">&#39;segola&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">blockalg</span><span class="p">,</span><span class="s">&#39;naive&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Lb</span><span class="w"></span>
+<span class="w">          </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: The frame object was accelerated with incompatible &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;length. The block length is %i but the accelerated &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;length is %i.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">Lb</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="c">% Most general. Should work for anything.</span><span class="w"></span>
+<span class="w">       </span><span class="c">% Produces awful block artifacts when coefficients are altered.</span><span class="w"></span>
+<span class="w">       </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">f</span><span class="p">;</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">))];</span><span class="w"></span>
+<span class="w">       </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">do_sliced</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">do_segola</span><span class="w"></span>
 
-       <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-       <span class="c">%% STEP 1) Determine overlap lengths </span>
-       <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-       <span class="k">if</span> <span class="n">do_sliced</span>
-          <span class="k">if</span> <span class="n">F</span><span class="p">.</span><span class="n">L</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">*</span><span class="n">Lb</span>
-            <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The frame object was accelerated with incompatible &#39;</span><span class="p">,</span><span class="c">...</span>
-                 <span class="s">&#39;length. The effective block length is %i but the accelerated &#39;</span><span class="p">,</span><span class="c">...</span>
-                 <span class="s">&#39;length is %i.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">Lb</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">);</span>
-          <span class="k">end</span> 
-           
-          <span class="c">% Sliced real-time block processing</span>
-          <span class="c">% Equal block length assumtion</span>
-          <span class="n">Sbolen</span> <span class="p">=</span> <span class="n">Lb</span><span class="p">;</span>
-          <span class="n">nextSbolen</span> <span class="p">=</span> <span class="n">Lb</span><span class="p">;</span>
-       <span class="k">else</span>
-             <span class="k">if</span> <span class="o">~</span><span class="n">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;winLen&#39;</span><span class="p">)</span> 
-                <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Frame does not have FIR windows.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-             <span class="k">end</span>
-             <span class="c">% Window length</span>
-             <span class="n">Lw</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">winLen</span><span class="p">;</span>
-          <span class="k">switch</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
-             <span class="k">case</span> <span class="s">&#39;fwt&#39;</span>
-                <span class="n">J</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">;</span>
-                <span class="n">w</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">;</span>
-                <span class="n">m</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">h</span><span class="p">{</span><span class="mi">1</span><span class="p">}.</span><span class="n">h</span><span class="p">);</span>
-                <span class="n">a</span> <span class="p">=</span> <span class="n">w</span><span class="p">.</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-                <span class="k">if</span> <span class="n">Lb</span><span class="o">&lt;</span><span class="n">a</span>^<span class="n">J</span>
-                   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Minimum block length is 2^%i=%i.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">J</span><span class="p">,</span><span class="n">a</span>^<span class="n">J</span><span class="p">);</span>
-                <span class="k">end</span>
-                <span class="n">rred</span> <span class="p">=</span> <span class="p">(</span><span class="n">a</span>^<span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">a</span><span class="p">);</span>
-                <span class="n">Sbolen</span> <span class="p">=</span> <span class="n">rred</span> <span class="o">+</span> <span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span>^<span class="n">J</span><span class="p">);</span>
-                <span class="n">nextSbolen</span> <span class="p">=</span> <span class="n">rred</span> <span class="o">+</span> <span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span>^<span class="n">J</span><span class="p">);</span>
-             <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span>
-                <span class="n">a</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">;</span> 
-                <span class="n">Sbolen</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-                <span class="n">nextSbolen</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-             <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbankreal&#39;</span><span class="p">}</span>
-                <span class="n">a</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">lcma</span><span class="p">;</span>
-                <span class="k">if</span> <span class="n">Lw</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">a</span>
-                   <span class="n">Sbolen</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-                   <span class="n">nextSbolen</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-                <span class="k">else</span>
-                   <span class="n">Sbolen</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-                   <span class="n">nextSbolen</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-                <span class="k">end</span>
-                <span class="c">%Sbolen = ceil((Lw-1)/a)*a + mod(Sb,a);</span>
-                <span class="c">%nextSbolen = ceil((Lw-1)/a)*a + mod(nextSb,a);</span>
-             <span class="k">otherwise</span>
-                <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unsupported frame.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-          <span class="k">end</span>
-       <span class="k">end</span>
-       
-       <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-       <span class="c">%% STEP 2) Common overlap handling </span>
-       <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-       <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">fola</span><span class="p">)</span>
-           <span class="c">% Avoiding case when empty fola means just uninitialized </span>
-           <span class="c">% custom overlap.</span>
-           <span class="n">fola</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-       <span class="k">end</span>
-       <span class="c">% Append the previous block</span>
-       <span class="n">fext</span> <span class="p">=</span> <span class="p">[</span><span class="n">loadOverlap</span><span class="p">(</span><span class="n">Sbolen</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">fola</span><span class="p">);</span><span class="n">f</span><span class="p">];</span>
-       <span class="c">% Save the current block</span>
-       <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
-          <span class="n">fola</span> <span class="p">=</span> <span class="n">storeOverlap</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="n">nextSbolen</span><span class="p">);</span>
-       <span class="k">else</span>
-          <span class="n">storeOverlap</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="n">nextSbolen</span><span class="p">);</span>
-       <span class="k">end</span>
-       
-       <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-       <span class="c">%% STEP 3) Do the rest</span>
-       <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-       <span class="k">if</span> <span class="n">do_sliced</span>
-          <span class="c">% Multiply by the slicing window (all channels)</span>
-          <span class="n">fwin</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">sliwin</span><span class="p">,</span><span class="n">fext</span><span class="p">);</span>
-          <span class="c">% If some padding is necessary, do it symmetrically</span>
-          <span class="n">pad</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">fwin</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-          <span class="n">W</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">fwin</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-          <span class="n">fwin</span> <span class="p">=</span> <span class="p">[</span><span class="nb">zeros</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">pad</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">W</span><span class="p">);</span><span class="c">...</span>
-                  <span class="n">fwin</span><span class="p">;</span><span class="c">...</span>
-                  <span class="nb">zeros</span><span class="p">(</span><span class="nb">ceil</span><span class="p">(</span><span class="n">pad</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">W</span><span class="p">)];</span>
-          <span class="c">% Apply transform</span>
-          <span class="n">c</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fwin</span><span class="p">);</span>
-       <span class="k">else</span>
-          <span class="k">switch</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
-             <span class="k">case</span> <span class="s">&#39;fwt&#39;</span>
-                <span class="n">c</span> <span class="p">=</span> <span class="n">block_fwt</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">J</span><span class="p">);</span>
-             <span class="k">case</span> <span class="p">{</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span>
-                <span class="n">Lwl</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">Lw</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
-                <span class="n">Lext</span> <span class="p">=</span> <span class="n">Sbolen</span> <span class="o">+</span> <span class="n">Lb</span> <span class="o">-</span> <span class="n">nextSbolen</span> <span class="o">+</span> <span class="n">Lwl</span><span class="p">;</span>
-                <span class="n">startc</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">Lwl</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-                <span class="n">endc</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">((</span><span class="n">Lext</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">);</span>
-                <span class="c">% Pad with zeros to comply with the frame requirements</span>
-                <span class="n">fext</span> <span class="p">=</span> <span class="p">[</span><span class="n">fext</span><span class="p">;</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">2</span><span class="p">))];</span>
-                <span class="n">c</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fext</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">,:));</span>
-                <span class="c">% Pick just valid coefficients</span>
-                <span class="n">cc</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">coef2native</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
-                <span class="n">cc</span> <span class="p">=</span> <span class="n">cc</span><span class="p">(:,</span><span class="n">startc</span><span class="p">:</span><span class="n">endc</span><span class="p">,:);</span>
-                <span class="n">c</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">native2coef</span><span class="p">(</span><span class="n">cc</span><span class="p">);</span>
-             <span class="k">case</span> <span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">}</span>
-                <span class="c">% Subsampling factors</span>
-                <span class="n">a</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span>
-                <span class="c">% Filter lengths</span>
-                <span class="n">gl</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">g_info</span><span class="p">.</span><span class="n">gl</span><span class="p">;</span>
-                <span class="c">% Filter offsets</span>
-                <span class="n">Lwl</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">gl</span><span class="o">+</span><span class="n">F</span><span class="p">.</span><span class="n">g_info</span><span class="p">.</span><span class="n">offset</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-                <span class="n">Lext</span> <span class="p">=</span> <span class="n">Sbolen</span> <span class="o">+</span> <span class="n">Lb</span> <span class="o">-</span> <span class="n">nextSbolen</span> <span class="o">+</span> <span class="n">Lwl</span><span class="p">;</span>
-                <span class="n">startc</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">Lwl</span><span class="o">./</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-                <span class="n">endc</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">((</span><span class="n">Lext</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">);</span>
-                
-                <span class="n">fext</span> <span class="p">=</span> <span class="p">[</span><span class="n">fext</span><span class="p">;</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">2</span><span class="p">))];</span>
-                <span class="n">c</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fext</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">,:));</span>
-                <span class="n">cc</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">coef2native</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
-                <span class="n">cc</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">sEl</span><span class="p">,</span><span class="n">eEl</span><span class="p">)</span> <span class="n">cEl</span><span class="p">(</span><span class="n">sEl</span><span class="p">:</span><span class="n">eEl</span><span class="p">,:),</span><span class="n">cc</span><span class="p">,</span><span class="n">num2cell</span><span class="p">(</span><span class="n">startc</span><span class="p">),</span><span class="n">num2cell</span><span class="p">(</span><span class="n">endc</span><span class="p">),</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-                <span class="n">c</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">native2coef</span><span class="p">(</span><span class="n">cc</span><span class="p">);</span>
-          <span class="k">end</span>
-       <span class="k">end</span>
-    <span class="k">else</span>
-       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Frame was not created with blockaccel.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    <span class="k">end</span>
+<span class="w">       </span><span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><span class="w"></span>
+<span class="w">       </span><span class="c">%% STEP 1) Determine overlap lengths </span><span class="w"></span>
+<span class="w">       </span><span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="n">do_sliced</span><span class="w"></span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">Lb</span><span class="w"></span>
+<span class="w">            </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: The frame object was accelerated with incompatible &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;length. The effective block length is %i but the accelerated &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;length is %i.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">Lb</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="k">end</span><span class="w"> </span>
+<span class="w">           </span>
+<span class="w">          </span><span class="c">% Sliced real-time block processing</span><span class="w"></span>
+<span class="w">          </span><span class="c">% Equal block length assumtion</span><span class="w"></span>
+<span class="w">          </span><span class="n">Sbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Lb</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="n">nextSbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Lb</span><span class="p">;</span><span class="w"></span>
+<span class="w">       </span><span class="k">else</span><span class="w"></span>
+<span class="w">             </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;winLen&#39;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">                </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Frame does not have FIR windows.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">             </span><span class="k">end</span><span class="w"></span>
+<span class="w">             </span><span class="c">% Window length</span><span class="w"></span>
+<span class="w">             </span><span class="n">Lw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">winLen</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="k">switch</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">)</span><span class="w"></span>
+<span class="w">             </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;fwt&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="n">J</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">J</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">w</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">g</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">m</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">h</span><span class="p">{</span><span class="mi">1</span><span class="p">}.</span><span class="n">h</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">w</span><span class="p">.</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">Lb</span><span class="o">&lt;</span><span class="n">a</span>^<span class="n">J</span><span class="w"></span>
+<span class="w">                   </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Minimum block length is 2^%i=%i.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">J</span><span class="p">,</span><span class="n">a</span>^<span class="n">J</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="k">end</span><span class="w"></span>
+<span class="w">                </span><span class="n">rred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span>^<span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">Sbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rred</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span>^<span class="n">J</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">nextSbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rred</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span>^<span class="n">J</span><span class="p">);</span><span class="w"></span>
+<span class="w">             </span><span class="k">case</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">;</span><span class="w"> </span>
+<span class="w">                </span><span class="n">Sbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">nextSbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">             </span><span class="k">case</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">,</span><span class="s">&#39;ufilterbankreal&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">lcma</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">                   </span><span class="n">Sbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                   </span><span class="n">nextSbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="k">else</span><span class="w"></span>
+<span class="w">                   </span><span class="n">Sbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">Sb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                   </span><span class="n">nextSbolen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">((</span><span class="n">Lw</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">nextSb</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="k">end</span><span class="w"></span>
+<span class="w">                </span><span class="c">%Sbolen = ceil((Lw-1)/a)*a + mod(Sb,a);</span><span class="w"></span>
+<span class="w">                </span><span class="c">%nextSbolen = ceil((Lw-1)/a)*a + mod(nextSb,a);</span><span class="w"></span>
+<span class="w">             </span><span class="k">otherwise</span><span class="w"></span>
+<span class="w">                </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Unsupported frame.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">          </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span>
+<span class="w">       </span><span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><span class="w"></span>
+<span class="w">       </span><span class="c">%% STEP 2) Common overlap handling </span><span class="w"></span>
+<span class="w">       </span><span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">fola</span><span class="p">)</span><span class="w"></span>
+<span class="w">           </span><span class="c">% Avoiding case when empty fola means just uninitialized </span><span class="w"></span>
+<span class="w">           </span><span class="c">% custom overlap.</span><span class="w"></span>
+<span class="w">           </span><span class="n">fola</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="c">% Append the previous block</span><span class="w"></span>
+<span class="w">       </span><span class="n">fext</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">loadOverlap</span><span class="p">(</span><span class="n">Sbolen</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">fola</span><span class="p">);</span><span class="n">f</span><span class="p">];</span><span class="w"></span>
+<span class="w">       </span><span class="c">% Save the current block</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">          </span><span class="n">fola</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">storeOverlap</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="n">nextSbolen</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="k">else</span><span class="w"></span>
+<span class="w">          </span><span class="n">storeOverlap</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="n">nextSbolen</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span>
+<span class="w">       </span><span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><span class="w"></span>
+<span class="w">       </span><span class="c">%% STEP 3) Do the rest</span><span class="w"></span>
+<span class="w">       </span><span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="n">do_sliced</span><span class="w"></span>
+<span class="w">          </span><span class="c">% Multiply by the slicing window (all channels)</span><span class="w"></span>
+<span class="w">          </span><span class="n">fwin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">sliwin</span><span class="p">,</span><span class="n">fext</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="c">% If some padding is necessary, do it symmetrically</span><span class="w"></span>
+<span class="w">          </span><span class="nb">pad</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">fwin</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">W</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">fwin</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">fwin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">zeros</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="nb">pad</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">W</span><span class="p">);</span><span class="k">...</span><span class="w"></span>
+<span class="w">                  </span><span class="n">fwin</span><span class="p">;</span><span class="k">...</span><span class="w"></span>
+<span class="w">                  </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">ceil</span><span class="p">(</span><span class="nb">pad</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">W</span><span class="p">)];</span><span class="w"></span>
+<span class="w">          </span><span class="c">% Apply transform</span><span class="w"></span>
+<span class="w">          </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fwin</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="k">else</span><span class="w"></span>
+<span class="w">          </span><span class="k">switch</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">type</span><span class="p">)</span><span class="w"></span>
+<span class="w">             </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;fwt&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">block_fwt</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">J</span><span class="p">);</span><span class="w"></span>
+<span class="w">             </span><span class="k">case</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;dgtreal&#39;</span><span class="p">,</span><span class="s">&#39;dgt&#39;</span><span class="p">,</span><span class="s">&#39;dwilt&#39;</span><span class="p">,</span><span class="s">&#39;wmdct&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="n">Lwl</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">Lw</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">Lext</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Sbolen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Lb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nextSbolen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Lwl</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">startc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lwl</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">endc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">((</span><span class="n">Lext</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="c">% Pad with zeros to comply with the frame requirements</span><span class="w"></span>
+<span class="w">                </span><span class="n">fext</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">fext</span><span class="p">;</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">2</span><span class="p">))];</span><span class="w"></span>
+<span class="w">                </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fext</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">,:));</span><span class="w"></span>
+<span class="w">                </span><span class="c">% Pick just valid coefficients</span><span class="w"></span>
+<span class="w">                </span><span class="n">cc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">coef2native</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"></span>
+<span class="w">                </span><span class="n">cc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cc</span><span class="p">(:,</span><span class="n">startc</span><span class="p">:</span><span class="n">endc</span><span class="p">,:);</span><span class="w"></span>
+<span class="w">                </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">native2coef</span><span class="p">(</span><span class="n">cc</span><span class="p">);</span><span class="w"></span>
+<span class="w">             </span><span class="k">case</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="c">% Subsampling factors</span><span class="w"></span>
+<span class="w">                </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="c">% Filter lengths</span><span class="w"></span>
+<span class="w">                </span><span class="n">gl</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">g_info</span><span class="p">.</span><span class="n">gl</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="c">% Filter offsets</span><span class="w"></span>
+<span class="w">                </span><span class="n">Lwl</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">gl</span><span class="o">+</span><span class="n">F</span><span class="p">.</span><span class="n">g_info</span><span class="p">.</span><span class="n">offset</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">Lext</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Sbolen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Lb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nextSbolen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Lwl</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">startc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lwl</span><span class="o">./</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">endc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">((</span><span class="n">Lext</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span>
+<span class="w">                </span><span class="n">fext</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">fext</span><span class="p">;</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="o">-</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">2</span><span class="p">))];</span><span class="w"></span>
+<span class="w">                </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fext</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">,:));</span><span class="w"></span>
+<span class="w">                </span><span class="n">cc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">coef2native</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"></span>
+<span class="w">                </span><span class="n">cc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">sEl</span><span class="p">,</span><span class="n">eEl</span><span class="p">)</span><span class="w"> </span><span class="n">cEl</span><span class="p">(</span><span class="n">sEl</span><span class="p">:</span><span class="n">eEl</span><span class="p">,:),</span><span class="n">cc</span><span class="p">,</span><span class="nb">num2cell</span><span class="p">(</span><span class="n">startc</span><span class="p">),</span><span class="nb">num2cell</span><span class="p">(</span><span class="n">endc</span><span class="p">),</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">native2coef</span><span class="p">(</span><span class="n">cc</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">       </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Frame was not created with blockaccel.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 
-<span class="k">end</span> <span class="c">% BLOCKANA</span>
+<span class="k">end</span><span class="w"> </span><span class="c">% BLOCKANA</span><span class="w"></span>
 
 <span class="k">function</span><span class="w"> </span>overlap<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">loadOverlap</span><span class="p">(</span>L,chan,overlap<span class="p">)</span><span class="w"></span>
-<span class="c">%LOADOVERLAP Loads overlap</span>
-<span class="c">%</span>
-<span class="c">%</span>
-    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span>
-       <span class="n">overlap</span> <span class="p">=</span> <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getAnaOverlap&#39;</span><span class="p">);</span>
-    <span class="k">end</span>
+<span class="c">%LOADOVERLAP Loads overlap</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span><span class="w"></span>
+<span class="w">       </span><span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getAnaOverlap&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 
-    <span class="c">% Supply zeros if it is empty</span>
-    <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span>
-        <span class="n">overlap</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">chan</span><span class="p">,</span><span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getClassId&#39;</span><span class="p">));</span>
-    <span class="k">end</span>
-    <span class="n">Lo</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">overlap</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">1</span>
-        <span class="n">L</span> <span class="p">=</span> <span class="n">Lo</span><span class="p">;</span>
-    <span class="k">end</span>
-    <span class="c">% If required more than stored, do zero padding</span>
-    <span class="k">if</span> <span class="n">L</span><span class="o">&gt;</span><span class="n">Lo</span>
-        <span class="n">oTmp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">chan</span><span class="p">);</span>
-        <span class="n">oTmp</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">Lo</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:)</span> <span class="p">=</span> <span class="n">oTmp</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">Lo</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:)</span><span class="o">+</span><span class="n">overlap</span><span class="p">;</span>
-        <span class="n">overlap</span> <span class="p">=</span> <span class="n">oTmp</span><span class="p">;</span>
-    <span class="k">else</span>
-        <span class="n">overlap</span> <span class="p">=</span> <span class="n">overlap</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:);</span>
-    <span class="k">end</span>
-    
-<span class="k">end</span> <span class="c">% LOADOVERLAP</span>
+<span class="w">    </span><span class="c">% Supply zeros if it is empty</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">chan</span><span class="p">,</span><span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getClassId&#39;</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="n">Lo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">overlap</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Lo</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="c">% If required more than stored, do zero padding</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">L</span><span class="o">&gt;</span><span class="n">Lo</span><span class="w"></span>
+<span class="w">        </span><span class="n">oTmp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">chan</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">oTmp</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">Lo</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">oTmp</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">Lo</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:)</span><span class="o">+</span><span class="n">overlap</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">oTmp</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">overlap</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="k">end</span><span class="w"> </span><span class="c">% LOADOVERLAP</span><span class="w"></span>
 
 <span class="k">function</span><span class="w"> </span>overlap<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">storeOverlap</span><span class="p">(</span>fext,L<span class="p">)</span><span class="w"></span>
-<span class="c">%STOREOVERLAP Stores overlap</span>
-<span class="c">%</span>
-<span class="c">%</span>
-    <span class="k">if</span> <span class="n">L</span><span class="o">&gt;</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Storing more samples than passed.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    <span class="k">end</span>
-    <span class="n">overlap</span> <span class="p">=</span> <span class="n">fext</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:);</span>
-    
-    <span class="k">if</span> <span class="n">nargout</span><span class="o">&lt;</span><span class="mi">1</span>
-       <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setAnaOverlap&#39;</span><span class="p">,</span><span class="n">overlap</span><span class="p">);</span> 
-    <span class="k">end</span>
-<span class="k">end</span> <span class="c">% STOREOVERLAP</span>
+<span class="c">%STOREOVERLAP Stores overlap</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">L</span><span class="o">&gt;</span><span class="nb">size</span><span class="p">(</span><span class="n">fext</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Storing more samples than passed.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fext</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,:);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">       </span><span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setAnaOverlap&#39;</span><span class="p">,</span><span class="n">overlap</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="c">% STOREOVERLAP</span><span class="w"></span>
 </pre></div>
 
 

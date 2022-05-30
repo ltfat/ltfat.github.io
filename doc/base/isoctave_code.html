@@ -38,39 +38,39 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">ISOCTAVE - True if the operating environment is octave</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>t<span class="p">=</span><span class="nf">isoctave</span><span class="p">()</span><span class="w"></span>
-<span class="c">%ISOCTAVE  True if the operating environment is octave</span>
-<span class="c">%   Usage: t=isoctave();</span>
-<span class="c">%</span>
-<span class="c">%   ISOCTAVE returns 1 if the operating environment is Octave, otherwise</span>
-<span class="c">%   it returns 0 (Matlab)</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/isoctave.html</span>
+<span class="c">%ISOCTAVE  True if the operating environment is octave</span><span class="w"></span>
+<span class="c">%   Usage: t=isoctave();</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   ISOCTAVE returns 1 if the operating environment is Octave, otherwise</span><span class="w"></span>
+<span class="c">%   it returns 0 (Matlab)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/isoctave.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard.  </span>
-<span class="c">%   TESTING: NA</span>
-<span class="c">%   REFERENCE: NA</span>
-<span class="k">persistent</span> <span class="n">inout</span><span class="p">;</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard.  </span><span class="w"></span>
+<span class="c">%   TESTING: NA</span><span class="w"></span>
+<span class="c">%   REFERENCE: NA</span><span class="w"></span>
+<span class="k">persistent</span><span class="w"> </span><span class="n">inout</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">inout</span><span class="p">),</span>
-  <span class="n">inout</span> <span class="p">=</span> <span class="n">exist</span><span class="p">(</span><span class="s">&#39;OCTAVE_VERSION&#39;</span><span class="p">,</span><span class="s">&#39;builtin&#39;</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
-<span class="n">t</span> <span class="p">=</span> <span class="n">inout</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">inout</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">inout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="s">&#39;OCTAVE_VERSION&#39;</span><span class="p">,</span><span class="s">&#39;builtin&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">inout</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

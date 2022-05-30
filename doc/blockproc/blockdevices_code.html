@@ -42,69 +42,69 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">BLOCKDEVICES - Lists audio devices</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>devs<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">blockdevices</span><span class="p">()</span><span class="w"></span>
-<span class="c">%BLOCKDEVICES Lists audio devices</span>
-<span class="c">%   Usage: devs = blockdevices();</span>
-<span class="c">%</span>
-<span class="c">%   BLOCKDEVICES lists the available audio input and output devices. The</span>
-<span class="c">%   ID can be used in the BLOCK function to specify which device should</span>
-<span class="c">%   be used.</span>
-<span class="c">%</span>
-<span class="c">%   See also: block</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockdevices.html</span>
+<span class="c">%BLOCKDEVICES Lists audio devices</span><span class="w"></span>
+<span class="c">%   Usage: devs = blockdevices();</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   BLOCKDEVICES lists the available audio input and output devices. The</span><span class="w"></span>
+<span class="c">%   ID can be used in the BLOCK function to specify which device should</span><span class="w"></span>
+<span class="c">%   be used.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: block</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockdevices.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">clear</span> <span class="n">playrec</span><span class="p">;</span>
+<span class="nb">clear</span><span class="w"> </span><span class="n">playrec</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">devs</span> <span class="p">=</span> <span class="n">playrec</span><span class="p">(</span><span class="s">&#39;getDevices&#39;</span><span class="p">);</span>
+<span class="n">devs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">playrec</span><span class="p">(</span><span class="s">&#39;getDevices&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;\nAvailable output devices:\n&#39;</span><span class="p">);</span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;\nAvailable output devices:\n&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">for</span> <span class="n">k</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">devs</span><span class="p">)</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">outputChans</span><span class="p">)</span>
-        <span class="n">fs</span> <span class="p">=</span> <span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;%d, &#39;</span><span class="p">,</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">supportedSampleRates</span><span class="p">);</span>
-        <span class="n">fs</span> <span class="p">=</span> <span class="p">[</span><span class="s">&#39;[&#39;</span><span class="p">,</span><span class="n">fs</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;]&#39;</span> <span class="p">];</span>
-        <span class="n">fprintf</span><span class="p">([</span><span class="s">&#39;ID =%2d: %s (%s) %d chan., latency %d--%d ms,&#39;</span><span class="c">...</span>
-                 <span class="s">&#39; fs %s\n&#39;</span><span class="p">],</span> <span class="c">...</span>
-            <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">deviceID</span><span class="p">,</span> <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">name</span><span class="p">,</span> <span class="c">...</span>
-            <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">hostAPI</span><span class="p">,</span> <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">outputChans</span><span class="p">,</span><span class="c">...</span>
-            <span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultLowOutputLatency</span><span class="p">),</span><span class="c">...</span>
-            <span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultHighOutputLatency</span><span class="p">),</span><span class="c">...</span>
-            <span class="n">fs</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">devs</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">outputChans</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">fs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%d, &#39;</span><span class="p">,</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">supportedSampleRates</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">fs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;[&#39;</span><span class="p">,</span><span class="n">fs</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;]&#39;</span><span class="w"> </span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">([</span><span class="s">&#39;ID =%2d: %s (%s) %d chan., latency %d--%d ms,&#39;</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39; fs %s\n&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">deviceID</span><span class="p">,</span><span class="w"> </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">hostAPI</span><span class="p">,</span><span class="w"> </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">outputChans</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultLowOutputLatency</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultHighOutputLatency</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="n">fs</span><span class="p">);</span><span class="w"></span>
 
-    <span class="k">end</span>
-<span class="k">end</span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;\nAvailable input devices:\n&#39;</span><span class="p">);</span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;\nAvailable input devices:\n&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">for</span> <span class="n">k</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">devs</span><span class="p">)</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">inputChans</span><span class="p">)</span>
-        <span class="n">fs</span> <span class="p">=</span> <span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;%d, &#39;</span><span class="p">,</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">supportedSampleRates</span><span class="p">);</span>
-        <span class="n">fs</span> <span class="p">=</span> <span class="p">[</span><span class="s">&#39;[&#39;</span><span class="p">,</span><span class="n">fs</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;]&#39;</span> <span class="p">];</span>
-        <span class="n">fprintf</span><span class="p">([</span><span class="s">&#39;ID =%2d: %s (%s) %d chan., latency %d--%d ms,&#39;</span><span class="c">...</span>
-                 <span class="s">&#39; fs %s\n&#39;</span><span class="p">],</span> <span class="c">...</span>
-            <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">deviceID</span><span class="p">,</span> <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">name</span><span class="p">,</span> <span class="c">...</span>
-            <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">hostAPI</span><span class="p">,</span> <span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">inputChans</span><span class="p">,</span><span class="c">...</span>
-            <span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultLowInputLatency</span><span class="p">),</span><span class="c">...</span>
-            <span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultHighInputLatency</span><span class="p">),</span><span class="n">fs</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">devs</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">inputChans</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">fs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%d, &#39;</span><span class="p">,</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">supportedSampleRates</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">fs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;[&#39;</span><span class="p">,</span><span class="n">fs</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;]&#39;</span><span class="w"> </span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">([</span><span class="s">&#39;ID =%2d: %s (%s) %d chan., latency %d--%d ms,&#39;</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39; fs %s\n&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">deviceID</span><span class="p">,</span><span class="w"> </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">hostAPI</span><span class="p">,</span><span class="w"> </span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">inputChans</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultLowInputLatency</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="nb">floor</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">devs</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">defaultHighInputLatency</span><span class="p">),</span><span class="n">fs</span><span class="p">);</span><span class="w"></span>
 
-    <span class="k">end</span>
-<span class="k">end</span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

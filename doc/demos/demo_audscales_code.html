@@ -44,63 +44,63 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_AUDSCALES - Plot of the different auditory scales</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="c">%DEMO_AUDSCALES  Plot of the different auditory scales</span>
-<span class="c">%</span>
-<span class="c">%   This demos generates a simple figure that shows the behaviour of</span>
-<span class="c">%   the different audiory scales in the frequency range from 0 to 8000 Hz.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 1: Auditory scales</span>
-<span class="c">%</span>
-<span class="c">%      The figure shows the behaviour of the audiory scales on a normalized</span>
-<span class="c">%      frequency plot.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  freqtoaud, audtofreq, audspace, audspacebw</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_audscales.html</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_AUDSCALES  Plot of the different auditory scales</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This demos generates a simple figure that shows the behaviour of</span><span class="w"></span>
+<span class="c">%   the different audiory scales in the frequency range from 0 to 8000 Hz.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 1: Auditory scales</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The figure shows the behaviour of the audiory scales on a normalized</span><span class="w"></span>
+<span class="c">%      frequency plot.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  freqtoaud, audtofreq, audspace, audspacebw</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_audscales.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">([</span><span class="s">&#39;Type &quot;help demo_audscales&quot; to see a description of how this &#39;</span><span class="p">,</span> <span class="c">...</span>
-      <span class="s">&#39;demo works.&#39;</span><span class="p">]);</span>
+<span class="nb">disp</span><span class="p">([</span><span class="s">&#39;Type &quot;help demo_audscales&quot; to see a description of how this &#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="s">&#39;demo works.&#39;</span><span class="p">]);</span><span class="w"></span>
 
-<span class="c">% Set the limits</span>
-<span class="n">flow</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="n">fhigh</span><span class="p">=</span><span class="mi">8000</span><span class="p">;</span>
-<span class="n">plotpoints</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span>
+<span class="c">% Set the limits</span><span class="w"></span>
+<span class="nb">flow</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">fhigh</span><span class="p">=</span><span class="mi">8000</span><span class="p">;</span><span class="w"></span>
+<span class="n">plotpoints</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">xrange</span><span class="p">=</span><span class="nb">linspace</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span><span class="n">fhigh</span><span class="p">,</span><span class="n">plotpoints</span><span class="p">);</span>
+<span class="n">xrange</span><span class="p">=</span><span class="nb">linspace</span><span class="p">(</span><span class="nb">flow</span><span class="p">,</span><span class="n">fhigh</span><span class="p">,</span><span class="n">plotpoints</span><span class="p">);</span><span class="w"></span>
 
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">types</span>   <span class="p">=</span> <span class="p">{</span><span class="s">&#39;erb&#39;</span><span class="p">,</span><span class="s">&#39;bark&#39;</span><span class="p">,</span><span class="s">&#39;mel&#39;</span><span class="p">,</span><span class="s">&#39;erb83&#39;</span><span class="p">,</span><span class="s">&#39;mel1000&#39;</span><span class="p">};</span>
-<span class="n">symbols</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;k-&#39;</span> <span class="p">,</span><span class="s">&#39;ro&#39;</span>  <span class="p">,</span><span class="s">&#39;gx&#39;</span> <span class="p">,</span><span class="s">&#39;b+&#39;</span>   <span class="p">,</span><span class="s">&#39;y*&#39;</span><span class="p">};</span>
+<span class="n">types</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;erb&#39;</span><span class="p">,</span><span class="s">&#39;bark&#39;</span><span class="p">,</span><span class="s">&#39;mel&#39;</span><span class="p">,</span><span class="s">&#39;erb83&#39;</span><span class="p">,</span><span class="s">&#39;mel1000&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">symbols</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;k-&#39;</span><span class="w"> </span><span class="p">,</span><span class="s">&#39;ro&#39;</span><span class="w">  </span><span class="p">,</span><span class="s">&#39;gx&#39;</span><span class="w"> </span><span class="p">,</span><span class="s">&#39;b+&#39;</span><span class="w">   </span><span class="p">,</span><span class="s">&#39;y*&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
-<span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">types</span><span class="p">)</span>
-  <span class="n">curve</span> <span class="p">=</span> <span class="n">freqtoaud</span><span class="p">(</span><span class="n">xrange</span><span class="p">,</span><span class="n">types</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span>
-  <span class="c">% Normalize the frequency to a maximum of 1.</span>
-  <span class="n">curve</span><span class="p">=</span><span class="n">curve</span><span class="o">/</span><span class="n">curve</span><span class="p">(</span><span class="k">end</span><span class="p">);</span>
-  <span class="n">plot</span><span class="p">(</span><span class="n">xrange</span><span class="p">,</span><span class="n">curve</span><span class="p">,</span><span class="n">symbols</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span>
-<span class="k">end</span><span class="p">;</span>
-<span class="n">hold</span> <span class="n">off</span><span class="p">;</span>
-<span class="n">legend</span><span class="p">(</span><span class="n">types</span><span class="p">{:},</span><span class="s">&#39;Location&#39;</span><span class="p">,</span><span class="s">&#39;SouthEast&#39;</span><span class="p">);</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Frequency (Hz)&#39;</span><span class="p">);</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Auditory unit (normalized)&#39;</span><span class="p">);</span>
+<span class="n">hold</span><span class="w"> </span><span class="s">on</span><span class="p">;</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">types</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">curve</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">freqtoaud</span><span class="p">(</span><span class="n">xrange</span><span class="p">,</span><span class="n">types</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Normalize the frequency to a maximum of 1.</span><span class="w"></span>
+<span class="w">  </span><span class="n">curve</span><span class="p">=</span><span class="n">curve</span><span class="o">/</span><span class="n">curve</span><span class="p">(</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">plot</span><span class="p">(</span><span class="n">xrange</span><span class="p">,</span><span class="n">curve</span><span class="p">,</span><span class="n">symbols</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="n">hold</span><span class="w"> </span><span class="s">off</span><span class="p">;</span><span class="w"></span>
+<span class="nb">legend</span><span class="p">(</span><span class="n">types</span><span class="p">{:},</span><span class="s">&#39;Location&#39;</span><span class="p">,</span><span class="s">&#39;SouthEast&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Frequency (Hz)&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;Auditory unit (normalized)&#39;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

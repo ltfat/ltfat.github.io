@@ -43,166 +43,166 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_DGT - Basic introduction to DGT analysis/synthesis</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="c">%DEMO_DGT  Basic introduction to DGT analysis/synthesis</span>
-<span class="c">%</span>
-<span class="c">%   This demo shows how to compute Gabor coefficients of a signal.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 1: Spectrogram of the &#39;bat&#39; signal.</span>
-<span class="c">%</span>
-<span class="c">%      The figure shows a spectrogram of the &#39;bat&#39; signal. The</span>
-<span class="c">%      coefficients are shown on a linear scale.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 2: Gabor coefficients of the &#39;bat&#39; signal.</span>
-<span class="c">%</span>
-<span class="c">%      The figure show a set of Gabor coefficients for the &#39;bat&#39; signal,</span>
-<span class="c">%      computed using a DGT with a Gaussian window. The coefficients</span>
-<span class="c">%      contains all the information to reconstruct the signal, even though</span>
-<span class="c">%      there a far fewer coefficients than the spectrogram contains.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 3: Real-valued Gabor analysis</span>
-<span class="c">%</span>
-<span class="c">%      This figure shows only the coefficients for the positive</span>
-<span class="c">%      frequencies. As the signal is real-value, these coefficients</span>
-<span class="c">%      contain all the necessary information. Compare to the shape of the</span>
-<span class="c">%      spectrogram shown on Figure 1.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 4: DGT coefficients on a spectrogram</span>
-<span class="c">%</span>
-<span class="c">%      This figure shows how the coefficients from DGTREAL can be picked</span>
-<span class="c">%      from the coefficients computed by a full Short-time Fourier</span>
-<span class="c">%      transform, as visualized by a spectrogram.</span>
-<span class="c">%</span>
-<span class="c">%   See also: sgram, dgt, dgtreal</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_dgt.html</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_DGT  Basic introduction to DGT analysis/synthesis</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This demo shows how to compute Gabor coefficients of a signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 1: Spectrogram of the &#39;bat&#39; signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The figure shows a spectrogram of the &#39;bat&#39; signal. The</span><span class="w"></span>
+<span class="c">%      coefficients are shown on a linear scale.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 2: Gabor coefficients of the &#39;bat&#39; signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The figure show a set of Gabor coefficients for the &#39;bat&#39; signal,</span><span class="w"></span>
+<span class="c">%      computed using a DGT with a Gaussian window. The coefficients</span><span class="w"></span>
+<span class="c">%      contains all the information to reconstruct the signal, even though</span><span class="w"></span>
+<span class="c">%      there a far fewer coefficients than the spectrogram contains.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 3: Real-valued Gabor analysis</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      This figure shows only the coefficients for the positive</span><span class="w"></span>
+<span class="c">%      frequencies. As the signal is real-value, these coefficients</span><span class="w"></span>
+<span class="c">%      contain all the necessary information. Compare to the shape of the</span><span class="w"></span>
+<span class="c">%      spectrogram shown on Figure 1.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 4: DGT coefficients on a spectrogram</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      This figure shows how the coefficients from DGTREAL can be picked</span><span class="w"></span>
+<span class="c">%      from the coefficients computed by a full Short-time Fourier</span><span class="w"></span>
+<span class="c">%      transform, as visualized by a spectrogram.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: sgram, dgt, dgtreal</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_dgt.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Type &quot;help demo_dgt&quot; to see a description of how this demo works.&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Type &quot;help demo_dgt&quot; to see a description of how this demo works.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Load a test signal</span>
-<span class="n">f</span><span class="p">=</span><span class="n">bat</span><span class="p">;</span>
+<span class="c">% Load a test signal</span><span class="w"></span>
+<span class="n">f</span><span class="p">=</span><span class="n">bat</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% sampling rate of the test signal, only important for plotting</span>
-<span class="n">fs</span><span class="p">=</span><span class="mi">143000</span><span class="p">;</span>
+<span class="c">% sampling rate of the test signal, only important for plotting</span><span class="w"></span>
+<span class="n">fs</span><span class="p">=</span><span class="mi">143000</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Length of signal</span>
-<span class="n">Ls</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="c">% Length of signal</span><span class="w"></span>
+<span class="n">Ls</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;------ Spectrogram analysis -----------------------------------&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;------ Spectrogram analysis -----------------------------------&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">c_sgram</span><span class="p">=</span><span class="n">sgram</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;lin&#39;</span><span class="p">);</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Spectrogram of the bat test signal.&#39;</span><span class="p">);</span>
-
-
-<span class="c">% Number of coefficients in the Spectrogram</span>
-<span class="n">no_sgram</span><span class="p">=</span><span class="nb">numel</span><span class="p">(</span><span class="n">c_sgram</span><span class="p">);</span>
-
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;The spectrogram is highly redundant.&#39;</span><span class="p">);</span>
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;No. of coefficients in the signal:       %i\n&#39;</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;No. of coefficients in the spectrogram:  %i\n&#39;</span><span class="p">,</span><span class="n">no_sgram</span><span class="p">);</span>
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Redundacy of the spectrogram:            %f\n&#39;</span><span class="p">,</span><span class="n">no_sgram</span><span class="o">/</span><span class="n">Ls</span><span class="p">);</span>
-
-<span class="c">% WARNING: In the above code, the spectrogram routine SGRAM returns the</span>
-<span class="c">% coefficients use to plot the image. These coefficients are ONLY</span>
-<span class="c">% intended to be used by post-processing image tools, and in this</span>
-<span class="c">% example, the are only used to illustrate the redundancy of the</span>
-<span class="c">% spectogram. Numerical Gabor signal analysis and synthesis should ALWAYS</span>
-<span class="c">% be done using the DGT, IDGT, DGTREAL and IDGTREAL functions, see the</span>
-<span class="c">% following sections of this example.</span>
-
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;---- Simple Gabor analysis using a standard Gaussian window. ----&#39;</span><span class="p">);</span>
-
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Setup parameters for a Discrete Gabor Transform.&#39;</span><span class="p">)</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Time shift:&#39;</span><span class="p">)</span>
-<span class="n">a</span><span class="p">=</span><span class="mi">20</span>
-
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Number of frequency channels.&#39;</span><span class="p">);</span>
-<span class="n">M</span><span class="p">=</span><span class="mi">40</span>
-
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Note that it must hold that L = M*b = N*a for some integers b, N and L,&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;and that a&lt;M. L is the transform length, and the DGT will choose the&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;smallest possible value of L that is larger or equal to the length of the&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;signal. Choosing a&lt;M makes the transform redundant, otherwise the&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;transform will be lossy, and reconstruction will not be possible.&#39;</span><span class="p">);</span>
-
-<span class="c">% Simple DGT using a standard Gaussian window.</span>
-<span class="n">c</span><span class="p">=</span><span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Number of time shifts in transform:&#39;</span><span class="p">)</span>
-<span class="n">N</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Length of transform:&#39;</span><span class="p">)</span>
-<span class="n">L</span> <span class="p">=</span> <span class="n">N</span><span class="o">*</span><span class="n">a</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">c_sgram</span><span class="p">=</span><span class="n">sgram</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;lin&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Spectrogram of the bat test signal.&#39;</span><span class="p">);</span><span class="w"></span>
 
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">plotdgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;linsq&#39;</span><span class="p">);</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Gabor coefficients.&#39;</span><span class="p">);</span>
+<span class="c">% Number of coefficients in the Spectrogram</span><span class="w"></span>
+<span class="n">no_sgram</span><span class="p">=</span><span class="nb">numel</span><span class="p">(</span><span class="n">c_sgram</span><span class="p">);</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">([</span><span class="s">&#39;The redundancy of the Gabor transform can be reduced without loosing &#39;</span> <span class="c">...</span>
-      <span class="s">&#39;information.&#39;</span><span class="p">]);</span>
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;No. of coefficients in the signal:       %i\n&#39;</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;No. of output coefficients from the DGT: %i\n&#39;</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Redundacy of the DGT (in this case)      %f\n&#39;</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="n">Ls</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;The spectrogram is highly redundant.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;No. of coefficients in the signal:       %i\n&#39;</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;No. of coefficients in the spectrogram:  %i\n&#39;</span><span class="p">,</span><span class="n">no_sgram</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Redundacy of the spectrogram:            %f\n&#39;</span><span class="p">,</span><span class="n">no_sgram</span><span class="o">/</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;---- Real valued Gabor analysis. ----&#39;</span><span class="p">);</span>
+<span class="c">% WARNING: In the above code, the spectrogram routine SGRAM returns the</span><span class="w"></span>
+<span class="c">% coefficients use to plot the image. These coefficients are ONLY</span><span class="w"></span>
+<span class="c">% intended to be used by post-processing image tools, and in this</span><span class="w"></span>
+<span class="c">% example, the are only used to illustrate the redundancy of the</span><span class="w"></span>
+<span class="c">% spectogram. Numerical Gabor signal analysis and synthesis should ALWAYS</span><span class="w"></span>
+<span class="c">% be done using the DGT, IDGT, DGTREAL and IDGTREAL functions, see the</span><span class="w"></span>
+<span class="c">% following sections of this example.</span><span class="w"></span>
 
-<span class="c">% Figure 1 and Figure 2 looks quite different, because Figure 2 also</span>
-<span class="c">% displays the coefficients for the n</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;---- Simple Gabor analysis using a standard Gaussian window. ----&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Simple real valued DGT using a standard Gaussian window.</span>
-<span class="n">c_real</span><span class="p">=</span><span class="n">dgtreal</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Setup parameters for a Discrete Gabor Transform.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Time shift:&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">a</span><span class="p">=</span><span class="mi">20</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-<span class="n">plotdgtreal</span><span class="p">(</span><span class="n">c_real</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;linsq&#39;</span><span class="p">);</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Positive-frequency DGT coefficients (DGTREAL).&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Number of frequency channels.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">M</span><span class="p">=</span><span class="mi">40</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
-<span class="p">[</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">]=</span><span class="nb">meshgrid</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">a</span><span class="p">:</span><span class="n">L</span><span class="o">+</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">b</span><span class="p">:</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">b</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Note that it must hold that L = M*b = N*a for some integers b, N and L,&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;and that a&lt;M. L is the transform length, and the DGT will choose the&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;smallest possible value of L that is larger or equal to the length of the&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;signal. Choosing a&lt;M makes the transform redundant, otherwise the&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;transform will be lossy, and reconstruction will not be possible.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
-<span class="n">imagesc</span><span class="p">(</span><span class="n">c_sgram</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">([</span><span class="n">X</span><span class="p">(:),</span><span class="n">X</span><span class="p">(:)]</span><span class="o">&#39;</span><span class="p">,[</span><span class="n">Y</span><span class="p">(:),</span><span class="n">Y</span><span class="p">(:)]</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;wo&#39;</span><span class="p">,</span><span class="s">&#39;Linewidth&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">axis</span><span class="p">(</span><span class="s">&#39;xy&#39;</span><span class="p">,</span><span class="s">&#39;image&#39;</span><span class="p">);</span>
-<span class="n">hold</span> <span class="n">off</span><span class="p">;</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Placement of the DGTREAL coefficients on the spectrogram.&#39;</span><span class="p">);</span>
+<span class="c">% Simple DGT using a standard Gaussian window.</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;---- Perfect reconstruction. ----&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Number of time shifts in transform:&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">N</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Reconstruction from the full DGT coefficients</span>
-<span class="n">r</span>      <span class="p">=</span> <span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="s">&#39;gaussdual&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Length of transform:&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="w"></span>
 
-<span class="c">% Reconstruction from the DGTREAL coefficients</span>
-<span class="c">% The parameter M cannot be deduced from the size of the coefficient</span>
-<span class="c">% array c_real, so it is an explicit input parameter.</span>
-<span class="n">r_real</span> <span class="p">=</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">c_real</span><span class="p">,</span><span class="s">&#39;gaussdual&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction error using IDGT:      %e\n&#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="n">r</span><span class="p">));</span>
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction error using IDGTREAL:  %e\n&#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="n">r_real</span><span class="p">));</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="n">plotdgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;linsq&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Gabor coefficients.&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">([</span><span class="s">&#39;The redundancy of the Gabor transform can be reduced without loosing &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="s">&#39;information.&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;No. of coefficients in the signal:       %i\n&#39;</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;No. of output coefficients from the DGT: %i\n&#39;</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Redundacy of the DGT (in this case)      %f\n&#39;</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;---- Real valued Gabor analysis. ----&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Figure 1 and Figure 2 looks quite different, because Figure 2 also</span><span class="w"></span>
+<span class="c">% displays the coefficients for the n</span><span class="w"></span>
+
+<span class="c">% Simple real valued DGT using a standard Gaussian window.</span><span class="w"></span>
+<span class="n">c_real</span><span class="p">=</span><span class="n">dgtreal</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+
+<span class="nb">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="n">plotdgtreal</span><span class="p">(</span><span class="n">c_real</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;linsq&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Positive-frequency DGT coefficients (DGTREAL).&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="nb">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="p">[</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">]=</span><span class="nb">meshgrid</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">a</span><span class="p">:</span><span class="n">L</span><span class="o">+</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">b</span><span class="p">:</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">b</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">hold</span><span class="w"> </span><span class="s">on</span><span class="p">;</span><span class="w"></span>
+<span class="nb">imagesc</span><span class="p">(</span><span class="n">c_sgram</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">([</span><span class="n">X</span><span class="p">(:),</span><span class="n">X</span><span class="p">(:)]</span><span class="o">&#39;</span><span class="p">,[</span><span class="n">Y</span><span class="p">(:),</span><span class="n">Y</span><span class="p">(:)]</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;wo&#39;</span><span class="p">,</span><span class="s">&#39;Linewidth&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">axis</span><span class="p">(</span><span class="s">&#39;xy&#39;</span><span class="p">,</span><span class="s">&#39;image&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">hold</span><span class="w"> </span><span class="s">off</span><span class="p">;</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Placement of the DGTREAL coefficients on the spectrogram.&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;---- Perfect reconstruction. ----&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Reconstruction from the full DGT coefficients</span><span class="w"></span>
+<span class="n">r</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="s">&#39;gaussdual&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Reconstruction from the DGTREAL coefficients</span><span class="w"></span>
+<span class="c">% The parameter M cannot be deduced from the size of the coefficient</span><span class="w"></span>
+<span class="c">% array c_real, so it is an explicit input parameter.</span><span class="w"></span>
+<span class="n">r_real</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idgtreal</span><span class="p">(</span><span class="n">c_real</span><span class="p">,</span><span class="s">&#39;gaussdual&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction error using IDGT:      %e\n&#39;</span><span class="p">,</span><span class="nb">norm</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="n">r</span><span class="p">));</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction error using IDGTREAL:  %e\n&#39;</span><span class="p">,</span><span class="nb">norm</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="n">r_real</span><span class="p">));</span><span class="w"></span>
 </pre></div>
 
 

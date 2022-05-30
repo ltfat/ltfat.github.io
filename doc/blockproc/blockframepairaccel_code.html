@@ -38,82 +38,82 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">BLOCKFRAMEPAIRACCEL - Precompute structures for block processing</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[Fao,Fso]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">blockframepairaccel</span><span class="p">(</span>Fa, Fs, Lb, varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%BLOCKFRAMEPAIRACCEL Precompute structures for block processing</span>
-<span class="c">%   Usage: F = blockframepairaccel(Fa,Fs,Lb);</span>
-<span class="c">%</span>
-<span class="c">%   [Fao,Fso]=BLOCKFRAMEPAIRACCEL(Fa,Fs,Lb) works similar to </span>
-<span class="c">%   BLOCKFRAMEACCEL with a pair of frames. The only difference from</span>
-<span class="c">%   calling BLOCKFRAMEACCEL separatelly for each frame is correct</span>
-<span class="c">%   default choice of the slicing windows. Frame objects Fa,Fs will be</span>
-<span class="c">%   accelerated for length 2*Lb.</span>
-<span class="c">%</span>
-<span class="c">%   The following optional arguments are recognized:</span>
-<span class="c">%</span>
-<span class="c">%      &#39;anasliwin&#39;,anasliwin  : Analysis slicing window. sliwin have to</span>
-<span class="c">%                                 be a window of length 2Lb or a string </span>
-<span class="c">%                                 accepted by the FIRWIN function. It is</span>
-<span class="c">%                                 used only in the slicing window approach.</span>
-<span class="c">%                                 The default is &#39;hann&#39;.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;synsliwin&#39;,synsliwin  : Synthesis slicing window. The same as the</span>
-<span class="c">%                                 previous one holds. The default is &#39;rect&#39;.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;zpad&#39;,zpad   : Number of zero samples the block will be padded</span>
-<span class="c">%                        after it is windowed by a slicing window. Note the</span>
-<span class="c">%                        frames will be accelerated for length</span>
-<span class="c">%                        2*Lb+2*kv.zpad. </span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockframepairaccel.html</span>
+<span class="c">%BLOCKFRAMEPAIRACCEL Precompute structures for block processing</span><span class="w"></span>
+<span class="c">%   Usage: F = blockframepairaccel(Fa,Fs,Lb);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [Fao,Fso]=BLOCKFRAMEPAIRACCEL(Fa,Fs,Lb) works similar to </span><span class="w"></span>
+<span class="c">%   BLOCKFRAMEACCEL with a pair of frames. The only difference from</span><span class="w"></span>
+<span class="c">%   calling BLOCKFRAMEACCEL separatelly for each frame is correct</span><span class="w"></span>
+<span class="c">%   default choice of the slicing windows. Frame objects Fa,Fs will be</span><span class="w"></span>
+<span class="c">%   accelerated for length 2*Lb.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following optional arguments are recognized:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      &#39;anasliwin&#39;,anasliwin  : Analysis slicing window. sliwin have to</span><span class="w"></span>
+<span class="c">%                                 be a window of length 2Lb or a string </span><span class="w"></span>
+<span class="c">%                                 accepted by the FIRWIN function. It is</span><span class="w"></span>
+<span class="c">%                                 used only in the slicing window approach.</span><span class="w"></span>
+<span class="c">%                                 The default is &#39;hann&#39;.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      &#39;synsliwin&#39;,synsliwin  : Synthesis slicing window. The same as the</span><span class="w"></span>
+<span class="c">%                                 previous one holds. The default is &#39;rect&#39;.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      &#39;zpad&#39;,zpad   : Number of zero samples the block will be padded</span><span class="w"></span>
+<span class="c">%                        after it is windowed by a slicing window. Note the</span><span class="w"></span>
+<span class="c">%                        frames will be accelerated for length</span><span class="w"></span>
+<span class="c">%                        2*Lb+2*kv.zpad. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockframepairaccel.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="s">&#39;BLOCKFRAMEPAIRACCEL&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;naive&#39;</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;segola&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">anasliwin</span> <span class="p">=</span> <span class="p">[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">synsliwin</span> <span class="p">=</span> <span class="p">[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">zpad</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;naive&#39;</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;segola&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">anasliwin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">synsliwin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">zpad</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">isSliProp</span> <span class="p">=</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">)</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="o">~=</span><span class="mi">0</span><span class="p">;</span>
-<span class="n">assert</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_sliced</span> <span class="o">&amp;&amp;</span> <span class="n">isSliProp</span><span class="p">),</span><span class="c">...</span>
-   <span class="n">sprintf</span><span class="p">([</span><span class="s">&#39;%s: Definig slicing window properties without setting the&#39;</span><span class="p">,</span><span class="c">...</span>
-            <span class="s">&#39; &#39;&#39;sliced&#39;&#39; flag.&#39;</span><span class="p">],</span> <span class="n">mfilename</span><span class="p">));</span>
+<span class="n">isSliProp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="o">~=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="nb">assert</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_sliced</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">isSliProp</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">   </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;%s: Definig slicing window properties without setting the&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="s">&#39; &#39;&#39;sliced&#39;&#39; flag.&#39;</span><span class="p">],</span><span class="w"> </span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_sliced</span> 
-   <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">)</span>
-      <span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span> <span class="p">=</span> <span class="s">&#39;hann&#39;</span><span class="p">;</span>
-   <span class="k">end</span>
-   
-   <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">)</span>
-      <span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span> <span class="p">=</span> <span class="s">&#39;hann&#39;</span><span class="p">;</span>
-   <span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_sliced</span><span class="w"> </span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;hann&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;hann&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
 
-   <span class="n">Fao</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;sliwin&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">,</span><span class="c">...</span>
-                         <span class="s">&#39;zpad&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="p">);</span>
-   <span class="n">Fso</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;sliwin&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">,</span><span class="c">...</span>
-                         <span class="s">&#39;zpad&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="p">);</span>
-<span class="k">else</span>
-   <span class="n">Fao</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span><span class="p">);</span>
-   <span class="n">Fso</span> <span class="p">=</span> <span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="w">   </span><span class="n">Fao</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;sliwin&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">anasliwin</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                         </span><span class="s">&#39;zpad&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">Fso</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="s">&#39;sliced&#39;</span><span class="p">,</span><span class="s">&#39;sliwin&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">synsliwin</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                         </span><span class="s">&#39;zpad&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">zpad</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="n">Fao</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">Fso</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">blockframeaccel</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">Lb</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">blockalg</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

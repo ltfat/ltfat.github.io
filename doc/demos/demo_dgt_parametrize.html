@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
 octave"/>
-<title>FRAMEMATRIX - Frame synthesis operator matrix</title>
+<title>DEMO_DGT_PARAMETRIZE - shows how to parametrize the DGT algorithm</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet"
@@ -24,7 +24,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="masthead include" file="../../include/mainnav.html">
 </div>
 <div class="row">
-    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="framematrix_code.html">View the code</a></div>
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="demo_dgt_parametrize_code.html">View the code</a></div>
 </div>
     <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
 </div>
@@ -33,49 +33,34 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <div class="include" file='../include/docnav.html'></div>
         <div id="seealso"><p><div id="menutitle">See also:</div>
 <ul>
-<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
-<li><a href="#BASEURL#/doc/frames/frana.html">frana</a></li>
-<li><a href="#BASEURL#/doc/frames/frsyn.html">frsyn</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgt.html">dgt</a></li>
+<li><a href="#BASEURL#/doc/gabor/dgtreal.html">dgtreal</a></li>
+<li><a href="#BASEURL#/doc/gabor/idgt.html">idgt</a></li>
+<li><a href="#BASEURL#/doc/gabor/idgtreal.html">idgtreal</a></li>
+<li><a href="#BASEURL#/doc/gabor/gabimagepars.html">gabimagepars</a></li>
+<li><a href="#BASEURL#/doc/demos/demo_dgt.html">demo_dgt</a></li>
 </ul>
 </p></div>
     </div>
     <div class="col-md-10">
 
-        <h1 class="title">FRAMEMATRIX - Frame synthesis operator matrix</h1>
+        <h1 class="title">DEMO_DGT_PARAMETRIZE - shows how to parametrize the DGT algorithm</h1>
+<h2 class="subtitle" id="xxxdescription">Description</h2>
 
-<div class="section" id="usage">
-<h2>Usage</h2>
-<pre class="literal-block">
-G=framematrix(F,L);
-</pre>
+<p>This demo shows two ways of parametrizing the discrete Gabor
+transform. In the first part, it is shown how to parametrize
+the dgt to yield a specified signal length for a given window
+length and overlap.
+In the second part, the dgt algorithm is used to calculate a
+classical short-time Fourier transform with <tt class="docutils literal">a = b = 1</tt>.</p>
+<div class="figure align-center">
+<img alt="demo_dgt_parametrize_1.png" src="demo_dgt_parametrize_1.png" />
+<p class="caption">Spectrogram of the 'gspi' signal.</p>
 </div>
-<div class="section" id="xxxdescription">
-<h2>Description</h2>
-<p><tt class="docutils literal">G=frsynmatrix(F,L)</tt> returns the matrix representation <em>G</em> of the frame
-synthesis operator for a frame <em>F</em> of length <em>L</em>. The frame object <em>F</em>
-must have been created using <span class="linkrole"><a href="#BASEURL#/doc/frames/frame.html">frame</a></span>.</p>
-<p>The frame synthesis operator matrix contains all the frame atoms as
-column vectors. It has dimensions <span class="math">\(L \times Ncoef\)</span>, where <span class="math">\(Ncoef\)</span> is the
-number of coefficients. The number of coefficients can be found as
-<tt class="docutils literal"><span class="pre">Ncoef=framered(F)*L</span></tt>. This means that the frame matrix is usually
-<strong>very</strong> large, and this routine should only be used for small values of
-<em>L</em>.</p>
-<p>The action of the frame analysis operator <span class="linkrole"><a href="#BASEURL#/doc/frames/frana.html">frana</a></span> is equal to
-multiplication with the Hermitean transpose of the frame
-matrix. Consider the following simple example:</p>
-<pre class="literal-block">
-L=200;
-F=frame('dgt','gauss',10,20);
-G=frsynmatrix(F,L);
-testsig = randn(L,1);
-res = frana(F,testsig)-G'*testsig;
-norm(res)
-</pre>
 <p><em>This code produces the following output</em>:</p>
 <pre class="literal-block">
-ans =    8.0962e-15
+Reconstruction error:      5.008836e+01
 </pre>
-</div>
 
         <div class="include" file="../../include/footer.html"></div>
     </div>

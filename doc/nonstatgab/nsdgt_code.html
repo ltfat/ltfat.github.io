@@ -45,170 +45,168 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">NSDGT - Non-stationary Discrete Gabor transform</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,Ls]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">nsdgt</span><span class="p">(</span>f,g,a,M<span class="p">)</span><span class="w"></span>
-<span class="c">%NSDGT  Non-stationary Discrete Gabor transform</span>
-<span class="c">%   Usage:  c=nsdgt(f,g,a,M);</span>
-<span class="c">%           [c,Ls]=nsdgt(f,g,a,M);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         f     : Input signal.</span>
-<span class="c">%         g     : Cell array of window functions.</span>
-<span class="c">%         a     : Vector of time shifts.</span>
-<span class="c">%         M     : Vector of numbers of frequency channels.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         c     : Cell array of coefficients.</span>
-<span class="c">%         Ls    : Length of input signal.</span>
-<span class="c">%</span>
-<span class="c">%   NSDGT(f,g,a,M) computes the non-stationary Gabor coefficients of the</span>
-<span class="c">%   input signal f. The signal f can be a multichannel signal, given in</span>
-<span class="c">%   the form of a 2D matrix of size Ls xW, with Ls the signal</span>
-<span class="c">%   length and W the number of signal channels.</span>
-<span class="c">%</span>
-<span class="c">%   The non-stationary Gabor theory extends standard Gabor theory by</span>
-<span class="c">%   enabling the evolution of the window over time. It is therefor necessary</span>
-<span class="c">%   to specify a set of windows instead of a single window.  This is done by</span>
-<span class="c">%   using a cell array for g. In this cell array, the n&#39;th element g{n}</span>
-<span class="c">%   is a row vector specifying the n&#39;th window.</span>
-<span class="c">%</span>
-<span class="c">%   The resulting coefficients also require a storage in a cell array, as</span>
-<span class="c">%   the number of frequency channels is not constant over time. More</span>
-<span class="c">%   precisely, the n&#39;th cell of c, c{n}, is a 2D matrix of size </span>
-<span class="c">%   M(n) xW and containing the complex local spectra of the signal channels</span>
-<span class="c">%   windowed by the n&#39;th window g{n} shifted in time at position a(n).</span>
-<span class="c">%   c{n}(m,w) is thus the value of the coefficient for time index n,</span>
-<span class="c">%   frequency index m and signal channel w.</span>
-<span class="c">%</span>
-<span class="c">%   The variable a contains the distance in samples between two</span>
-<span class="c">%   consequtive blocks of coefficients. The variable M contains the</span>
-<span class="c">%   number of channels for each block of coefficients. Both a and M are</span>
-<span class="c">%   vectors of integers.</span>
-<span class="c">%</span>
-<span class="c">%   The variables g, a and M must have the same length, and the result c*</span>
-<span class="c">%   will also have the same length.</span>
-<span class="c">%   </span>
-<span class="c">%   The time positions of the coefficients blocks can be obtained by the</span>
-<span class="c">%   following code. A value of 0 correspond to the first sample of the</span>
-<span class="c">%   signal:</span>
-<span class="c">%</span>
-<span class="c">%     timepos = cumsum(a)-a(1);</span>
-<span class="c">%</span>
-<span class="c">%   [c,Ls]=NSDGT(f,g,a,M) additionally returns the length Ls of the input </span>
-<span class="c">%   signal f. This is handy for reconstruction:</span>
-<span class="c">%</span>
-<span class="c">%     [c,Ls]=nsdgt(f,g,a,M);</span>
-<span class="c">%     fr=insdgt(c,gd,a,Ls);</span>
-<span class="c">%</span>
-<span class="c">%   will reconstruct the signal f no matter what the length of f is, </span>
-<span class="c">%   provided that gd are dual windows of g.</span>
-<span class="c">%</span>
-<span class="c">%   Notes:</span>
-<span class="c">%   ------</span>
-<span class="c">%</span>
-<span class="c">%   NSDGT uses circular border conditions, that is to say that the signal is</span>
-<span class="c">%   considered as periodic for windows overlapping the beginning or the </span>
-<span class="c">%   end of the signal.</span>
-<span class="c">%</span>
-<span class="c">%   The phaselocking convention used in NSDGT is different from the</span>
-<span class="c">%   convention used in the DGT function. NSDGT results are phaselocked (a</span>
-<span class="c">%   phase reference moving with the window is used), whereas DGT results are</span>
-<span class="c">%   not phaselocked (a fixed phase reference corresponding to time 0 of the</span>
-<span class="c">%   signal is used). See the help on PHASELOCK for more details on</span>
-<span class="c">%   phaselocking conventions.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  insdgt, nsgabdual, nsgabtight, phaselock</span>
-<span class="c">%</span>
-<span class="c">%   Demos:  demo_nsdgt</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     P. Balazs, M. Dörfler, F. Jaillet, N. Holighaus, and G. A. Velasco.</span>
-<span class="c">%     Theory, implementation and applications of nonstationary Gabor frames.</span>
-<span class="c">%     J. Comput. Appl. Math., 236(6):1481--1496, 2011.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/nonstatgab/nsdgt.html</span>
+<span class="c">%NSDGT  Non-stationary Discrete Gabor transform</span><span class="w"></span>
+<span class="c">%   Usage:  c=nsdgt(f,g,a,M);</span><span class="w"></span>
+<span class="c">%           [c,Ls]=nsdgt(f,g,a,M);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         f     : Input signal.</span><span class="w"></span>
+<span class="c">%         g     : Cell array of window functions.</span><span class="w"></span>
+<span class="c">%         a     : Vector of time shifts.</span><span class="w"></span>
+<span class="c">%         M     : Vector of numbers of frequency channels.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         c     : Cell array of coefficients.</span><span class="w"></span>
+<span class="c">%         Ls    : Length of input signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   NSDGT(f,g,a,M) computes the non-stationary Gabor coefficients of the</span><span class="w"></span>
+<span class="c">%   input signal f. The signal f can be a multichannel signal, given in</span><span class="w"></span>
+<span class="c">%   the form of a 2D matrix of size Ls xW, with Ls the signal</span><span class="w"></span>
+<span class="c">%   length and W the number of signal channels.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The non-stationary Gabor theory extends standard Gabor theory by</span><span class="w"></span>
+<span class="c">%   enabling the evolution of the window over time. It is therefor necessary</span><span class="w"></span>
+<span class="c">%   to specify a set of windows instead of a single window.  This is done by</span><span class="w"></span>
+<span class="c">%   using a cell array for g. In this cell array, the n&#39;th element g{n}</span><span class="w"></span>
+<span class="c">%   is a row vector specifying the n&#39;th window.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The resulting coefficients also require a storage in a cell array, as</span><span class="w"></span>
+<span class="c">%   the number of frequency channels is not constant over time. More</span><span class="w"></span>
+<span class="c">%   precisely, the n&#39;th cell of c, c{n}, is a 2D matrix of size </span><span class="w"></span>
+<span class="c">%   M(n) xW and containing the complex local spectra of the signal channels</span><span class="w"></span>
+<span class="c">%   windowed by the n&#39;th window g{n} shifted in time at position a(n).</span><span class="w"></span>
+<span class="c">%   c{n}(m,w) is thus the value of the coefficient for time index n,</span><span class="w"></span>
+<span class="c">%   frequency index m and signal channel w.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The variable a contains the distance in samples between two</span><span class="w"></span>
+<span class="c">%   consequtive blocks of coefficients. The variable M contains the</span><span class="w"></span>
+<span class="c">%   number of channels for each block of coefficients. Both a and M are</span><span class="w"></span>
+<span class="c">%   vectors of integers.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The variables g, a and M must have the same length, and the result c*</span><span class="w"></span>
+<span class="c">%   will also have the same length.</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   The time positions of the coefficients blocks can be obtained by the</span><span class="w"></span>
+<span class="c">%   following code. A value of 0 correspond to the first sample of the</span><span class="w"></span>
+<span class="c">%   signal:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     timepos = cumsum(a)-a(1);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [c,Ls]=NSDGT(f,g,a,M) additionally returns the length Ls of the input </span><span class="w"></span>
+<span class="c">%   signal f. This is handy for reconstruction:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     [c,Ls]=nsdgt(f,g,a,M);</span><span class="w"></span>
+<span class="c">%     fr=insdgt(c,gd,a,Ls);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   will reconstruct the signal f no matter what the length of f is, </span><span class="w"></span>
+<span class="c">%   provided that gd are dual windows of g.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Notes:</span><span class="w"></span>
+<span class="c">%   ------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   NSDGT uses circular border conditions, that is to say that the signal is</span><span class="w"></span>
+<span class="c">%   considered as periodic for windows overlapping the beginning or the </span><span class="w"></span>
+<span class="c">%   end of the signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The phaselocking convention used in NSDGT is different from the</span><span class="w"></span>
+<span class="c">%   convention used in the DGT function. NSDGT results are phaselocked (a</span><span class="w"></span>
+<span class="c">%   phase reference moving with the window is used), whereas DGT results are</span><span class="w"></span>
+<span class="c">%   not phaselocked (a fixed phase reference corresponding to time 0 of the</span><span class="w"></span>
+<span class="c">%   signal is used). See the help on PHASELOCK for more details on</span><span class="w"></span>
+<span class="c">%   phaselocking conventions.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  insdgt, nsgabdual, nsgabtight, phaselock</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Demos:  demo_nsdgt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     P. Balazs, M. Dörfler, F. Jaillet, N. Holighaus, and G. A. Velasco.</span><span class="w"></span>
+<span class="c">%     Theory, implementation and applications of nonstationary Gabor frames.</span><span class="w"></span>
+<span class="c">%     J. Comput. Appl. Math., 236(6):1481--1496, 2011.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/nonstatgab/nsdgt.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="c">%   AUTHOR : Florent Jaillet and Nicki Holighaus</span>
-<span class="c">%   TESTING: TEST_NSDGT</span>
-<span class="c">%   REFERENCE: REF_NSDGT</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="c">%   AUTHOR : Florent Jaillet and Nicki Holighaus</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_NSDGT</span><span class="w"></span>
+<span class="c">%   REFERENCE: REF_NSDGT</span><span class="w"></span>
 
-<span class="c">% Notes:</span>
-<span class="c">% - The choice of a different phaselocking convention than the one used in</span>
-<span class="c">%   dgt is motivated by the will to keep a diagonal frame operator in the</span>
-<span class="c">%   painless case and to keep the circular border condition. With the other</span>
-<span class="c">%   convention, there is in general a problem for windows overlapping the</span>
-<span class="c">%   beginning and the end of the signal (except if time positions and</span>
-<span class="c">%   signal length have some special ratio properties).</span>
+<span class="c">% Notes:</span><span class="w"></span>
+<span class="c">% - The choice of a different phaselocking convention than the one used in</span><span class="w"></span>
+<span class="c">%   dgt is motivated by the will to keep a diagonal frame operator in the</span><span class="w"></span>
+<span class="c">%   painless case and to keep the circular border condition. With the other</span><span class="w"></span>
+<span class="c">%   convention, there is in general a problem for windows overlapping the</span><span class="w"></span>
+<span class="c">%   beginning and the end of the signal (except if time positions and</span><span class="w"></span>
+<span class="c">%   signal length have some special ratio properties).</span><span class="w"></span>
 
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: a must be numeric.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: a must be numeric.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: M must be numeric.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: M must be numeric.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
-<span class="c">% Change f to correct shape.</span>
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">wasrow</span><span class="p">,</span><span class="n">remembershape</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+<span class="c">%% ----- step 1 : Verify f and determine its length -------</span><span class="w"></span>
+<span class="c">% Change f to correct shape.</span><span class="w"></span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">wasrow</span><span class="p">,</span><span class="n">remembershape</span><span class="p">]=</span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="n">nsdgtlength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-<span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="n">L</span><span class="p">=</span><span class="n">nsdgtlength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">nsgabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">nsgabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">timepos</span><span class="p">=</span><span class="n">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">timepos</span><span class="p">=</span><span class="nb">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">N</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="c">% Number of time positions</span>
+<span class="n">N</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"> </span><span class="c">% Number of time positions</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">cell</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="c">% Initialisation of the result</span>
-    
-<span class="c">% The actual transform</span>
-   
-<span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">N</span>
-    <span class="n">Lg</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span>
-    
-    <span class="c">% This is an explicit fftshift</span>
-    <span class="n">idx</span><span class="p">=[</span><span class="n">Lg</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">Lg</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)];</span>
+<span class="n">c</span><span class="p">=</span><span class="nb">cell</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c">% Initialisation of the result</span><span class="w"></span>
+<span class="w">    </span>
+<span class="c">% The actual transform</span><span class="w"></span>
+<span class="w">   </span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">N</span><span class="w"></span>
+<span class="w">    </span><span class="n">Lg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% This is an explicit fftshift</span><span class="w"></span>
+<span class="w">    </span><span class="n">idx</span><span class="p">=[</span><span class="n">Lg</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">Lg</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)];</span><span class="w"></span>
 
-    <span class="n">win_range</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">timepos</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">if</span> <span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">Lg</span> 
-        <span class="c">% if the number of frequency channels is too small, aliasing is introduced</span>
-        <span class="n">col</span> <span class="p">=</span> <span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">));</span>
-        
-        <span class="n">temp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">col</span><span class="o">*</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span>
-        <span class="n">temp</span><span class="p">([</span><span class="k">end</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)],:)</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span> <span class="c">...</span>
-                                                          <span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:),</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}(</span><span class="n">idx</span><span class="p">));</span>
-        
-        <span class="n">temp</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">col</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
-        <span class="n">X</span> <span class="p">=</span> <span class="nb">squeeze</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="mi">2</span><span class="p">)));</span>
-        
-        <span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">}=</span><span class="n">X</span><span class="p">;</span>
-    <span class="k">else</span>
-        
-        <span class="n">temp</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span>
-        <span class="n">temp</span><span class="p">([</span><span class="k">end</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)],:)</span> <span class="p">=</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span> <span class="c">...</span>
-                                                          <span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:),</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}(</span><span class="n">idx</span><span class="p">));</span>
-        
-        
-        <span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span> <span class="p">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
-    <span class="k">end</span>       
-<span class="k">end</span>
+<span class="w">    </span><span class="n">win_range</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">timepos</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Lg</span><span class="w"> </span>
+<span class="w">        </span><span class="c">% if the number of frequency channels is too small, aliasing is introduced</span><span class="w"></span>
+<span class="w">        </span><span class="n">col</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">col</span><span class="o">*</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span><span class="w"></span>
+<span class="w">        </span><span class="n">temp</span><span class="p">([</span><span class="k">end</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)],:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:),</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}(</span><span class="n">idx</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">col</span><span class="p">,</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">squeeze</span><span class="p">(</span><span class="nb">fft</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="mi">2</span><span class="p">)));</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">}=</span><span class="n">X</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span><span class="w"></span>
+<span class="w">        </span><span class="n">temp</span><span class="p">([</span><span class="k">end</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)],:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:),</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">}(</span><span class="n">idx</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w">       </span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

@@ -44,119 +44,119 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">INSDGTREAL - Inverse NSDGT for real-valued signals</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">insdgtreal</span><span class="p">(</span>c,g,a,M,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%INSDGTREAL  Inverse NSDGT for real-valued signals</span>
-<span class="c">%   Usage:  f=insdgt(c,g,a,M,Ls);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         c     : Cell array of coefficients.</span>
-<span class="c">%         g     : Cell array of window functions.</span>
-<span class="c">%         a     : Vector of time positions of windows.</span>
-<span class="c">%         M     : Vector of numbers of frequency channels.</span>
-<span class="c">%         Ls    : Length of input signal.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         f     : Signal.</span>
-<span class="c">%</span>
-<span class="c">%   insdgt(c,g,a,Ls) computes the inverse non-stationary Gabor transform</span>
-<span class="c">%   of the input coefficients c.</span>
-<span class="c">%</span>
-<span class="c">%   insdgt is used to invert the functions NSDGT and UNSDGT. Please</span>
-<span class="c">%   read the help of these functions for details of variables format and</span>
-<span class="c">%   usage.</span>
-<span class="c">%</span>
-<span class="c">%   For perfect reconstruction, the windows used must be dual windows of the</span>
-<span class="c">%   ones used to generate the coefficients. The windows can be generated</span>
-<span class="c">%   using NSGABDUAL or NSGABTIGHT.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  nsdgt, nsgabdual, nsgabtight</span>
-<span class="c">%</span>
-<span class="c">%   Demos:  demo_nsdgt</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     P. Balazs, M. Dörfler, F. Jaillet, N. Holighaus, and G. A. Velasco.</span>
-<span class="c">%     Theory, implementation and applications of nonstationary Gabor frames.</span>
-<span class="c">%     J. Comput. Appl. Math., 236(6):1481--1496, 2011.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/nonstatgab/insdgtreal.html</span>
+<span class="c">%INSDGTREAL  Inverse NSDGT for real-valued signals</span><span class="w"></span>
+<span class="c">%   Usage:  f=insdgt(c,g,a,M,Ls);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         c     : Cell array of coefficients.</span><span class="w"></span>
+<span class="c">%         g     : Cell array of window functions.</span><span class="w"></span>
+<span class="c">%         a     : Vector of time positions of windows.</span><span class="w"></span>
+<span class="c">%         M     : Vector of numbers of frequency channels.</span><span class="w"></span>
+<span class="c">%         Ls    : Length of input signal.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         f     : Signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   insdgt(c,g,a,Ls) computes the inverse non-stationary Gabor transform</span><span class="w"></span>
+<span class="c">%   of the input coefficients c.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   insdgt is used to invert the functions NSDGT and UNSDGT. Please</span><span class="w"></span>
+<span class="c">%   read the help of these functions for details of variables format and</span><span class="w"></span>
+<span class="c">%   usage.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   For perfect reconstruction, the windows used must be dual windows of the</span><span class="w"></span>
+<span class="c">%   ones used to generate the coefficients. The windows can be generated</span><span class="w"></span>
+<span class="c">%   using NSGABDUAL or NSGABTIGHT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  nsdgt, nsgabdual, nsgabtight</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Demos:  demo_nsdgt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     P. Balazs, M. Dörfler, F. Jaillet, N. Holighaus, and G. A. Velasco.</span><span class="w"></span>
+<span class="c">%     Theory, implementation and applications of nonstationary Gabor frames.</span><span class="w"></span>
+<span class="c">%     J. Comput. Appl. Math., 236(6):1481--1496, 2011.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/nonstatgab/insdgtreal.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Florent Jaillet and Nicki Holighaus</span>
-<span class="c">%   TESTING: TEST_NSDGT</span>
-<span class="c">%   REFERENCE: </span>
-<span class="c">%   Last changed 2009-05</span>
+<span class="c">%   AUTHOR : Florent Jaillet and Nicki Holighaus</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_NSDGT</span><span class="w"></span>
+<span class="c">%   REFERENCE: </span><span class="w"></span>
+<span class="c">%   Last changed 2009-05</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: a must be numeric.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: a must be numeric.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">timepos</span><span class="p">=</span><span class="n">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">L</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="n">timepos</span><span class="p">=</span><span class="nb">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">L</span><span class="p">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">nsgabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">nsgabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="c">% ---- invert the non-uniform case ---------</span>
-    
-    <span class="n">N</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">c</span><span class="p">);</span> <span class="c">% Number of time positions</span>
-    <span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="mi">2</span><span class="p">);</span> <span class="c">% Number of signal channels</span>
-    <span class="n">f</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span> <span class="c">% Initialisation of the result</span>
-<span class="k">else</span>
-    <span class="c">% ---- invert the uniform case ----------------</span>
-    <span class="p">[</span><span class="n">M2</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">W</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-    <span class="n">f</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">c</span><span class="p">));</span> <span class="c">% Initialisation of the result</span>
-    
-    <span class="k">if</span> <span class="o">~</span><span class="n">info</span><span class="p">.</span><span class="n">isuniform</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: M must be a scalar or a constant vector.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>    
-    <span class="k">end</span><span class="p">;</span>
-    <span class="n">M</span><span class="p">=</span><span class="n">M</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>       
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">iscell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c">% ---- invert the non-uniform case ---------</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">N</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"> </span><span class="c">% Number of time positions</span><span class="w"></span>
+<span class="w">    </span><span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="c">% Number of signal channels</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span><span class="w"> </span><span class="c">% Initialisation of the result</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="c">% ---- invert the uniform case ----------------</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">M2</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"> </span><span class="c">% Initialisation of the result</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">info</span><span class="p">.</span><span class="n">isuniform</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: M must be a scalar or a constant vector.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w">    </span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">M</span><span class="p">=</span><span class="n">M</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">       </span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">for</span> <span class="n">ii</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">N</span>
-    <span class="n">Lg</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span>
-    <span class="n">gt</span> <span class="p">=</span> <span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span>
-    
-    <span class="c">% This is an explicit fftshift</span>
-    <span class="n">idx</span><span class="p">=[</span><span class="n">Lg</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">Lg</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)];</span>
-    <span class="n">gt</span> <span class="p">=</span> <span class="n">gt</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span>
-    
-    <span class="n">win_range</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">timepos</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    
-    <span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-        <span class="n">temp</span> <span class="p">=</span> <span class="n">ifftreal</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
-        <span class="n">idx</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">([</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">else</span>
-        <span class="n">temp</span> <span class="p">=</span> <span class="n">ifftreal</span><span class="p">(</span><span class="n">c</span><span class="p">(:,</span><span class="n">ii</span><span class="p">,:),</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="p">;</span>
-        <span class="n">idx</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">([</span><span class="n">M</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> 
-    <span class="k">end</span>
-    <span class="n">temp</span> <span class="p">=</span> <span class="n">temp</span><span class="p">(</span><span class="n">idx</span><span class="p">,:);</span>
-    <span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:)</span> <span class="p">=</span> <span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:)</span> <span class="o">+</span> <span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span><span class="n">gt</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">N</span><span class="w"></span>
+<span class="w">    </span><span class="n">Lg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="n">gt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">g</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% This is an explicit fftshift</span><span class="w"></span>
+<span class="w">    </span><span class="n">idx</span><span class="p">=[</span><span class="n">Lg</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">Lg</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)];</span><span class="w"></span>
+<span class="w">    </span><span class="n">gt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gt</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">win_range</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">timepos</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">iscell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ifftreal</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">([</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">M</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ifftreal</span><span class="p">(</span><span class="n">c</span><span class="p">(:,</span><span class="n">ii</span><span class="p">,:),</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">([</span><span class="n">M</span><span class="o">-</span><span class="nb">floor</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">temp</span><span class="p">(</span><span class="n">idx</span><span class="p">,:);</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">win_range</span><span class="p">,:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span><span class="n">gt</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span>
-  <span class="n">f</span> <span class="p">=</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">),:);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">),:);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

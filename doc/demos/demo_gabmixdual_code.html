@@ -42,125 +42,125 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_GABMIXDUAL - How to use GABMIXDUAL</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="c">%DEMO_GABMIXDUAL  How to use GABMIXDUAL</span>
-<span class="c">%</span>
-<span class="c">%   This script illustrates how one can produce dual windows</span>
-<span class="c">%   using GABMIXDUAL</span>
-<span class="c">%</span>
-<span class="c">%   The demo constructs a dual window that is more concentrated in</span>
-<span class="c">%   the time domain by mixing the original Gabor window by one that is</span>
-<span class="c">%   extremely well concentrated. The result is somewhat in the middle</span>
-<span class="c">%   of these two.</span>
-<span class="c">% </span>
-<span class="c">%   The lower framebound of the mixing Gabor system is horrible,</span>
-<span class="c">%   but this does not carry over to the gabmixdual.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 1: Gabmixdual of two Gaussians.</span>
-<span class="c">%</span>
-<span class="c">%      The first row of the figure shows the canonical dual window</span>
-<span class="c">%      of the input window, which is a Gaussian function perfectly</span>
-<span class="c">%      localized in the time and frequency domains.</span>
-<span class="c">%</span>
-<span class="c">%      The second row shows the canonical dual window of the window we</span>
-<span class="c">%      will be mixing with: This is a Gaussian that is 10 times more</span>
-<span class="c">%      concentrated in the time domain than in the frequency domain.</span>
-<span class="c">%      The resulting canonical dual window has rapid decay in the time domain.</span>
-<span class="c">%</span>
-<span class="c">%      The last row shows the gabmixdual of these two. This is a non-canonical</span>
-<span class="c">%      dual window of the first Gaussian, with decay resembling that of the</span>
-<span class="c">%      second.</span>
-<span class="c">%</span>
-<span class="c">%   See also: gabmixdual, gabdual</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_gabmixdual.html</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_GABMIXDUAL  How to use GABMIXDUAL</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This script illustrates how one can produce dual windows</span><span class="w"></span>
+<span class="c">%   using GABMIXDUAL</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The demo constructs a dual window that is more concentrated in</span><span class="w"></span>
+<span class="c">%   the time domain by mixing the original Gabor window by one that is</span><span class="w"></span>
+<span class="c">%   extremely well concentrated. The result is somewhat in the middle</span><span class="w"></span>
+<span class="c">%   of these two.</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%   The lower framebound of the mixing Gabor system is horrible,</span><span class="w"></span>
+<span class="c">%   but this does not carry over to the gabmixdual.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 1: Gabmixdual of two Gaussians.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The first row of the figure shows the canonical dual window</span><span class="w"></span>
+<span class="c">%      of the input window, which is a Gaussian function perfectly</span><span class="w"></span>
+<span class="c">%      localized in the time and frequency domains.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The second row shows the canonical dual window of the window we</span><span class="w"></span>
+<span class="c">%      will be mixing with: This is a Gaussian that is 10 times more</span><span class="w"></span>
+<span class="c">%      concentrated in the time domain than in the frequency domain.</span><span class="w"></span>
+<span class="c">%      The resulting canonical dual window has rapid decay in the time domain.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The last row shows the gabmixdual of these two. This is a non-canonical</span><span class="w"></span>
+<span class="c">%      dual window of the first Gaussian, with decay resembling that of the</span><span class="w"></span>
+<span class="c">%      second.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: gabmixdual, gabdual</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_gabmixdual.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Type &quot;help demo_gabmixdual&quot; to see a description of how this demo works.&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Type &quot;help demo_gabmixdual&quot; to see a description of how this demo works.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="mi">120</span><span class="p">;</span>
-<span class="n">a</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
-<span class="n">M</span><span class="p">=</span><span class="mi">12</span><span class="p">;</span>
+<span class="n">L</span><span class="p">=</span><span class="mi">120</span><span class="p">;</span><span class="w"></span>
+<span class="n">a</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="n">M</span><span class="p">=</span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Compute frequency shift.</span>
-<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
+<span class="c">% Compute frequency shift.</span><span class="w"></span>
+<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Optimally centered Gaussian</span>
-<span class="n">g1</span><span class="p">=</span><span class="n">pgauss</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+<span class="c">% Optimally centered Gaussian</span><span class="w"></span>
+<span class="n">g1</span><span class="p">=</span><span class="n">pgauss</span><span class="p">(</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute and print framebounds.</span>
-<span class="p">[</span><span class="n">A1</span><span class="p">,</span><span class="n">B1</span><span class="p">]=</span><span class="n">gabframebounds</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Framebounds of initial Gabor system:&#39;</span><span class="p">);</span>
-<span class="n">A1</span><span class="p">,</span> <span class="n">B1</span>
+<span class="c">% Compute and print framebounds.</span><span class="w"></span>
+<span class="p">[</span><span class="n">A1</span><span class="p">,</span><span class="n">B1</span><span class="p">]=</span><span class="n">gabframebounds</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Framebounds of initial Gabor system:&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">A1</span><span class="p">,</span><span class="w"> </span><span class="n">B1</span><span class="w"></span>
 
-<span class="c">% Narrow Gaussian</span>
-<span class="n">g2</span><span class="p">=</span><span class="n">pgauss</span><span class="p">(</span><span class="n">L</span><span class="p">,.</span><span class="mi">1</span><span class="p">);</span>
+<span class="c">% Narrow Gaussian</span><span class="w"></span>
+<span class="n">g2</span><span class="p">=</span><span class="n">pgauss</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mf">.1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute and print framebounds.</span>
-<span class="p">[</span><span class="n">A2</span><span class="p">,</span><span class="n">B2</span><span class="p">]=</span><span class="n">gabframebounds</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Framebounds of mixing Gabor system:&#39;</span><span class="p">);</span>
-<span class="n">A2</span><span class="p">,</span> <span class="n">B2</span>
+<span class="c">% Compute and print framebounds.</span><span class="w"></span>
+<span class="p">[</span><span class="n">A2</span><span class="p">,</span><span class="n">B2</span><span class="p">]=</span><span class="n">gabframebounds</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Framebounds of mixing Gabor system:&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">A2</span><span class="p">,</span><span class="w"> </span><span class="n">B2</span><span class="w"></span>
 
-<span class="c">% Create a gabmixdual. The window gd is a dual window to g1</span>
-<span class="n">gd</span><span class="p">=</span><span class="n">gabmixdual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="c">% Create a gabmixdual. The window gd is a dual window to g1</span><span class="w"></span>
+<span class="n">gd</span><span class="p">=</span><span class="n">gabmixdual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute and print framebounds.</span>
-<span class="p">[</span><span class="n">Am</span><span class="p">,</span><span class="n">Bm</span><span class="p">]=</span><span class="n">gabframebounds</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Framebounds of gabmixdual Gabor system:&#39;</span><span class="p">);</span>
-<span class="n">Am</span><span class="p">,</span> <span class="n">Bm</span>
+<span class="c">% Compute and print framebounds.</span><span class="w"></span>
+<span class="p">[</span><span class="n">Am</span><span class="p">,</span><span class="n">Bm</span><span class="p">]=</span><span class="n">gabframebounds</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Framebounds of gabmixdual Gabor system:&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">Am</span><span class="p">,</span><span class="w"> </span><span class="n">Bm</span><span class="w"></span>
 
-<span class="c">% Create canonical duals, for plotting.</span>
-<span class="n">gc1</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="n">gc2</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="c">% Create canonical duals, for plotting.</span><span class="w"></span>
+<span class="n">gc1</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="n">gc2</span><span class="p">=</span><span class="n">gabdual</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Standard note on plotting:</span>
-<span class="c">%</span>
-<span class="c">% - The windows are all centered around zero, but this</span>
-<span class="c">%   is not visually pleasing, so the window must be</span>
-<span class="c">%   shifted to the middle by an FFTSHIFT</span>
+<span class="c">% Standard note on plotting:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% - The windows are all centered around zero, but this</span><span class="w"></span>
+<span class="c">%   is not visually pleasing, so the window must be</span><span class="w"></span>
+<span class="c">%   shifted to the middle by an FFTSHIFT</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gc1</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Canonical dual window.&#39;</span><span class="p">);</span>  
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">gc1</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Canonical dual window.&#39;</span><span class="p">);</span><span class="w">  </span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gc1</span><span class="p">))));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Decay of canonical dual window.&#39;</span><span class="p">);</span>  
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">gc1</span><span class="p">))));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Decay of canonical dual window.&#39;</span><span class="p">);</span><span class="w">  </span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gc2</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Can. dual of mix. window.&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">gc2</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Can. dual of mix. window.&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gc2</span><span class="p">))));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Decay of can.dual of mix. window.&#39;</span><span class="p">)</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">gc2</span><span class="p">))));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Decay of can.dual of mix. window.&#39;</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gd</span><span class="p">));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Gabmixdual&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">gd</span><span class="p">));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Gabmixdual&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fftshift</span><span class="p">(</span><span class="n">gd</span><span class="p">))));</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;Decay of gabmixdual&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">fftshift</span><span class="p">(</span><span class="n">gd</span><span class="p">))));</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Decay of gabmixdual&#39;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

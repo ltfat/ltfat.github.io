@@ -37,90 +37,90 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_WAVELETS - Wavelet filter banks</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="c">%DEMO_WAVELETS  Wavelet filter banks</span>
-<span class="c">%</span>
-<span class="c">%   This demo exemplifies the use of the wavelet filter bank trees. All </span>
-<span class="c">%   representations use &quot;least asymmetric&quot; Daubechies wavelet orthonormal</span>
-<span class="c">%   filters &#39;sym8&#39; (8-regular, length 16).</span>
-<span class="c">%</span>
-<span class="c">%   Figure 1: DWT representation</span>
-<span class="c">%</span>
-<span class="c">%      The filter bank tree consists of 11 levels of iterated 2-band basic</span>
-<span class="c">%      wavelet filter bank, where only the low-pass output is further </span>
-<span class="c">%      decomposed. This results in 12 bands with octave resolution. </span>
-<span class="c">%</span>
-<span class="c">%   Figure 2: 8-band DWT representation</span>
-<span class="c">%</span>
-<span class="c">%      The filter bank tree (effectively) consists of 3 levels of iterated</span>
-<span class="c">%      8-band basic wavelet filter bank resulting in 22 bands. Only the</span>
-<span class="c">%      low-pass output is decomposed at each level.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 3: Full Wavelet filter bank tree representation</span>
-<span class="c">%</span>
-<span class="c">%      The filter bank tree depth is 8 and it is fully decomposed meaning</span>
-<span class="c">%      both outputs (low-pass and high-pass) of the basic filter bank is</span>
-<span class="c">%      plot further. This results in 256 bands linearly covering the </span>
-<span class="c">%      frequency axis.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 4: Full Wavelet filter bank tree representation</span>
-<span class="c">%</span>
-<span class="c">%      The same case as before, but symmetric nearly orthogonal basic</span>
-<span class="c">%      filter bank is used.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 5: Full Dual-tree Wavelet filter bank representation</span>
-<span class="c">%</span>
-<span class="c">%      This is a 2 times redundant representation using Q-shift dual-tree</span>
-<span class="c">%      wavelet filters.</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_wavelets.html</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_WAVELETS  Wavelet filter banks</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This demo exemplifies the use of the wavelet filter bank trees. All </span><span class="w"></span>
+<span class="c">%   representations use &quot;least asymmetric&quot; Daubechies wavelet orthonormal</span><span class="w"></span>
+<span class="c">%   filters &#39;sym8&#39; (8-regular, length 16).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 1: DWT representation</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The filter bank tree consists of 11 levels of iterated 2-band basic</span><span class="w"></span>
+<span class="c">%      wavelet filter bank, where only the low-pass output is further </span><span class="w"></span>
+<span class="c">%      decomposed. This results in 12 bands with octave resolution. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 2: 8-band DWT representation</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The filter bank tree (effectively) consists of 3 levels of iterated</span><span class="w"></span>
+<span class="c">%      8-band basic wavelet filter bank resulting in 22 bands. Only the</span><span class="w"></span>
+<span class="c">%      low-pass output is decomposed at each level.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 3: Full Wavelet filter bank tree representation</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The filter bank tree depth is 8 and it is fully decomposed meaning</span><span class="w"></span>
+<span class="c">%      both outputs (low-pass and high-pass) of the basic filter bank is</span><span class="w"></span>
+<span class="c">%      plot further. This results in 256 bands linearly covering the </span><span class="w"></span>
+<span class="c">%      frequency axis.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 4: Full Wavelet filter bank tree representation</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The same case as before, but symmetric nearly orthogonal basic</span><span class="w"></span>
+<span class="c">%      filter bank is used.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 5: Full Dual-tree Wavelet filter bank representation</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      This is a 2 times redundant representation using Q-shift dual-tree</span><span class="w"></span>
+<span class="c">%      wavelet filters.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_wavelets.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-
-
-<span class="c">% Read the test signal and crop it to the range of interest</span>
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">gspi</span><span class="p">;</span>
-<span class="n">f</span><span class="p">=</span><span class="n">f</span><span class="p">(</span><span class="mi">10001</span><span class="p">:</span><span class="mi">100000</span><span class="p">);</span>
-<span class="n">dr</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span>
-   
-    
-<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">[</span><span class="n">c1</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">fwt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;sym8&#39;</span><span class="p">,</span><span class="mi">11</span><span class="p">);</span>
-<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
 
+<span class="c">% Read the test signal and crop it to the range of interest</span><span class="w"></span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">gspi</span><span class="p">;</span><span class="w"></span>
+<span class="n">f</span><span class="p">=</span><span class="n">f</span><span class="p">(</span><span class="mi">10001</span><span class="p">:</span><span class="mi">100000</span><span class="p">);</span><span class="w"></span>
+<span class="n">dr</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span>
+<span class="w">    </span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">c1</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">fwt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;sym8&#39;</span><span class="p">,</span><span class="mi">11</span><span class="p">);</span><span class="w"></span>
+<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-<span class="p">[</span><span class="n">c2</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wfbt</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;sym8&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;quadband&#39;</span><span class="p">});</span>
-<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
 
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-<span class="p">[</span><span class="n">c3</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wfbt</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;sym8&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">});</span>
-<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">c2</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wfbt</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;sym8&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;quadband&#39;</span><span class="p">});</span><span class="w"></span>
+<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
 
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-<span class="p">[</span><span class="n">c4</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wfbt</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;symorth3&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">});</span>
-<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c4</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">c3</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wfbt</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;sym8&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">});</span><span class="w"></span>
+<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-<span class="p">[</span><span class="n">c5</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">dtwfbreal</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;qshift5&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">,</span><span class="s">&#39;first&#39;</span><span class="p">,</span><span class="s">&#39;symorth3&#39;</span><span class="p">});</span>
-<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c5</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
+
+<span class="nb">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">c4</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wfbt</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;symorth3&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">});</span><span class="w"></span>
+<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c4</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
+
+<span class="nb">figure</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">c5</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">dtwfbreal</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;qshift5&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">,</span><span class="s">&#39;first&#39;</span><span class="p">,</span><span class="s">&#39;symorth3&#39;</span><span class="p">});</span><span class="w"></span>
+<span class="n">plotwavelets</span><span class="p">(</span><span class="n">c5</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

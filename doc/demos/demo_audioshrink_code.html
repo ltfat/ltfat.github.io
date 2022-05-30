@@ -37,124 +37,124 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_AUDIOSHRINK - Decomposition into tonal and transient parts</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="c">%DEMO_AUDIOSHRINK  Decomposition into tonal and transient parts</span>
-<span class="c">%</span>
-<span class="c">%   This demos shows how to do audio coding and &quot;tonal + transient&quot;</span>
-<span class="c">%   decomposition using group lasso shrinkage of two WMDCT transforms</span>
-<span class="c">%   with different time-frequency resolutions.</span>
-<span class="c">%</span>
-<span class="c">%   The signal is transformed using two orthonormal WMDCT bases.</span>
-<span class="c">%   Then group lasso shrinkage is applied to the two transforms</span>
-<span class="c">%   in order to:</span>
-<span class="c">%</span>
-<span class="c">%      select fixed frequency lines of large WMDCT coefficients on the</span>
-<span class="c">%       wide window WMDCT transform</span>
-<span class="c">%</span>
-<span class="c">%      select fixed time lines of large WMDCT coefficients on the</span>
-<span class="c">%       narrow window WMDCT transform</span>
-<span class="c">% </span>
-<span class="c">%   The corresponding approximated signals are computed with the</span>
-<span class="c">%   corresponding inverse, IWMDCT.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 1: Plots and time-frequency images</span>
-<span class="c">%</span>
-<span class="c">%      The upper plots in the figure show the tonal parts of the signal, the</span>
-<span class="c">%      lower plots show the transients. The TF-plots on the left are the</span>
-<span class="c">%      corresponding wmdct coefficients found by appropriate group lasso</span>
-<span class="c">%      shrinkage</span>
-<span class="c">%</span>
-<span class="c">%   Corresponding reconstructed tonal and transient sounds may be</span>
-<span class="c">%   listened from arrays rec1 and rec2 (sampling rate: 44.1 kHz)</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_audioshrink.html</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_AUDIOSHRINK  Decomposition into tonal and transient parts</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This demos shows how to do audio coding and &quot;tonal + transient&quot;</span><span class="w"></span>
+<span class="c">%   decomposition using group lasso shrinkage of two WMDCT transforms</span><span class="w"></span>
+<span class="c">%   with different time-frequency resolutions.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The signal is transformed using two orthonormal WMDCT bases.</span><span class="w"></span>
+<span class="c">%   Then group lasso shrinkage is applied to the two transforms</span><span class="w"></span>
+<span class="c">%   in order to:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      select fixed frequency lines of large WMDCT coefficients on the</span><span class="w"></span>
+<span class="c">%       wide window WMDCT transform</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      select fixed time lines of large WMDCT coefficients on the</span><span class="w"></span>
+<span class="c">%       narrow window WMDCT transform</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%   The corresponding approximated signals are computed with the</span><span class="w"></span>
+<span class="c">%   corresponding inverse, IWMDCT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 1: Plots and time-frequency images</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The upper plots in the figure show the tonal parts of the signal, the</span><span class="w"></span>
+<span class="c">%      lower plots show the transients. The TF-plots on the left are the</span><span class="w"></span>
+<span class="c">%      corresponding wmdct coefficients found by appropriate group lasso</span><span class="w"></span>
+<span class="c">%      shrinkage</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Corresponding reconstructed tonal and transient sounds may be</span><span class="w"></span>
+<span class="c">%   listened from arrays rec1 and rec2 (sampling rate: 44.1 kHz)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_audioshrink.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
 
-<span class="c">% Load audio signal and add noise</span>
-<span class="c">% -------------------------------</span>
-<span class="c">% Use the &#39;glockenspiel&#39; signal.</span>
-<span class="n">sig</span><span class="p">=</span><span class="n">gspi</span><span class="p">;</span>
-<span class="n">fs</span><span class="p">=</span><span class="mi">44100</span><span class="p">;</span>
+<span class="c">% Load audio signal and add noise</span><span class="w"></span>
+<span class="c">% -------------------------------</span><span class="w"></span>
+<span class="c">% Use the &#39;glockenspiel&#39; signal.</span><span class="w"></span>
+<span class="n">sig</span><span class="p">=</span><span class="n">gspi</span><span class="p">;</span><span class="w"></span>
+<span class="n">fs</span><span class="p">=</span><span class="mi">44100</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Shorten signal</span>
-<span class="n">siglen</span> <span class="p">=</span> <span class="mi">2</span>^<span class="mi">16</span><span class="p">;</span>
-<span class="n">sig</span> <span class="p">=</span> <span class="n">sig</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">siglen</span><span class="p">);</span>
+<span class="c">% Shorten signal</span><span class="w"></span>
+<span class="n">siglen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span>^<span class="mi">16</span><span class="p">;</span><span class="w"></span>
+<span class="n">sig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sig</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">siglen</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Add Gaussian white noise</span>
-<span class="n">nsig</span> <span class="p">=</span> <span class="n">sig</span> <span class="o">+</span> <span class="mf">0.01</span><span class="o">*</span><span class="nb">randn</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">sig</span><span class="p">));</span>
+<span class="c">% Add Gaussian white noise</span><span class="w"></span>
+<span class="n">nsig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sig</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.01</span><span class="o">*</span><span class="nb">randn</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">sig</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% Tonal layer</span>
-<span class="c">% -----------</span>
+<span class="c">% Tonal layer</span><span class="w"></span>
+<span class="c">% -----------</span><span class="w"></span>
 
-<span class="c">% Create a WMDCT basis with 256 channels</span>
-<span class="n">F1</span><span class="p">=</span><span class="n">frametight</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;wmdct&#39;</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">));</span>
+<span class="c">% Create a WMDCT basis with 256 channels</span><span class="w"></span>
+<span class="n">F1</span><span class="p">=</span><span class="n">frametight</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;wmdct&#39;</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="mi">256</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% Group lasso and invert</span>
-<span class="n">c1</span> <span class="p">=</span> <span class="n">franagrouplasso</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span><span class="n">nsig</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="s">&#39;soft&#39;</span><span class="p">,</span><span class="s">&#39;freq&#39;</span><span class="p">);</span>
-<span class="n">rec1</span> <span class="p">=</span> <span class="n">frsyn</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span><span class="n">c1</span><span class="p">);</span>
+<span class="c">% Group lasso and invert</span><span class="w"></span>
+<span class="n">c1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">franagrouplasso</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span><span class="n">nsig</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="s">&#39;soft&#39;</span><span class="p">,</span><span class="s">&#39;freq&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">rec1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frsyn</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span><span class="n">c1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Transient layer</span>
-<span class="c">% ---------------</span>
+<span class="c">% Transient layer</span><span class="w"></span>
+<span class="c">% ---------------</span><span class="w"></span>
 
-<span class="c">% Create a WMDCT basis with 32 channels</span>
-<span class="n">F2</span><span class="p">=</span><span class="n">frametight</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;wmdct&#39;</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="mi">32</span><span class="p">));</span>
+<span class="c">% Create a WMDCT basis with 32 channels</span><span class="w"></span>
+<span class="n">F2</span><span class="p">=</span><span class="n">frametight</span><span class="p">(</span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;wmdct&#39;</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="mi">32</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">c2</span> <span class="p">=</span> <span class="n">franagrouplasso</span><span class="p">(</span><span class="n">F2</span><span class="p">,</span><span class="n">nsig</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="s">&#39;soft&#39;</span><span class="p">,</span><span class="s">&#39;time&#39;</span><span class="p">);</span>
-<span class="n">rec2</span> <span class="p">=</span> <span class="n">frsyn</span><span class="p">(</span><span class="n">F2</span><span class="p">,</span><span class="n">c2</span><span class="p">);</span>
+<span class="n">c2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">franagrouplasso</span><span class="p">(</span><span class="n">F2</span><span class="p">,</span><span class="n">nsig</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="s">&#39;soft&#39;</span><span class="p">,</span><span class="s">&#39;time&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">rec2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frsyn</span><span class="p">(</span><span class="n">F2</span><span class="p">,</span><span class="n">c2</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Plots</span>
-<span class="c">% -----</span>
+<span class="c">% Plots</span><span class="w"></span>
+<span class="c">% -----</span><span class="w"></span>
 
-<span class="c">% Dynamic range for plotting</span>
-<span class="n">dr</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span>
-<span class="n">xplot</span><span class="p">=(</span><span class="mi">0</span><span class="p">:</span><span class="n">siglen</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">fs</span><span class="p">;</span>
+<span class="c">% Dynamic range for plotting</span><span class="w"></span>
+<span class="n">dr</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
+<span class="n">xplot</span><span class="p">=(</span><span class="mi">0</span><span class="p">:</span><span class="n">siglen</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">fs</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">rec1</span><span class="p">);</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time (s)&#39;</span><span class="p">);</span>
-<span class="n">axis</span> <span class="n">tight</span><span class="p">;</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">rec1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Time (s)&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">axis</span><span class="w"> </span><span class="s">tight</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">plotframe</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span><span class="n">c1</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="n">plotframe</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span><span class="n">c1</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">rec2</span><span class="p">);</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time (s)&#39;</span><span class="p">);</span>
-<span class="n">axis</span> <span class="n">tight</span><span class="p">;</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span><span class="n">rec2</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Time (s)&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">axis</span><span class="w"> </span><span class="s">tight</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
-<span class="n">plotframe</span><span class="p">(</span><span class="n">F2</span><span class="p">,</span><span class="n">c2</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="n">plotframe</span><span class="p">(</span><span class="n">F2</span><span class="p">,</span><span class="n">c2</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Count the number of non-zero coefficients</span>
-<span class="n">N1</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">);</span>
-<span class="n">N2</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">);</span>
+<span class="c">% Count the number of non-zero coefficients</span><span class="w"></span>
+<span class="n">N1</span><span class="p">=</span><span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="n">N2</span><span class="p">=</span><span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">p1</span> <span class="p">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">N1</span><span class="o">/</span><span class="n">siglen</span><span class="p">;</span>
-<span class="n">p2</span> <span class="p">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">N2</span><span class="o">/</span><span class="n">siglen</span><span class="p">;</span>
-<span class="n">p</span><span class="p">=</span><span class="n">p1</span><span class="o">+</span><span class="n">p2</span><span class="p">;</span>
+<span class="n">p1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span><span class="o">*</span><span class="n">N1</span><span class="o">/</span><span class="n">siglen</span><span class="p">;</span><span class="w"></span>
+<span class="n">p2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span><span class="o">*</span><span class="n">N2</span><span class="o">/</span><span class="n">siglen</span><span class="p">;</span><span class="w"></span>
+<span class="n">p</span><span class="p">=</span><span class="n">p1</span><span class="o">+</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Percentage of retained coefficients: %f + %f = %f\n&#39;</span><span class="p">,</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p</span><span class="p">);</span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Percentage of retained coefficients: %f + %f = %f\n&#39;</span><span class="p">,</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p</span><span class="p">);</span><span class="w"></span>
 
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the original, type &quot;soundsc(sig,fs)&quot;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the tonal part, type &quot;soundsc(rec1,fs)&quot;&#39;</span><span class="p">);</span>
-<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the transient part, type &quot;soundsc(rec2,fs)&quot;&#39;</span><span class="p">);</span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the original, type &quot;soundsc(sig,fs)&quot;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the tonal part, type &quot;soundsc(rec1,fs)&quot;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To play the transient part, type &quot;soundsc(rec2,fs)&quot;&#39;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

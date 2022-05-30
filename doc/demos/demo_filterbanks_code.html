@@ -43,184 +43,184 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DEMO_FILTERBANKS - CQT, ERBLET and AUDLET filterbanks</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="c">%DEMO_FILTERBANKS  CQT, ERBLET and AUDLET filterbanks</span>
-<span class="c">%</span>
-<span class="c">%   This demo shows CQT (Constant Quality Transform), ERBLET (Equivalent</span>
-<span class="c">%   Rectangular Bandwidth -let transform), and AUDLET (Auditory -let) </span>
-<span class="c">%   representations acting as filterbanks  with high and low redundancies.</span>
-<span class="c">%   Note that ERBLET and AUDLET are similar concepts. The main difference</span>
-<span class="c">%   is that ERBlet uses only the perceptual ERB scale while AUDlet allows</span>
-<span class="c">%   for various perceptual scales like Bark or Mel scales. In short,</span>
-<span class="c">%   ERBFILTERS is a wrapper of AUDFILTERS for the ERB scale. </span>
-<span class="c">%   Filterbanks are build such that the painless condition is always satisfied.</span>
-<span class="c">%   Real input signal and filters covering only the positive frequency range </span>
-<span class="c">%   are used. The redundancy is calculated as a ratio of the number of (complex) </span>
-<span class="c">%   coefficients and the input length times two to account for the storage</span>
-<span class="c">%   requirements of complex numbers.</span>
-<span class="c">%</span>
-<span class="c">%      The high redundancy representation uses &#39;uniform&#39; subsampling i.e.</span>
-<span class="c">%       all channels are subsampled with the same subsampling factor which</span>
-<span class="c">%       is the lowest from the filters according to the painless condition</span>
-<span class="c">%       rounded towards zero.</span>
-<span class="c">%</span>
-<span class="c">%      The low redundancy representation uses &#39;fractional&#39; subsampling</span>
-<span class="c">%       which results in the least redundant representation still</span>
-<span class="c">%       satisfying the painless condition. Actual time positions of atoms </span>
-<span class="c">%       can be non-integer, hence the word fractional.</span>
-<span class="c">%</span>
-<span class="c">%   Figure 1: ERBLET representations</span>
-<span class="c">%</span>
-<span class="c">%      The high-redundany plot (top) consists of 400 channels (~9 filters </span>
-<span class="c">%      per ERB) and low-redundany plot (bottom) consists of 44 channels </span>
-<span class="c">%      (1 filter per ERB).</span>
-<span class="c">%</span>
-<span class="c">%   Figure 2: CQT representations</span>
-<span class="c">%</span>
-<span class="c">%      Both representations consist of 280 channels (32 channels per octave,</span>
-<span class="c">%      frequency range 50Hz-20kHz). The high-redundany represention is on </span>
-<span class="c">%      the top and the low-redundancy repr. is on the bottom.</span>
-<span class="c">% </span>
-<span class="c">%   Figure 3: AUDLET representations</span>
-<span class="c">%</span>
-<span class="c">%      The first representation consists of 72 channels BARKlet FB (3 filters</span>
-<span class="c">%      per Bark in the frequency range 100Hz-16kHz using fractional subsampling.</span>
-<span class="c">%      The second representation consists of 40 channels MELlet FB using</span>
-<span class="c">%      uniform subsampling and triangular windows.</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   See also: audfilters, erbfilters, cqtfilters</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_filterbanks.html</span>
+<div class="highlight"><pre><span></span><span class="c">%DEMO_FILTERBANKS  CQT, ERBLET and AUDLET filterbanks</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This demo shows CQT (Constant Quality Transform), ERBLET (Equivalent</span><span class="w"></span>
+<span class="c">%   Rectangular Bandwidth -let transform), and AUDLET (Auditory -let) </span><span class="w"></span>
+<span class="c">%   representations acting as filterbanks  with high and low redundancies.</span><span class="w"></span>
+<span class="c">%   Note that ERBLET and AUDLET are similar concepts. The main difference</span><span class="w"></span>
+<span class="c">%   is that ERBlet uses only the perceptual ERB scale while AUDlet allows</span><span class="w"></span>
+<span class="c">%   for various perceptual scales like Bark or Mel scales. In short,</span><span class="w"></span>
+<span class="c">%   ERBFILTERS is a wrapper of AUDFILTERS for the ERB scale. </span><span class="w"></span>
+<span class="c">%   Filterbanks are build such that the painless condition is always satisfied.</span><span class="w"></span>
+<span class="c">%   Real input signal and filters covering only the positive frequency range </span><span class="w"></span>
+<span class="c">%   are used. The redundancy is calculated as a ratio of the number of (complex) </span><span class="w"></span>
+<span class="c">%   coefficients and the input length times two to account for the storage</span><span class="w"></span>
+<span class="c">%   requirements of complex numbers.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The high redundancy representation uses &#39;uniform&#39; subsampling i.e.</span><span class="w"></span>
+<span class="c">%       all channels are subsampled with the same subsampling factor which</span><span class="w"></span>
+<span class="c">%       is the lowest from the filters according to the painless condition</span><span class="w"></span>
+<span class="c">%       rounded towards zero.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The low redundancy representation uses &#39;fractional&#39; subsampling</span><span class="w"></span>
+<span class="c">%       which results in the least redundant representation still</span><span class="w"></span>
+<span class="c">%       satisfying the painless condition. Actual time positions of atoms </span><span class="w"></span>
+<span class="c">%       can be non-integer, hence the word fractional.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 1: ERBLET representations</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The high-redundany plot (top) consists of 400 channels (~9 filters </span><span class="w"></span>
+<span class="c">%      per ERB) and low-redundany plot (bottom) consists of 44 channels </span><span class="w"></span>
+<span class="c">%      (1 filter per ERB).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Figure 2: CQT representations</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      Both representations consist of 280 channels (32 channels per octave,</span><span class="w"></span>
+<span class="c">%      frequency range 50Hz-20kHz). The high-redundany represention is on </span><span class="w"></span>
+<span class="c">%      the top and the low-redundancy repr. is on the bottom.</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%   Figure 3: AUDLET representations</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      The first representation consists of 72 channels BARKlet FB (3 filters</span><span class="w"></span>
+<span class="c">%      per Bark in the frequency range 100Hz-16kHz using fractional subsampling.</span><span class="w"></span>
+<span class="c">%      The second representation consists of 40 channels MELlet FB using</span><span class="w"></span>
+<span class="c">%      uniform subsampling and triangular windows.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: audfilters, erbfilters, cqtfilters</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_filterbanks.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% Read the test signal and crop it to the range of interest</span>
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">gspi</span><span class="p">;</span>
-<span class="n">f</span><span class="p">=</span><span class="n">f</span><span class="p">(</span><span class="mi">10001</span><span class="p">:</span><span class="mi">100000</span><span class="p">);</span>
-<span class="n">dr</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span>
+<span class="c">% Read the test signal and crop it to the range of interest</span><span class="w"></span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">gspi</span><span class="p">;</span><span class="w"></span>
+<span class="n">f</span><span class="p">=</span><span class="n">f</span><span class="p">(</span><span class="mi">10001</span><span class="p">:</span><span class="mi">100000</span><span class="p">);</span><span class="w"></span>
+<span class="n">dr</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Create the ERB filterbank using 400 filters linearly spaced in the </span>
-<span class="c">% ERB scale and using uniform subsampling.</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">erbfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="s">&#39;uniform&#39;</span><span class="p">);</span>
+<span class="c">% Create the ERB filterbank using 400 filters linearly spaced in the </span><span class="w"></span>
+<span class="c">% ERB scale and using uniform subsampling.</span><span class="w"></span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">erbfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="s">&#39;uniform&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute the filterbank response</span>
-<span class="n">c1</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute the filterbank response</span><span class="w"></span>
+<span class="n">c1</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute redundancy</span>
-<span class="n">erb1_redundancy</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">sum</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute redundancy</span><span class="w"></span>
+<span class="n">erb1_redundancy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="o">./</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Plot the representation</span>
-<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;ERBLET representations&#39;</span><span class="p">)</span>
+<span class="c">% Plot the representation</span><span class="w"></span>
+<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;ERBLET representations&#39;</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Create the ERB filterbank using 44 filters linearly spaced in the </span>
-<span class="c">% ERB scale and using fractional subsampling.</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">erbfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;fractional&#39;</span><span class="p">);</span>
+<span class="c">% Create the ERB filterbank using 44 filters linearly spaced in the </span><span class="w"></span>
+<span class="c">% ERB scale and using fractional subsampling.</span><span class="w"></span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">erbfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;fractional&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute the filterbank response</span>
-<span class="n">c2</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute the filterbank response</span><span class="w"></span>
+<span class="n">c2</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute redundancy</span>
-<span class="n">erb2_redundancy</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">));</span>
+<span class="c">% Compute redundancy</span><span class="w"></span>
+<span class="n">erb2_redundancy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% Plot the representation</span>
-<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span>
+<span class="c">% Plot the representation</span><span class="w"></span>
+<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;ERBLET high redundancy %.2f, low redundany %.2f.\n&#39;</span><span class="p">,</span><span class="c">...</span>
-         <span class="n">erb1_redundancy</span><span class="p">,</span><span class="n">erb2_redundancy</span><span class="p">);</span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;ERBLET high redundancy %.2f, low redundany %.2f.\n&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">         </span><span class="n">erb1_redundancy</span><span class="p">,</span><span class="n">erb2_redundancy</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Create the CQT filterbank using 32 channels per octave in frequency </span>
-<span class="c">% range 50Hz-20kHz using uniform subsampling.</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]</span> <span class="p">=</span> <span class="n">cqtfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;uniform&#39;</span><span class="p">);</span>
+<span class="c">% Create the CQT filterbank using 32 channels per octave in frequency </span><span class="w"></span>
+<span class="c">% range 50Hz-20kHz using uniform subsampling.</span><span class="w"></span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cqtfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;uniform&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute the filterbank response</span>
-<span class="n">c3</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute the filterbank response</span><span class="w"></span>
+<span class="n">c3</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute redundancy</span>
-<span class="n">cqt1_redundancy</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">sum</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute redundancy</span><span class="w"></span>
+<span class="n">cqt1_redundancy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="o">./</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Plot the representation</span>
-<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;CQT representations&#39;</span><span class="p">)</span>
+<span class="c">% Plot the representation</span><span class="w"></span>
+<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;CQT representations&#39;</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Create the CQT filterbank using 32 channels per octave in frequency </span>
-<span class="c">% range 50Hz-20kHz using fractional subsampling.</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]</span> <span class="p">=</span> <span class="n">cqtfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;fractional&#39;</span><span class="p">);</span>
+<span class="c">% Create the CQT filterbank using 32 channels per octave in frequency </span><span class="w"></span>
+<span class="c">% range 50Hz-20kHz using fractional subsampling.</span><span class="w"></span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cqtfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">20000</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;fractional&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute the filterbank response</span>
-<span class="n">c4</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute the filterbank response</span><span class="w"></span>
+<span class="n">c4</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute redundancy</span>
-<span class="n">cqt2_redundancy</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">));</span>
+<span class="c">% Compute redundancy</span><span class="w"></span>
+<span class="n">cqt2_redundancy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% Plot the representation</span>
-<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c4</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span>
+<span class="c">% Plot the representation</span><span class="w"></span>
+<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c4</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;CQT high redundancy %.2f, low redundany %.2f.\n&#39;</span><span class="p">,</span><span class="c">...</span>
-        <span class="n">cqt1_redundancy</span><span class="p">,</span><span class="n">cqt2_redundancy</span><span class="p">);</span>
-    
-<span class="c">% Finally two settings of AUDFILTERS are illustrated, namely an analysis on</span>
-<span class="c">% the Bark scale (top) and one on the Mel scale using triangular windows (bottom).</span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;CQT high redundancy %.2f, low redundany %.2f.\n&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">        </span><span class="n">cqt1_redundancy</span><span class="p">,</span><span class="n">cqt2_redundancy</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="c">% Finally two settings of AUDFILTERS are illustrated, namely an analysis on</span><span class="w"></span>
+<span class="c">% the Bark scale (top) and one on the Mel scale using triangular windows (bottom).</span><span class="w"></span>
 
-<span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Create a Barklet FB with 3 filters per Bark in the</span>
-<span class="c">% frequency range 100Hz-16kHz using fractional subsampling.</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">audfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="mi">100</span><span class="p">,</span><span class="mi">16000</span><span class="p">,</span><span class="s">&#39;bark&#39;</span><span class="p">,</span><span class="s">&#39;fractional&#39;</span><span class="p">,</span><span class="s">&#39;spacing&#39;</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">);</span>
+<span class="c">% Create a Barklet FB with 3 filters per Bark in the</span><span class="w"></span>
+<span class="c">% frequency range 100Hz-16kHz using fractional subsampling.</span><span class="w"></span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">audfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="mi">100</span><span class="p">,</span><span class="mi">16000</span><span class="p">,</span><span class="s">&#39;bark&#39;</span><span class="p">,</span><span class="s">&#39;fractional&#39;</span><span class="p">,</span><span class="s">&#39;spacing&#39;</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute the filterbank response</span>
-<span class="n">c5</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;realdual&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">},</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute the filterbank response</span><span class="w"></span>
+<span class="n">c5</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;realdual&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">},</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute redundancy</span>
-<span class="n">bark_redundancy</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">));</span>
+<span class="c">% Compute redundancy</span><span class="w"></span>
+<span class="n">bark_redundancy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% Plot the representation</span>
-<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c5</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;AUDLET representations: Bark scale (top) and Mel scale (bottom)&#39;</span><span class="p">)</span>
+<span class="c">% Plot the representation</span><span class="w"></span>
+<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c5</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;AUDLET representations: Bark scale (top) and Mel scale (bottom)&#39;</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;BARKLET redundancy %.2f\n&#39;</span><span class="p">,</span><span class="n">bark_redundancy</span><span class="p">);</span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;BARKLET redundancy %.2f\n&#39;</span><span class="p">,</span><span class="n">bark_redundancy</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-<span class="c">% Create a MELlet FB with 40 filters and a triangular window using </span>
-<span class="c">% uniform subsampling.</span>
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">audfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;mel&#39;</span><span class="p">,</span><span class="s">&#39;uniform&#39;</span><span class="p">,</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="s">&#39;tria&#39;</span><span class="p">);</span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="c">% Create a MELlet FB with 40 filters and a triangular window using </span><span class="w"></span>
+<span class="c">% uniform subsampling.</span><span class="w"></span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">]=</span><span class="n">audfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="s">&#39;mel&#39;</span><span class="p">,</span><span class="s">&#39;uniform&#39;</span><span class="p">,</span><span class="s">&#39;M&#39;</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="s">&#39;tria&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute the filterbank response</span>
-<span class="n">c6</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;realdual&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">},</span><span class="n">a</span><span class="p">);</span>
+<span class="c">% Compute the filterbank response</span><span class="w"></span>
+<span class="n">c6</span><span class="p">=</span><span class="n">filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,{</span><span class="s">&#39;realdual&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">},</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Compute redundancy</span>
-<span class="n">mel_redundancy</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="o">.^-</span><span class="mi">1</span><span class="p">);</span>
+<span class="c">% Compute redundancy</span><span class="w"></span>
+<span class="n">mel_redundancy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="o">.^-</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Plot the representation</span>
-<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c6</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&#39;MELlet representation&#39;</span><span class="p">)</span>
+<span class="c">% Plot the representation</span><span class="w"></span>
+<span class="n">plotfilterbank</span><span class="p">(</span><span class="n">c6</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">fs</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="s">&#39;audtick&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;MELlet representation&#39;</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;MELLET redundancy %.2f\n&#39;</span><span class="p">,</span><span class="n">mel_redundancy</span><span class="p">);</span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;MELLET redundancy %.2f\n&#39;</span><span class="p">,</span><span class="n">mel_redundancy</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

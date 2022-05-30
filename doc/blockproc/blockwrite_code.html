@@ -42,133 +42,133 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">BLOCKWRITE - Append block to an existing file</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">blockwrite</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
-<span class="c">%BLOCKWRITE  Append block to an existing file</span>
-<span class="c">%   Usage: blockwrite(f);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%      f    : Block stream input.</span>
-<span class="c">%</span>
-<span class="c">%   Function appends f to a existing file. The file must have been</span>
-<span class="c">%   explicitly defined as the &#39;outfile&#39; parameter of BLOCK prior</span>
-<span class="c">%   calling this function. If not, the function does nothing.</span>
-<span class="c">%</span>
-<span class="c">%   The function expect exactly the same format of f as is returned by</span>
-<span class="c">%   BLOCKREAD.</span>
-<span class="c">%</span>
-<span class="c">%   See also: block</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockwrite.html</span>
+<span class="c">%BLOCKWRITE  Append block to an existing file</span><span class="w"></span>
+<span class="c">%   Usage: blockwrite(f);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%      f    : Block stream input.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Function appends f to a existing file. The file must have been</span><span class="w"></span>
+<span class="c">%   explicitly defined as the &#39;outfile&#39; parameter of BLOCK prior</span><span class="w"></span>
+<span class="c">%   calling this function. If not, the function does nothing.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function expect exactly the same format of f as is returned by</span><span class="w"></span>
+<span class="c">%   BLOCKREAD.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: block</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockwrite.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% Authors: Bjoern Ohl, Zdenek Prusa</span>
+<span class="c">% Authors: Bjoern Ohl, Zdenek Prusa</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;BLOCKWRITE&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;BLOCKWRITE&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">filestruct</span> <span class="p">=</span> <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getOutFile&#39;</span><span class="p">);</span>
+<span class="n">filestruct</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getOutFile&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">filestruct</span><span class="p">)</span>
-   <span class="c">% Do nothing if the file was not setup in block.</span>
-   <span class="k">return</span><span class="p">;</span>
-   <span class="c">%error(&#39;%s: Output file was not specified in block function.&#39;,...</span>
-   <span class="c">%      upper(mfilename));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">filestruct</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="c">% Do nothing if the file was not setup in block.</span><span class="w"></span>
+<span class="w">   </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="c">%error(&#39;%s: Output file was not specified in block function.&#39;,...</span><span class="w"></span>
+<span class="w">   </span><span class="c">%      upper(mfilename));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">filename</span> <span class="p">=</span> <span class="n">filestruct</span><span class="p">.</span><span class="n">filename</span><span class="p">;</span>
-
-
-<span class="c">% Reformat f if necessary</span>
-<span class="n">f</span> <span class="p">=</span> <span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;BLOCKPLAY&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-
-<span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">W</span><span class="p">]</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-
-<span class="n">Wread</span> <span class="p">=</span> <span class="n">filestruct</span><span class="p">.</span><span class="n">Nchan</span><span class="p">;</span>
-
-<span class="k">if</span> <span class="n">Wread</span> <span class="o">~=</span> <span class="n">W</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: %s was initialized to work with %i channels but&#39;</span><span class="p">,</span> <span class="c">...</span>
-           <span class="s">&#39; only %i provided. &#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">filename</span><span class="p">,</span><span class="n">Wread</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="n">filename</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filestruct</span><span class="p">.</span><span class="n">filename</span><span class="p">;</span><span class="w"></span>
 
 
-<span class="k">if</span> <span class="n">W</span><span class="o">&gt;</span><span class="mi">2</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Cannot work with more than 2 channels.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="c">% Reformat f if necessary</span><span class="w"></span>
+<span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;BLOCKPLAY&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">[</span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">Wread</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filestruct</span><span class="p">.</span><span class="n">Nchan</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">Wread</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">W</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: %s was initialized to work with %i channels but&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39; only %i provided. &#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">filename</span><span class="p">,</span><span class="n">Wread</span><span class="p">,</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
 
-<span class="c">% prepare data depending on mono/stereo:</span>
-<span class="k">if</span> <span class="n">W</span> <span class="o">==</span> <span class="mi">2</span>           <span class="c">% stereo</span>
-  <span class="n">f</span> <span class="p">=</span> <span class="n">f</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
-  <span class="n">f</span> <span class="p">=</span> <span class="n">f</span><span class="p">(:);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">W</span><span class="o">&gt;</span><span class="mi">2</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Cannot work with more than 2 channels.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
 
-<span class="c">% flength = dlength + 36;</span>
-<span class="c">% We need to read one field from the header and</span>
-<span class="c">% update two.</span>
-<span class="n">fid</span> <span class="p">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">&#39;r+&#39;</span><span class="p">);</span>
-
-<span class="n">fseek</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">dataLenInBytes</span> <span class="p">=</span> <span class="n">fread</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;uint32&#39;</span><span class="p">);</span>
-<span class="n">dataLenInBytes</span> <span class="p">=</span> <span class="n">dataLenInBytes</span> <span class="o">+</span> <span class="n">filestruct</span><span class="p">.</span><span class="n">alignment</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
-<span class="n">fileLenInBytes</span> <span class="p">=</span> <span class="n">dataLenInBytes</span> <span class="o">+</span> <span class="mi">36</span><span class="p">;</span>
-
-<span class="k">try</span>
-    <span class="k">if</span> <span class="n">fseek</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">0</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span>
-    <span class="k">end</span>
-    <span class="k">if</span> <span class="n">fwrite</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="n">fileLenInBytes</span><span class="p">,</span><span class="s">&#39;uint32&#39;</span><span class="p">)</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span>
-    <span class="k">end</span>
-
-    <span class="k">if</span> <span class="n">fseek</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-         <span class="n">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span>
-    <span class="k">end</span>
-    <span class="k">if</span> <span class="n">fwrite</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="n">dataLenInBytes</span><span class="p">,</span><span class="s">&#39;uint32&#39;</span><span class="p">)</span> <span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span>
-         <span class="n">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span>
-    <span class="k">end</span>
-<span class="k">catch</span>
-    <span class="c">% We have to check whether the header was modified properly.</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: An error has ocurred when modifying header of the &#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="s">&#39; wav file. The file might be unreadable. Consider&#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="s">&#39; starting over.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-
-<span class="k">end</span>
-<span class="n">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span>
-
-<span class="c">% And now we can append the actual data</span>
-<span class="n">fid</span> <span class="p">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">);</span>
-<span class="c">%write data into file (amplified by 2^15 to suit int16-range (from -2^15 to +2^15):</span>
-
-<span class="n">maxval</span> <span class="p">=</span> <span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span>^<span class="mi">16</span><span class="p">);</span>
-<span class="n">minval</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-
-<span class="c">% Allow clipping since it is hard to do some sensible normalization.</span>
-<span class="n">f</span><span class="p">(</span><span class="n">f</span> <span class="o">&gt;</span><span class="p">=</span> <span class="n">maxval</span><span class="p">)</span>  <span class="p">=</span> <span class="n">maxval</span><span class="p">;</span>
-<span class="n">f</span><span class="p">(</span><span class="n">f</span> <span class="o">&lt;</span><span class="p">=</span> <span class="n">minval</span><span class="p">)</span>  <span class="p">=</span> <span class="n">minval</span><span class="p">;</span>
+<span class="c">% prepare data depending on mono/stereo:</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="w">           </span><span class="c">% stereo</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(:);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
 
-<span class="c">% clipping check:</span>
-<span class="c">%if (max(tempvec) &gt;= maxval) || (min(tempvec) &lt;= minval)</span>
-    <span class="c">%We have no way how to find out how to properly normalize in blocks</span>
-    <span class="c">%warning(&#39;Clipping! Audio data limited to [-1, +1)&#39;);</span>
-<span class="c">%end</span>
+<span class="c">% flength = dlength + 36;</span><span class="w"></span>
+<span class="c">% We need to read one field from the header and</span><span class="w"></span>
+<span class="c">% update two.</span><span class="w"></span>
+<span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">&#39;r+&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">fwrite</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">f</span><span class="o">*</span><span class="mi">2</span>^<span class="mi">15</span><span class="p">,</span> <span class="s">&#39;int16&#39;</span><span class="p">);</span>
-<span class="n">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span>    <span class="c">%close file</span>
+<span class="nb">fseek</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">dataLenInBytes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fread</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;uint32&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">dataLenInBytes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dataLenInBytes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">filestruct</span><span class="p">.</span><span class="n">alignment</span><span class="o">*</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
+<span class="n">fileLenInBytes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dataLenInBytes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">36</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">try</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">fseek</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">fwrite</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="n">fileLenInBytes</span><span class="p">,</span><span class="s">&#39;uint32&#39;</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">fseek</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">fwrite</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="n">dataLenInBytes</span><span class="p">,</span><span class="s">&#39;uint32&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">         </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">catch</span><span class="w"></span>
+<span class="w">    </span><span class="c">% We have to check whether the header was modified properly.</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: An error has ocurred when modifying header of the &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">          </span><span class="s">&#39; wav file. The file might be unreadable. Consider&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">          </span><span class="s">&#39; starting over.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+
+<span class="k">end</span><span class="w"></span>
+<span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% And now we can append the actual data</span><span class="w"></span>
+<span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="c">%write data into file (amplified by 2^15 to suit int16-range (from -2^15 to +2^15):</span><span class="w"></span>
+
+<span class="n">maxval</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span>^<span class="mi">16</span><span class="p">);</span><span class="w"></span>
+<span class="n">minval</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Allow clipping since it is hard to do some sensible normalization.</span><span class="w"></span>
+<span class="n">f</span><span class="p">(</span><span class="n">f</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">maxval</span><span class="p">)</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">maxval</span><span class="p">;</span><span class="w"></span>
+<span class="n">f</span><span class="p">(</span><span class="n">f</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">minval</span><span class="p">)</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">minval</span><span class="p">;</span><span class="w"></span>
+
+
+<span class="c">% clipping check:</span><span class="w"></span>
+<span class="c">%if (max(tempvec) &gt;= maxval) || (min(tempvec) &lt;= minval)</span><span class="w"></span>
+<span class="w">    </span><span class="c">%We have no way how to find out how to properly normalize in blocks</span><span class="w"></span>
+<span class="w">    </span><span class="c">%warning(&#39;Clipping! Audio data limited to [-1, +1)&#39;);</span><span class="w"></span>
+<span class="c">%end</span><span class="w"></span>
+
+<span class="nb">fwrite</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">*</span><span class="mi">2</span>^<span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;int16&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span><span class="w">    </span><span class="c">%close file</span><span class="w"></span>
 </pre></div>
 
 

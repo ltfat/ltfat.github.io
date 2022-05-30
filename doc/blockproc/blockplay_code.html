@@ -38,52 +38,52 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">BLOCKPLAY - Schedules block to be played</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">blockplay</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
-<span class="c">%BLOCKPLAY Schedules block to be played</span>
-<span class="c">%   Usage: blockplay(L)</span>
-<span class="c">%       </span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%      f    : Samples.</span>
-<span class="c">%</span>
-<span class="c">%   Function schedules samples in f to be played. Since playrec handles</span>
-<span class="c">%   playing and recording in a single command, the actual relay of samples</span>
-<span class="c">%   to playrec is done in the next call of BLOCKREAD.</span>
-<span class="c">%   In case no audio output is expected (in the rec only mode), </span>
-<span class="c">%   the function does nothing.</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockplay.html</span>
+<span class="c">%BLOCKPLAY Schedules block to be played</span><span class="w"></span>
+<span class="c">%   Usage: blockplay(L)</span><span class="w"></span>
+<span class="c">%       </span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%      f    : Samples.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Function schedules samples in f to be played. Since playrec handles</span><span class="w"></span>
+<span class="c">%   playing and recording in a single command, the actual relay of samples</span><span class="w"></span>
+<span class="c">%   to playrec is done in the next call of BLOCKREAD.</span><span class="w"></span>
+<span class="c">%   In case no audio output is expected (in the rec only mode), </span><span class="w"></span>
+<span class="c">%   the function does nothing.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/blockproc/blockplay.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;BLOCKPLAY&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;BLOCKPLAY&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">source</span> <span class="p">=</span> <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getSource&#39;</span><span class="p">);</span>
+<span class="n">source</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;getSource&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span> <span class="n">iscell</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">source</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="s">&#39;rec&#39;</span><span class="p">))</span> <span class="o">||</span> <span class="c">...</span>
-   <span class="n">strcmp</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="s">&#39;rec&#39;</span><span class="p">)</span>
-   <span class="c">% Do nothing in rec only mode.</span>
-   <span class="k">return</span><span class="p">;</span> 
-   <span class="c">% error(&#39;%s: Blocks cannot be played in the rec only mode.&#39;,upper(mfilename));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">iscell</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">source</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="s">&#39;rec&#39;</span><span class="p">))</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">   </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="s">&#39;rec&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="c">% Do nothing in rec only mode.</span><span class="w"></span>
+<span class="w">   </span><span class="k">return</span><span class="p">;</span><span class="w"> </span>
+<span class="w">   </span><span class="c">% error(&#39;%s: Blocks cannot be played in the rec only mode.&#39;,upper(mfilename));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Reformat f if necessary</span>
-<span class="n">f</span> <span class="p">=</span> <span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;BLOCKPLAY&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="c">% Reformat f if necessary</span><span class="w"></span>
+<span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;BLOCKPLAY&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setToPlay&#39;</span><span class="p">,</span><span class="n">f</span><span class="p">);</span>
+<span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setToPlay&#39;</span><span class="p">,</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 
