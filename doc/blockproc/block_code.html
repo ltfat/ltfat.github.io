@@ -44,7 +44,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">BLOCK - Initialize block stream</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[fs,classid] <span class="p">=</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span>source,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[fs,classid]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span>source,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%BLOCK  Initialize block stream</span>
 <span class="c">%   Usage: block(source);</span>
 <span class="c">%</span>
@@ -151,7 +151,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/blockproc/block.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -518,11 +518,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
            <span class="n">failedInit</span><span class="p">(</span><span class="n">devs</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span>
        <span class="k">end</span>
        
-       <span class="k">if</span> <span class="o">~</span><span class="n">do_recaudio</span>
-          <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">recch</span><span class="p">)</span> <span class="o">&gt;</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">recch</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">playch</span><span class="p">)</span>
-            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Using more than one input channel.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-          <span class="k">end</span>
-       <span class="k">end</span>
+       <span class="c">% if ~do_recaudio</span>
+       <span class="c">%    if numel(kv.recch) &gt;1 &amp;&amp; numel(kv.recch) ~= numel(kv.playch)</span>
+       <span class="c">%      error(&#39;%s: Using more than one input channel.&#39;,upper(mfilename));</span>
+       <span class="c">%    end</span>
+       <span class="c">% end</span>
        <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setPlayChanList&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">playch</span><span class="p">);</span>
        <span class="n">block_interface</span><span class="p">(</span><span class="s">&#39;setRecChanList&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">recch</span><span class="p">);</span>
     <span class="k">elseif</span> <span class="n">play</span> <span class="o">&amp;&amp;</span> <span class="o">~</span><span class="n">record</span>
@@ -714,7 +714,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span>
 
 
-<span class="k">function</span><span class="w"> </span>headerStruct <span class="p">=</span><span class="w"> </span><span class="nf">writewavheader</span><span class="p">(</span>Nchan,fs,filename<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>headerStruct<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">writewavheader</span><span class="p">(</span>Nchan,fs,filename<span class="p">)</span><span class="w"></span>
 <span class="c">%WRITEWAVHEADER(NCHAN, FS, FILENAME)</span>
 <span class="c">%</span>
 <span class="c">%Creates a new WAV File and writes only the header into it.</span>

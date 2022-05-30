@@ -372,6 +372,7 @@ var globalfunlist = {
    warpedblfilter:'sigproc/warpedblfilter',
    warpedfilters:'filterbank/warpedfilters',
    wavcell2pack:'wavelets/wavcell2pack',
+   waveletfilters:'filterbank/waveletfilters',
    wavfun:'wavelets/wavfun',
    wavpack2cell:'wavelets/wavpack2cell',
    wfbt:'wavelets/wfbt',
@@ -430,4 +431,4 @@ var globalfunlist = {
    zak:'gabor/zak',
 };
 
- var toolboxversion='2.4.0'; 
+ var toolboxversion='2.5.0'; 

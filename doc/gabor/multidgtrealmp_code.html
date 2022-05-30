@@ -42,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">MULTIDGTREALMP - Matching Pursuit Decomposition with Multi-Gabor Dictionary</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c, frec, info] <span class="p">=</span><span class="w"> </span><span class="nf">multidgtrealmp</span><span class="p">(</span>f,dicts,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[c, frec, info] = multidgtrealmp</span><span class="p">(</span>f,dicts,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%MULTIDGTREALMP  Matching Pursuit Decomposition with Multi-Gabor Dictionary</span>
 <span class="c">%   Usage:  c = multidgtrealmp(f,dicts)</span>
 <span class="c">%           c = multidgtrealmp(f,dicts,errdb,maxit)</span>
@@ -79,7 +79,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%     .atoms    Number of atoms selected.</span>
 <span class="c">%</span>
-<span class="c">%     .relres   Final approximation error. </span>
+<span class="c">%     .relres   Final approximation error. If resets are enabled, this is a</span>
+<span class="c">%               vector additionally containing the approximation error at </span>
+<span class="c">%               every reset.</span>
 <span class="c">%</span>
 <span class="c">%     .g        Cell array of numeric windows used in the multi-dictionary</span>
 <span class="c">%</span>
@@ -94,21 +96,40 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%                  dim=1 if it was a row vector. </span>
 <span class="c">%</span>
 <span class="c">%   The normalized approximation error is computed as </span>
-<span class="c">%   err=norm(f-frec)/norm(f).</span>
+<span class="c">%   errdb=20*log10(norm(f-frec)/norm(f)).</span>
 <span class="c">%</span>
 <span class="c">%   The function takes the following optional parameters at the end of</span>
 <span class="c">%   the line of input arguments:</span>
 <span class="c">%</span>
-<span class="c">%     &#39;kenrnthr&#39;,kt    Kernel threshold. Must be in range ]0,1]. Default is 1e-4.</span>
+<span class="c">%     &#39;kenrnthr&#39;,kt     Kernel threshold. Must be in range ]0,1]. </span>
+<span class="c">%                       Default is 1e-4.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;timeinv&#39;        Use the time invariant phase convention. The</span>
-<span class="c">%                      default is &#39;freqinv&#39;.</span>
+<span class="c">%     &#39;timeinv&#39;         Use the time invariant phase convention. The</span>
+<span class="c">%                       default is &#39;freqinv&#39;.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;pedanticsearch&#39; Be pedantic about the energy of pairs of conjugated</span>
-<span class="c">%                      atoms in the selection step. Disbaled by default.</span>
+<span class="c">%     &#39;pedanticsearch&#39;  Be pedantic about the energy of pairs of </span>
+<span class="c">%                       conjugated atoms in the selection step. </span>
+<span class="c">%                       Disabled by default.</span>
 <span class="c">%</span>
-<span class="c">%     &#39;algorithm&#39;,alg  Algorithm to use. Available: </span>
-<span class="c">%                      &#39;mp&#39;(default),&#39;selfprojmp&#39;,&#39;cyclicmp&#39;</span>
+<span class="c">%     &#39;algorithm&#39;,alg   Algorithm to use. Available: </span>
+<span class="c">%                       &#39;mp&#39;(default),&#39;selfprojmp&#39;,&#39;cyclicmp&#39;</span>
+<span class="c">%</span>
+<span class="c">%     &#39;reset&#39;           Reset the decomposition until stopping criteria</span>
+<span class="c">%                       are met. The reset means a complete synthesis and </span>
+<span class="c">%                       re-analysis. Available: </span>
+<span class="c">%                       &#39;noreset&#39; (default), &#39;reset&#39;, &#39;quickreset&#39;</span>
+<span class="c">%                       Option &#39;quickreset&#39; applies a heuristic to stop the </span>
+<span class="c">%                       algorithm more quickly when the targer error is </span>
+<span class="c">%                       reached.</span>
+<span class="c">%</span>
+<span class="c">%   Reset conditions can be controlled by the following key-value pairs:</span>
+<span class="c">%</span>
+<span class="c">%     &#39;resetit&#39;,it      Reset the decomposition every it iteration.</span>
+<span class="c">%                       Must be a positive integer.</span>
+<span class="c">%</span>
+<span class="c">%     &#39;reseterrdb&#39;,err  Reset the decomposition when the error estimate </span>
+<span class="c">%                       in dB decreases below err. Must be negative. </span>
+<span class="c">%                       Default is 10*log10(1.1*kv.kernthr).</span>
 <span class="c">%</span>
 <span class="c">%   The computational routine is only available in C. Use LTFATMEX to</span>
 <span class="c">%   to compile it.</span>
@@ -119,11 +140,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   By default, the function uses the fast MP using approximate update </span>
 <span class="c">%   in the coefficient domain as described in:</span>
 <span class="c">%   </span>
-<span class="c">%   &quot;Z. Prusa, Fast Matching Pursuit with Multi-Gabor Dictionaries&quot;</span>
+<span class="c">%   &quot;Z. Prusa, N. Holighaus, P. Balazs: Fast Matching Pursuit with Multi-Gabor Dictionaries&quot;</span>
 <span class="c">%   </span>
 <span class="c">%   The kernel threshold limits the minimum approximation error which</span>
 <span class="c">%   can be reached. For example the default threshold 1e-4 in general </span>
 <span class="c">%   allows achieving at least -40 dB.</span>
+<span class="c">% </span>
+<span class="c">%   Note that this algorithm internally computes the error as</span>
+<span class="c">%   errdb = 10*log10(err(k)/norm(f)^2), with err(0) = norm(f)^2 and </span>
+<span class="c">%   err(k) = err(k-1) - abs(cselected(k))^2. Here, cselected(k) is the</span>
+<span class="c">%   Gabor coefficient selected at the k-th MP step. This formula is exact </span>
+<span class="c">%   only if the kernel threshold equals 0. Otherwise it serves as a cheap</span>
+<span class="c">%   estimate. The exact error is only computed when this function is run</span>
+<span class="c">%   with resets enabled and only in between resets. </span>
 <span class="c">%   </span>
 <span class="c">%   Examples</span>
 <span class="c">%   --------</span>
@@ -164,7 +193,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/multidgtrealmp.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -186,6 +215,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Define initial value for flags and key/value pairs.</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">errdb</span><span class="p">=</span><span class="o">-</span><span class="mi">40</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">resetit</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="c">%definput.keyvals.iterstep=[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">kernthr</span> <span class="p">=</span> <span class="mf">1e-4</span><span class="p">;</span>
 <span class="c">%definput.flags.print={&#39;quiet&#39;,&#39;print&#39;};</span>
@@ -193,6 +224,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span><span class="p">={</span><span class="s">&#39;mp&#39;</span><span class="p">,</span><span class="s">&#39;selfprojmp&#39;</span><span class="p">,</span><span class="s">&#39;cyclicmp&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">search</span><span class="p">={</span><span class="s">&#39;plainsearch&#39;</span><span class="p">,</span><span class="s">&#39;pedanticsearch&#39;</span><span class="p">};</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">reset</span><span class="p">={</span><span class="s">&#39;noreset&#39;</span><span class="p">,</span><span class="s">&#39;reset&#39;</span><span class="p">,</span><span class="s">&#39;quickreset&#39;</span><span class="p">};</span>
+
 <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;errdb&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="n">exist</span><span class="p">(</span><span class="s">&#39;comp_multidgtrealmp&#39;</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fast</span>
@@ -202,6 +235,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_slow</span>
     <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: &#39;&#39;slow&#39;&#39; is not supported yet.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_reset</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_quickreset</span> <span class="c">% Check reseterrdb or resetit</span>
+   <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">==</span> <span class="mi">0</span> <span class="c">% Set both to conservative default values depending on kernthr</span>
+            <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="p">=</span> <span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="mf">1.1</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">);</span>
+            <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1000</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">));</span> 
+        <span class="k">else</span> <span class="c">% If only resetit is given, ignore reseterrdb</span>
+            <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="p">=</span> <span class="o">-</span><span class="n">flintmax</span><span class="p">;</span>
+        <span class="k">end</span>
+   <span class="k">elseif</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">==</span> <span class="mi">0</span> <span class="c">% If only reseterrdb is given, ignore resetit</span>
+        <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="p">=</span> <span class="n">flintmax</span><span class="p">;</span>
+   <span class="k">end</span>   
+   <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="o">&gt;</span><span class="p">=</span> <span class="mi">0</span>
+       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Reset error tolerance must be negative.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+   <span class="k">end</span>
+   <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">~=</span> <span class="nb">round</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="p">)</span>
+       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Number of iterations before reset must be a positive integer.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
+   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
@@ -217,7 +269,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span> <span class="o">&lt;</span><span class="p">=</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Kenel threshold must be in range ]0,1].&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Kernel threshold must be in range ]0,1].&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span>
 
 <span class="k">if</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">dicts</span><span class="p">),</span> <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: dicts must be cell&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span> <span class="k">end</span>
@@ -269,12 +321,72 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">end</span>
 <span class="k">end</span>
 
+<span class="c">% Initial residuum</span>
 <span class="n">fpad</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
 
-<span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
-    <span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="c">...</span>
-                        <span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="c">...</span>
-                        <span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span> <span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span> <span class="p">);</span>
+<span class="c">% Determine reset/no reset mode and run MP decomposition </span>
+<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_noreset</span>
+    <span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
+        <span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="c">...</span>
+                            <span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="c">...</span>
+                            <span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span> <span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span> <span class="p">);</span>
+<span class="k">else</span>
+    <span class="n">c</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">dictno</span><span class="p">);</span>
+    <span class="k">for</span> <span class="n">dIdx</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">dictno</span>
+        <span class="n">c</span><span class="p">{</span><span class="n">dIdx</span><span class="p">}</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">dIdx</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">class</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
+    <span class="k">end</span>
+
+    <span class="n">remainingit</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span>
+    <span class="n">currerrdb</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">;</span>
+        
+    <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">reseterrdb</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="n">remainingit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">currerrdb</span> <span class="o">&lt;</span> <span class="mi">0</span>
+        <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        
+        <span class="c">% Adjust number of iterations</span>
+        <span class="n">currit</span> <span class="p">=</span> <span class="n">min</span><span class="p">([</span><span class="n">remainingit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_quickreset</span> <span class="c">% Adjust reset error condition</span>
+            <span class="n">reseterrdb</span> <span class="p">=</span> <span class="n">max</span><span class="p">([</span><span class="mf">1.2</span><span class="o">*</span><span class="n">currerrdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="p">]);</span>
+        <span class="k">end</span>
+
+        <span class="p">[</span><span class="n">ctmp</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
+            <span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="c">...</span>
+                                <span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">reseterrdb</span><span class="p">,</span><span class="n">currit</span><span class="p">,</span><span class="n">currit</span><span class="p">,</span><span class="c">...</span>
+                                <span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span> <span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span> <span class="p">);</span>
+
+        <span class="n">c</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">ctmpEl</span><span class="p">)</span> <span class="n">cEl</span> <span class="o">+</span> <span class="n">ctmpEl</span><span class="p">,</span> <span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">ctmp</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+        <span class="n">remainingit</span> <span class="p">=</span> <span class="n">remainingit</span> <span class="o">-</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">;</span>
+
+        <span class="c">%The following means that some other stopping criterion has been reached</span>
+        <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="o">~=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="o">~=</span><span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="n">currit</span> <span class="o">~=</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span> <span class="k">break</span><span class="p">;</span> <span class="k">end</span>
+
+        <span class="k">if</span> <span class="n">remainingit</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="c">% Recompute residuum</span>
+            <span class="n">frec</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">cell2mat</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">)</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">),</span><span class="c">...</span>
+                   <span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">num2cell</span><span class="p">(</span><span class="n">a</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="n">num2cell</span><span class="p">(</span><span class="n">M</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span><span class="mi">2</span><span class="p">);</span>
+            
+            <span class="n">fpad</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">)</span> <span class="o">-</span> <span class="n">frec</span><span class="p">;</span>
+            <span class="n">relres</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">fpad</span><span class="p">(:))</span> <span class="o">/</span> <span class="n">fnorm</span><span class="p">;</span>            
+            <span class="c">% Since we are changing the residual, we must adjust the target error</span>
+            <span class="n">currerrdb</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">errdb</span> <span class="o">-</span> <span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">relres</span><span class="p">);</span>            
+            <span class="k">if</span> <span class="n">currerrdb</span> <span class="o">&lt;</span> <span class="mi">0</span>
+                <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">resets</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">relres</span><span class="p">;</span>
+            <span class="k">end</span>
+            <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="o">&gt;</span><span class="p">=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span> 
+                <span class="k">break</span><span class="p">;</span> 
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="c">%Fix the info</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">atoms</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span> <span class="nb">numel</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">cEl</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)),</span> <span class="n">c</span><span class="p">));</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span> <span class="o">-</span> <span class="n">remainingit</span><span class="p">;</span>
+<span class="k">end</span>
+
 
 <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
   <span class="n">permutedsize2</span> <span class="p">=</span> <span class="n">permutedsize</span><span class="p">;</span> <span class="n">permutedsize2</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">dictno</span><span class="p">;</span>
@@ -287,10 +399,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim2</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span> <span class="k">end</span>
   <span class="n">frec</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">synthetize</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">dim2</span><span class="p">);</span>
   <span class="k">if</span> <span class="n">fnorm</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="k">else</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">frec</span><span class="p">(:)</span><span class="o">-</span><span class="n">f</span><span class="p">(:))</span><span class="o">/</span><span class="n">fnorm</span><span class="p">;</span>
+    <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">frec</span><span class="p">(:)</span><span class="o">-</span><span class="n">f</span><span class="p">(:))</span><span class="o">/</span><span class="n">fnorm</span><span class="p">;</span>
   <span class="k">end</span>
+  
+  <span class="c">% Fix the status</span>
+  <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="p">)</span> <span class="o">&lt;</span><span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span>
+      <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">elseif</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="o">==</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
+      <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="k">end</span>
+  
+  <span class="n">status_str</span> <span class="p">=</span> <span class="p">{</span><span class="c">...</span>
+  <span class="s">&#39;Target error reached&#39;</span><span class="p">,</span><span class="c">...</span>
+  <span class="s">&#39;Maximum number of atoms reached&#39;</span><span class="p">,</span><span class="c">...</span>
+  <span class="s">&#39;Maximum number of iterations reached&#39;</span><span class="p">,</span><span class="c">...</span>
+  <span class="s">&#39;Stalled (abs. norm. error estimate became negative)&#39;</span><span class="p">,</span><span class="c">...</span>
+  <span class="s">&#39;Selected coefficient tolerance reached&#39;</span><span class="p">,</span><span class="c">...</span>
+  <span class="s">&#39;All zeros&#39;</span><span class="p">,</span><span class="c">...</span>
+  <span class="s">&#39;Stalled (Residual has increased since last reset. Try to reduce resetit.)&#39;</span><span class="c">...</span>
+  <span class="p">};</span>
+  <span class="n">info</span><span class="p">.</span><span class="n">message</span> <span class="p">=</span> <span class="n">status_str</span><span class="p">{</span><span class="mi">1</span> <span class="o">+</span> <span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">};</span>
 <span class="k">end</span>
 </pre></div>
 

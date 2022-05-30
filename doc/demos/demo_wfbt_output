@@ -1,11 +1,4 @@
 The reconstruction should be close to zero:
-
-ans =
-
-   4.7457e-14
-
+ans =    4.9045e-14
 The reconstruction should be close to zero:
-
-ans =
-
-   8.9646e-14
+ans =    8.0967e-14

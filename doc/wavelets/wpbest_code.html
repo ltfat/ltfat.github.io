@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">WPBEST - Best Tree selection</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,info] <span class="p">=</span><span class="w"> </span><span class="nf">wpbest</span><span class="p">(</span>f,w,J,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,info]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wpbest</span><span class="p">(</span>f,w,J,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%WPBEST  Best Tree selection</span>
 <span class="c">%   Usage: c = wpbest(f,w,J,cost);</span>
 <span class="c">%          [c,info] = wpbest(...);</span>
@@ -196,7 +196,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wpbest.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -304,14 +304,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">info</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfbt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">wt</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">ext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">forder</span><span class="p">);</span>
 <span class="c">%END WPBEST</span>
 
-<span class="k">function</span><span class="w"> </span>ad <span class="p">=</span><span class="w"> </span><span class="nf">isAdditive</span><span class="p">(</span>entFunc<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>ad<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">isAdditive</span><span class="p">(</span>entFunc<span class="p">)</span><span class="w"></span>
 <span class="n">x</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">;</span>
 <span class="c">%x = x./norm(x);</span>
 <span class="n">ent1</span> <span class="p">=</span> <span class="n">wcostwrap</span><span class="p">(</span><span class="n">x</span><span class="o">&#39;</span><span class="p">,</span><span class="n">entFunc</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 <span class="n">ent2</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">arrayfun</span><span class="p">(@(</span><span class="n">xEl</span><span class="p">)</span> <span class="n">wcostwrap</span><span class="p">(</span><span class="n">xEl</span><span class="p">,</span><span class="n">entFunc</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">x</span><span class="p">));</span>
 <span class="n">ad</span> <span class="p">=</span> <span class="n">ent1</span><span class="o">==</span><span class="n">ent2</span><span class="p">;</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcostwrap</span><span class="p">(</span>x,fname,do_normalization<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcostwrap</span><span class="p">(</span>x,fname,do_normalization<span class="p">)</span><span class="w"></span>
 <span class="c">%WENTWRAP Entropy functions wrapper</span>
 <span class="c">%   Usage:  E = wentwrap(x,fname,varargin)</span>
 <span class="c">%</span>
@@ -342,13 +342,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% ADDITIVE COSTS %</span>
 <span class="c">%%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_shannon</span><span class="p">(</span>x<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcost_shannon</span><span class="p">(</span>x<span class="p">)</span><span class="w"></span>
 <span class="c">% Cost function derived from the Shannon-Weaver entropy.</span>
 
 <span class="n">u</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">x</span><span class="o">~=</span><span class="mi">0</span><span class="p">))</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
 <span class="n">E</span> <span class="p">=</span> <span class="o">-</span><span class="n">sum</span><span class="p">(</span><span class="n">u</span><span class="o">.*</span><span class="nb">log</span><span class="p">(</span><span class="n">u</span><span class="p">));</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_log</span><span class="p">(</span>x<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcost_log</span><span class="p">(</span>x<span class="p">)</span><span class="w"></span>
 <span class="c">% Logarithm of energy.</span>
 <span class="c">% It may be interpreted as the entropy of a Gauss-Markov process, composed</span>
 <span class="c">% of numel(x) uncorrelated Gaussian random variables of variences</span>
@@ -358,14 +358,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">x</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="n">x</span><span class="o">~=</span><span class="mi">0</span><span class="p">);</span>
 <span class="n">E</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="nb">log</span><span class="p">(</span><span class="n">x</span><span class="p">(:)</span><span class="o">.^</span><span class="mi">2</span><span class="p">));</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_thre</span><span class="p">(</span>x,th<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcost_thre</span><span class="p">(</span>x,th<span class="p">)</span><span class="w"></span>
 <span class="c">% Number of coefficients above a treshold.</span>
 <span class="c">% It gives a number of coefficients needed to transimt the signal to</span>
 <span class="c">% precision th.</span>
 
 <span class="n">E</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="n">th</span><span class="p">));</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_lpnorm</span><span class="p">(</span>x,p<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcost_lpnorm</span><span class="p">(</span>x,p<span class="p">)</span><span class="w"></span>
 <span class="c">% Concentration in l^p norm, p&lt;2</span>
 <span class="c">% The smaller is the l^p norm of a signal with l^2 equal to 1, the more</span>
 <span class="c">% concentrated is its energy into a few coefficients.</span>
@@ -376,7 +376,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% NON-ADDITIVE COSTS %</span>
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_wlpnorm</span><span class="p">(</span>x,p<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcost_wlpnorm</span><span class="p">(</span>x,p<span class="p">)</span><span class="w"></span>
 <span class="c">% Weak Lp-norm</span>
 
 <span class="n">v</span> <span class="p">=</span> <span class="n">sort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">(:)),</span><span class="s">&#39;descend&#39;</span><span class="p">);</span>
@@ -384,7 +384,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">k</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
 <span class="n">E</span> <span class="p">=</span> <span class="n">max</span><span class="p">((</span><span class="n">k</span><span class="p">.</span><span class="o">&#39;.^</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">))</span><span class="o">.*</span><span class="n">v</span><span class="p">);</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_compa</span><span class="p">(</span>x,p<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcost_compa</span><span class="p">(</span>x,p<span class="p">)</span><span class="w"></span>
 <span class="c">% Compresion Area Entropy, p&lt;2</span>
 <span class="c">%</span>
 
@@ -399,7 +399,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">E</span><span class="p">=</span><span class="n">N</span><span class="o">-</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
 
-<span class="k">function</span><span class="w"> </span>E <span class="p">=</span><span class="w"> </span><span class="nf">wcost_compn</span><span class="p">(</span>x,p,f<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>E<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wcost_compn</span><span class="p">(</span>x,p,f<span class="p">)</span><span class="w"></span>
 <span class="c">% Compresion Number entropy</span>
 <span class="c">% Represents a minimum number of coefficients containing 100*f% of the total</span>
 <span class="c">% p norm of x.</span>

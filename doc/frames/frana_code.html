@@ -81,7 +81,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/frames/frana.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -100,8 +100,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANA&#39;</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Currently only column vectors are supported. See bug #59.&#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>    
+<span class="c">%    error(&#39;%s: Currently only column vectors are supported. See bug #73.&#39;,...</span>
+<span class="c">%          upper(mfilename)); </span>
+  <span class="n">insig</span> <span class="p">=</span> <span class="n">insig</span><span class="p">(:);</span>
 <span class="k">end</span>
 
 

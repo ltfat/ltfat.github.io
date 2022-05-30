@@ -40,7 +40,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="section" id="usage">
 <h2>Usage</h2>
 <pre class="literal-block">
-[h,g] = wfilt_db(N);
+[h, g, a, info] = wfilt_db(N, compat = 1);
 </pre>
 </div>
 <div class="section" id="input-parameters">
@@ -52,6 +52,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <tr><td class="option-group">
 <kbd><span class="option"><var>N</var></span></kbd></td>
 <td>Order of Daubechies filters.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>compat</var></span></kbd></td>
+<td>0 is precomputed LUT for <span class="math">\(N &lt;= 38\)</span>,
+1 is runtime calculation (default).</td></tr>
 </tbody>
 </table>
 </div>
@@ -71,42 +75,45 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <kbd><span class="option"><var>a</var></span></kbd></td>
 <td>array of subsampling (or hop) factors accociated with
 corresponding filters</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>info</var></span></kbd></td>
+<td>info.istight=1 indicates the wavelet system is a can. tight frame</td></tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">[H,G] = dbfilt(N)</tt> computes a two-channel Daubechies FIR filterbank
+<p><tt class="docutils literal">[H, G] = wfilt_db(N)</tt> computes a two-channel Daubechies FIR filterbank
 from prototype maximum-phase analysing lowpass filter obtained by
 spectral factorization of the Lagrange interpolator filter.  <em>N</em> also
-denotes the number of zeros at <span class="math">\(z=-1\)</span> of the lowpass filters of length
+denotes the number of zeros at <span class="math">\(z = -1\)</span> of the lowpass filters of length
 <span class="math">\(2N\)</span>.  The prototype lowpass filter has the following form (all roots of
-<span class="math">\(R(z)\)</span> are outside of the unit circle):</p>
-<!-- H_l(z)=(1+z^-1)^N*R(z), -->
+<span class="math">\(R(z)\)</span> are inside of the unit circle):</p>
+<!-- H_l(z) = (1 + z^-1)^N * R(z), -->
 <div class="math">
 \begin{equation*}
-H_l(z)=\left(1+z^{-1}\right)^NR(z),
+H_l(z) = \left( 1 + z^{-1} \right)^N R(z),
 \end{equation*}
 </div>
-<p>where <span class="math">\(R(z)\)</span> is a spectral factor of the Lagrange interpolator <span class="math">\(P(z)=2R(z)*R(z^{-1})\)</span>
+<p>where <span class="math">\(R(z)\)</span> is a spectral factor of the Lagrange interpolator <span class="math">\(P(z) = 2 R(z) * R(z^{-1})\)</span>
 All subsequent filters of the two-channel filterbank are derived as
 follows:</p>
-<!-- H_h(z)=H_l((-z)^-1) -->
-<!-- G_l(z)=H_l(z^-1) -->
-<!-- G_h(z)=-H_l(-z) -->
+<!-- H_h(z) =  H_l((-z)^-1) -->
+<!-- G_l(z) =  H_l(z^-1) -->
+<!-- G_h(z) = -H_l(-z) -->
 <div class="math">
 \begin{equation*}
-H_h(z)=H_l((-z)^{-1})
+H_h(z) =  H_l((-z)^{-1})
 \end{equation*}
 </div>
 <div class="math">
 \begin{equation*}
-G_l(z)=H_l(z^{-1})
+G_l(z) =  H_l(z^{-1})
 \end{equation*}
 </div>
 <div class="math">
 \begin{equation*}
-G_h(z)=-H_l(-z)
+G_h(z) = -H_l(-z)
 \end{equation*}
 </div>
 <p>making them an orthogonal perfect-reconstruction QMF.</p>

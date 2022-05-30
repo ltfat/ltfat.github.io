@@ -1,17 +1,6 @@
 Frame bound ratio for gammatone filterbank, should be close to 1 if the filters are choosen correctly.
-
-ans =
-
-    1.5989
-
+ans =  1.6238
 Relative error in reconstruction, should be close to zero.
-
-ans =
-
-   6.3517e-05
-
+ans =  0.000063517
 Relative error in interative reconstruction, should be close to zero.
-
-ans =
-
-   1.8834e-10
+ans =  0.00000000018834

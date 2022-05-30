@@ -43,7 +43,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">GABWIN - Compute a Gabor window from text or cell array</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,info] <span class="p">=</span><span class="w"> </span><span class="nf">gabwin</span><span class="p">(</span>g,a,M,varargin<span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,info]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">gabwin</span><span class="p">(</span>g,a,M,varargin<span class="p">);</span>
 <span class="c">%GABWIN  Compute a Gabor window from text or cell array</span>
 <span class="c">%   Usage: [g,info] = gabwin(g,a,M,L);</span>
 <span class="c">%</span>
@@ -81,7 +81,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   The window can also be specified as cell array. The possibilities are:</span>
 <span class="c">%</span>
 <span class="c">%     {&#39;gauss&#39;,...}</span>
-<span class="c">%         Additional parameters are passed to PGAUSS.</span>
+<span class="c">%         Additional parameters are passed to PGAUSS. When no additional</span>
+<span class="c">%         parameters are passed, the window is generated according to the</span>
+<span class="c">%         defaults in PGAUSS.</span>
 <span class="c">%</span>
 <span class="c">%     {&#39;dual&#39;,...}</span>
 <span class="c">%         Canonical dual window of whatever follows. See the examples below.</span>
@@ -101,7 +103,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   To compute Gaussian window with equal time and frequency support</span>
 <span class="c">%   irrespective of a and M*:</span>
 <span class="c">%</span>
-<span class="c">%     g=gabwin({&#39;gauss&#39;,1},a,M,L);</span>
+<span class="c">%     g=gabwin({&#39;gauss&#39;},a,M,L);</span>
 <span class="c">%</span>
 <span class="c">%   To compute the canonical dual of a Gaussian window fitted for a</span>
 <span class="c">%   system with time-shift a and M channels:</span>
@@ -149,7 +151,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabwin.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>

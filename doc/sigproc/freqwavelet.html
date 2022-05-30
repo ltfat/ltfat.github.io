@@ -63,9 +63,6 @@ H=freqwavelet(name,L,scale)
 <tr><td class="option-group">
 <kbd><span class="option"><var>L</var></span></kbd></td>
 <td>System length</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option"><var>scale</var></span></kbd></td>
-<td>Wavelet scale</td></tr>
 </tbody>
 </table>
 </div>
@@ -103,7 +100,7 @@ equations can be found at the end of this help):</p>
 higher the order, the narrower and more symmetric the
 wavelet. A numericaly stable formula is used in order
 to allow support even for very high <tt class="docutils literal">alpha</tt> e.g.
-milions.</td></tr>
+10^6.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'morse'</span></kbd></td>
 <td>Morse wavelet with alpha=100 and gamma=3. Both parameters
@@ -111,14 +108,40 @@ can be set directly by <tt class="docutils literal"><span class="pre">{'morse',a
 has the same role as for 'cauchy', <tt class="docutils literal">gamma</tt> is the
 'skewness' parameter. 'morse' becomes 'cauchy' for
 gamma=1.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'morlet'</span></kbd></td>
+<td><dl class="first last docutils">
+<dt>Morlet wavelet with sigma=4. The parameter <tt class="docutils literal">sigma</tt></dt>
+<dd>is the center frequency to standard deviation ratio of
+the main generating Gaussian distribution. Note that the
+true peak and standard deviation of the Morlet wavelet
+differ, in particular for low values of <tt class="docutils literal">sigma</tt> (&lt;5).
+This is a consequence of the correction factor. The
+parameter can be set directly by <tt class="docutils literal"><span class="pre">{'morlet',sigma}</span></tt>.</dd>
+<dt>'fbsp'       Frequency B-spline wavelet of order m=3, center frequency</dt>
+<dd>to bandwidth ratio fb = 2. The parameters can be set
+by <tt class="docutils literal"><span class="pre">{'fbsp',m,fb}</span></tt>. Note that <tt class="docutils literal">m</tt> must be integer and
+greater than or equal to 1, and <tt class="docutils literal">fb</tt> must be greater than
+or equal to 2.</dd>
+<dt>'analyticsp' Positive frequency part of cosine-modulated B-spline</dt>
+<dd>wavelet of  order order=3, with center frequency to main
+lobe width ratio fb = 1. The parameters can be set by
+<tt class="docutils literal"><span class="pre">{'analyticsp',order,fb}</span></tt>. Note that <tt class="docutils literal">order</tt> and <tt class="docutils literal">fb</tt>
+must be integer and greater than or equal to 1.</dd>
+<dt>'cplxsp'     Complex-modulated B-spline of order order=3, with center</dt>
+<dd>frequency to main lobe width ratio fb = 1. The parameters
+can be set by <tt class="docutils literal"><span class="pre">{'cplxsp',order,fb}</span></tt>. Note that <tt class="docutils literal">order</tt>
+and <tt class="docutils literal">fb</tt> must be integer and greater than or equal to 1.</dd>
+</dl>
+</td></tr>
 </tbody>
 </table>
 <p><tt class="docutils literal">freqwavelet(name,L,scale)</tt> returns a &quot;dilated&quot; version of the wavelet.
-The positive scalar <tt class="docutils literal">scale</tt> controls both the bandwidth and the center
+The nonzero scalar <tt class="docutils literal">scale</tt> controls both the bandwidth and the center
 frequency. Values greater than 1 make the wavelet wider (and narrower
 in the frequency domain), values lower than 1 make the wavelet narrower.
 The center frequency is moved to`0.1/scale`. The center frequency is
-limitted to the range of &quot;positive&quot; frequencies ]0,1] (up to Nyquist rate).
+limited to the range of &quot;positive&quot; frequencies ]0,1] (up to Nyquist rate).
 If <tt class="docutils literal">scale</tt> is a vector, the output is a <tt class="docutils literal">L x numel(scale)</tt> matrix with
 the individual wavelets as columns.</p>
 <p>The following additional flags and key-value parameters are available:</p>
@@ -126,6 +149,15 @@ the individual wavelets as columns.</p>
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'scale'</span></kbd></td>
+<td>Wavelet scale (relative to basic scale)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'waveletParams'</span></kbd></td>
+<td>a vector containing the respective wavelet parameters
+[alpha, beta, gamma] for cauchy and morse wavelets
+[sigma] for morlet wavelets
+[order, fb] for splines</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'basefc',<var>fc</var></span></kbd></td>
 <td>Normalized center frequency of the mother wavelet
@@ -136,8 +168,41 @@ the individual wavelets as columns.</p>
 The default value is 10^(-3/10) (~0.5).</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'efsuppthr',<var>thr</var></span></kbd></td>
-<td>The threshold determinig the effective support of
+<td>The threshold determining the effective support of
 the wavelet. The default value is 10^(-5).</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'scal',<var>s</var></span></kbd></td>
+<td>Scale the filter by the constant <em>s</em>. This can be
+useful to equalize channels in a filter bank.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'delay',<var>d</var></span></kbd></td>
+<td>Set the delay of the filter. Can be either a scalar or
+a vector of the same length as <em>scale</em>. Default value is zero.</td></tr>
+</tbody>
+</table>
+<p>The admissible range of scales can be adjusted to handle different
+scenarios:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'positive'</span></kbd></td>
+<td>Enables the construction of wavelets at postive
+center frequencies ]0,1]. If <tt class="docutils literal">basefc=0.1</tt>, this
+corresponds to scales larger than or equal to 0.1.
+This is the default.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'negative'</span></kbd></td>
+<td>Enables the construction of wavelets at negative
+center frequencies [-1,0[. If <tt class="docutils literal">basefc=0.1</tt>, this
+corresponds to scales smaller than or equal to -0.1.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'analytic'</span></kbd></td>
+<td>Enables the construction of wavelets with center
+frequencies in ]0,2] for analysis of analytic signals.
+[! This feature is currently experimental and may not
+always work as intended. !]</td></tr>
 </tbody>
 </table>
 <p>The format of the output is controlled by the following flags:
@@ -153,14 +218,15 @@ the wavelet. The default value is 10^(-5).</td></tr>
 <kbd><span class="option">'econ'</span></kbd></td>
 <td>The output is a <tt class="docutils literal">numel(scale)</tt> cell array with
 individual freq. domain wavelets truncated to the
-length of the effective support given by parameter 'efsuppthr'.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">'asfreqfilter'</span></kbd></td>
-<td>As <tt class="docutils literal">'econ'</tt>, but the elements of the cell-array are
-filter structs with fields .H and .foff as in
-<span class="linkrole"><a href="#BASEURL#/doc/sigproc/blfilter.html">blfilter</a></span> to be used in <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</td></tr>
+length of the effective support given by parameter 'efsuppthr'.
+Does not run stably for system lengths &gt; 2000</td></tr>
 </tbody>
 </table>
+<dl class="docutils">
+<dt>'asfreqfilter'   As 'econ= but the elements of the cell-array are'</dt>
+<dd>filter structs with fields .H and .foff as in
+<span class="linkrole"><a href="#BASEURL#/doc/sigproc/blfilter.html">blfilter</a></span> to be used in <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</dd>
+</dl>
 <p><tt class="docutils literal"><span class="pre">[H,info]=freqwavelet(...)</span></tt> additionally returns a struct with the
 following fields:</p>
 <table class="docutils option-list" frame="void" rules="none">
@@ -177,8 +243,12 @@ support threshold (minus one).
 It can be directly used to convert the 'econ'
 output to 'full' by <tt class="docutils literal"><span class="pre">circshift(postpad(H,L),foff)</span></tt>.</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">.fsupplen</span></kbd></td>
-<td>Length of the effective support (with values above efsuppthr.).</td></tr>
+<kbd><span class="option">.fsupp</span></kbd></td>
+<td>Length of the effective support (with values above
+efsuppthr).</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.basefc</span></kbd></td>
+<td>Center frequency of the implied mother wavelet.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">.scale</span></kbd></td>
 <td>The scale used.</td></tr>
@@ -193,9 +263,16 @@ output to 'full' by <tt class="docutils literal"><span class="pre">circshift(pos
 <td>Time-frequency ratio of a Gaussian with the same
 bandwidth as the wavelet.</td></tr>
 <tr><td class="option-group">
+<kbd><span class="option">.aprecise</span></kbd></td>
+<td>Exact natural subsampling factors (not rounded).</td></tr>
+<tr><td class="option-group">
 <kbd><span class="option">.a_natural</span></kbd></td>
 <td>Fractional natural subsampling factors in the
 format acceptable by <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> and related.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">.cauchyAlpha</span></kbd></td>
+<td>Alpha value of closest Cauchy wavelet [NOTE: Not
+implemented for non-Morse wavelets.]</td></tr>
 </tbody>
 </table>
 <p>Additionally, the function accepts flags to normalize the output.
@@ -207,7 +284,7 @@ applied.</p>
 <p><tt class="docutils literal">C</tt> is a normalization constant.</p>
 <p>Cauchy wavelet</p>
 <blockquote>
-<!-- H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi ) -->
+<p>H = C xi^{frac{alpha-1}{2}} exp( -2pixi )</p>
 <div class="math">
 \begin{equation*}
 H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi )
@@ -216,14 +293,70 @@ H = C \xi^{\frac{\alpha-1}{2}} exp( -2\pi\xi )
 </blockquote>
 <p>Morse wavelet</p>
 <blockquote>
-<!-- H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} ) -->
+<p>H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )</p>
 <div class="math">
 \begin{equation*}
 H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} )
 \end{equation*}
 </div>
 </blockquote>
+<p>Morlet wavelet</p>
+<blockquote>
+<p>H = C xi^{frac{alpha-1}{2gamma}} exp( -2pixi^{gamma} )</p>
+<div class="math">
+\begin{equation*}
+H = C \xi^{\frac{\alpha-1}{2\gamma}} exp( -2\pi\xi^{\gamma} )
+\end{equation*}
 </div>
+</blockquote>
+<p>Frequency bandlimited spline wavelet</p>
+<blockquote>
+<p>H = C B (xi - m frac{xi}{4})</p>
+<div class="math">
+\begin{equation*}
+H = C B (\xi - m \frac{\xi}{4})
+\end{equation*}
+</div>
+</blockquote>
+<p>Analytic spline wavelet</p>
+<blockquote>
+<p>H = C exp(-j omega x) A(-exp(j omega)) H(exp(-j omega)</p>
+<div class="math">
+\begin{equation*}
+H = C exp(-j \omega x) A(-exp(j \omega)) H(exp(-j \omega))
+\end{equation*}
+</div>
+</blockquote>
+<p>Complex spline wavelet</p>
+<blockquote>
+<p>H = C exp(-j omega x + xi )</p>
+<div class="math">
+\begin{equation*}
+H = C exp(-j \omega x + \xi )
+\end{equation*}
+</div>
+</blockquote>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="rioul92"></a>
+
+O.&nbsp;Rioul and P.&nbsp;Duhamel.
+ Fast algorithms for discrete and continuous wavelet transforms.
+ <em>IEEE Transactions on Information Theory</em>, 38(2):569--586, 1992.
+
+</p>
+
+<p><a name="unalsc94"></a>
+
+M.&nbsp;Unser, A.&nbsp;Aldroubi, and S.&nbsp;Schiff.
+ B-spline signal processing. i. theory.
+ <em>IEEE Trans. Signal Process.</em>, 42(12):3519 --3523, 1994.
+
+</p>
+
 
         <div class="include" file="../../include/footer.html"></div>
     </div>

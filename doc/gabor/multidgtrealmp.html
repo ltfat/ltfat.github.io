@@ -117,7 +117,9 @@ aproximation <em>frec</em> and a struct <tt class="docutils literal">info</tt> w
 <td>Number of atoms selected.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">.relres</span></kbd></td>
-<td>Final approximation error.</td></tr>
+<td>Final approximation error. If resets are enabled, this is a
+vector additionally containing the approximation error at
+every reset.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">.g</span></kbd></td>
 <td>Cell array of numeric windows used in the multi-dictionary</td></tr>
@@ -137,7 +139,7 @@ where <tt class="docutils literal">dim=2</tt> if the input <em>f</em> was a colu
 </tbody>
 </table>
 <p>The normalized approximation error is computed as
-<tt class="docutils literal"><span class="pre">err=norm(f-frec)/norm(f)</span></tt>.</p>
+<tt class="docutils literal"><span class="pre">errdb=20*log10(norm(f-frec)/norm(f))</span></tt>.</p>
 <p>The function takes the following optional parameters at the end of
 the line of input arguments:</p>
 <table class="docutils option-list" frame="void" rules="none">
@@ -146,19 +148,46 @@ the line of input arguments:</p>
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">'kenrnthr',<var>kt</var></span></kbd></td>
-<td>Kernel threshold. Must be in range ]0,1]. Default is 1e-4.</td></tr>
+<td>Kernel threshold. Must be in range ]0,1].
+Default is 1e-4.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'timeinv'</span></kbd></td>
 <td>Use the time invariant phase convention. The
 default is 'freqinv'.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'pedanticsearch'</span></kbd></td>
-<td>Be pedantic about the energy of pairs of conjugated
-atoms in the selection step. Disbaled by default.</td></tr>
+<td>Be pedantic about the energy of pairs of
+conjugated atoms in the selection step.
+Disabled by default.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'algorithm',<var>alg</var></span></kbd></td>
 <td>Algorithm to use. Available:
 'mp'(default),'selfprojmp','cyclicmp'</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'reset'</span></kbd></td>
+<td>Reset the decomposition until stopping criteria
+are met. The reset means a complete synthesis and
+re-analysis. Available:
+'noreset' (default), 'reset', 'quickreset'
+Option 'quickreset' applies a heuristic to stop the
+algorithm more quickly when the targer error is
+reached.</td></tr>
+</tbody>
+</table>
+<p>Reset conditions can be controlled by the following key-value pairs:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'resetit',<var>it</var></span></kbd></td>
+<td>Reset the decomposition every <tt class="docutils literal">it</tt> iteration.
+Must be a positive integer.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'reseterrdb',<var>err</var></span></kbd></td>
+<td>Reset the decomposition when the error estimate
+in dB decreases below <tt class="docutils literal">err</tt>. Must be negative.
+Default is <tt class="docutils literal">10*log10(1.1*kv.kernthr)</tt>.</td></tr>
 </tbody>
 </table>
 <p>The computational routine is only available in C. Use <span class="linkrole"><a href="#BASEURL#/doc/base/ltfatmex.html">ltfatmex</a></span> to
@@ -169,11 +198,18 @@ to compile it.</p>
 <p>By default, the function uses the fast MP using approximate update
 in the coefficient domain as described in:</p>
 <pre class="literal-block">
-&quot;Z. Prusa, Fast Matching Pursuit with Multi-Gabor Dictionaries&quot;
+&quot;Z. Prusa, N. Holighaus, P. Balazs: Fast Matching Pursuit with Multi-Gabor Dictionaries&quot;
 </pre>
 <p>The kernel threshold limits the minimum approximation error which
 can be reached. For example the default threshold 1e-4 in general
 allows achieving at least -40 dB.</p>
+<p>Note that this algorithm internally computes the error as
+<tt class="docutils literal">errdb = <span class="pre">10*log10(err(k)/norm(f)^2)</span></tt>, with <tt class="docutils literal">err(0) = <span class="pre">norm(f)^2</span></tt> and
+<tt class="docutils literal">err(k) = <span class="pre">err(k-1)</span> - <span class="pre">abs(cselected(k))^2</span></tt>. Here, <tt class="docutils literal">cselected(k)</tt> is the
+Gabor coefficient selected at the k-th MP step. This formula is exact
+only if the kernel threshold equals 0. Otherwise it serves as a cheap
+estimate. The exact error is only computed when this function is run
+with resets enabled and only in between resets.</p>
 </div>
 <div class="section" id="examples">
 <h2>Examples</h2>

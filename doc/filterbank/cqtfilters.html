@@ -67,7 +67,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <td>Maximum frequency (in Hz)</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>bins</var></span></kbd></td>
-<td>Vector consisting of the number of bins per octave.</td></tr>
+<td>Vector or scalar consisting of the number of bins per octave.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option"><var>Ls</var></span></kbd></td>
 <td>Signal length.</td></tr>
@@ -120,7 +120,7 @@ the least common multiple of <em>a</em>, which determines a granularity of
 admissible input signal lengths.</p>
 <p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'uniform')</span></tt> constructs a uniform filter bank
 where the downsampling rate is the same for all the channels. This
-results in most redundant representation, which produces nice plots.</p>
+results in the most redundant representation, which produces nice plots.</p>
 <p><tt class="docutils literal"><span class="pre">[g,a]=cqtfilters(...,'fractional')</span></tt> constructs a filter bank with
 fractional downsampling rates <em>a</em>. The rates are constructed such
 that the filter bank can handle signal lengths that are multiples of
@@ -141,9 +141,9 @@ and low redundancy at the same time are desirable.</p>
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">'Qvar',<var>Qvar</var></span></kbd></td>
-<td>Bandwidth variation factor. Multiplies the
-calculated bandwidth (divides Q).
-Default value is <em>1</em>.
+<td>Bandwidth scaling factor. Inversely proportional
+to Q as it multiplies the calculated bandwidth
+(which divides Q). The default value is <em>1</em>.
 If the value is larger than one, the
 system may no longer be painless.</td></tr>
 <tr><td class="option-group">
@@ -217,9 +217,7 @@ filterbankfreqz(g,a,L,fs,'plot','linabs','posfreq');
 </pre>
 <p><em>This code produces the following output</em>:</p>
 <pre class="literal-block">
-ans =
-
-   7.6689e-15
+ans =    8.2996e-15
 </pre>
 <img alt="cqtfilters_2_1.png" class="align-center" src="cqtfilters_2_1.png" />
 <img alt="cqtfilters_2_2.png" class="align-center" src="cqtfilters_2_2.png" />

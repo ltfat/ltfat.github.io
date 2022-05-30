@@ -77,7 +77,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankrealdual.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -95,7 +95,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FILTERBANKREALDUAL&#39;</span><span class="p">);</span>
 
 <span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;filterbankdual&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">outformat</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">,</span><span class="s">&#39;econ&#39;</span><span class="p">,</span><span class="s">&#39;asfreqfilter&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">efsuppthr</span> <span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">);</span>
+<span class="c">%definput.keyvals.bwthr = 10^(-3/10);</span>
+
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">,</span><span class="s">&#39;filterbankrealdual&#39;</span><span class="p">);</span>
 
 <span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
 <span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> 
@@ -115,16 +119,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="k">end</span>
 
+<span class="c">% Check user defined L</span>
 <span class="k">if</span> <span class="n">L</span><span class="o">~=</span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
      <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Specified length L is incompatible with the length of &#39;</span> <span class="c">...</span>
             <span class="s">&#39;the time shifts.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="k">end</span><span class="p">;</span>
 
-<span class="c">% Prioritize painless over uniform algorithm</span>
+<span class="c">% Prioritize painless over uniform algorithm if both are suitable</span>
 <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span>
     <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">end</span>
 
+<span class="c">% Factorization of frame operator to block-diagonal matrix</span>
 <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span>
         
     <span class="c">% Uniform filterbank, use polyphase representation</span>
@@ -156,14 +162,39 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="c">% The gd was created transposed because the indexing gd(:,idx_a)</span>
     <span class="c">% is much faster than gd(idx_a,:)</span>
     <span class="n">gd</span><span class="p">=</span><span class="n">gd</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
-    <span class="n">gd</span><span class="p">=</span><span class="n">ifft</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-
-    <span class="n">gdout</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">gdEl</span><span class="p">)</span> <span class="n">cast</span><span class="p">(</span><span class="n">gdEl</span><span class="p">,</span><span class="n">thisclass</span><span class="p">),</span> <span class="n">num2cell</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="c">...</span>
+    <span class="k">switch</span> <span class="n">flags</span><span class="p">.</span><span class="n">outformat</span>
+        <span class="k">case</span> <span class="s">&#39;fir&#39;</span>
+            <span class="n">gd</span><span class="p">=</span><span class="n">ifft</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+            <span class="n">gdout</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">gdEl</span><span class="p">)</span> <span class="n">cast</span><span class="p">(</span><span class="n">gdEl</span><span class="p">,</span><span class="n">thisclass</span><span class="p">),</span> <span class="n">num2cell</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="c">...</span>
                       <span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-
-    <span class="c">% All filters in gdout will be treated as FIR of length L. Convert them</span>
-    <span class="c">% to a struct with .h and .offset format.</span>
-    <span class="n">gdout</span> <span class="p">=</span> <span class="n">filterbankwin</span><span class="p">(</span><span class="n">gdout</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>            
+                  
+            <span class="c">% All filters in gdout will be treated as FIR of length L. Convert them</span>
+            <span class="c">% to a struct with .h and .offset format.</span>
+            <span class="n">gdout</span> <span class="p">=</span> <span class="n">filterbankwin</span><span class="p">(</span><span class="n">gdout</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>      
+        <span class="k">case</span> <span class="s">&#39;full&#39;</span>
+            
+            <span class="n">gdout</span> <span class="p">=</span> <span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+        <span class="k">case</span> <span class="s">&#39;econ&#39;</span>
+            <span class="c">% Shorten filters to essential support</span>
+            <span class="n">gd</span> <span class="p">=</span> <span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+            <span class="n">gdout</span><span class="p">=</span><span class="n">economize_filters</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="s">&#39;efsuppthr&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">efsuppthr</span><span class="p">);</span>
+            
+        <span class="k">case</span> <span class="s">&#39;asfreqfilter&#39;</span>
+            <span class="n">gd</span> <span class="p">=</span> <span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
+            <span class="c">% All filters in gdout will be treated as (numeric) freqfilter format. </span>
+            <span class="c">% Manually convert them to a struct with .H and .foff.</span>
+            <span class="n">template</span> <span class="p">=</span> <span class="n">struct</span><span class="p">(</span><span class="s">&#39;H&#39;</span><span class="p">,[],</span><span class="s">&#39;foff&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;realonly&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;delay&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+            <span class="n">gdout</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+            <span class="n">gdout</span><span class="p">(:)</span> <span class="p">=</span> <span class="p">{</span><span class="n">template</span><span class="p">};</span>
+            
+            <span class="p">[</span><span class="n">H</span><span class="p">,</span><span class="n">foff</span><span class="p">,</span><span class="o">~</span><span class="p">]=</span><span class="n">economize_filters</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="s">&#39;efsuppthr&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">efsuppthr</span><span class="p">);</span>
+            <span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">M</span>
+                <span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span> <span class="p">=</span> <span class="n">setfield</span><span class="p">(</span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">},</span><span class="s">&#39;H&#39;</span><span class="p">,</span><span class="n">H</span><span class="p">{</span><span class="n">kk</span><span class="p">});</span>
+                <span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span> <span class="p">=</span> <span class="n">setfield</span><span class="p">(</span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">},</span><span class="s">&#39;foff&#39;</span><span class="p">,</span><span class="n">foff</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span>
+            <span class="k">end</span>      
+        <span class="k">otherwise</span>
+            <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unknown filter format.&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
+    <span class="k">end</span>             
   
 <span class="k">elseif</span> <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span>
     <span class="n">gdout</span> <span class="p">=</span> <span class="n">comp_painlessfilterbank</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>

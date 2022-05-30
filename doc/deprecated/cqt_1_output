@@ -1,8 +1,0 @@
-[Warning: LTFAT: CQT has been deprecated and will be removed in the future releases, please use CQTFILTERS and
-FILTERBANK instead.] 
-[> In cqt (line 79)
-  In plotexec (line 8)] 
-[Warning: LTFAT: ICQT has been deprecated and will be removed in the future releases, please use FILTERBANKDUAL
-and IFILTERBANK or IFILTERBANK instead.] 
-[> In icqt (line 34)
-  In plotexec (line 9)] 

@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">TFJIGSAWSEP - Time frequency jigsaw puzzle tonal-transient separation</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[ fplanes,cplanes,info ] <span class="p">=</span><span class="w"> </span><span class="nf">tfjigsawsep</span><span class="p">(</span> f, varargin <span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[ fplanes,cplanes,info ] = tfjigsawsep</span><span class="p">(</span> f, varargin <span class="p">)</span><span class="w"></span>
 <span class="c">%TFJIGSAWSEP Time frequency jigsaw puzzle tonal-transient separation</span>
 <span class="c">%   Usage:  fplanes = tfjigsawsep(f);</span>
 <span class="c">%           fplanes = tfjigsawsep(f,r1,r2);</span>
@@ -92,7 +92,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/tfjigsawsep.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -368,7 +368,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%% compiling functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>[ r ] <span class="p">=</span><span class="w"> </span><span class="nf">renyi</span><span class="p">(</span> t,alpha <span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="nf">[ r ] = renyi</span><span class="p">(</span> t,alpha <span class="p">)</span><span class="w"></span>
 
 <span class="c">% computes the Renyi entropy for an array</span>
 <span class="c">% yields high values for peaky data and</span>
@@ -396,7 +396,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>[ref1,ref2] <span class="p">=</span><span class="w"> </span><span class="nf">noisest </span><span class="p">(</span>Ls,g1,g2,a1,a2,M1,M2,T,F<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[ref1,ref2]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">noisest </span><span class="p">(</span>Ls,g1,g2,a1,a2,M1,M2,T,F<span class="p">)</span><span class="w"></span>
 
 <span class="c">% computes the entropy for a white noise signal within one supertile</span>
 <span class="c">% as estimation reference for the tresholds tau1,tau2</span>
@@ -412,7 +412,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class="c">%%%%%%%%%%%%%%% Version 1 of the jigsaw puzzle algorithm %%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>[x1,x2] <span class="p">=</span><span class="w"> </span><span class="nf">jigsaw1</span><span class="p">(</span>R,g1,g2,a1,a2,M1,M2,T,F,tau1,tau2<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[x1,x2]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">jigsaw1</span><span class="p">(</span>R,g1,g2,a1,a2,M1,M2,T,F,tau1,tau2<span class="p">)</span><span class="w"></span>
 
 <span class="c">% error check?</span>
 
@@ -484,7 +484,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>[c1,c2] <span class="p">=</span><span class="w"> </span><span class="nf">decision1</span><span class="p">(</span>c1,c2,f1,f2,t1,t2,tau1,tau2<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[c1,c2]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">decision1</span><span class="p">(</span>c1,c2,f1,f2,t1,t2,tau1,tau2<span class="p">)</span><span class="w"></span>
 
 <span class="c">% decision procedure for version 1</span>
 <span class="c">%   case 1: both entropies are above their thresholds -&gt; set them to zero</span>
@@ -516,7 +516,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class="c">%%%%%%%%%%%%%%% Version 2 of the jigsaw puzzle algorithm %%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>[x1,x2] <span class="p">=</span><span class="w"> </span><span class="nf">jigsaw2</span><span class="p">(</span>R,g1,g2,a1,a2,M1,M2,T,F,tau1,tau2<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[x1,x2]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">jigsaw2</span><span class="p">(</span>R,g1,g2,a1,a2,M1,M2,T,F,tau1,tau2<span class="p">)</span><span class="w"></span>
 
 <span class="c">% signal lengths</span>
 <span class="n">Ls</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">R</span><span class="p">);</span>
@@ -636,7 +636,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 
-<span class="k">function</span><span class="w"> </span>[c1,c2] <span class="p">=</span><span class="w"> </span><span class="nf">decision2ton</span><span class="p">(</span>c1,c2,f1,f2,t1,t2,tau1<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[c1,c2]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">decision2ton</span><span class="p">(</span>c1,c2,f1,f2,t1,t2,tau1<span class="p">)</span><span class="w"></span>
 <span class="c">% decision procedure for tonals</span>
 
 <span class="n">E1</span> <span class="p">=</span> <span class="n">renyi</span><span class="p">(</span><span class="n">c1</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">t1</span><span class="p">));</span>
@@ -646,7 +646,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">c1</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">t1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[c1,c2] <span class="p">=</span><span class="w"> </span><span class="nf">decision2trans</span><span class="p">(</span>c1,c2,f1,f2,t1,t2,tau2<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[c1,c2]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">decision2trans</span><span class="p">(</span>c1,c2,f1,f2,t1,t2,tau2<span class="p">)</span><span class="w"></span>
 <span class="c">% decision procedure for transients</span>
 
 <span class="n">E1</span> <span class="p">=</span> <span class="n">renyi</span><span class="p">(</span><span class="n">c1</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">t1</span><span class="p">));</span>

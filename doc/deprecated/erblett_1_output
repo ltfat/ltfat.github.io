@@ -1,12 +1,1 @@
-[Warning: LTFAT: ERBLETT has been deprecated and will be removed in the future releases, please use AUDFILTERS
-with 'erb' and FILTERBANK instead.] 
-[> In erblett (line 68)
-  In plotexec (line 7)] 
-[Warning: LTFAT: IERBLETT has been deprecated and will be removed in the future releases, please use
-FILTERBANKDUAL and IFILTERBANK or IFILTERBANK instead.] 
-[> In ierblett (line 33)
-  In plotexec (line 8)] 
-
-rel_err =
-
-   5.1339e-16
+rel_err =    5.1047e-16

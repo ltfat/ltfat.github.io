@@ -64,7 +64,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     &#39;hp&#39;       Generate half point even window.</span>
 <span class="c">%  </span>
 <span class="c">%   Additionally, FIRKAISER accepts flags to normalize the output. Please</span>
-<span class="c">%   see the help of NORMALIZE. Default is to use &#39;peak&#39; normalization.</span>
+<span class="c">%   see the help of NORMALIZE. Default is to use &#39;null&#39; normalization.</span>
+<span class="c">%</span>
+<span class="c">%   Note that odd-length Derived Kaiser-Bessel windows are not</span>
+<span class="c">%   mathematically defined, yet they are supported by this code.</span>
 <span class="c">%</span>
 <span class="c">%   See also: firwin, normalize</span>
 <span class="c">%</span>
@@ -76,7 +79,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/firkaiser.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -90,6 +93,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">% You should have received a copy of the GNU General Public License</span>
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%   AUTHOR: unknown. Additions by Clara Hollomey</span>
 
 <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
   <span class="n">error</span><span class="p">(</span><span class="s">&#39;Too few input arguments.&#39;</span><span class="p">);</span>
@@ -113,48 +118,48 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_normal</span>
-  
+ 
   <span class="k">if</span> <span class="p">(</span><span class="n">L</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">g</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
   <span class="k">else</span>
     <span class="n">m</span> <span class="p">=</span> <span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">k</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;+</span><span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="p">.</span><span class="mi">5</span><span class="o">+</span><span class="n">cent</span><span class="p">;</span>
-    <span class="n">k</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">beta</span><span class="o">/</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">.*</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">k</span><span class="p">));</span>
+    <span class="n">k</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="o">&#39;+</span><span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="p">.</span><span class="mi">5</span><span class="o">+</span><span class="n">cent</span><span class="p">;</span>
+    <span class="n">k</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">beta</span><span class="o">/</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">.*</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">k</span><span class="p">));</span>
     <span class="n">g</span> <span class="p">=</span> <span class="nb">besseli</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">/</span><span class="nb">besseli</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">beta</span><span class="p">);</span>
   <span class="k">end</span><span class="p">;</span>
 
   <span class="n">g</span><span class="p">=</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
-  
+ 
   <span class="k">if</span> <span class="p">((</span><span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span> <span class="o">&amp;&amp;</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="c">...</span>
       <span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">do_hp</span> <span class="o">&amp;&amp;</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">))</span>
-    
+   
     <span class="c">% Explicitly zero last element. This is done to get the right</span>
-    <span class="c">% symmetry, and because that element sometimes turn negative.</span>
+    <span class="c">% symmetry, and because that element sometimes turns negative.</span>
     <span class="n">g</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)=</span><span class="mi">0</span><span class="p">;</span>
   <span class="k">end</span><span class="p">;</span>
-  
+ 
 <span class="k">else</span>
-  
-  <span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>    
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;The length of the choosen window must be even.&#39;</span><span class="p">);</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span> 
-    <span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
-      <span class="n">L2</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span>
-    <span class="k">else</span>
-      <span class="n">L2</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
+ 
+  <span class="c">%if rem(L,2)==1    </span>
+  <span class="c">%  error(&#39;The length of the choosen window must be even.&#39;);</span>
+  <span class="c">%end;</span>
+ 
+  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span>
+    <span class="c">%if rem(L,4)==0</span>
+    <span class="c">%  L2=L/2+2;</span>
+    <span class="c">%else</span>
+      <span class="n">L2</span><span class="p">=</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c">%end;</span>
   <span class="k">else</span>
     <span class="n">L2</span><span class="p">=</span><span class="nb">floor</span><span class="p">((</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
   <span class="k">end</span><span class="p">;</span>
-  
+ 
   <span class="c">% Compute a normal Kaiser window</span>
   <span class="n">g_normal</span><span class="p">=</span><span class="n">fftshift</span><span class="p">(</span><span class="n">firkaiser</span><span class="p">(</span><span class="n">L2</span><span class="p">,</span><span class="nb">beta</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">centering</span><span class="p">));</span>
-  
+ 
   <span class="n">g1</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">cumsum</span><span class="p">(</span><span class="n">g_normal</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">L2</span><span class="p">))</span><span class="o">./</span><span class="n">sum</span><span class="p">(</span><span class="n">g_normal</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">L2</span><span class="p">)));</span>
-  
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span> 
+ 
+  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span>
     <span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
       <span class="n">g</span><span class="p">=[</span><span class="nb">flipud</span><span class="p">(</span><span class="n">g1</span><span class="p">);</span><span class="c">...</span>
          <span class="n">g1</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)];</span>
@@ -163,19 +168,23 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
          <span class="n">g1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">))];</span>
     <span class="k">end</span><span class="p">;</span>    
   <span class="k">else</span>
-    <span class="n">g</span><span class="p">=[</span><span class="nb">flipud</span><span class="p">(</span><span class="n">g1</span><span class="p">);</span><span class="c">...</span>
-       <span class="n">g1</span><span class="p">];</span>
+      <span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
+         <span class="n">g</span><span class="p">=[</span><span class="nb">flipud</span><span class="p">(</span><span class="n">g1</span><span class="p">);</span><span class="mi">0</span><span class="p">;</span><span class="c">...</span>
+         <span class="n">g1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)];</span>
+      <span class="k">else</span>
+         <span class="n">g</span><span class="p">=[</span><span class="nb">flipud</span><span class="p">(</span><span class="n">g1</span><span class="p">);</span><span class="c">...</span>
+         <span class="n">g1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)];</span>
+      <span class="k">end</span>
   <span class="k">end</span><span class="p">;</span>
 
-    <span class="k">if</span> <span class="p">((</span><span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span> <span class="o">&amp;&amp;</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="c">...</span>
-      <span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">do_hp</span> <span class="o">&amp;&amp;</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">))</span>
-    
+  <span class="k">if</span> <span class="p">((</span><span class="n">flags</span><span class="p">.</span><span class="n">do_wp</span> <span class="o">&amp;&amp;</span> <span class="nb">rem</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">))</span> <span class="c">%|| ...</span>
+      <span class="c">%(flags.do_hp &amp;&amp; rem(L,2)==1))</span>
+   
     <span class="c">% Explicitly zero last element. This is done to get the right</span>
     <span class="c">% symmetry, and because that element sometimes turn negative.</span>
     <span class="n">g</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)=</span><span class="mi">0</span><span class="p">;</span>
   <span class="k">end</span><span class="p">;</span>
-
-  
+ 
 <span class="k">end</span><span class="p">;</span>
 
 <span class="c">% The besseli computation sometimes generates a zero imaginary component.</span>

@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">MULACLAB - Graphical interface for audio processing using frame multipliers</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[] <span class="p">=</span><span class="w"> </span><span class="nf">mulaclab</span><span class="p">(</span>file, varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">mulaclab</span><span class="p">(</span>file, varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%MULACLAB Graphical interface for audio processing using frame multipliers</span>
 <span class="c">%   Usage: mulaclab;</span>
 <span class="c">%          mulaclab(filename);</span>
@@ -109,7 +109,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/mulaclab.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -686,7 +686,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>figNumber <span class="p">=</span><span class="w"> </span><span class="nf">getMulaclabFigNo</span><span class="p">()</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>figNumber<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">getMulaclabFigNo</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="c">% as we use global variables to share data between callbacks, we need to</span>
   <span class="c">% insure that only one instance of the mulaclab gui is running</span>
   <span class="n">mulaclabFigId</span> <span class="p">=</span> <span class="n">findall</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;MulAcLab&#39;</span><span class="p">);</span>
@@ -700,7 +700,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>wasaction <span class="p">=</span><span class="w"> </span><span class="nf">handleMulaclabAction</span><span class="p">(</span>action,varargin<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>wasaction<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">handleMulaclabAction</span><span class="p">(</span>action,varargin<span class="p">)</span><span class="w"></span>
 <span class="n">wasaction</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="n">isrunning</span> <span class="p">=</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">getMulaclabFigNo</span><span class="p">());</span>
 
@@ -937,7 +937,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">set</span><span class="p">(</span><span class="n">gui</span><span class="p">.</span><span class="n">mainFigId</span><span class="p">,</span> <span class="s">&#39;Visible&#39;</span><span class="p">,</span> <span class="s">&#39;on&#39;</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[] <span class="p">=</span><span class="w"> </span><span class="nf">initializeParameter</span><span class="p">()</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">initializeParameter</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">default</span> <span class="n">gui</span> <span class="n">visu</span> <span class="n">export</span>
   
@@ -1203,7 +1203,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">% ___________________ COMPUTATIONAL FUNCTIONS _____________________________</span>
 
-<span class="k">function</span><span class="w"> </span>coef <span class="p">=</span><span class="w"> </span><span class="nf">calculateCoeff</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>coef<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">calculateCoeff</span><span class="p">(</span>f<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">frame</span> <span class="n">coeff</span>
 
@@ -1229,7 +1229,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>fhat <span class="p">=</span><span class="w"> </span><span class="nf">recFromCoeff</span><span class="p">(</span>coef<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>fhat<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">recFromCoeff</span><span class="p">(</span>coef<span class="p">)</span><span class="w"></span>
 <span class="w">   </span>
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span> <span class="n">frame</span> <span class="n">sig</span>
 
@@ -1260,7 +1260,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">fhat</span> <span class="p">=</span> <span class="nb">real</span><span class="p">(</span><span class="n">fhat</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>C <span class="p">=</span><span class="w"> </span><span class="nf">plotCoeff</span><span class="p">(</span>coef,axesId,key,value<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>C<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">plotCoeff</span><span class="p">(</span>coef,axesId,key,value<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span> <span class="n">frame</span> <span class="n">sig</span> <span class="n">export</span>
 
@@ -1284,7 +1284,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>mult <span class="p">=</span><span class="w"> </span><span class="nf">convSymbToCoefFormat</span><span class="p">(</span>symb<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>mult<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convSymbToCoefFormat</span><span class="p">(</span>symb<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">frame</span> <span class="n">export</span> <span class="n">coeff</span>
 
@@ -1347,7 +1347,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>symb <span class="p">=</span><span class="w"> </span><span class="nf">convCoefFormatToSymb</span><span class="p">(</span>mult<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>symb<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convCoefFormatToSymb</span><span class="p">(</span>mult<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">frame</span> <span class="n">export</span> <span class="n">coeff</span>
 
@@ -1464,7 +1464,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">applyMultiplier</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">ori</span><span class="p">,</span> <span class="n">mult</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>symb <span class="p">=</span><span class="w"> </span><span class="nf">convSelToSymb</span><span class="p">()</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>symb<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convSelToSymb</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span> <span class="n">sel</span>
 
@@ -1482,7 +1482,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>mask <span class="p">=</span><span class="w"> </span><span class="nf">convPolyToMask</span><span class="p">(</span>poly<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>mask<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convPolyToMask</span><span class="p">(</span>poly<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span>
 
@@ -1503,7 +1503,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>symb <span class="p">=</span><span class="w"> </span><span class="nf">convMaskToSymb</span><span class="p">(</span>mask, indLay<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>symb<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convMaskToSymb</span><span class="p">(</span>mask, indLay<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">sel</span> <span class="n">sig</span> <span class="n">coeff</span>
 
@@ -1637,7 +1637,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span> <span class="c">% of switch</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>xData <span class="p">=</span><span class="w"> </span><span class="nf">convIndToAxesX</span><span class="p">(</span>ind<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>xData<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convIndToAxesX</span><span class="p">(</span>ind<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c">% convert scale from image index to scale used by axes along X axe</span>
   
   <span class="k">global</span> <span class="n">sig</span> <span class="n">coeff</span> <span class="n">visucommon</span>
@@ -1645,7 +1645,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">xData</span> <span class="p">=</span> <span class="p">(</span><span class="n">ind</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">visucommon</span><span class="p">.</span><span class="n">timeStep</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>ind <span class="p">=</span><span class="w"> </span><span class="nf">convAxesToIndX</span><span class="p">(</span>xData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>ind<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convAxesToIndX</span><span class="p">(</span>xData<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c">% convert scale from scale used by axes to image index along X axe</span>
   <span class="c">% NOTE: there is no round (on purpose), it must be added if when we really</span>
   <span class="c">% want an integer index</span>
@@ -1655,7 +1655,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">ind</span> <span class="p">=</span> <span class="n">xData</span> <span class="o">/</span> <span class="n">visucommon</span><span class="p">.</span><span class="n">timeStep</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>yData <span class="p">=</span><span class="w"> </span><span class="nf">convIndToAxesY</span><span class="p">(</span>ind<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>yData<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convIndToAxesY</span><span class="p">(</span>ind<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c">% convert scale from image index to scale used by axes along Y axe</span>
   
   <span class="k">global</span> <span class="n">visucommon</span> <span class="n">coeff</span>
@@ -1664,7 +1664,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">yData</span> <span class="p">=</span> <span class="p">(</span><span class="n">ind</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">Ylim</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="n">Ylim</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">oriC</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Ylim</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>ind <span class="p">=</span><span class="w"> </span><span class="nf">convAxesToIndY</span><span class="p">(</span>yData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>ind<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convAxesToIndY</span><span class="p">(</span>yData<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c">% convert scale from scale used by axes to image index along Y axe</span>
   <span class="c">% NOTE: there is no round (on purpose), it must be added if when we really</span>
   <span class="c">% want an integer index</span>
@@ -1675,7 +1675,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">ind</span> <span class="p">=</span> <span class="p">(</span><span class="n">yData</span><span class="o">-</span><span class="n">Ylim</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">oriC</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Ylim</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="n">Ylim</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>ellipse <span class="p">=</span><span class="w"> </span><span class="nf">computeEllipse</span><span class="p">(</span>dim1Radius, dim2Radius<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>ellipse<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">computeEllipse</span><span class="p">(</span>dim1Radius, dim2Radius<span class="p">)</span><span class="w"></span>
 <span class="w"> </span>
 <span class="w">  </span><span class="n">ellipse</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">dim1Radius</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">dim2Radius</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
   <span class="n">ellipse</span><span class="p">(</span><span class="n">dim1Radius</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="p">:)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -1695,17 +1695,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">% _____________________ GENERAL FUNCTIONS FOR UI __________________________</span>
 <span class="k">  </span>
-<span class="k">function</span><span class="w"> </span>matlabVersion <span class="p">=</span><span class="w"> </span><span class="nf">getMatlabVersion</span><span class="p">()</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>matlabVersion<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">getMatlabVersion</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="n">matlabInfo</span> <span class="p">=</span> <span class="n">ver</span><span class="p">(</span><span class="s">&#39;Matlab&#39;</span><span class="p">);</span>
   <span class="n">matlabVersion</span> <span class="p">=</span> <span class="n">convertVersion</span><span class="p">(</span><span class="n">matlabInfo</span><span class="p">.</span><span class="n">Version</span><span class="p">);</span>
 <span class="k">end</span>
 <span class="k">  </span>
-<span class="k">function</span><span class="w"> </span>octaveVersion <span class="p">=</span><span class="w"> </span><span class="nf">getOctaveVersion</span><span class="p">()</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>octaveVersion<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">getOctaveVersion</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="n">octaveInfo</span> <span class="p">=</span> <span class="n">ver</span><span class="p">(</span><span class="s">&#39;Octave&#39;</span><span class="p">);</span>
   <span class="n">octaveVersion</span> <span class="p">=</span> <span class="n">convertVersion</span><span class="p">(</span><span class="n">octaveInfo</span><span class="p">.</span><span class="n">Version</span><span class="p">);</span>
 <span class="k">end</span>
 <span class="k">  </span>
-<span class="k">function</span><span class="w"> </span>versionNum <span class="p">=</span><span class="w"> </span><span class="nf">convertVersion</span><span class="p">(</span>versionString<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>versionNum<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convertVersion</span><span class="p">(</span>versionString<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c">% the version number is sometime of the form X.X.X, so it cannot be</span>
   <span class="c">% easily converted into a number, so we need to modify it so that it </span>
   <span class="c">% is more usable for comparison</span>
@@ -2117,7 +2117,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">save</span><span class="p">([</span><span class="n">pathName</span><span class="p">,</span> <span class="n">fileName</span><span class="p">],</span> <span class="s">&#39;frame&#39;</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>pos <span class="p">=</span><span class="w"> </span><span class="nf">buttonPos</span><span class="p">(</span>indHori, indVert, shift<span class="p">)</span><span class="w"> </span>
+<span class="k">function</span><span class="w"> </span>pos<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">buttonPos</span><span class="p">(</span>indHori, indVert, shift<span class="p">)</span><span class="w"> </span>
 <span class="w">  </span><span class="c">% compute the position of a button (useful to align buttons)</span>
   <span class="c">% indHori: horizontal index of the button for which we want the </span>
   <span class="c">% position (first element with index 1 on the left)</span>
@@ -2133,7 +2133,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>subSize <span class="p">=</span><span class="w"> </span><span class="nf">subpanelSize</span><span class="p">(</span>nbRow<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>subSize<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">subpanelSize</span><span class="p">(</span>nbRow<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">gui</span>
   
@@ -2142,14 +2142,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="p">(</span><span class="n">nbRow</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">gui</span><span class="p">.</span><span class="n">vertDist</span> <span class="o">+</span> <span class="n">gui</span><span class="p">.</span><span class="n">fontSize</span> <span class="o">-</span><span class="mi">4</span><span class="p">)];</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[nbFreq] <span class="p">=</span><span class="w"> </span><span class="nf">nbPlottedFreq</span><span class="p">()</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[nbFreq]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">nbPlottedFreq</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span>
 
   <span class="n">nbFreq</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">coeff</span><span class="p">.</span><span class="n">oriC</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[] <span class="p">=</span><span class="w"> </span><span class="nf">resize</span><span class="p">(</span>objId, eventData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">resize</span><span class="p">(</span>objId, eventData<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">gui</span> <span class="n">visu</span>
 
@@ -2404,7 +2404,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 <span class="k"> </span>
-<span class="k">function</span><span class="w"> </span>[axesId,C,timeStep] <span class="p">=</span><span class="w"> </span><span class="nf">updateVisuCommon</span><span class="p">(</span>coef,lim,visuData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[axesId,C,timeStep]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">updateVisuCommon</span><span class="p">(</span>coef,lim,visuData<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">link</span>
 
@@ -2421,7 +2421,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[axesId] <span class="p">=</span><span class="w"> </span><span class="nf">updateVisuOriSpec</span><span class="p">(</span>visuData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[axesId]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">updateVisuOriSpec</span><span class="p">(</span>visuData<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span> <span class="n">visucommon</span>
 
@@ -2430,7 +2430,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">visucommon</span><span class="p">.</span><span class="n">timeStep</span> <span class="p">=</span> <span class="n">timeStep</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[axesId] <span class="p">=</span><span class="w"> </span><span class="nf">updateVisuModSpec</span><span class="p">(</span>visuData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[axesId]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">updateVisuModSpec</span><span class="p">(</span>visuData<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span>
 
@@ -2438,7 +2438,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">title</span><span class="p">(</span><span class="s">&#39;Modified signal&#39;</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[axesId] <span class="p">=</span><span class="w"> </span><span class="nf">updateVisuOriOverview</span><span class="p">(</span>visuData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[axesId]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">updateVisuOriOverview</span><span class="p">(</span>visuData<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">coeff</span>
 
@@ -3237,7 +3237,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">drawCurSel</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>maskRoi <span class="p">=</span><span class="w"> </span><span class="nf">selectRoi</span><span class="p">(</span>mask, indTime, indFreq<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>maskRoi<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">selectRoi</span><span class="p">(</span>mask, indTime, indFreq<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">global</span> <span class="n">gui</span>
   
   <span class="k">if</span> <span class="n">gui</span><span class="p">.</span><span class="n">hasImagePackage</span>
@@ -3348,7 +3348,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">drawCurSel</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[poly] <span class="p">=</span><span class="w"> </span><span class="nf">convMaskToPoly</span><span class="p">(</span>mask<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[poly]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convMaskToPoly</span><span class="p">(</span>mask<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">poly</span> <span class="p">=</span> <span class="n">mask2poly</span><span class="p">(</span><span class="n">mask</span><span class="p">);</span>
   <span class="k">for</span> <span class="n">ind</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
     <span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span> <span class="p">=</span> <span class="n">convIndToAxesX</span><span class="p">(</span><span class="n">poly</span><span class="p">(</span><span class="n">ind</span><span class="p">).</span><span class="n">x</span><span class="p">);</span>
@@ -3356,7 +3356,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[poly] <span class="p">=</span><span class="w"> </span><span class="nf">mask2poly</span><span class="p">(</span>mask<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[poly]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">mask2poly</span><span class="p">(</span>mask<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c">% Convert region mask to region of interest (ROI) polygon</span>
 
   <span class="c">% PI: The polygon outputed by this function should be simplified (the portions</span>
@@ -3407,7 +3407,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">  </span>
-<span class="k">  function</span><span class="w"> </span>curve <span class="p">=</span><span class="w"> </span><span class="nf">chainSeg</span><span class="p">()</span><span class="w"></span>
+<span class="k">  function</span><span class="w"> </span>curve<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">chainSeg</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="c">% chaining of segments</span>
 
     <span class="c">% choose one start segment</span>
@@ -3487,7 +3487,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[outPol] <span class="p">=</span><span class="w"> </span><span class="nf">clipPoly</span><span class="p">(</span>refPol, clipPol, typeFlag<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[outPol]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">clipPoly</span><span class="p">(</span>refPol, clipPol, typeFlag<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c">% typeFlag defines the polygon clipping operation with: </span>
   <span class="c">% 0 - Substraction</span>
   <span class="c">% 1 - Intersection</span>
@@ -3523,12 +3523,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[operation] <span class="p">=</span><span class="w"> </span><span class="nf">convertTypeFlagToOperation</span><span class="p">(</span>type<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[operation]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convertTypeFlagToOperation</span><span class="p">(</span>type<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">operation_match</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;notb&#39;</span><span class="p">,</span> <span class="s">&#39;and&#39;</span><span class="p">,</span> <span class="s">&#39;xor&#39;</span><span class="p">,</span> <span class="s">&#39;or&#39;</span><span class="p">};</span>
   <span class="n">operation</span> <span class="p">=</span> <span class="n">operation_match</span><span class="p">{</span><span class="n">type</span><span class="o">+</span><span class="mi">1</span><span class="p">};</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[polCell, holes] <span class="p">=</span><span class="w"> </span><span class="nf">convertPolIn</span><span class="p">(</span>pol<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="nf">[polCell, holes] = convertPolIn</span><span class="p">(</span>pol<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">polCell</span> <span class="p">=</span> <span class="p">{};</span>
   <span class="n">holes</span> <span class="p">=</span> <span class="n">false</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">pol</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
   <span class="k">for</span> <span class="n">ind</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">pol</span><span class="p">)</span>
@@ -3537,7 +3537,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[pol] <span class="p">=</span><span class="w"> </span><span class="nf">convertPolOut</span><span class="p">(</span>polCell, holes<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[pol]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">convertPolOut</span><span class="p">(</span>polCell, holes<span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">polCell</span><span class="p">)</span>
     <span class="n">pol</span> <span class="p">=</span> <span class="p">[];</span>
   <span class="k">else</span>
@@ -4181,7 +4181,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     <span class="n">drawCurSel</span><span class="p">;</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>poly <span class="p">=</span><span class="w"> </span><span class="nf">fullSigPoly</span><span class="p">()</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>poly<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">fullSigPoly</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="c">% compute a polygon corresponding to the whole signal</span>
 
   <span class="k">global</span> <span class="n">coeff</span>
@@ -4582,7 +4582,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[res] <span class="p">=</span><span class="w"> </span><span class="nf">updateExploreRect</span><span class="p">(</span>objId, eventData<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[res]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">updateExploreRect</span><span class="p">(</span>objId, eventData<span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">global</span> <span class="n">visu</span>
 

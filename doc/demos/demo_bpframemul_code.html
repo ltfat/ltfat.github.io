@@ -61,7 +61,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_bpframemul.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -161,7 +161,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="nb">disp</span><span class="p">([</span><span class="s">&#39;The signal obtained by applying the Gabor multiplier: sound(fmul,44100);&#39;</span><span class="p">]);</span>
 
 
-<span class="k">function</span><span class="w"> </span>y <span class="p">=</span><span class="w"> </span><span class="nf">blockfilter</span><span class="p">(</span>fb,Ha,Hb<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>y<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">blockfilter</span><span class="p">(</span>fb,Ha,Hb<span class="p">)</span><span class="w"></span>
 <span class="c">%BLOCKFILTER Block filtering</span>
 
 <span class="n">y</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">fb</span><span class="p">));</span>
@@ -173,7 +173,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">end</span>
 
 
-<span class="k">function</span><span class="w"> </span>fo <span class="p">=</span><span class="w"> </span><span class="nf">cmedfilt2</span><span class="p">(</span>f,d<span class="p">)</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>fo<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cmedfilt2</span><span class="p">(</span>f,d<span class="p">)</span><span class="w"></span>
 <span class="c">% CMEDFILT2 Complex 2D median filter</span>
 
 <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">~=</span><span class="mi">1</span><span class="p">)</span>

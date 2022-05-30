@@ -92,17 +92,9 @@ Redundacy of the spectrogram:            201.000000
 ---- Simple Gabor analysis using a standard Gaussian window. ----
 Setup parameters for a Discrete Gabor Transform.
 Time shift:
-
-a =
-
-    20
-
+a =  20
 Number of frequency channels.
-
-M =
-
-    40
-
+M =  40
 
 Note that it must hold that L = M*b = N*a for some integers b, N and L,
 and that a&lt;M. L is the transform length, and the DGT will choose the
@@ -111,11 +103,7 @@ signal. Choosing a&lt;M makes the transform redundant, otherwise the
 transform will be lossy, and reconstruction will not be possible.
 Number of time shifts in transform:
 Length of transform:
-
-L =
-
-   400
-
+L =  400
 
 The redundancy of the Gabor transform can be reduced without loosing information.
 No. of coefficients in the signal:       400
@@ -125,8 +113,8 @@ Redundacy of the DGT (in this case)      2.000000
 ---- Real valued Gabor analysis. ----
 
 ---- Perfect reconstruction. ----
-Reconstruction error using IDGT:      4.672962e-16
-Reconstruction error using IDGTREAL:  4.672962e-16
+Reconstruction error using IDGT:      5.965696e-16
+Reconstruction error using IDGTREAL:  5.989566e-16
 </pre>
 
         <div class="include" file="../../include/footer.html"></div>

@@ -59,12 +59,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%     &#39;fc&#39;,fc    Shift the chirp by fc in frequency. Default values is 0.</span>
 <span class="c">%</span>
+<span class="c">%     &#39;ramp&#39;,r   Apply fade-in and fade out ramps on the first and last r samples.</span>
+<span class="c">%</span>
 <span class="c">%   See also: pchirp</span>
 <span class="c">%</span>
 <span class="c">%   Url: http://ltfat.github.io/doc/signals/expchirp.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -97,6 +99,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">phi</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fs</span><span class="p">=[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fc</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">ramp</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
 
 <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
@@ -105,6 +108,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
   <span class="n">fend</span>  <span class="p">=</span>  <span class="n">fend</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
   <span class="n">kv</span><span class="p">.</span><span class="n">fc</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">fc</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
 <span class="k">end</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">ramp</span> <span class="o">&gt;</span> <span class="n">L</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">ramp</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nb">rem</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">ramp</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">0</span>
+    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Ramp length must be a positive integer number less than L.&#39;</span><span class="p">,</span><span class="n">thismfilename</span><span class="p">);</span>
+<span class="k">end</span>
 
 <span class="n">w1</span><span class="p">=</span><span class="nb">pi</span><span class="o">*</span><span class="n">fstart</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
 <span class="n">w2</span><span class="p">=</span><span class="nb">pi</span><span class="o">*</span><span class="n">fend</span><span class="o">*</span><span class="n">L</span><span class="p">;</span>
@@ -117,6 +124,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">l</span> <span class="p">=</span> <span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">l</span> <span class="p">=</span> <span class="n">l</span><span class="p">(:);</span>
 <span class="n">t</span><span class="p">=</span> <span class="n">l</span><span class="o">./</span><span class="n">L</span><span class="p">;</span>
 <span class="n">outsig</span><span class="p">=</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">kv</span><span class="p">.</span><span class="n">phi</span> <span class="o">+</span> <span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">l</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">fc</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">ramp</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">outsig</span><span class="p">(</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="n">kv</span><span class="p">.</span><span class="n">ramp</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">outsig</span><span class="p">(</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="n">kv</span><span class="p">.</span><span class="n">ramp</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="n">rampup</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">ramp</span><span class="p">);</span>
+    <span class="n">outsig</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">ramp</span><span class="p">)</span> <span class="p">=</span> <span class="n">outsig</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">ramp</span><span class="p">)</span><span class="o">.*</span><span class="n">rampup</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">ramp</span><span class="p">);</span>
+<span class="k">end</span>
 </pre></div>
 
 

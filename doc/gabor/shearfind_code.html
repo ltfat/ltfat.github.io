@@ -42,7 +42,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">SHEARFIND - Shears for transformation of a general lattice to separable</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[s0,s1,X] <span class="p">=</span><span class="w"> </span><span class="nf">shearfind</span><span class="p">(</span>L,a,M,lt<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[s0,s1,X]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">shearfind</span><span class="p">(</span>L,a,M,lt<span class="p">)</span><span class="w"></span>
 <span class="c">%SHEARFIND  Shears for transformation of a general lattice to separable</span>
 <span class="c">%   Usage:  [s0,s1,br] = shearfind(L,a,M,lt);</span>
 <span class="c">%</span>
@@ -62,7 +62,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/shearfind.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -175,7 +175,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     
 <span class="k">end</span>
 
-<span class="k">function</span><span class="w"> </span>[Labfac,sfac,lenLabfac] <span class="p">=</span><span class="w"> </span><span class="nf">lattfac</span><span class="p">(</span>a,b,s,L<span class="p">)</span><span class="w">    </span>
+<span class="k">function</span><span class="w"> </span>[Labfac,sfac,lenLabfac]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">lattfac</span><span class="p">(</span>a,b,s,L<span class="p">)</span><span class="w">    </span>
 
 <span class="w">    </span><span class="n">tempL</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
     <span class="n">tempa</span> <span class="p">=</span> <span class="nb">factor</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>

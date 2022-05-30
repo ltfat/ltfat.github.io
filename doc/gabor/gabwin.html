@@ -88,7 +88,9 @@ of <em>M</em>.</p>
 <blockquote>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">{'gauss',...}</span></tt></dt>
-<dd>Additional parameters are passed to <span class="linkrole"><a href="#BASEURL#/doc/fourier/pgauss.html">pgauss</a></span>.</dd>
+<dd>Additional parameters are passed to <span class="linkrole"><a href="#BASEURL#/doc/fourier/pgauss.html">pgauss</a></span>. When no additional
+parameters are passed, the window is generated according to the
+defaults in <span class="linkrole"><a href="#BASEURL#/doc/fourier/pgauss.html">pgauss</a></span>.</dd>
 <dt><tt class="docutils literal"><span class="pre">{'dual',...}</span></tt></dt>
 <dd>Canonical dual window of whatever follows. See the examples below.</dd>
 <dt><tt class="docutils literal"><span class="pre">{'tight',...}</span></tt></dt>
@@ -106,7 +108,7 @@ g=gabwin('gauss',a,M,L);
 <p>To compute Gaussian window with equal time and frequency support
 irrespective of <em>a</em> and <em>M</em>:</p>
 <pre class="literal-block">
-g=gabwin({'gauss',1},a,M,L);
+g=gabwin({'gauss'},a,M,L);
 </pre>
 <p>To compute the canonical dual of a Gaussian window fitted for a
 system with time-shift <em>a</em> and <em>M</em> channels:</p>

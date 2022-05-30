@@ -67,7 +67,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankrealbounds.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -139,7 +139,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
     
     <span class="c">% A &#39;real&#39; is needed here, because the matrices are known to be</span>
     <span class="c">% Hermitian, but sometimes Matlab/Octave does not recognize this.  </span>
-    <span class="n">work</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">eig</span><span class="p">(</span><span class="nb">real</span><span class="p">(</span><span class="n">Ha</span><span class="o">*</span><span class="n">Ha</span><span class="o">&#39;+</span><span class="n">Hb</span><span class="o">*</span><span class="n">Hb</span><span class="o">&#39;</span><span class="p">)));</span>
+    <span class="c">% work=real(eig(real(Ha*Ha&#39;+Hb*Hb&#39;))); %Prior versions. This seems to </span>
+    <span class="c">% be wrong.</span>
+    <span class="n">work</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">eig</span><span class="p">(</span><span class="n">Ha</span><span class="o">*</span><span class="n">Ha</span><span class="o">&#39;+</span><span class="n">Hb</span><span class="o">*</span><span class="n">Hb</span><span class="o">&#39;</span><span class="p">));</span>
     
     <span class="n">AF</span><span class="p">=</span><span class="n">min</span><span class="p">(</span><span class="n">AF</span><span class="p">,</span><span class="n">min</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
     <span class="n">BF</span><span class="p">=</span><span class="n">max</span><span class="p">(</span><span class="n">BF</span><span class="p">,</span><span class="n">max</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>

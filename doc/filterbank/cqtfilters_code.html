@@ -47,13 +47,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,a,fc,L,info]<span class="p">=</span><span class="nf">cqtfilters</span><span class="p">(</span>fs,fmin,fmax,bins,Ls,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%CQTFILTERS   CQT-spaced filters</span>
 <span class="c">%   Usage:  [g,a,fc]=cqtfilters(fs,fmin,fmax,bins,Ls,varargin);</span>
-<span class="c">%           </span>
+<span class="c">%          </span>
 <span class="c">%</span>
 <span class="c">%   Input parameters:</span>
 <span class="c">%      fs    : Sampling rate (in Hz).</span>
 <span class="c">%      fmin  : Minimum frequency (in Hz)</span>
 <span class="c">%      fmax  : Maximum frequency (in Hz)</span>
-<span class="c">%      bins  : Vector consisting of the number of bins per octave.</span>
+<span class="c">%      bins  : Vector or scalar consisting of the number of bins per octave.</span>
 <span class="c">%      Ls    : Signal length.</span>
 <span class="c">%   Output parameters:</span>
 <span class="c">%      g     : Cell array of filters.</span>
@@ -88,7 +88,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   [g,a]=CQTFILTERS(...,&#39;uniform&#39;) constructs a uniform filter bank</span>
 <span class="c">%   where the downsampling rate is the same for all the channels. This</span>
-<span class="c">%   results in most redundant representation, which produces nice plots.</span>
+<span class="c">%   results in the most redundant representation, which produces nice plots.</span>
 <span class="c">%</span>
 <span class="c">%   [g,a]=CQTFILTERS(...,&#39;fractional&#39;) constructs a filter bank with</span>
 <span class="c">%   fractional downsampling rates a. The rates are constructed such</span>
@@ -108,9 +108,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span>
 <span class="c">%   CQTFILTERS accepts the following optional parameters:</span>
 <span class="c">%</span>
-<span class="c">%     &#39;Qvar&#39;,Qvar           Bandwidth variation factor. Multiplies the</span>
-<span class="c">%                           calculated bandwidth (divides Q). </span>
-<span class="c">%                           Default value is 1.</span>
+<span class="c">%     &#39;Qvar&#39;,Qvar           Bandwidth scaling factor. Inversely proportional</span>
+<span class="c">%                           to Q as it multiplies the calculated bandwidth</span>
+<span class="c">%                           (which divides Q). The default value is 1.</span>
 <span class="c">%                           If the value is larger than one, the</span>
 <span class="c">%                           system may no longer be painless.</span>
 <span class="c">%</span>
@@ -157,22 +157,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%     c=filterbank(f,{&#39;realdual&#39;,g},a);</span>
 <span class="c">%     r=2*real(ifilterbank(c,g,a));</span>
 <span class="c">%     norm(f-r)</span>
-<span class="c">% </span>
+<span class="c">%</span>
 <span class="c">%     % Plot the response</span>
 <span class="c">%     figure(1);</span>
 <span class="c">%     subplot(2,1,1);</span>
 <span class="c">%     R=filterbankresponse(g,a,L,fs,&#39;real&#39;,&#39;plot&#39;);</span>
-<span class="c">% </span>
+<span class="c">%</span>
 <span class="c">%     subplot(2,1,2);</span>
 <span class="c">%     semiaudplot(linspace(0,fs/2,L/2+1),R(1:L/2+1));</span>
 <span class="c">%     ylabel(&#39;Magnitude&#39;);</span>
-<span class="c">% </span>
+<span class="c">%</span>
 <span class="c">%     % Plot frequency responses of individual filters</span>
 <span class="c">%     gd=filterbankrealdual(g,a,L);</span>
 <span class="c">%     figure(2);</span>
 <span class="c">%     subplot(2,1,1);</span>
 <span class="c">%     filterbankfreqz(gd,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span>
-<span class="c">% </span>
+<span class="c">%</span>
 <span class="c">%     subplot(2,1,2);</span>
 <span class="c">%     filterbankfreqz(g,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span>
 <span class="c">%</span>
@@ -197,7 +197,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/cqtfilters.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -222,7 +222,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="n">complainif_notposscalar</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="s">&#39;fs&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="n">complainif_notposscalar</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span><span class="s">&#39;fmin&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 <span class="n">complainif_notposscalar</span><span class="p">(</span><span class="n">fmax</span><span class="p">,</span><span class="s">&#39;fmax&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span><span class="s">&#39;bins&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="c">%complainif_notposint(bins,&#39;bins&#39;,upper(mfilename));</span>
 <span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
 
 <span class="k">if</span> <span class="n">fmin</span><span class="o">&gt;</span><span class="p">=</span><span class="n">fmax</span>
@@ -277,7 +277,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="c">% Constant number of bins in each octave</span>
     <span class="n">bins</span> <span class="p">=</span> <span class="n">bins</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="k">elseif</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">b</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">b</span>
     <span class="c">% Pick bins for octaves for which it was not specified.</span>
     <span class="n">bins</span> <span class="p">=</span> <span class="n">bins</span><span class="p">(:);</span>
     <span class="n">bins</span><span class="p">(</span> <span class="n">bins</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span> <span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -326,8 +328,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Keeping center frequency and changing bandwidth =&gt; Q=fbas/bw</span>
 <span class="c">% Do that only for the constant Q filters</span>
 <span class="n">fsupp</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Qvar</span><span class="o">*</span><span class="n">fsupp</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-<span class="c">% Lowpass and highpass filters has to be treated differently </span>
-<span class="n">fsupp</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">])</span> <span class="p">=</span> <span class="n">fsupp</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">]);</span>
+<span class="c">% Lowpass and highpass filters has to be treated differently</span>
+<span class="c">%fsupp([1,end]) = fsupp([1,end]);</span>
 
 <span class="c">% Do not allow lower bandwidth than keyvals.min_win</span>
 <span class="n">fsuppmin</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">min_win</span><span class="o">/</span><span class="n">Ls</span><span class="o">*</span><span class="n">fs</span><span class="p">;</span>

@@ -1,33 +1,13 @@
 Type "help demo_gabmixdual" to see a description of how this demo works.
+
 Framebounds of initial Gabor system:
-
-A1 =
-
-    0.6058
-
-
-B1 =
-
-    1.6902
+A1 =  0.60581
+B1 =  1.6902
 
 Framebounds of mixing Gabor system:
-
-A2 =
-
-   2.0241e-05
-
-
-B2 =
-
-    4.8990
+A2 =  0.000020241
+B2 =  4.8990
 
 Framebounds of gabmixdual Gabor system:
-
-Am =
-
-    0.0041
-
-
-Bm =
-
-    0.0115
+Am =  0.0041310
+Bm =  0.011463

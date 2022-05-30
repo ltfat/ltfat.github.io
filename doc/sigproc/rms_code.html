@@ -37,7 +37,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">RMS - RMS value of signal</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>y <span class="p">=</span><span class="w"> </span><span class="nf">rms</span><span class="p">(</span>f,varargin<span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>y<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">rms</span><span class="p">(</span>f,varargin<span class="p">)</span><span class="w"></span>
 <span class="c">%RMS RMS value of signal</span>
 <span class="c">%   Usage: y = rms(f);</span>
 <span class="c">%          y = rms(f,...);</span>
@@ -68,7 +68,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Url: http://ltfat.github.io/doc/sigproc/rms.html</span>
 
 <span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.4.0</span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span>
 <span class="c">%</span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span>
@@ -97,7 +97,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">dim</span><span class="p">=[];</span>
 <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">mean</span><span class="p">={</span><span class="s">&#39;noac&#39;</span><span class="p">,</span><span class="s">&#39;ac&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;dim&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
 
 <span class="c">%% ------ Computation --------------------------</span>
 
