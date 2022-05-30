@@ -79,14 +79,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
 <span class="p">[</span><span class="n">insig</span><span class="p">,</span><span class="w"> </span><span class="n">fs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gspi</span><span class="p">;</span><span class="w"></span>
-
-<span class="c">%specify the the parameters</span><span class="w"></span>
-<span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;hanning&#39;</span><span class="p">;</span><span class="w"></span>
-<span class="n">windowlength</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2048</span><span class="p">;</span><span class="w"></span>
-<span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
 <span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
+<span class="c">%specify the parameters</span><span class="w"></span>
+<span class="c">%analyze the signal in segments of roughly 40 ms</span><span class="w"></span>
+<span class="c">%length of the time segment in samples should be a power of 2:</span><span class="w"></span>
+<span class="n">N</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span>^<span class="nb">nextpow2</span><span class="p">(</span><span class="mf">0.04</span><span class="o">*</span><span class="n">fs</span><span class="p">);</span><span class="w"></span>
+<span class="c">%and, for simplicity, choose a window of the same length</span><span class="w"></span>
+<span class="n">windowlength</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">%calculate the minimum hopsize for the given window length</span><span class="w"></span>
+<span class="c">%hanning windows are a common choice in audio applications,</span><span class="w"></span>
+<span class="c">%but they need to overlap a bit</span><span class="w"></span>
+<span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;hanning&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">%calculate the minimum hopsize for the window length and overlap</span><span class="w"></span>
 <span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">windowlength</span><span class="o">/</span><span class="n">overlap</span><span class="p">);</span><span class="w"></span>
 
 <span class="c">%to exactly maintain the length of the input signal throughout calculations, select M, </span><span class="w"></span>
