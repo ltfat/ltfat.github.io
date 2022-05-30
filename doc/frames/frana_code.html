@@ -44,87 +44,87 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FRANA - Frame analysis operator</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>outsig<span class="p">=</span><span class="nf">frana</span><span class="p">(</span>F,insig<span class="p">);</span>
-<span class="c">%FRANA  Frame analysis operator</span>
-<span class="c">%   Usage: c=frana(F,f);</span>
-<span class="c">%</span>
-<span class="c">%   c=FRANA(F,f) computes the frame coefficients c of the input</span>
-<span class="c">%   signal f using the frame F. The frame object F must have been</span>
-<span class="c">%   created using FRAME or FRAMEPAIR.</span>
-<span class="c">%</span>
-<span class="c">%   If f is a matrix, the transform will be applied along the columns</span>
-<span class="c">%   of f. If f is an N-D array, the transform will be applied along</span>
-<span class="c">%   the first non-singleton dimension.</span>
-<span class="c">%</span>
-<span class="c">%   The output coefficients are stored as columns. This is usually</span>
-<span class="c">%   *not* the same format as the &#39;native&#39; format of the frame. As an</span>
-<span class="c">%   examples, the output from FRANA for a gabor frame cannot be</span>
-<span class="c">%   passed to IDGT without a reshape.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   In the following example the signal bat is analyzed through a wavelet </span>
-<span class="c">%   frame. The result are the frame coefficients associated with the input  </span>
-<span class="c">%   signal bat and the analysis frame &#39;fwt&#39;:</span>
-<span class="c">%</span>
-<span class="c">%      f = bat;</span>
-<span class="c">%      w = &#39;sym8&#39;;</span>
-<span class="c">%      J = 7;</span>
-<span class="c">%      F = frame(&#39;fwt&#39;, w, J); </span>
-<span class="c">%      c = frana(F, f);</span>
-<span class="c">%      % A plot of the frame coefficients</span>
-<span class="c">%      plotframe(F, c, &#39;dynrange&#39;, 100);</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame, framepair, frsyn, plotframe</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/frana.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>outsig<span class="p">=</span><span class="nf">frana</span><span class="p">(</span>F,insig<span class="p">);</span><span class="w"></span>
+<span class="c">%FRANA  Frame analysis operator</span><span class="w"></span>
+<span class="c">%   Usage: c=frana(F,f);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   c=FRANA(F,f) computes the frame coefficients c of the input</span><span class="w"></span>
+<span class="c">%   signal f using the frame F. The frame object F must have been</span><span class="w"></span>
+<span class="c">%   created using FRAME or FRAMEPAIR.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If f is a matrix, the transform will be applied along the columns</span><span class="w"></span>
+<span class="c">%   of f. If f is an N-D array, the transform will be applied along</span><span class="w"></span>
+<span class="c">%   the first non-singleton dimension.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The output coefficients are stored as columns. This is usually</span><span class="w"></span>
+<span class="c">%   *not* the same format as the &#39;native&#39; format of the frame. As an</span><span class="w"></span>
+<span class="c">%   examples, the output from FRANA for a gabor frame cannot be</span><span class="w"></span>
+<span class="c">%   passed to IDGT without a reshape.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In the following example the signal bat is analyzed through a wavelet </span><span class="w"></span>
+<span class="c">%   frame. The result are the frame coefficients associated with the input  </span><span class="w"></span>
+<span class="c">%   signal bat and the analysis frame &#39;fwt&#39;:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      f = bat;</span><span class="w"></span>
+<span class="c">%      w = &#39;sym8&#39;;</span><span class="w"></span>
+<span class="c">%      J = 7;</span><span class="w"></span>
+<span class="c">%      F = frame(&#39;fwt&#39;, w, J); </span><span class="w"></span>
+<span class="c">%      c = frana(F, f);</span><span class="w"></span>
+<span class="c">%      % A plot of the frame coefficients</span><span class="w"></span>
+<span class="c">%      plotframe(F, c, &#39;dynrange&#39;, 100);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame, framepair, frsyn, plotframe</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/frana.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRANA&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANA&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRANA&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANA&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-<span class="c">%    error(&#39;%s: Currently only column vectors are supported. See bug #73.&#39;,...</span>
-<span class="c">%          upper(mfilename)); </span>
-  <span class="n">insig</span> <span class="p">=</span> <span class="n">insig</span><span class="p">(:);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="c">%    error(&#39;%s: Currently only column vectors are supported. See bug #73.&#39;,...</span><span class="w"></span>
+<span class="c">%          upper(mfilename)); </span><span class="w"></span>
+<span class="w">  </span><span class="n">insig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">insig</span><span class="p">(:);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
 
-<span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
-<span class="c">% Change f to correct shape.</span>
-<span class="p">[</span><span class="n">insig</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">insig</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
- 
-<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
+<span class="c">%% ----- step 1 : Verify f and determine its length -------</span><span class="w"></span>
+<span class="c">% Change f to correct shape.</span><span class="w"></span>
+<span class="p">[</span><span class="n">insig</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">insig</span><span class="p">,[],[],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w"> </span>
+<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">insig</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">);</span>
+<span class="n">insig</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">%% ----- do the computation ----</span>
+<span class="c">%% ----- do the computation ----</span><span class="w"></span>
 
-<span class="n">outsig</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span>
+<span class="n">outsig</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">%% --- cleanup -----</span>
+<span class="c">%% --- cleanup -----</span><span class="w"></span>
 
-<span class="n">permutedsize</span><span class="p">=[</span><span class="nb">size</span><span class="p">(</span><span class="n">outsig</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">permutedsize</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)];</span>
+<span class="n">permutedsize</span><span class="p">=[</span><span class="nb">size</span><span class="p">(</span><span class="n">outsig</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">permutedsize</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)];</span><span class="w"></span>
 
-<span class="n">outsig</span><span class="p">=</span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">outsig</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span>
+<span class="n">outsig</span><span class="p">=</span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">outsig</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span><span class="w"></span>
 
-  
+<span class="w">  </span>
 </pre></div>
 
 

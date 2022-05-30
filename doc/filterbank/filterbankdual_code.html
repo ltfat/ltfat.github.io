@@ -44,166 +44,166 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FILTERBANKDUAL - Dual filters</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>gdout<span class="p">=</span><span class="nf">filterbankdual</span><span class="p">(</span>g,a,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FILTERBANKDUAL  Dual filters</span>
-<span class="c">%   Usage:  gd=filterbankdual(g,a,L);</span>
-<span class="c">%           gd=filterbankdual(g,a);</span>
-<span class="c">%           </span>
-<span class="c">%</span>
-<span class="c">%   FILTERBANKDUAL(g,a,L) computes the canonical dual filters of g for a</span>
-<span class="c">%   channel subsampling rate of a (hop-size) and system length L.</span>
-<span class="c">%   L must be compatible with subsampling rate a as </span>
-<span class="c">%   L==filterbanklength(L,a). This will create a dual frame valid for </span>
-<span class="c">%   signals of length L. </span>
-<span class="c">%</span>
-<span class="c">%   filterabankrealdual(g,a) does the same, but the filters must be FIR</span>
-<span class="c">%   filters, as the transform length is unspecified. L will be set to </span>
-<span class="c">%   next suitable length equal or bigger than the longest impulse response</span>
-<span class="c">%   such that L=filterbanklength(gl_longest,a).</span>
-<span class="c">%</span>
-<span class="c">%   The input and output format of the filters g are described in the</span>
-<span class="c">%   help of FILTERBANK.</span>
-<span class="c">%</span>
-<span class="c">%   In addition, the funtion recognizes a &#39;forcepainless&#39; flag which</span>
-<span class="c">%   forces treating the filterbank g and a as a painless case</span>
-<span class="c">%   filterbank.  </span>
-<span class="c">%</span>
-<span class="c">%   To actually invert the output of a filterbank, use the dual filters</span>
-<span class="c">%   together with the IFILTERBANK function.</span>
-<span class="c">%</span>
-<span class="c">%   REMARK: In general, perfect reconstruction can be obtained for signals </span>
-<span class="c">%   of length L. In some cases, using dual system calculated for shorter</span>
-<span class="c">%   L might work but check the reconstruction error.</span>
-<span class="c">%</span>
-<span class="c">%   See also: filterbank, ufilterbank, ifilterbank</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankdual.html</span>
+<span class="c">%FILTERBANKDUAL  Dual filters</span><span class="w"></span>
+<span class="c">%   Usage:  gd=filterbankdual(g,a,L);</span><span class="w"></span>
+<span class="c">%           gd=filterbankdual(g,a);</span><span class="w"></span>
+<span class="c">%           </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FILTERBANKDUAL(g,a,L) computes the canonical dual filters of g for a</span><span class="w"></span>
+<span class="c">%   channel subsampling rate of a (hop-size) and system length L.</span><span class="w"></span>
+<span class="c">%   L must be compatible with subsampling rate a as </span><span class="w"></span>
+<span class="c">%   L==filterbanklength(L,a). This will create a dual frame valid for </span><span class="w"></span>
+<span class="c">%   signals of length L. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   filterabankrealdual(g,a) does the same, but the filters must be FIR</span><span class="w"></span>
+<span class="c">%   filters, as the transform length is unspecified. L will be set to </span><span class="w"></span>
+<span class="c">%   next suitable length equal or bigger than the longest impulse response</span><span class="w"></span>
+<span class="c">%   such that L=filterbanklength(gl_longest,a).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The input and output format of the filters g are described in the</span><span class="w"></span>
+<span class="c">%   help of FILTERBANK.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In addition, the funtion recognizes a &#39;forcepainless&#39; flag which</span><span class="w"></span>
+<span class="c">%   forces treating the filterbank g and a as a painless case</span><span class="w"></span>
+<span class="c">%   filterbank.  </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To actually invert the output of a filterbank, use the dual filters</span><span class="w"></span>
+<span class="c">%   together with the IFILTERBANK function.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   REMARK: In general, perfect reconstruction can be obtained for signals </span><span class="w"></span>
+<span class="c">%   of length L. In some cases, using dual system calculated for shorter</span><span class="w"></span>
+<span class="c">%   L might work but check the reconstruction error.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: filterbank, ufilterbank, ifilterbank</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankdual.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FILTERBANKDUAL&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FILTERBANKDUAL&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;filterbankdual&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">outformat</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">,</span><span class="s">&#39;econ&#39;</span><span class="p">,</span><span class="s">&#39;asfreqfilter&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">efsuppthr</span> <span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;filterbankdual&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">outformat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;fir&#39;</span><span class="p">,</span><span class="s">&#39;full&#39;</span><span class="p">,</span><span class="s">&#39;econ&#39;</span><span class="p">,</span><span class="s">&#39;asfreqfilter&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">efsuppthr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>^<span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span>
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> 
-    <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isfir</span>
-        <span class="c">% Pick shortest possible length for FIR filterbank</span>
-        <span class="n">L</span> <span class="p">=</span> <span class="n">filterbanklength</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">longestfilter</span><span class="p">,</span><span class="n">asan</span><span class="p">);</span>
-    <span class="k">else</span>
-        <span class="c">% Just thow an error, nothing reasonable can be done without L</span>
-        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: L must be specified when not working with FIR &#39;</span><span class="p">,</span><span class="c">...&#39;</span>
-               <span class="s">&#39;filterbanks.&#39;</span><span class="p">],</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-<span class="n">M</span><span class="p">=</span><span class="n">info</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">filterbankwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;normal&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">isfir</span><span class="w"></span>
+<span class="w">        </span><span class="c">% Pick shortest possible length for FIR filterbank</span><span class="w"></span>
+<span class="w">        </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">longestfilter</span><span class="p">,</span><span class="n">asan</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="c">% Just thow an error, nothing reasonable can be done without L</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: L must be specified when not working with FIR &#39;</span><span class="p">,</span><span class="k">...</span><span class="c">&#39;</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;filterbanks.&#39;</span><span class="p">],</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">M</span><span class="p">=</span><span class="n">info</span><span class="p">.</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Force usage of the painless algorithm </span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_forcepainless</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="c">% Force usage of the painless algorithm </span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_forcepainless</span><span class="w"></span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">ispainless</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Check user defined L</span>
-<span class="k">if</span> <span class="n">L</span><span class="o">~=</span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
-     <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Specified length L is incompatible with the length of &#39;</span> <span class="c">...</span>
-            <span class="s">&#39;the time shifts.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Check user defined L</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">L</span><span class="o">~=</span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: Specified length L is incompatible with the length of &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="s">&#39;the time shifts.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Prioritize painless over uniform algorithm if both are suitable</span>
-<span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="c">% Prioritize painless over uniform algorithm if both are suitable</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">isuniform</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">ispainless</span><span class="w"></span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">isuniform</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Factorization of frame operator to block-diagonal matrix</span>
-<span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">isuniform</span>
-  <span class="c">% Uniform filterbank, use polyphase representation</span>
-  <span class="n">a</span><span class="p">=</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  
-  <span class="c">% Transfer functions of individual filters as cols</span>
-  <span class="n">G</span> <span class="p">=</span> <span class="n">filterbankfreqz</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-  
-  <span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
-  
-  <span class="n">gd</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">class</span><span class="p">(</span><span class="n">G</span><span class="p">));</span>
-  
-  <span class="k">for</span> <span class="n">w</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span>
-    <span class="n">idx</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">w</span><span class="o">-</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="n">H</span> <span class="p">=</span> <span class="n">G</span><span class="p">(</span><span class="n">idx</span><span class="p">,:);</span>
-    
-    <span class="n">H</span><span class="p">=</span><span class="n">pinv</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
-    
-    <span class="n">gd</span><span class="p">(:,</span><span class="n">idx</span><span class="p">)=</span><span class="n">H</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
-  <span class="k">end</span><span class="p">;</span>
-  <span class="c">% gd was created transposed because the indexing gd(:,idx_a)</span>
-  <span class="c">% is much faster than gd(idx_a,:)</span>
-  <span class="n">gd</span> <span class="p">=</span>  <span class="n">gd</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
-  
+<span class="c">% Factorization of frame operator to block-diagonal matrix</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">isuniform</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Uniform filterbank, use polyphase representation</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Transfer functions of individual filters as cols</span><span class="w"></span>
+<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbankfreqz</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">gd</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="nb">class</span><span class="p">(</span><span class="n">G</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">w</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">w</span><span class="o">-</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">G</span><span class="p">(</span><span class="n">idx</span><span class="p">,:);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">H</span><span class="p">=</span><span class="nb">pinv</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">gd</span><span class="p">(:,</span><span class="n">idx</span><span class="p">)=</span><span class="n">H</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">% gd was created transposed because the indexing gd(:,idx_a)</span><span class="w"></span>
+<span class="w">  </span><span class="c">% is much faster than gd(idx_a,:)</span><span class="w"></span>
+<span class="w">  </span><span class="n">gd</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="n">gd</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">thisclass</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">class</span><span class="p">(</span><span class="n">G</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">switch</span> <span class="n">flags</span><span class="p">.</span><span class="n">outformat</span>
-    <span class="k">case</span> <span class="s">&#39;fir&#39;</span>
-        <span class="n">gd</span><span class="p">=</span><span class="n">ifft</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-        <span class="c">% Matrix cols to cell elements + cast</span>
-        <span class="n">gdout</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">gdEl</span><span class="p">)</span> <span class="n">cast</span><span class="p">(</span><span class="n">gdEl</span><span class="p">,</span><span class="n">thisclass</span><span class="p">),</span> <span class="n">num2cell</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="c">...</span>
-                  <span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">switch</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">outformat</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;fir&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="n">gd</span><span class="p">=</span><span class="nb">ifft</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="c">% Matrix cols to cell elements + cast</span><span class="w"></span>
+<span class="w">        </span><span class="n">gdout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">gdEl</span><span class="p">)</span><span class="w"> </span><span class="nb">cast</span><span class="p">(</span><span class="n">gdEl</span><span class="p">,</span><span class="n">thisclass</span><span class="p">),</span><span class="w"> </span><span class="nb">num2cell</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">                  </span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-  <span class="c">%      All filters in gdout will be treated as FIR of length L. Convert them</span>
-  <span class="c">%      to a struct with .h and .offset format.</span>
-        <span class="n">gdout</span> <span class="p">=</span> <span class="n">filterbankwin</span><span class="p">(</span><span class="n">gdout</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>      
-    <span class="k">case</span> <span class="s">&#39;full&#39;</span>
+<span class="w">  </span><span class="c">%      All filters in gdout will be treated as FIR of length L. Convert them</span><span class="w"></span>
+<span class="w">  </span><span class="c">%      to a struct with .h and .offset format.</span><span class="w"></span>
+<span class="w">        </span><span class="n">gdout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbankwin</span><span class="p">(</span><span class="n">gdout</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w">      </span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;full&#39;</span><span class="w"></span>
 
-        <span class="n">gdout</span> <span class="p">=</span> <span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-    <span class="k">case</span> <span class="s">&#39;econ&#39;</span>
-        <span class="n">Shorten</span> <span class="n">filters</span> <span class="n">to</span> <span class="n">essential</span> <span class="n">support</span>
-        <span class="n">gd</span> <span class="p">=</span> <span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-        <span class="n">gdout</span><span class="p">=</span><span class="n">economize_filters</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="s">&#39;efsuppthr&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">efsuppthr</span><span class="p">);</span>
+<span class="w">        </span><span class="n">gdout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;econ&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="n">Shorten</span><span class="w"> </span><span class="n">filters</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">essential</span><span class="w"> </span><span class="n">support</span><span class="w"></span>
+<span class="w">        </span><span class="n">gd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">gdout</span><span class="p">=</span><span class="n">economize_filters</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="s">&#39;efsuppthr&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">efsuppthr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="k">case</span> <span class="s">&#39;asfreqfilter&#39;</span>
-        <span class="n">gd</span> <span class="p">=</span> <span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-<span class="c">%        All filters in gdout will be treated as (numeric) freqfilter format. </span>
-<span class="c">%        Manually convert them to a struct with .H and .foff.</span>
-        <span class="n">template</span> <span class="p">=</span> <span class="n">struct</span><span class="p">(</span><span class="s">&#39;H&#39;</span><span class="p">,[],</span><span class="s">&#39;foff&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;realonly&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;delay&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-        <span class="n">gdout</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-        <span class="n">gdout</span><span class="p">(:)</span> <span class="p">=</span> <span class="p">{</span><span class="n">template</span><span class="p">};</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;asfreqfilter&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="n">gd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gd</span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="c">%        All filters in gdout will be treated as (numeric) freqfilter format. </span><span class="w"></span>
+<span class="c">%        Manually convert them to a struct with .H and .foff.</span><span class="w"></span>
+<span class="w">        </span><span class="n">template</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">(</span><span class="s">&#39;H&#39;</span><span class="p">,[],</span><span class="s">&#39;foff&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;realonly&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;delay&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gdout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gdout</span><span class="p">(:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">template</span><span class="p">};</span><span class="w"></span>
 
-        <span class="p">[</span><span class="n">H</span><span class="p">,</span><span class="n">foff</span><span class="p">,</span><span class="o">~</span><span class="p">]=</span><span class="n">economize_filters</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="s">&#39;efsuppthr&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">efsuppthr</span><span class="p">);</span>
-        <span class="k">for</span> <span class="n">kk</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">M</span>
-            <span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span> <span class="p">=</span> <span class="n">setfield</span><span class="p">(</span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">},</span><span class="s">&#39;H&#39;</span><span class="p">,</span><span class="n">H</span><span class="p">{</span><span class="n">kk</span><span class="p">});</span>
-            <span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span> <span class="p">=</span> <span class="n">setfield</span><span class="p">(</span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">},</span><span class="s">&#39;foff&#39;</span><span class="p">,</span><span class="n">foff</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span>
-        <span class="k">end</span>      
-    <span class="k">otherwise</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Unknown filter format.&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span> 
-<span class="k">end</span> 
+<span class="w">        </span><span class="p">[</span><span class="n">H</span><span class="p">,</span><span class="n">foff</span><span class="p">,</span><span class="o">~</span><span class="p">]=</span><span class="n">economize_filters</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span><span class="s">&#39;efsuppthr&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">efsuppthr</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="w"></span>
+<span class="w">            </span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">setfield</span><span class="p">(</span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">},</span><span class="s">&#39;H&#39;</span><span class="p">,</span><span class="n">H</span><span class="p">{</span><span class="n">kk</span><span class="p">});</span><span class="w"></span>
+<span class="w">            </span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">setfield</span><span class="p">(</span><span class="n">gdout</span><span class="p">{</span><span class="n">kk</span><span class="p">},</span><span class="s">&#39;foff&#39;</span><span class="p">,</span><span class="n">foff</span><span class="p">(</span><span class="n">kk</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w">      </span>
+<span class="w">    </span><span class="k">otherwise</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Unknown filter format.&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"> </span>
+<span class="k">end</span><span class="w"> </span>
 
-<span class="k">elseif</span> <span class="n">info</span><span class="p">.</span><span class="n">ispainless</span>
-   <span class="c">% Factorized frame operator is diagonal.</span>
-   <span class="n">gdout</span> <span class="p">=</span> <span class="n">comp_painlessfilterbank</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="k">else</span>
-        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The canonical dual frame of this system is not a &#39;</span> <span class="c">...</span>
-               <span class="s">&#39;filterbank. You must either call an iterative &#39;</span> <span class="c">...</span>
-               <span class="s">&#39;method to perform the desired inverstion or transform &#39;</span><span class="p">,</span><span class="c">...</span>
-               <span class="s">&#39;or transform the filterbank to uniform one. Please see &#39;</span> <span class="c">...</span>
-               <span class="s">&#39;FRANAITER or FRSYNITER for the former and &#39;</span><span class="p">,</span><span class="c">...</span>
-               <span class="s">&#39;NONU2UFILTERBANK for the latter case.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>        
+<span class="k">elseif</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">ispainless</span><span class="w"></span>
+<span class="w">   </span><span class="c">% Factorized frame operator is diagonal.</span><span class="w"></span>
+<span class="w">   </span><span class="n">gdout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_painlessfilterbank</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">asan</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: The canonical dual frame of this system is not a &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;filterbank. You must either call an iterative &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;method to perform the desired inverstion or transform &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;or transform the filterbank to uniform one. Please see &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;FRANAITER or FRSYNITER for the former and &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;NONU2UFILTERBANK for the latter case.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w">        </span>
 
-    
-<span class="k">end</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

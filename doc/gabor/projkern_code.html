@@ -42,89 +42,89 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">PROJKERN - Projection onto generating kernel space</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">projkern</span><span class="p">(</span>c,p2,p3,p4,p5<span class="p">);</span>
-<span class="c">%PROJKERN  Projection onto generating kernel space</span>
-<span class="c">%   Usage:  cout=projkern(cin,a);</span>
-<span class="c">%           cout=projkern(cin,g,a);</span>
-<span class="c">%           cout=projkern(cin,ga,gs,a);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         cin   : Input coefficients</span>
-<span class="c">%         g     : analysis/synthesis window</span>
-<span class="c">%         ga    : analysis window</span>
-<span class="c">%         gs    : synthesis window</span>
-<span class="c">%         a     : Length of time shift.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         cout  : Output coefficients</span>
-<span class="c">%</span>
-<span class="c">%   cout=PROJKERN(cin,a) projects a set of Gabor coefficients c onto the</span>
-<span class="c">%   space of possible Gabor coefficients. This means that cin and cout*</span>
-<span class="c">%   synthesize to the same signal. A tight window generated from a Gaussian</span>
-<span class="c">%   will be used for both analysis and synthesis.</span>
-<span class="c">%</span>
-<span class="c">%   The rationale for this function is a follows: Because the coefficient</span>
-<span class="c">%   space of a Gabor frame is larger than the signal space (since the frame</span>
-<span class="c">%   is redundant) then there are many coefficients that correspond to the</span>
-<span class="c">%   same signal.</span>
-<span class="c">%</span>
-<span class="c">%   Therefore, you might desire to work with the coefficients cin, but you</span>
-<span class="c">%   are in reality working with cout.</span>
-<span class="c">%</span>
-<span class="c">%   cout=PROJKERN(cin,g,a) does the same, using the window g for analysis</span>
-<span class="c">%   and synthesis.</span>
-<span class="c">%</span>
-<span class="c">%   cout=PROJKERN(cin,ga,gs,a) does the same, but for different analysis</span>
-<span class="c">%   ga and synthesis gs windows.</span>
-<span class="c">%</span>
-<span class="c">%   See also: dgt, idgt</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/projkern.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">projkern</span><span class="p">(</span>c,p2,p3,p4,p5<span class="p">);</span><span class="w"></span>
+<span class="c">%PROJKERN  Projection onto generating kernel space</span><span class="w"></span>
+<span class="c">%   Usage:  cout=projkern(cin,a);</span><span class="w"></span>
+<span class="c">%           cout=projkern(cin,g,a);</span><span class="w"></span>
+<span class="c">%           cout=projkern(cin,ga,gs,a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         cin   : Input coefficients</span><span class="w"></span>
+<span class="c">%         g     : analysis/synthesis window</span><span class="w"></span>
+<span class="c">%         ga    : analysis window</span><span class="w"></span>
+<span class="c">%         gs    : synthesis window</span><span class="w"></span>
+<span class="c">%         a     : Length of time shift.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         cout  : Output coefficients</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   cout=PROJKERN(cin,a) projects a set of Gabor coefficients c onto the</span><span class="w"></span>
+<span class="c">%   space of possible Gabor coefficients. This means that cin and cout*</span><span class="w"></span>
+<span class="c">%   synthesize to the same signal. A tight window generated from a Gaussian</span><span class="w"></span>
+<span class="c">%   will be used for both analysis and synthesis.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The rationale for this function is a follows: Because the coefficient</span><span class="w"></span>
+<span class="c">%   space of a Gabor frame is larger than the signal space (since the frame</span><span class="w"></span>
+<span class="c">%   is redundant) then there are many coefficients that correspond to the</span><span class="w"></span>
+<span class="c">%   same signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Therefore, you might desire to work with the coefficients cin, but you</span><span class="w"></span>
+<span class="c">%   are in reality working with cout.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   cout=PROJKERN(cin,g,a) does the same, using the window g for analysis</span><span class="w"></span>
+<span class="c">%   and synthesis.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   cout=PROJKERN(cin,ga,gs,a) does the same, but for different analysis</span><span class="w"></span>
+<span class="c">%   ga and synthesis gs windows.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: dgt, idgt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/projkern.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">2</span>
-  <span class="n">a</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
-  <span class="n">L</span><span class="p">=</span><span class="n">a</span><span class="o">*</span><span class="n">N</span><span class="p">;</span>
-  <span class="n">ga</span><span class="p">=</span><span class="n">gabtight</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-  <span class="n">gs</span><span class="p">=</span><span class="n">ga</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">==</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="n">a</span><span class="o">*</span><span class="n">N</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">ga</span><span class="p">=</span><span class="n">gabtight</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gs</span><span class="p">=</span><span class="n">ga</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">3</span><span class="p">;</span>
-  <span class="n">ga</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
-  <span class="n">gs</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-  <span class="n">L</span><span class="p">=</span><span class="n">a</span><span class="o">*</span><span class="n">N</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">==</span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">ga</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gs</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="n">a</span><span class="o">*</span><span class="n">N</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">4</span><span class="p">;</span>  
-  <span class="n">ga</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
-  <span class="n">gs</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span>
-  <span class="n">L</span><span class="p">=</span><span class="n">a</span><span class="o">*</span><span class="n">N</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">==</span><span class="mi">4</span><span class="p">;</span><span class="w">  </span>
+<span class="w">  </span><span class="n">ga</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gs</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="n">a</span><span class="o">*</span><span class="n">N</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">assert_squarelat</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;PROJKERN&#39;</span><span class="p">);</span>
+<span class="n">assert_squarelat</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;PROJKERN&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">dgt</span><span class="p">(</span><span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gs</span><span class="p">,</span><span class="n">a</span><span class="p">),</span><span class="n">ga</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">dgt</span><span class="p">(</span><span class="n">idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gs</span><span class="p">,</span><span class="n">a</span><span class="p">),</span><span class="n">ga</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

@@ -37,51 +37,51 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FRAMEOPERATOR - Frame Operator</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>h<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">frameoperator</span><span class="p">(</span>F, f<span class="p">);</span>
-<span class="c">%FRAMEOPERATOR Frame Operator</span>
-<span class="c">%   Usage:  o=frameoperator(F, f);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%          F    : frame</span>
-<span class="c">%          f    : input vector</span>
-<span class="c">%</span>
-<span class="c">%   Output parameter: </span>
-<span class="c">%          h    : output vector</span>
-<span class="c">%     </span>
-<span class="c">%   h=FRAMEOPERATOR(F,f) applies the frame operator associated with the frame </span>
-<span class="c">%   F to the input f.</span>
-<span class="c">%</span>
-<span class="c">%   If the frame F is a tight frame, then h equals f up to the constant </span>
-<span class="c">%   frac{1}{A} where A is the lower frame bound of F. If the frame F*</span>
-<span class="c">%   is an orthonormal basis, or more general a Parseval frame, then h equals </span>
-<span class="c">%   f. </span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/frameoperator.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>h<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">frameoperator</span><span class="p">(</span>F, f<span class="p">);</span><span class="w"></span>
+<span class="c">%FRAMEOPERATOR Frame Operator</span><span class="w"></span>
+<span class="c">%   Usage:  o=frameoperator(F, f);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%          F    : frame</span><span class="w"></span>
+<span class="c">%          f    : input vector</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Output parameter: </span><span class="w"></span>
+<span class="c">%          h    : output vector</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%   h=FRAMEOPERATOR(F,f) applies the frame operator associated with the frame </span><span class="w"></span>
+<span class="c">%   F to the input f.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If the frame F is a tight frame, then h equals f up to the constant </span><span class="w"></span>
+<span class="c">%   frac{1}{A} where A is the lower frame bound of F. If the frame F*</span><span class="w"></span>
+<span class="c">%   is an orthonormal basis, or more general a Parseval frame, then h equals </span><span class="w"></span>
+<span class="c">%   f. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/frameoperator.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-
-
-<span class="c">% AUTHOR: Jordy van Velthoven</span>
-
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;FRAMEOPERATOR&#39;</span><span class="p">);</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
 
-<span class="n">h</span> <span class="p">=</span> <span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="p">(</span><span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">f</span><span class="p">)));</span>
+<span class="c">% AUTHOR: Jordy van Velthoven</span><span class="w"></span>
+
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;FRAMEOPERATOR&#39;</span><span class="p">);</span><span class="w"></span>
+
+
+<span class="n">h</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">f</span><span class="p">)));</span><span class="w"></span>
 </pre></div>
 
 

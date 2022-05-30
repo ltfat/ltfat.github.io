@@ -43,141 +43,141 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">GABWIN - Compute a Gabor window from text or cell array</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,info]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">gabwin</span><span class="p">(</span>g,a,M,varargin<span class="p">);</span>
-<span class="c">%GABWIN  Compute a Gabor window from text or cell array</span>
-<span class="c">%   Usage: [g,info] = gabwin(g,a,M,L);</span>
-<span class="c">%</span>
-<span class="c">%   [g,info]=GABWIN(g,a,M,L) computes a window that fits well with the</span>
-<span class="c">%   specified number of channels M, time shift a and transform length</span>
-<span class="c">%   L. The window itself is specified by a text description or a cell array</span>
-<span class="c">%   containing additional parameters.</span>
-<span class="c">%</span>
-<span class="c">%   The window can be specified directly as a vector of numerical</span>
-<span class="c">%   values. In this case, GABWIN only checks assumptions about transform</span>
-<span class="c">%   sizes etc.</span>
-<span class="c">%</span>
-<span class="c">%   [g,info]=GABWIN(g,a,M) does the same, but the window must be a FIR</span>
-<span class="c">%   window, as the transform length is unspecified.</span>
-<span class="c">%</span>
-<span class="c">%   GABWIN(g,a,M,L,lt) or GABWIN(g,a,M,[],lt) does as above but for a</span>
-<span class="c">%   non-separable lattice specified by lt. Please see the help of</span>
-<span class="c">%   MATRIX2LATTICETYPE for a precise description of the parameter lt.</span>
-<span class="c">%</span>
-<span class="c">%   The window can be specified as one of the following text strings:</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;gauss&#39;      Gaussian window fitted to the lattice,</span>
-<span class="c">%                  i.e. tfr=a*M/L.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;dualgauss&#39;  Canonical dual of Gaussian window.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;tight&#39;      Tight window generated from a Gaussian.</span>
-<span class="c">%</span>
-<span class="c">%   In these cases, a long window is generated with a length of L.</span>
-<span class="c">%</span>
-<span class="c">%   It is also possible to specify one of the window names from FIRWIN. In</span>
-<span class="c">%   such a case, GABWIN will generate the specified FIR window with a length</span>
-<span class="c">%   of M.</span>
-<span class="c">%</span>
-<span class="c">%   The window can also be specified as cell array. The possibilities are:</span>
-<span class="c">%</span>
-<span class="c">%     {&#39;gauss&#39;,...}</span>
-<span class="c">%         Additional parameters are passed to PGAUSS. When no additional</span>
-<span class="c">%         parameters are passed, the window is generated according to the</span>
-<span class="c">%         defaults in PGAUSS.</span>
-<span class="c">%</span>
-<span class="c">%     {&#39;dual&#39;,...}</span>
-<span class="c">%         Canonical dual window of whatever follows. See the examples below.</span>
-<span class="c">%</span>
-<span class="c">%     {&#39;tight&#39;,...} </span>
-<span class="c">%         Canonical tight window of whatever follows.</span>
-<span class="c">%</span>
-<span class="c">%   It is also possible to specify one of the window names from FIRWIN as</span>
-<span class="c">%   the first field in the cell array. In this case, the remaining</span>
-<span class="c">%   entries of the cell array are passed directly to FIRWIN.</span>
-<span class="c">%</span>
-<span class="c">%   Some examples: To compute a Gaussian window of length L fitted for a</span>
-<span class="c">%   system with time-shift a and M channels use:</span>
-<span class="c">%</span>
-<span class="c">%     g=gabwin(&#39;gauss&#39;,a,M,L);</span>
-<span class="c">%</span>
-<span class="c">%   To compute Gaussian window with equal time and frequency support</span>
-<span class="c">%   irrespective of a and M*:</span>
-<span class="c">%</span>
-<span class="c">%     g=gabwin({&#39;gauss&#39;},a,M,L);</span>
-<span class="c">%</span>
-<span class="c">%   To compute the canonical dual of a Gaussian window fitted for a</span>
-<span class="c">%   system with time-shift a and M channels:</span>
-<span class="c">%</span>
-<span class="c">%     gd=gabwin(&#39;gaussdual&#39;,a,M,L);</span>
-<span class="c">%</span>
-<span class="c">%   To compute the canonical tight window of the Gaussian window fitted</span>
-<span class="c">%   for the system:</span>
-<span class="c">%</span>
-<span class="c">%     gd=gabwin({&#39;tight&#39;,&#39;gauss&#39;},a,M,L);</span>
-<span class="c">%</span>
-<span class="c">%   To compute the dual of a Hann window of length 20:  </span>
-<span class="c">% </span>
-<span class="c">%     g=gabwin({&#39;dual&#39;,{&#39;hann&#39;,20}},a,M,L);</span>
-<span class="c">%</span>
-<span class="c">%   The structure info provides some information about the computed</span>
-<span class="c">%   window:</span>
-<span class="c">%</span>
-<span class="c">%     info.gauss</span>
-<span class="c">%        True if the window is a Gaussian.</span>
-<span class="c">%</span>
-<span class="c">%     info.tfr</span>
-<span class="c">%        Time/frequency support ratio of the window. Set whenever it makes sense.</span>
-<span class="c">%</span>
-<span class="c">%     info.wasrow</span>
-<span class="c">%        Input was a row window</span>
-<span class="c">%</span>
-<span class="c">%     info.isfir</span>
-<span class="c">%        Input is an FIR window</span>
-<span class="c">%</span>
-<span class="c">%     info.isdual</span>
-<span class="c">%        Output is the dual window of the auxiliary window.</span>
-<span class="c">%</span>
-<span class="c">%     info.istight</span>
-<span class="c">%        Output is known to be a tight window.</span>
-<span class="c">%</span>
-<span class="c">%     info.auxinfo</span>
-<span class="c">%        Info about auxiliary window.</span>
-<span class="c">%   </span>
-<span class="c">%     info.gl</span>
-<span class="c">%        Length of window.</span>
-<span class="c">%</span>
-<span class="c">%   See also: pgauss, firwin, wilwin</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabwin.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,info]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">gabwin</span><span class="p">(</span>g,a,M,varargin<span class="p">);</span><span class="w"></span>
+<span class="c">%GABWIN  Compute a Gabor window from text or cell array</span><span class="w"></span>
+<span class="c">%   Usage: [g,info] = gabwin(g,a,M,L);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [g,info]=GABWIN(g,a,M,L) computes a window that fits well with the</span><span class="w"></span>
+<span class="c">%   specified number of channels M, time shift a and transform length</span><span class="w"></span>
+<span class="c">%   L. The window itself is specified by a text description or a cell array</span><span class="w"></span>
+<span class="c">%   containing additional parameters.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The window can be specified directly as a vector of numerical</span><span class="w"></span>
+<span class="c">%   values. In this case, GABWIN only checks assumptions about transform</span><span class="w"></span>
+<span class="c">%   sizes etc.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [g,info]=GABWIN(g,a,M) does the same, but the window must be a FIR</span><span class="w"></span>
+<span class="c">%   window, as the transform length is unspecified.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABWIN(g,a,M,L,lt) or GABWIN(g,a,M,[],lt) does as above but for a</span><span class="w"></span>
+<span class="c">%   non-separable lattice specified by lt. Please see the help of</span><span class="w"></span>
+<span class="c">%   MATRIX2LATTICETYPE for a precise description of the parameter lt.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The window can be specified as one of the following text strings:</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;gauss&#39;      Gaussian window fitted to the lattice,</span><span class="w"></span>
+<span class="c">%                  i.e. tfr=a*M/L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;dualgauss&#39;  Canonical dual of Gaussian window.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;tight&#39;      Tight window generated from a Gaussian.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In these cases, a long window is generated with a length of L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   It is also possible to specify one of the window names from FIRWIN. In</span><span class="w"></span>
+<span class="c">%   such a case, GABWIN will generate the specified FIR window with a length</span><span class="w"></span>
+<span class="c">%   of M.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The window can also be specified as cell array. The possibilities are:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     {&#39;gauss&#39;,...}</span><span class="w"></span>
+<span class="c">%         Additional parameters are passed to PGAUSS. When no additional</span><span class="w"></span>
+<span class="c">%         parameters are passed, the window is generated according to the</span><span class="w"></span>
+<span class="c">%         defaults in PGAUSS.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     {&#39;dual&#39;,...}</span><span class="w"></span>
+<span class="c">%         Canonical dual window of whatever follows. See the examples below.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     {&#39;tight&#39;,...} </span><span class="w"></span>
+<span class="c">%         Canonical tight window of whatever follows.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   It is also possible to specify one of the window names from FIRWIN as</span><span class="w"></span>
+<span class="c">%   the first field in the cell array. In this case, the remaining</span><span class="w"></span>
+<span class="c">%   entries of the cell array are passed directly to FIRWIN.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Some examples: To compute a Gaussian window of length L fitted for a</span><span class="w"></span>
+<span class="c">%   system with time-shift a and M channels use:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     g=gabwin(&#39;gauss&#39;,a,M,L);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To compute Gaussian window with equal time and frequency support</span><span class="w"></span>
+<span class="c">%   irrespective of a and M*:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     g=gabwin({&#39;gauss&#39;},a,M,L);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To compute the canonical dual of a Gaussian window fitted for a</span><span class="w"></span>
+<span class="c">%   system with time-shift a and M channels:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     gd=gabwin(&#39;gaussdual&#39;,a,M,L);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To compute the canonical tight window of the Gaussian window fitted</span><span class="w"></span>
+<span class="c">%   for the system:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     gd=gabwin({&#39;tight&#39;,&#39;gauss&#39;},a,M,L);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To compute the dual of a Hann window of length 20:  </span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%     g=gabwin({&#39;dual&#39;,{&#39;hann&#39;,20}},a,M,L);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The structure info provides some information about the computed</span><span class="w"></span>
+<span class="c">%   window:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     info.gauss</span><span class="w"></span>
+<span class="c">%        True if the window is a Gaussian.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     info.tfr</span><span class="w"></span>
+<span class="c">%        Time/frequency support ratio of the window. Set whenever it makes sense.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     info.wasrow</span><span class="w"></span>
+<span class="c">%        Input was a row window</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     info.isfir</span><span class="w"></span>
+<span class="c">%        Input is an FIR window</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     info.isdual</span><span class="w"></span>
+<span class="c">%        Output is the dual window of the auxiliary window.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     info.istight</span><span class="w"></span>
+<span class="c">%        Output is known to be a tight window.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     info.auxinfo</span><span class="w"></span>
+<span class="c">%        Info about auxiliary window.</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%     info.gl</span><span class="w"></span>
+<span class="c">%        Length of window.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: pgauss, firwin, wilwin</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabwin.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="c">% Assert correct input.</span>
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="c">% Assert correct input.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">callfun</span><span class="p">=</span><span class="s">&#39;GABWIN&#39;</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">lt</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">,</span><span class="s">&#39;gabwin&#39;</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">callfun</span><span class="p">=</span><span class="s">&#39;GABWIN&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">lt</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">,</span><span class="s">&#39;lt&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">,</span><span class="s">&#39;gabwin&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]</span> <span class="p">=</span> <span class="n">comp_window</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">lt</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">callfun</span><span class="p">);</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_window</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">lt</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">callfun</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

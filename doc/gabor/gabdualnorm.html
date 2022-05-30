@@ -101,7 +101,9 @@ dual window of the Gabor frame with window <em>g</em> and parameters <em>a</em> 
 or cell arrays. See the help of <span class="linkrole"><a href="#BASEURL#/doc/gabor/gabwin.html">gabwin</a></span> for more details.</p>
 <p><tt class="docutils literal"><span class="pre">[scal,res]=gabdualnorm(...)</span></tt> computes two entities: <em>scal</em> determines
 if the windows are scaled correctly, it must be 1 for the windows to be
-dual. <em>res</em> is close to zero if the windows (scaled correctly) are dual
+dual. Note that the scaling factor <em>scal</em> is expected to be real for
+real-valued window pairs <em>g</em> and <em>gamma</em>, but may be complex for general
+windows. <em>res</em> is close to zero if the windows (scaled correctly) are dual
 windows.</p>
 <p><tt class="docutils literal">gabdualnorm(g,gamma,a,M,L)</tt> does the same, but considers a transform
 length of <em>L</em>.</p>

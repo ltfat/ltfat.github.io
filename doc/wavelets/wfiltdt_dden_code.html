@@ -38,53 +38,53 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">WFILTDT_DDEN - Double-Density Dual-Tree DWT filters</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[h,g,a,info]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">wfiltdt_dden</span><span class="p">(</span>N<span class="p">)</span><span class="w"></span>
-<span class="c">%WFILTDT_DDEN  Double-Density Dual-Tree DWT filters </span>
-<span class="c">%</span>
-<span class="c">%   Usage: [h,g,a] = wfiltdt_dden(N);</span>
-<span class="c">%</span>
-<span class="c">%   [h,g,a]=WFILTDT_DDEN(N) with N in {1,2} returns filters suitable</span>
-<span class="c">%   for dual-tree double density complex wavelet transform. </span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%   :</span>
-<span class="c">%     wfiltdtinfo(&#39;dden1&#39;);</span>
-<span class="c">%</span>
-<span class="c">%   :</span>
-<span class="c">%     wfiltdtinfo(&#39;dden2&#39;);</span>
-<span class="c">% </span>
-<span class="c">%   References:</span>
-<span class="c">%     I. Selesnick. The double-density dual-tree DWT. Signal Processing, IEEE</span>
-<span class="c">%     Transactions on, 52(5):1304--1314, May 2004.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfiltdt_dden.html</span>
+<span class="c">%WFILTDT_DDEN  Double-Density Dual-Tree DWT filters </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Usage: [h,g,a] = wfiltdt_dden(N);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [h,g,a]=WFILTDT_DDEN(N) with N in {1,2} returns filters suitable</span><span class="w"></span>
+<span class="c">%   for dual-tree double density complex wavelet transform. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%   :</span><span class="w"></span>
+<span class="c">%     wfiltdtinfo(&#39;dden1&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   :</span><span class="w"></span>
+<span class="c">%     wfiltdtinfo(&#39;dden2&#39;);</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     I. Selesnick. The double-density dual-tree DWT. Signal Processing, IEEE</span><span class="w"></span>
+<span class="c">%     Transactions on, 52(5):1304--1314, May 2004.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfiltdt_dden.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% AUTHOR: Zdenek Prusa</span>
+<span class="c">% AUTHOR: Zdenek Prusa</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">h</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">g</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">info</span><span class="p">]</span> <span class="p">=</span> <span class="n">wfilt_ddena</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
-<span class="p">[</span><span class="n">h</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span><span class="n">g</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)]</span> <span class="p">=</span> <span class="n">wfilt_ddenb</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+<span class="p">[</span><span class="n">h</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">g</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">info</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">wfilt_ddena</span><span class="p">(</span><span class="n">N</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">h</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span><span class="n">g</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">wfilt_ddenb</span><span class="p">(</span><span class="n">N</span><span class="p">);</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">defaultfirst</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">defaultfirstinfo</span><span class="p">]</span> <span class="p">=</span> <span class="n">fwtinit</span><span class="p">(</span><span class="s">&#39;symdden2&#39;</span><span class="p">);</span>
-<span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">defaultleaf</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">defaultleafinfo</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
-    <span class="n">deal</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">defaultfirst</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">defaultfirstinfo</span><span class="p">);</span>
+<span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">defaultfirst</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">defaultfirstinfo</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fwtinit</span><span class="p">(</span><span class="s">&#39;symdden2&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">defaultleaf</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">defaultleafinfo</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="n">deal</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">defaultfirst</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">defaultfirstinfo</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

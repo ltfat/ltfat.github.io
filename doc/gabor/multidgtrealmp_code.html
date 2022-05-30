@@ -43,385 +43,384 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">MULTIDGTREALMP - Matching Pursuit Decomposition with Multi-Gabor Dictionary</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[c, frec, info] = multidgtrealmp</span><span class="p">(</span>f,dicts,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%MULTIDGTREALMP  Matching Pursuit Decomposition with Multi-Gabor Dictionary</span>
-<span class="c">%   Usage:  c = multidgtrealmp(f,dicts)</span>
-<span class="c">%           c = multidgtrealmp(f,dicts,errdb,maxit)</span>
-<span class="c">%           [c,frec,info] = multidgtrealmp(...)</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%       f        : Input signal</span>
-<span class="c">%       dicts    : Dictionaries. Format {g1,a1,M1,g2,a2,M2,...}</span>
-<span class="c">%       errdb    : Target normalized approximation error in dB</span>
-<span class="c">%       maxit    : Maximum number of iterations.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%       c        : Sparse representation</span>
-<span class="c">%       frec     : Reconstructed signal</span>
-<span class="c">%       info     : Struct with additional output paramerets</span>
-<span class="c">%</span>
-<span class="c">%   MULTIDGTREALMP(f,{g1,a1,M1,g2,a2,M2,...,gW,aW,MW}) returns sparse </span>
-<span class="c">%   representation of a signal in W Gabor dictionaries using the </span>
-<span class="c">%   fast matching pursuit algorithm. gw is a Gabor window defined</span>
-<span class="c">%   as in DGT and DGTREAL, aw is a hop factor, Mw is the number of </span>
-<span class="c">%   frequency channels. All aw and Mw must be divisible by min(a1,...,aW).</span>
-<span class="c">%   The algorithm will try to reach -40 dB relative approximation error</span>
-<span class="c">%   in at most numel(f) iterations.</span>
-<span class="c">%   The function returns a cell-array with elements storing coefficients</span>
-<span class="c">%   for individual Gabor systems such that they can be directly used in</span>
-<span class="c">%   IDGTREAL. </span>
-<span class="c">%</span>
-<span class="c">%   MULTIDGTREALMP(f,dicts,errdb,maxit) tries to reach normalized </span>
-<span class="c">%   approximation error errdb dB in at most maxit iterations.</span>
-<span class="c">%</span>
-<span class="c">%   [c,frec,info] = MULTIDGTREALMP(...) in addition returns the</span>
-<span class="c">%   aproximation frec and a struct info with the following fields:</span>
-<span class="c">%</span>
-<span class="c">%     .iter     Number of iterations done.</span>
-<span class="c">%</span>
-<span class="c">%     .atoms    Number of atoms selected.</span>
-<span class="c">%</span>
-<span class="c">%     .relres   Final approximation error. If resets are enabled, this is a</span>
-<span class="c">%               vector additionally containing the approximation error at </span>
-<span class="c">%               every reset.</span>
-<span class="c">%</span>
-<span class="c">%     .g        Cell array of numeric windows used in the multi-dictionary</span>
-<span class="c">%</span>
-<span class="c">%     .a        Array of hop factors for indivitual dictionaries</span>
-<span class="c">%</span>
-<span class="c">%     .M        Array of numbers of channels for individual dictionaries</span>
-<span class="c">%</span>
-<span class="c">%     .synthetize  Anonymous function which can be used to synthetize from</span>
-<span class="c">%                  the (modified) coefficients as </span>
-<span class="c">%                  frec = sum(info.synthetize(c),dim)</span>
-<span class="c">%                  where dim=2 if the input f was a column vector and</span>
-<span class="c">%                  dim=1 if it was a row vector. </span>
-<span class="c">%</span>
-<span class="c">%   The normalized approximation error is computed as </span>
-<span class="c">%   errdb=20*log10(norm(f-frec)/norm(f)).</span>
-<span class="c">%</span>
-<span class="c">%   The function takes the following optional parameters at the end of</span>
-<span class="c">%   the line of input arguments:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;kenrnthr&#39;,kt     Kernel threshold. Must be in range ]0,1]. </span>
-<span class="c">%                       Default is 1e-4.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;timeinv&#39;         Use the time invariant phase convention. The</span>
-<span class="c">%                       default is &#39;freqinv&#39;.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;pedanticsearch&#39;  Be pedantic about the energy of pairs of </span>
-<span class="c">%                       conjugated atoms in the selection step. </span>
-<span class="c">%                       Disabled by default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;algorithm&#39;,alg   Algorithm to use. Available: </span>
-<span class="c">%                       &#39;mp&#39;(default),&#39;selfprojmp&#39;,&#39;cyclicmp&#39;</span>
-<span class="c">%</span>
-<span class="c">%     &#39;reset&#39;           Reset the decomposition until stopping criteria</span>
-<span class="c">%                       are met. The reset means a complete synthesis and </span>
-<span class="c">%                       re-analysis. Available: </span>
-<span class="c">%                       &#39;noreset&#39; (default), &#39;reset&#39;, &#39;quickreset&#39;</span>
-<span class="c">%                       Option &#39;quickreset&#39; applies a heuristic to stop the </span>
-<span class="c">%                       algorithm more quickly when the targer error is </span>
-<span class="c">%                       reached.</span>
-<span class="c">%</span>
-<span class="c">%   Reset conditions can be controlled by the following key-value pairs:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;resetit&#39;,it      Reset the decomposition every it iteration.</span>
-<span class="c">%                       Must be a positive integer.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;reseterrdb&#39;,err  Reset the decomposition when the error estimate </span>
-<span class="c">%                       in dB decreases below err. Must be negative. </span>
-<span class="c">%                       Default is 10*log10(1.1*kv.kernthr).</span>
-<span class="c">%</span>
-<span class="c">%   The computational routine is only available in C. Use LTFATMEX to</span>
-<span class="c">%   to compile it.</span>
-<span class="c">%</span>
-<span class="c">%   Algorithms</span>
-<span class="c">%   ----------</span>
-<span class="c">%</span>
-<span class="c">%   By default, the function uses the fast MP using approximate update </span>
-<span class="c">%   in the coefficient domain as described in:</span>
-<span class="c">%   </span>
-<span class="c">%   &quot;Z. Prusa, N. Holighaus, P. Balazs: Fast Matching Pursuit with Multi-Gabor Dictionaries&quot;</span>
-<span class="c">%   </span>
-<span class="c">%   The kernel threshold limits the minimum approximation error which</span>
-<span class="c">%   can be reached. For example the default threshold 1e-4 in general </span>
-<span class="c">%   allows achieving at least -40 dB.</span>
-<span class="c">% </span>
-<span class="c">%   Note that this algorithm internally computes the error as</span>
-<span class="c">%   errdb = 10*log10(err(k)/norm(f)^2), with err(0) = norm(f)^2 and </span>
-<span class="c">%   err(k) = err(k-1) - abs(cselected(k))^2. Here, cselected(k) is the</span>
-<span class="c">%   Gabor coefficient selected at the k-th MP step. This formula is exact </span>
-<span class="c">%   only if the kernel threshold equals 0. Otherwise it serves as a cheap</span>
-<span class="c">%   estimate. The exact error is only computed when this function is run</span>
-<span class="c">%   with resets enabled and only in between resets. </span>
-<span class="c">%   </span>
-<span class="c">%   Examples</span>
-<span class="c">%   --------</span>
-<span class="c">%</span>
-<span class="c">%   The following example shows the decomposition in 3 dictionaries and</span>
-<span class="c">%   plots contributions from the individual dictionaries and the residual.:</span>
-<span class="c">%</span>
-<span class="c">%       [f,fs] = gspi;</span>
-<span class="c">%       [c, frec, info] = multidgtrealmp(f,...</span>
-<span class="c">%       {&#39;blackman&#39;,128,512,&#39;blackman&#39;,512,2048,&#39;blackman&#39;,2048,8192});</span>
-<span class="c">%       frecd = info.synthetize(c);</span>
-<span class="c">%       figure(1); </span>
-<span class="c">%       xvals = (0:numel(f)-1)/fs;</span>
-<span class="c">%       subplot(4,1,1); plot(xvals,frecd(:,1));ylim([-0.5,0.5]);</span>
-<span class="c">%       subplot(4,1,2); plot(xvals,frecd(:,2));ylim([-0.5,0.5]);</span>
-<span class="c">%       subplot(4,1,3); plot(xvals,frecd(:,3));ylim([-0.5,0.5]);</span>
-<span class="c">%       subplot(4,1,4); plot(xvals,f-frec);ylim([-0.5,0.5]); xlabel(&#39;Time (s)&#39;);</span>
-<span class="c">%</span>
-<span class="c">%   See also: dgtreal idgtreal</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     S. Mallat and Z. Zhang. Matching pursuits with time-frequency</span>
-<span class="c">%     dictionaries. IEEE Trans. Signal Process., 41(12):3397--3415, 1993.</span>
-<span class="c">%     </span>
-<span class="c">%     Z. Průša. Fast matching pursuit with multi-gabor dictionaries.</span>
-<span class="c">%     Submitted., 2018.</span>
-<span class="c">%     </span>
-<span class="c">%     L. Rebollo-Neira, M. Rozložník, and P. Sasmal. Analysis of a low memory</span>
-<span class="c">%     implementation of the orthogonal matching pursuit greedy strategy.</span>
-<span class="c">%     CoRR, abs/1609.00053v2, 2017.</span>
-<span class="c">%     </span>
-<span class="c">%     B. L. Sturm and M. G. Christensen. Cyclic matching pursuits with</span>
-<span class="c">%     multiscale time-frequency dictionaries. In Conf. Record of the 44th</span>
-<span class="c">%     Asilomar Conference on Signals, Systems and Computers, pages 581--585,</span>
-<span class="c">%     Nov 2010.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/multidgtrealmp.html</span>
+<span class="c">%MULTIDGTREALMP  Matching Pursuit Decomposition with Multi-Gabor Dictionary</span><span class="w"></span>
+<span class="c">%   Usage:  c = multidgtrealmp(f,dicts)</span><span class="w"></span>
+<span class="c">%           c = multidgtrealmp(f,dicts,errdb,maxit)</span><span class="w"></span>
+<span class="c">%           [c,frec,info] = multidgtrealmp(...)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%       f        : Input signal</span><span class="w"></span>
+<span class="c">%       dicts    : Dictionaries. Format {g1,a1,M1,g2,a2,M2,...}</span><span class="w"></span>
+<span class="c">%       errdb    : Target normalized approximation error in dB</span><span class="w"></span>
+<span class="c">%       maxit    : Maximum number of iterations.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%       c        : Sparse representation</span><span class="w"></span>
+<span class="c">%       frec     : Reconstructed signal</span><span class="w"></span>
+<span class="c">%       info     : Struct with additional output paramerets</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   MULTIDGTREALMP(f,{g1,a1,M1,g2,a2,M2,...,gW,aW,MW}) returns sparse </span><span class="w"></span>
+<span class="c">%   representation of a signal in W Gabor dictionaries using the </span><span class="w"></span>
+<span class="c">%   fast matching pursuit algorithm. gw is a Gabor window defined</span><span class="w"></span>
+<span class="c">%   as in DGT and DGTREAL, aw is a hop factor, Mw is the number of </span><span class="w"></span>
+<span class="c">%   frequency channels. All aw and Mw must be divisible by min(a1,...,aW).</span><span class="w"></span>
+<span class="c">%   The algorithm will try to reach -40 dB relative approximation error</span><span class="w"></span>
+<span class="c">%   in at most numel(f) iterations.</span><span class="w"></span>
+<span class="c">%   The function returns a cell-array with elements storing coefficients</span><span class="w"></span>
+<span class="c">%   for individual Gabor systems such that they can be directly used in</span><span class="w"></span>
+<span class="c">%   IDGTREAL. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   MULTIDGTREALMP(f,dicts,errdb,maxit) tries to reach normalized </span><span class="w"></span>
+<span class="c">%   approximation error errdb dB in at most maxit iterations.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [c,frec,info] = MULTIDGTREALMP(...) in addition returns the</span><span class="w"></span>
+<span class="c">%   aproximation frec and a struct info with the following fields:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     .iter     Number of iterations done.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     .atoms    Number of atoms selected.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     .relres   Final approximation error. If resets are enabled, this is a</span><span class="w"></span>
+<span class="c">%               vector additionally containing the approximation error at </span><span class="w"></span>
+<span class="c">%               every reset.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     .g        Cell array of numeric windows used in the multi-dictionary</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     .a        Array of hop factors for indivitual dictionaries</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     .M        Array of numbers of channels for individual dictionaries</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     .synthetize  Anonymous function which can be used to synthetize from</span><span class="w"></span>
+<span class="c">%                  the (modified) coefficients as </span><span class="w"></span>
+<span class="c">%                  frec = sum(info.synthetize(c),dim)</span><span class="w"></span>
+<span class="c">%                  where dim=2 if the input f was a column vector and</span><span class="w"></span>
+<span class="c">%                  dim=1 if it was a row vector. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The normalized approximation error is computed as </span><span class="w"></span>
+<span class="c">%   errdb=20*log10(norm(f-frec)/norm(f)).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function takes the following optional parameters at the end of</span><span class="w"></span>
+<span class="c">%   the line of input arguments:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;kenrnthr&#39;,kt     Kernel threshold. Must be in range ]0,1]. </span><span class="w"></span>
+<span class="c">%                       Default is 1e-4.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;timeinv&#39;         Use the time invariant phase convention. The</span><span class="w"></span>
+<span class="c">%                       default is &#39;freqinv&#39;.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;pedanticsearch&#39;  Be pedantic about the energy of pairs of </span><span class="w"></span>
+<span class="c">%                       conjugated atoms in the selection step. </span><span class="w"></span>
+<span class="c">%                       Disabled by default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;algorithm&#39;,alg   Algorithm to use. Available: </span><span class="w"></span>
+<span class="c">%                       &#39;mp&#39;(default),&#39;selfprojmp&#39;,&#39;cyclicmp&#39;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;reset&#39;           Reset the decomposition until stopping criteria</span><span class="w"></span>
+<span class="c">%                       are met. The reset means a complete synthesis and </span><span class="w"></span>
+<span class="c">%                       re-analysis. Available: </span><span class="w"></span>
+<span class="c">%                       &#39;noreset&#39; (default), &#39;reset&#39;, &#39;quickreset&#39;</span><span class="w"></span>
+<span class="c">%                       Option &#39;quickreset&#39; applies a heuristic to stop the </span><span class="w"></span>
+<span class="c">%                       algorithm more quickly when the targer error is </span><span class="w"></span>
+<span class="c">%                       reached.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Reset conditions can be controlled by the following key-value pairs:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;resetit&#39;,it      Reset the decomposition every it iteration.</span><span class="w"></span>
+<span class="c">%                       Must be a positive integer.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;reseterrdb&#39;,err  Reset the decomposition when the error estimate </span><span class="w"></span>
+<span class="c">%                       in dB decreases below err. Must be negative. </span><span class="w"></span>
+<span class="c">%                       Default is 10*log10(1.1*kv.kernthr).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The computational routine is only available in C. Use LTFATMEX to</span><span class="w"></span>
+<span class="c">%   to compile it.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Algorithms</span><span class="w"></span>
+<span class="c">%   ----------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   By default, the function uses the fast MP using approximate update </span><span class="w"></span>
+<span class="c">%   in the coefficient domain as described in:</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   &quot;Z. Prusa, N. Holighaus, P. Balazs: Fast Matching Pursuit with Multi-Gabor Dictionaries&quot;</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   The kernel threshold limits the minimum approximation error which</span><span class="w"></span>
+<span class="c">%   can be reached. For example the default threshold 1e-4 in general </span><span class="w"></span>
+<span class="c">%   allows achieving at least -40 dB.</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%   Note that this algorithm internally computes the error as</span><span class="w"></span>
+<span class="c">%   errdb = 10*log10(err(k)/norm(f)^2), with err(0) = norm(f)^2 and </span><span class="w"></span>
+<span class="c">%   err(k) = err(k-1) - abs(cselected(k))^2. Here, cselected(k) is the</span><span class="w"></span>
+<span class="c">%   Gabor coefficient selected at the k-th MP step. This formula is exact </span><span class="w"></span>
+<span class="c">%   only if the kernel threshold equals 0. Otherwise it serves as a cheap</span><span class="w"></span>
+<span class="c">%   estimate. The exact error is only computed when this function is run</span><span class="w"></span>
+<span class="c">%   with resets enabled and only in between resets. </span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   Examples</span><span class="w"></span>
+<span class="c">%   --------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example shows the decomposition in 3 dictionaries and</span><span class="w"></span>
+<span class="c">%   plots contributions from the individual dictionaries and the residual.:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       [f,fs] = gspi;</span><span class="w"></span>
+<span class="c">%       [c, frec, info] = multidgtrealmp(f,...</span><span class="w"></span>
+<span class="c">%       {&#39;blackman&#39;,128,512,&#39;blackman&#39;,512,2048,&#39;blackman&#39;,2048,8192});</span><span class="w"></span>
+<span class="c">%       frecd = info.synthetize(c);</span><span class="w"></span>
+<span class="c">%       figure(1); </span><span class="w"></span>
+<span class="c">%       xvals = (0:numel(f)-1)/fs;</span><span class="w"></span>
+<span class="c">%       subplot(4,1,1); plot(xvals,frecd(:,1));ylim([-0.5,0.5]);</span><span class="w"></span>
+<span class="c">%       subplot(4,1,2); plot(xvals,frecd(:,2));ylim([-0.5,0.5]);</span><span class="w"></span>
+<span class="c">%       subplot(4,1,3); plot(xvals,frecd(:,3));ylim([-0.5,0.5]);</span><span class="w"></span>
+<span class="c">%       subplot(4,1,4); plot(xvals,f-frec);ylim([-0.5,0.5]); xlabel(&#39;Time (s)&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: dgtreal idgtreal</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     S. Mallat and Z. Zhang. Matching pursuits with time-frequency</span><span class="w"></span>
+<span class="c">%     dictionaries. IEEE Trans. Signal Process., 41(12):3397--3415, 1993.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     Z. Průša. Fast matching pursuit with multi-gabor dictionaries.</span><span class="w"></span>
+<span class="c">%     Submitted., 2018.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     L. Rebollo-Neira, M. Rozložník, and P. Sasmal. Analysis of a low memory</span><span class="w"></span>
+<span class="c">%     implementation of the orthogonal matching pursuit greedy strategy.</span><span class="w"></span>
+<span class="c">%     CoRR, abs/1609.00053v2, 2017.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     B. L. Sturm and M. G. Christensen. Cyclic matching pursuits with</span><span class="w"></span>
+<span class="c">%     multiscale time-frequency dictionaries. In Conf. Record of the 44th</span><span class="w"></span>
+<span class="c">%     Asilomar Conference on Signals, Systems and Computers, pages 581--585,</span><span class="w"></span>
+<span class="c">%     Nov 2010.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/multidgtrealmp.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%AUTHOR: Zdenek Prusa</span>
+<span class="c">%AUTHOR: Zdenek Prusa</span><span class="w"></span>
 
-<span class="n">thismfile</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
-<span class="c">% Define initial value for flags and key/value pairs.</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">errdb</span><span class="p">=</span><span class="o">-</span><span class="mi">40</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">resetit</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="c">%definput.keyvals.iterstep=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">kernthr</span> <span class="p">=</span> <span class="mf">1e-4</span><span class="p">;</span>
-<span class="c">%definput.flags.print={&#39;quiet&#39;,&#39;print&#39;};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algversion</span><span class="p">={</span><span class="s">&#39;fast&#39;</span><span class="p">,</span><span class="s">&#39;slow&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span><span class="p">={</span><span class="s">&#39;mp&#39;</span><span class="p">,</span><span class="s">&#39;selfprojmp&#39;</span><span class="p">,</span><span class="s">&#39;cyclicmp&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">search</span><span class="p">={</span><span class="s">&#39;plainsearch&#39;</span><span class="p">,</span><span class="s">&#39;pedanticsearch&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">reset</span><span class="p">={</span><span class="s">&#39;noreset&#39;</span><span class="p">,</span><span class="s">&#39;reset&#39;</span><span class="p">,</span><span class="s">&#39;quickreset&#39;</span><span class="p">};</span>
+<span class="n">thismfile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span><span class="w"></span>
+<span class="c">% Define initial value for flags and key/value pairs.</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">errdb</span><span class="p">=</span><span class="o">-</span><span class="mi">40</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">resetit</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">reseterrdb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="c">%definput.keyvals.iterstep=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">kernthr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e-4</span><span class="p">;</span><span class="w"></span>
+<span class="c">%definput.flags.print={&#39;quiet&#39;,&#39;print&#39;};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algversion</span><span class="p">={</span><span class="s">&#39;fast&#39;</span><span class="p">,</span><span class="s">&#39;slow&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span><span class="p">={</span><span class="s">&#39;mp&#39;</span><span class="p">,</span><span class="s">&#39;selfprojmp&#39;</span><span class="p">,</span><span class="s">&#39;cyclicmp&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">search</span><span class="p">={</span><span class="s">&#39;plainsearch&#39;</span><span class="p">,</span><span class="s">&#39;pedanticsearch&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">reset</span><span class="p">={</span><span class="s">&#39;noreset&#39;</span><span class="p">,</span><span class="s">&#39;reset&#39;</span><span class="p">,</span><span class="s">&#39;quickreset&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;errdb&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;errdb&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">exist</span><span class="p">(</span><span class="s">&#39;comp_multidgtrealmp&#39;</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fast</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: MEX/OCT file is missing. Either compile the MEX/OCT &#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;interfaces or re-run the function with &#39;&#39;slow&#39;&#39;&#39;</span><span class="p">],</span> <span class="n">thismfile</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="s">&#39;comp_multidgtrealmp&#39;</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_fast</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: MEX/OCT file is missing. Either compile the MEX/OCT &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;interfaces or re-run the function with &#39;&#39;slow&#39;&#39;&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">thismfile</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_slow</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: &#39;&#39;slow&#39;&#39; is not supported yet.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">)</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_slow</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: &#39;&#39;slow&#39;&#39; is not supported yet.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_reset</span> <span class="o">||</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_quickreset</span> <span class="c">% Check reseterrdb or resetit</span>
-   <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="o">==</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">==</span> <span class="mi">0</span> <span class="c">% Set both to conservative default values depending on kernthr</span>
-            <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="p">=</span> <span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="mf">1.1</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">);</span>
-            <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1000</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">));</span> 
-        <span class="k">else</span> <span class="c">% If only resetit is given, ignore reseterrdb</span>
-            <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="p">=</span> <span class="o">-</span><span class="n">flintmax</span><span class="p">;</span>
-        <span class="k">end</span>
-   <span class="k">elseif</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">==</span> <span class="mi">0</span> <span class="c">% If only reseterrdb is given, ignore resetit</span>
-        <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="p">=</span> <span class="n">flintmax</span><span class="p">;</span>
-   <span class="k">end</span>   
-   <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span> <span class="o">&gt;</span><span class="p">=</span> <span class="mi">0</span>
-       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Reset error tolerance must be negative.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
-   <span class="k">end</span>
-   <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">kv</span><span class="p">.</span><span class="n">resetit</span> <span class="o">~=</span> <span class="nb">round</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="p">)</span>
-       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Number of iterations before reset must be a positive integer.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
-   <span class="k">end</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_reset</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_quickreset</span><span class="w"> </span><span class="c">% Check reseterrdb or resetit</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c">% Set both to conservative default values depending on kernthr</span><span class="w"></span>
+<span class="w">            </span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="mf">1.1</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="mi">1000</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">));</span><span class="w"> </span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="c">% If only resetit is given, ignore reseterrdb</span><span class="w"></span>
+<span class="w">            </span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="nb">flintmax</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="k">elseif</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c">% If only reseterrdb is given, ignore resetit</span><span class="w"></span>
+<span class="w">        </span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">flintmax</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w">   </span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">       </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Reset error tolerance must be negative.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="p">)</span><span class="w"></span>
+<span class="w">       </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Number of iterations before reset must be a positive integer.&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
-<span class="c">% Change f to correct shape.</span>
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="c">%% ----- step 1 : Verify f and determine its length -------</span><span class="w"></span>
+<span class="c">% Change f to correct shape.</span><span class="w"></span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Input signal can be single channel only.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Input signal can be single channel only.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">errdb</span> <span class="o">&gt;</span> <span class="mi">0</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Target error must be lower than 0 dB.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Target error must be lower than 0 dB.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span> <span class="o">&lt;</span><span class="p">=</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Kernel threshold must be in range ]0,1].&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Kernel threshold must be in range ]0,1].&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">iscell</span><span class="p">(</span><span class="n">dicts</span><span class="p">),</span> <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: dicts must be cell&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span> <span class="k">end</span>
-<span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">dicts</span><span class="p">),</span><span class="mi">3</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">0</span> <span class="o">||</span> <span class="o">~</span><span class="n">all</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dicts</span><span class="p">([</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">])))</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: bad format of dicts. Check {g1,a1,M1,g2,a2,M2,...,gW,aW,MW}&#39;</span><span class="p">,</span><span class="c">...</span>
-        <span class="n">thismfile</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">iscell</span><span class="p">(</span><span class="n">dicts</span><span class="p">),</span><span class="w"> </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: dicts must be cell&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span><span class="w"> </span><span class="k">end</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">dicts</span><span class="p">),</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">all</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">dicts</span><span class="p">([</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">])))</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: bad format of dicts. Check {g1,a1,M1,g2,a2,M2,...,gW,aW,MW}&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">        </span><span class="n">thismfile</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">dictno</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">dicts</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">;</span>
-<span class="n">gin</span> <span class="p">=</span> <span class="n">dicts</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
-<span class="n">a</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">dicts</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
-<span class="n">M</span> <span class="p">=</span> <span class="n">cell2mat</span><span class="p">(</span><span class="n">dicts</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
+<span class="n">dictno</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">dicts</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="n">gin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dicts</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell2mat</span><span class="p">(</span><span class="n">dicts</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span><span class="w"></span>
+<span class="n">M</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell2mat</span><span class="p">(</span><span class="n">dicts</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">a</span><span class="p">)</span> <span class="o">~=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="n">M</span><span class="o">./</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Only integer oversampling greater than 1 is allowed &#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;i.e. M/a must be an integer&gt;=2.&#39;</span><span class="p">],</span><span class="c">...</span>
-    <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">M</span><span class="o">./</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: Only integer oversampling greater than 1 is allowed &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;i.e. M/a must be an integer&gt;=2.&#39;</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">dictno</span> <span class="o">&gt;</span> <span class="mi">1</span>
-    <span class="n">asort</span>  <span class="p">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
-    <span class="n">Msort</span>  <span class="p">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">M</span><span class="p">);</span>
-    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">asort</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">asort</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">~=</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: all au and av must be divisible by min(au,av)&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
-    <span class="k">end</span>
-    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">Msort</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">Msort</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">~=</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: all Mu and Mv must be divisible by min(Mu,Mv)&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span>
-    <span class="k">end</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">dictno</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">asort</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Msort</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">asort</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">asort</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: all au and av must be divisible by min(au,av)&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">rem</span><span class="p">(</span><span class="n">Msort</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">Msort</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: all Mu and Mv must be divisible by min(Mu,Mv)&#39;</span><span class="p">,</span><span class="n">thismfile</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">info</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="n">a</span><span class="p">;</span>
-<span class="n">info</span><span class="p">.</span><span class="n">M</span> <span class="p">=</span> <span class="n">M</span><span class="p">;</span>
-<span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="n">info</span><span class="p">.</span><span class="n">relres</span> <span class="p">=</span> <span class="p">[];</span>
-<span class="n">fnorm</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="n">info</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="n">info</span><span class="p">.</span><span class="n">M</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="n">fnorm</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L</span> <span class="p">=</span> <span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,[</span><span class="n">a</span><span class="p">(:);</span><span class="n">M</span><span class="p">(:)]);</span>
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">),</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span> <span class="p">=</span> <span class="n">L</span><span class="p">;</span> <span class="k">end</span>
+<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,[</span><span class="n">a</span><span class="p">(:);</span><span class="n">M</span><span class="p">(:)]);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">),</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="p">;</span><span class="w"> </span><span class="k">end</span><span class="w"></span>
 
-<span class="n">info</span><span class="p">.</span><span class="n">g</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">dictno</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="k">for</span> <span class="n">dIdx</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">dictno</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">{</span><span class="n">dIdx</span><span class="p">}</span> <span class="p">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">gabwin</span><span class="p">(</span><span class="n">gin</span><span class="p">{</span><span class="n">dIdx</span><span class="p">},</span><span class="n">a</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">M</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">L</span><span class="p">),</span><span class="s">&#39;2&#39;</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">dictno</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">dIdx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">dictno</span><span class="w"></span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">{</span><span class="n">dIdx</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">setnorm</span><span class="p">(</span><span class="n">gabwin</span><span class="p">(</span><span class="n">gin</span><span class="p">{</span><span class="n">dIdx</span><span class="p">},</span><span class="n">a</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">M</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">L</span><span class="p">),</span><span class="s">&#39;2&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">for</span> <span class="n">dIdx</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">dictno</span>
-    <span class="n">condnum</span> <span class="p">=</span> <span class="n">gabframebounds</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">{</span><span class="n">dIdx</span><span class="p">},</span><span class="n">a</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">M</span><span class="p">(</span><span class="n">dIdx</span><span class="p">));</span>
-    <span class="k">if</span> <span class="n">condnum</span> <span class="o">&gt;</span> <span class="mf">1e3</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Dictionary %d is badly conditioned.&#39;</span><span class="p">,</span><span class="n">dIdx</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    <span class="k">end</span>
-<span class="k">end</span>
+<span class="k">for</span><span class="w"> </span><span class="n">dIdx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">dictno</span><span class="w"></span>
+<span class="w">    </span><span class="n">condnum</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gabframebounds</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">{</span><span class="n">dIdx</span><span class="p">},</span><span class="n">a</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">M</span><span class="p">(</span><span class="n">dIdx</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">condnum</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1e3</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Dictionary %d is badly conditioned.&#39;</span><span class="p">,</span><span class="n">dIdx</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Initial residuum</span>
-<span class="n">fpad</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="c">% Initial residuum</span><span class="w"></span>
+<span class="n">fpad</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Determine reset/no reset mode and run MP decomposition </span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_noreset</span>
-    <span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
-        <span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="c">...</span>
-                            <span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="c">...</span>
-                            <span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span> <span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span> <span class="p">);</span>
-<span class="k">else</span>
-    <span class="n">c</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">dictno</span><span class="p">);</span>
-    <span class="k">for</span> <span class="n">dIdx</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">dictno</span>
-        <span class="n">c</span><span class="p">{</span><span class="n">dIdx</span><span class="p">}</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">dIdx</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="n">class</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
-    <span class="k">end</span>
+<span class="c">% Determine reset/no reset mode and run MP decomposition </span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_noreset</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                            </span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                            </span><span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">dictno</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">dIdx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">dictno</span><span class="w"></span>
+<span class="w">        </span><span class="n">c</span><span class="p">{</span><span class="n">dIdx</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">dIdx</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">(</span><span class="n">dIdx</span><span class="p">),</span><span class="nb">class</span><span class="p">(</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 
-    <span class="n">remainingit</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span>
-    <span class="n">currerrdb</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">;</span>
-        
-    <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="n">reseterrdb</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="p">;</span>
+<span class="w">    </span><span class="n">remainingit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">currerrdb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">resets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">reseterrdb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">while</span> <span class="n">remainingit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">currerrdb</span> <span class="o">&lt;</span> <span class="mi">0</span>
-        <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        
-        <span class="c">% Adjust number of iterations</span>
-        <span class="n">currit</span> <span class="p">=</span> <span class="n">min</span><span class="p">([</span><span class="n">remainingit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="p">]);</span>
-        <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_quickreset</span> <span class="c">% Adjust reset error condition</span>
-            <span class="n">reseterrdb</span> <span class="p">=</span> <span class="n">max</span><span class="p">([</span><span class="mf">1.2</span><span class="o">*</span><span class="n">currerrdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="p">]);</span>
-        <span class="k">end</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">remainingit</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">currerrdb</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">info</span><span class="p">.</span><span class="n">resets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">resets</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c">% Adjust number of iterations</span><span class="w"></span>
+<span class="w">        </span><span class="n">currit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">min</span><span class="p">([</span><span class="n">remainingit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">resetit</span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_quickreset</span><span class="w"> </span><span class="c">% Adjust reset error condition</span><span class="w"></span>
+<span class="w">            </span><span class="n">reseterrdb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">([</span><span class="mf">1.2</span><span class="o">*</span><span class="n">currerrdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">reseterrdb</span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
 
-        <span class="p">[</span><span class="n">ctmp</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span> <span class="p">=</span> <span class="c">...</span>
-            <span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="c">...</span>
-                                <span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">reseterrdb</span><span class="p">,</span><span class="n">currit</span><span class="p">,</span><span class="n">currit</span><span class="p">,</span><span class="c">...</span>
-                                <span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span> <span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span> <span class="p">);</span>
+<span class="w">        </span><span class="p">[</span><span class="n">ctmp</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                                </span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">reseterrdb</span><span class="p">,</span><span class="n">currit</span><span class="p">,</span><span class="n">currit</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                                </span><span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
 
-        <span class="n">c</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">ctmpEl</span><span class="p">)</span> <span class="n">cEl</span> <span class="o">+</span> <span class="n">ctmpEl</span><span class="p">,</span> <span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">ctmp</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">ctmpEl</span><span class="p">)</span><span class="w"> </span><span class="n">cEl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ctmpEl</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">ctmp</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-        <span class="n">remainingit</span> <span class="p">=</span> <span class="n">remainingit</span> <span class="o">-</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">;</span>
+<span class="w">        </span><span class="n">remainingit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">remainingit</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">;</span><span class="w"></span>
 
-        <span class="c">%The following means that some other stopping criterion has been reached</span>
-        <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="o">~=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="o">~=</span><span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="n">currit</span> <span class="o">~=</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span> <span class="k">break</span><span class="p">;</span> <span class="k">end</span>
+<span class="w">        </span><span class="c">%The following means that some other stopping criterion has been reached</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">~=</span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">~=</span><span class="mi">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">currit</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="k">end</span><span class="w"></span>
 
-        <span class="k">if</span> <span class="n">remainingit</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="c">% Recompute residuum</span>
-            <span class="n">frec</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">cell2mat</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">)</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">),</span><span class="c">...</span>
-                   <span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">num2cell</span><span class="p">(</span><span class="n">a</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="n">num2cell</span><span class="p">(</span><span class="n">M</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span><span class="mi">2</span><span class="p">);</span>
-            
-            <span class="n">fpad</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">)</span> <span class="o">-</span> <span class="n">frec</span><span class="p">;</span>
-            <span class="n">relres</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">fpad</span><span class="p">(:))</span> <span class="o">/</span> <span class="n">fnorm</span><span class="p">;</span>            
-            <span class="c">% Since we are changing the residual, we must adjust the target error</span>
-            <span class="n">currerrdb</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">errdb</span> <span class="o">-</span> <span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">relres</span><span class="p">);</span>            
-            <span class="k">if</span> <span class="n">currerrdb</span> <span class="o">&lt;</span> <span class="mi">0</span>
-                <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">resets</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">relres</span><span class="p">;</span>
-            <span class="k">end</span>
-            <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">resets</span> <span class="o">&gt;</span><span class="p">=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span> 
-                <span class="k">break</span><span class="p">;</span> 
-            <span class="k">end</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">remainingit</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="c">% Recompute residuum</span><span class="w"></span>
+<span class="w">            </span><span class="n">frec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="nb">cell2mat</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">)</span><span class="w"> </span><span class="n">idgtreal</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">                   </span><span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">num2cell</span><span class="p">(</span><span class="n">a</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">num2cell</span><span class="p">(</span><span class="n">M</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span>
+<span class="w">            </span><span class="n">fpad</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">frec</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">fpad</span><span class="p">(:))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fnorm</span><span class="p">;</span><span class="w">            </span>
+<span class="w">            </span><span class="c">% Since we are changing the residual, we must adjust the target error</span><span class="w"></span>
+<span class="w">            </span><span class="n">currerrdb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">relres</span><span class="p">);</span><span class="w">            </span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">currerrdb</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">resets</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">relres</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">resets</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"> </span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span><span class="w"> </span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 
-    <span class="c">%Fix the info</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">atoms</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span> <span class="nb">numel</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">cEl</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)),</span> <span class="n">c</span><span class="p">));</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span> <span class="o">-</span> <span class="n">remainingit</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="w">    </span><span class="c">%Fix the info</span><span class="w"></span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">)</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">cEl</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)),</span><span class="w"> </span><span class="n">c</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">remainingit</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
 
-<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
-  <span class="n">permutedsize2</span> <span class="p">=</span> <span class="n">permutedsize</span><span class="p">;</span> <span class="n">permutedsize2</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">dictno</span><span class="p">;</span>
-  <span class="n">info</span><span class="p">.</span><span class="n">synthetize</span> <span class="p">=</span> <span class="p">@(</span><span class="n">c</span><span class="p">)</span> <span class="c">...</span>
-      <span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="c">...</span>
-      <span class="n">postpad</span><span class="p">(</span><span class="n">cell2mat</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">)</span> <span class="n">idgtreal</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">),</span><span class="c">...</span>
-      <span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">num2cell</span><span class="p">(</span><span class="n">a</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="n">num2cell</span><span class="p">(</span><span class="n">M</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span><span class="n">Ls</span><span class="p">),</span><span class="c">...</span>
-      <span class="n">dim</span><span class="p">,</span><span class="n">permutedsize2</span><span class="p">,</span><span class="n">order</span><span class="p">);</span>
-  <span class="n">dim2</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim2</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span> <span class="k">end</span>
-  <span class="n">frec</span> <span class="p">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">synthetize</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">dim2</span><span class="p">);</span>
-  <span class="k">if</span> <span class="n">fnorm</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">else</span>
-    <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">frec</span><span class="p">(:)</span><span class="o">-</span><span class="n">f</span><span class="p">(:))</span><span class="o">/</span><span class="n">fnorm</span><span class="p">;</span>
-  <span class="k">end</span>
-  
-  <span class="c">% Fix the status</span>
-  <span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="p">)</span> <span class="o">&lt;</span><span class="p">=</span> <span class="mi">10</span>^<span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span>
-      <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">elseif</span> <span class="n">info</span><span class="p">.</span><span class="n">iter</span> <span class="o">==</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
-      <span class="n">info</span><span class="p">.</span><span class="n">status</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="k">end</span>
-  
-  <span class="n">status_str</span> <span class="p">=</span> <span class="p">{</span><span class="c">...</span>
-  <span class="s">&#39;Target error reached&#39;</span><span class="p">,</span><span class="c">...</span>
-  <span class="s">&#39;Maximum number of atoms reached&#39;</span><span class="p">,</span><span class="c">...</span>
-  <span class="s">&#39;Maximum number of iterations reached&#39;</span><span class="p">,</span><span class="c">...</span>
-  <span class="s">&#39;Stalled (abs. norm. error estimate became negative)&#39;</span><span class="p">,</span><span class="c">...</span>
-  <span class="s">&#39;Selected coefficient tolerance reached&#39;</span><span class="p">,</span><span class="c">...</span>
-  <span class="s">&#39;All zeros&#39;</span><span class="p">,</span><span class="c">...</span>
-  <span class="s">&#39;Stalled (Residual has increased since last reset. Try to reduce resetit.)&#39;</span><span class="c">...</span>
-  <span class="p">};</span>
-  <span class="n">info</span><span class="p">.</span><span class="n">message</span> <span class="p">=</span> <span class="n">status_str</span><span class="p">{</span><span class="mi">1</span> <span class="o">+</span> <span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">};</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="n">permutedsize2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">permutedsize</span><span class="p">;</span><span class="w"> </span><span class="n">permutedsize2</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dictno</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">info</span><span class="p">.</span><span class="n">synthetize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="n">postpad</span><span class="p">(</span><span class="nb">cell2mat</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">)</span><span class="w"> </span><span class="n">idgtreal</span><span class="p">(</span><span class="n">cEl</span><span class="p">,</span><span class="n">gEl</span><span class="p">,</span><span class="n">aEl</span><span class="p">,</span><span class="n">MEl</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="n">c</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">(:)</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">num2cell</span><span class="p">(</span><span class="n">a</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="nb">num2cell</span><span class="p">(</span><span class="n">M</span><span class="p">(:))</span><span class="o">&#39;</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span><span class="n">Ls</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">      </span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize2</span><span class="p">,</span><span class="n">order</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">dim2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">dim2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="n">frec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">synthetize</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">dim2</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">fnorm</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">frec</span><span class="p">(:)</span><span class="o">-</span><span class="n">f</span><span class="p">(:))</span><span class="o">/</span><span class="n">fnorm</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Fix the status</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">relres</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">10</span>^<span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">elseif</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="w"></span>
+<span class="w">      </span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">status_str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;Target error reached&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;Maximum number of atoms reached&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;Maximum number of iterations reached&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;Stalled (abs. norm. error estimate became negative)&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;Selected coefficient tolerance reached&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;All zeros&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;Stalled (Residual has increased since last reset. Try to reduce resetit.)&#39;</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="c">%info.message = status_str{1 + info.status};</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

@@ -42,192 +42,192 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">PHASEPLOT - Phase plot</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>varargout<span class="p">=</span><span class="nf">phaseplot</span><span class="p">(</span>f,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%PHASEPLOT  Phase plot</span>
-<span class="c">%   Usage: phaseplot(f,op1,op2, ... );</span>
-<span class="c">%          phaseplot(f,fs,op1,op2, ... );</span>
-<span class="c">%</span>
-<span class="c">%   PHASEPLOT(f) plots the phase of f using a DGT.</span>
-<span class="c">%</span>
-<span class="c">%   PHASEPLOT(f,fs) does the same for a signal with sampling rate fs Hz.</span>
-<span class="c">%</span>
-<span class="c">%   PHASEPLOT should only be used for short signals (shorter than the</span>
-<span class="c">%   resolution of the screen), as there will otherwise be some visual</span>
-<span class="c">%   aliasing, such that very fast changing areas will look very smooth.</span>
-<span class="c">%   PHASEPLOT always calculates the phase of the full time/frequency plane</span>
-<span class="c">%   (as opposed to SGRAM), and you therefore risk running out of memory</span>
-<span class="c">%   for long signals.</span>
-<span class="c">%</span>
-<span class="c">%   PHASEPLOT takes the following flags at the end of the line of input</span>
-<span class="c">%   arguments:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;tfr&#39;,v     Set the ratio of frequency resolution to time resolution.</span>
-<span class="c">%                 A value v=1 is the default. Setting v&gt;1 will give better</span>
-<span class="c">%                 frequency resolution at the expense of a worse time</span>
-<span class="c">%                 resolution. A value of 0&lt;v&lt;1 will do the opposite.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;wlen&#39;,s    Window length. Specifies the length of the window</span>
-<span class="c">%                 measured in samples. See help of PGAUSS on the exact</span>
-<span class="c">%                 details of the window length.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;nf&#39;        Display negative frequencies, with the zero-frequency</span>
-<span class="c">%                 centered in the middle. For real signals, this will just</span>
-<span class="c">%                 mirror the upper half plane. This is standard for complex</span>
-<span class="c">%                 signals.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;tc&#39;        Time centering. Move the beginning of the signal to the</span>
-<span class="c">%                 middle of the plot. This is usefull for visualizing the</span>
-<span class="c">%                 window functions of the toolbox.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;thr&#39;,r     Keep the coefficients with a magnitude larger than r times the</span>
-<span class="c">%                 largest magnitude. Set the phase of the rest of the</span>
-<span class="c">%                 coefficients to zero. This is useful, because for small</span>
-<span class="c">%                 amplitude the phase values can be meaningless.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;timeinv&#39;   Display the phase as computed by a time-invariant</span>
-<span class="c">%                 DGT. This is the default.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;freqinv&#39;   Display the phase as computed by a frequency-invariant</span>
-<span class="c">%                 DGT.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;fmax&#39;,y    Display y as the highest frequency.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;colorbar&#39;   Display the colorbar. This is the default.</span>
-<span class="c">%    </span>
-<span class="c">%     &#39;nocolorbar&#39;  Do not display the colorbar.</span>
-<span class="c">%</span>
-<span class="c">%   For the best result when using PHASEPLOT, use a circulant color</span>
-<span class="c">%   map, for instance hsv.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   The following code shows the phaseplot of a</span>
-<span class="c">%   periodic, hyperbolic secant visualized using the hsv colormap:</span>
-<span class="c">%</span>
-<span class="c">%     phaseplot(psech(200),&#39;tc&#39;,&#39;nf&#39;);</span>
-<span class="c">%     colormap(hsv);</span>
-<span class="c">%</span>
-<span class="c">%   The following phaseplot shows the phase of white, Gaussian noise:</span>
-<span class="c">%</span>
-<span class="c">%     phaseplot(randn(200,1));</span>
-<span class="c">%     colormap(hsv);</span>
-<span class="c">% </span>
-<span class="c">%   See also: phaselock</span>
-<span class="c">%</span>
-<span class="c">%   Demos: demo_phaseplot</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     R. Carmona, W. Hwang, and B. Torrésani. Practical Time-Frequency</span>
-<span class="c">%     Analysis: continuous wavelet and Gabor transforms, with an</span>
-<span class="c">%     implementation in S, volume 9 of Wavelet Analysis and its Applications.</span>
-<span class="c">%     Academic Press, San Diego, 1998.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/phaseplot.html</span>
+<span class="c">%PHASEPLOT  Phase plot</span><span class="w"></span>
+<span class="c">%   Usage: phaseplot(f,op1,op2, ... );</span><span class="w"></span>
+<span class="c">%          phaseplot(f,fs,op1,op2, ... );</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PHASEPLOT(f) plots the phase of f using a DGT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PHASEPLOT(f,fs) does the same for a signal with sampling rate fs Hz.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PHASEPLOT should only be used for short signals (shorter than the</span><span class="w"></span>
+<span class="c">%   resolution of the screen), as there will otherwise be some visual</span><span class="w"></span>
+<span class="c">%   aliasing, such that very fast changing areas will look very smooth.</span><span class="w"></span>
+<span class="c">%   PHASEPLOT always calculates the phase of the full time/frequency plane</span><span class="w"></span>
+<span class="c">%   (as opposed to SGRAM), and you therefore risk running out of memory</span><span class="w"></span>
+<span class="c">%   for long signals.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PHASEPLOT takes the following flags at the end of the line of input</span><span class="w"></span>
+<span class="c">%   arguments:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;tfr&#39;,v     Set the ratio of frequency resolution to time resolution.</span><span class="w"></span>
+<span class="c">%                 A value v=1 is the default. Setting v&gt;1 will give better</span><span class="w"></span>
+<span class="c">%                 frequency resolution at the expense of a worse time</span><span class="w"></span>
+<span class="c">%                 resolution. A value of 0&lt;v&lt;1 will do the opposite.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;wlen&#39;,s    Window length. Specifies the length of the window</span><span class="w"></span>
+<span class="c">%                 measured in samples. See help of PGAUSS on the exact</span><span class="w"></span>
+<span class="c">%                 details of the window length.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;nf&#39;        Display negative frequencies, with the zero-frequency</span><span class="w"></span>
+<span class="c">%                 centered in the middle. For real signals, this will just</span><span class="w"></span>
+<span class="c">%                 mirror the upper half plane. This is standard for complex</span><span class="w"></span>
+<span class="c">%                 signals.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;tc&#39;        Time centering. Move the beginning of the signal to the</span><span class="w"></span>
+<span class="c">%                 middle of the plot. This is usefull for visualizing the</span><span class="w"></span>
+<span class="c">%                 window functions of the toolbox.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;thr&#39;,r     Keep the coefficients with a magnitude larger than r times the</span><span class="w"></span>
+<span class="c">%                 largest magnitude. Set the phase of the rest of the</span><span class="w"></span>
+<span class="c">%                 coefficients to zero. This is useful, because for small</span><span class="w"></span>
+<span class="c">%                 amplitude the phase values can be meaningless.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;timeinv&#39;   Display the phase as computed by a time-invariant</span><span class="w"></span>
+<span class="c">%                 DGT. This is the default.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;freqinv&#39;   Display the phase as computed by a frequency-invariant</span><span class="w"></span>
+<span class="c">%                 DGT.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;fmax&#39;,y    Display y as the highest frequency.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;colorbar&#39;   Display the colorbar. This is the default.</span><span class="w"></span>
+<span class="c">%    </span><span class="w"></span>
+<span class="c">%     &#39;nocolorbar&#39;  Do not display the colorbar.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   For the best result when using PHASEPLOT, use a circulant color</span><span class="w"></span>
+<span class="c">%   map, for instance hsv.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following code shows the phaseplot of a</span><span class="w"></span>
+<span class="c">%   periodic, hyperbolic secant visualized using the hsv colormap:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     phaseplot(psech(200),&#39;tc&#39;,&#39;nf&#39;);</span><span class="w"></span>
+<span class="c">%     colormap(hsv);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following phaseplot shows the phase of white, Gaussian noise:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     phaseplot(randn(200,1));</span><span class="w"></span>
+<span class="c">%     colormap(hsv);</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%   See also: phaselock</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Demos: demo_phaseplot</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     R. Carmona, W. Hwang, and B. Torrésani. Practical Time-Frequency</span><span class="w"></span>
+<span class="c">%     Analysis: continuous wavelet and Gabor transforms, with an</span><span class="w"></span>
+<span class="c">%     implementation in S, volume 9 of Wavelet Analysis and its Applications.</span><span class="w"></span>
+<span class="c">%     Academic Press, San Diego, 1998.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/phaseplot.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR: Peter L. Søndergaard</span>
-<span class="c">%   TESTING: NA</span>
+<span class="c">%   AUTHOR: Peter L. Søndergaard</span><span class="w"></span>
+<span class="c">%   TESTING: NA</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">1</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Too few input arguments.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Too few input arguments.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">sum</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input must be a vector.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Input must be a vector.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;ltfattranslate&#39;</span><span class="p">,</span><span class="s">&#39;normalize&#39;</span><span class="p">,</span><span class="s">&#39;tfplot&#39;</span><span class="p">};</span>
-<span class="c">% Override the setting from tfplot, because phaseplot only uses the &#39;lin&#39;</span>
-<span class="c">% plotting.</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="nb">log</span><span class="p">={</span><span class="s">&#39;lin&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">importdefaults</span><span class="p">={</span><span class="s">&#39;lin&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;ltfattranslate&#39;</span><span class="p">,</span><span class="s">&#39;setnorm&#39;</span><span class="p">,</span><span class="s">&#39;tfplot&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="c">% Override the setting from tfplot, because phaseplot only uses the &#39;lin&#39;</span><span class="w"></span>
+<span class="c">% plotting.</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">log</span><span class="p">={</span><span class="s">&#39;lin&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">importdefaults</span><span class="p">={</span><span class="s">&#39;lin&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="c">% Define initial value for flags and key/value pairs.</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">wlen</span><span class="p">={</span><span class="s">&#39;nowlen&#39;</span><span class="p">,</span><span class="s">&#39;wlen&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">tc</span><span class="p">={</span><span class="s">&#39;notc&#39;</span><span class="p">,</span><span class="s">&#39;tc&#39;</span><span class="p">};</span>
+<span class="c">% Define initial value for flags and key/value pairs.</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">wlen</span><span class="p">={</span><span class="s">&#39;nowlen&#39;</span><span class="p">,</span><span class="s">&#39;wlen&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">tc</span><span class="p">={</span><span class="s">&#39;notc&#39;</span><span class="p">,</span><span class="s">&#39;tc&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">fmax</span><span class="p">={</span><span class="s">&#39;nofmax&#39;</span><span class="p">,</span><span class="s">&#39;fmax&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;freqinv&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">fmax</span><span class="p">={</span><span class="s">&#39;nofmax&#39;</span><span class="p">,</span><span class="s">&#39;fmax&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;timeinv&#39;</span><span class="p">,</span><span class="s">&#39;freqinv&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">posfreq</span><span class="p">={</span><span class="s">&#39;posfreq&#39;</span><span class="p">,</span><span class="s">&#39;nf&#39;</span><span class="p">};</span>
-<span class="k">else</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">posfreq</span><span class="p">={</span><span class="s">&#39;nf&#39;</span><span class="p">,</span><span class="s">&#39;posfreq&#39;</span><span class="p">};</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">posfreq</span><span class="p">={</span><span class="s">&#39;posfreq&#39;</span><span class="p">,</span><span class="s">&#39;nf&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">posfreq</span><span class="p">={</span><span class="s">&#39;nf&#39;</span><span class="p">,</span><span class="s">&#39;posfreq&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tfr</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">wlen</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fmax</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">thr</span><span class="p">=[];</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tfr</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">wlen</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">fmax</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">thr</span><span class="p">=[];</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Downsample</span>
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="p">)</span>
-  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
-    <span class="n">resamp</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="n">fs</span><span class="p">;</span>
-  <span class="k">else</span>
-    <span class="n">resamp</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-  <span class="k">end</span><span class="p">;</span>
+<span class="c">% Downsample</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">resamp</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="n">fs</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">resamp</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">f</span><span class="p">=</span><span class="n">fftresample</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">*</span><span class="n">resamp</span><span class="p">));</span>
-  <span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">=</span><span class="mi">2</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="n">fftresample</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">*</span><span class="n">resamp</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="p">=</span><span class="mi">2</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">fmax</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Always do the full STFT</span>
-<span class="n">L</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-<span class="n">a</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">b</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">M</span><span class="p">=</span><span class="n">L</span><span class="p">;</span>
-<span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="p">;</span>
+<span class="c">% Always do the full STFT</span><span class="w"></span>
+<span class="n">L</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+<span class="n">a</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="n">b</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="n">M</span><span class="p">=</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
+<span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Set an explicit window length, if this was specified.</span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_wlen</span>
-  <span class="n">kv</span><span class="p">.</span><span class="n">tfr</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">wlen</span>^<span class="mi">2</span><span class="o">/</span><span class="n">L</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Set an explicit window length, if this was specified.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_wlen</span><span class="w"></span>
+<span class="w">  </span><span class="n">kv</span><span class="p">.</span><span class="n">tfr</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">wlen</span>^<span class="mi">2</span><span class="o">/</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">g</span><span class="p">={</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tfr</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">};</span>
+<span class="n">g</span><span class="p">={</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tfr</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">};</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_nf</span>
-  <span class="n">coef</span><span class="p">=</span><span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">);</span>
-<span class="k">else</span>
-  <span class="n">coef</span><span class="p">=</span><span class="n">dgtreal</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_nf</span><span class="w"></span>
+<span class="w">  </span><span class="n">coef</span><span class="p">=</span><span class="n">dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">coef</span><span class="p">=</span><span class="n">dgtreal</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">thr</span><span class="p">)</span>
-  <span class="c">% keep only the largest coefficients.</span>
-  <span class="n">maxc</span><span class="p">=</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">(:)));</span>
-  <span class="n">mask</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="o">&lt;</span><span class="n">maxc</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">thr</span><span class="p">;</span>
-  <span class="n">coef</span><span class="p">(</span><span class="n">mask</span><span class="p">)=</span><span class="mi">0</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">thr</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="c">% keep only the largest coefficients.</span><span class="w"></span>
+<span class="w">  </span><span class="n">maxc</span><span class="p">=</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">(:)));</span><span class="w"></span>
+<span class="w">  </span><span class="n">mask</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="o">&lt;</span><span class="n">maxc</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">thr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">coef</span><span class="p">(</span><span class="n">mask</span><span class="p">)=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">coef</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">coef</span><span class="p">);</span>
+<span class="n">coef</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">angle</span><span class="p">(</span><span class="n">coef</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_nf</span>
-  <span class="n">plotdgt</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span>
-<span class="k">else</span>
-  <span class="n">plotdgtreal</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_nf</span><span class="w"></span>
+<span class="w">  </span><span class="n">plotdgt</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">plotdgtreal</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">0</span>
-  <span class="n">varargout</span><span class="p">={</span><span class="n">coef</span><span class="p">};</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">varargout</span><span class="p">={</span><span class="n">coef</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

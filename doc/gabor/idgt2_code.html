@@ -43,185 +43,185 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">IDGT2 - 2D Inverse discrete Gabor transform</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[f]<span class="p">=</span><span class="nf">idgt2</span><span class="p">(</span>c,g1,p3,p4,p5<span class="p">)</span><span class="w"></span>
-<span class="c">%IDGT2  2D Inverse discrete Gabor transform</span>
-<span class="c">%   Usage: f=idgt2(c,g,a);</span>
-<span class="c">%          f=idgt2(c,g1,g2,a);</span>
-<span class="c">%          f=idgt2(c,g1,g2,[a1 a2]);</span>
-<span class="c">%          f=idgt2(c,g,a,Ls);</span>
-<span class="c">%          f=idgt2(c,g1,g2,a,Ls);</span>
-<span class="c">%          f=idgt2(c,g1,g2,[a1 a2],Ls);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         c       : Array of coefficients.</span>
-<span class="c">%         g,g1,g2 : Window function(s).</span>
-<span class="c">%         a,a1,a2 : Length(s) of time shift.</span>
-<span class="c">%         Ls      : Length(s) of reconstructed signal (optional).</span>
-<span class="c">%</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         f       : Output data, matrix.</span>
-<span class="c">%</span>
-<span class="c">%   IDGT2(c,g,a,M) will calculate a separable two dimensional inverse</span>
-<span class="c">%   discrete Gabor transformation of the input coefficients c using the</span>
-<span class="c">%   window g and parameters a, along each dimension. The number of channels</span>
-<span class="c">%   is deduced from the size of the coefficients c.</span>
-<span class="c">%</span>
-<span class="c">%   IDGT2(c,g1,g2,a) will do the same using the window g1 along the first</span>
-<span class="c">%   dimension, and window g2 along the second dimension.</span>
-<span class="c">%</span>
-<span class="c">%   IDGT2(c,g,a,Ls) or IDGT2(c,g1,g2,a,Ls) will cut the signal to size Ls*</span>
-<span class="c">%   after the transformation is done.</span>
-<span class="c">%</span>
-<span class="c">%   The parameters a and Ls can also be vectors of length 2.</span>
-<span class="c">%   In this case the first element will be used for the first dimension</span>
-<span class="c">%   and the second element will be used for the second dimension. </span>
-<span class="c">%</span>
-<span class="c">%   See also:  dgt2, gabdual</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/idgt2.html</span>
+<span class="c">%IDGT2  2D Inverse discrete Gabor transform</span><span class="w"></span>
+<span class="c">%   Usage: f=idgt2(c,g,a);</span><span class="w"></span>
+<span class="c">%          f=idgt2(c,g1,g2,a);</span><span class="w"></span>
+<span class="c">%          f=idgt2(c,g1,g2,[a1 a2]);</span><span class="w"></span>
+<span class="c">%          f=idgt2(c,g,a,Ls);</span><span class="w"></span>
+<span class="c">%          f=idgt2(c,g1,g2,a,Ls);</span><span class="w"></span>
+<span class="c">%          f=idgt2(c,g1,g2,[a1 a2],Ls);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         c       : Array of coefficients.</span><span class="w"></span>
+<span class="c">%         g,g1,g2 : Window function(s).</span><span class="w"></span>
+<span class="c">%         a,a1,a2 : Length(s) of time shift.</span><span class="w"></span>
+<span class="c">%         Ls      : Length(s) of reconstructed signal (optional).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         f       : Output data, matrix.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   IDGT2(c,g,a,M) will calculate a separable two dimensional inverse</span><span class="w"></span>
+<span class="c">%   discrete Gabor transformation of the input coefficients c using the</span><span class="w"></span>
+<span class="c">%   window g and parameters a, along each dimension. The number of channels</span><span class="w"></span>
+<span class="c">%   is deduced from the size of the coefficients c.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   IDGT2(c,g1,g2,a) will do the same using the window g1 along the first</span><span class="w"></span>
+<span class="c">%   dimension, and window g2 along the second dimension.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   IDGT2(c,g,a,Ls) or IDGT2(c,g1,g2,a,Ls) will cut the signal to size Ls*</span><span class="w"></span>
+<span class="c">%   after the transformation is done.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The parameters a and Ls can also be vectors of length 2.</span><span class="w"></span>
+<span class="c">%   In this case the first element will be used for the first dimension</span><span class="w"></span>
+<span class="c">%   and the second element will be used for the second dimension. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  dgt2, gabdual</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/idgt2.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">4</span> <span class="o">||</span> <span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">5</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;c must be 4 or 5 dimensional.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">4</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">5</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;c must be 4 or 5 dimensional.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">doLs</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">doLs</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">switch</span> <span class="n">nargin</span>
-  <span class="k">case</span> <span class="mi">3</span>
-    <span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span>
-    <span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-  <span class="k">case</span> <span class="mi">4</span>
-    <span class="k">if</span> <span class="n">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">p3</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span>
-      <span class="c">% Two windows was specified.</span>
-      <span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-      <span class="n">a</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span>
-    <span class="k">else</span>
-      <span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span>
-      <span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-      <span class="n">Ls</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span>
-      <span class="n">doLs</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
-  <span class="k">case</span> <span class="mi">5</span>
-    <span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-    <span class="n">a</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span>
-    <span class="n">Ls</span><span class="p">=</span><span class="n">p5</span><span class="p">;</span>
-    <span class="n">doLs</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">switch</span><span class="w"> </span><span class="nb">nargin</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">p3</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span><span class="w"></span>
+<span class="w">      </span><span class="c">% Two windows was specified.</span><span class="w"></span>
+<span class="w">      </span><span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">a</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">a</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">Ls</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">doLs</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
+<span class="w">    </span><span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ls</span><span class="p">=</span><span class="n">p5</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">doLs</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-  <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;g1 must be a vector&#39;</span><span class="p">);</span>
-  <span class="k">else</span>
-    <span class="c">% g1 was a row vector.</span>
-    <span class="n">g1</span><span class="p">=</span><span class="n">g1</span><span class="p">(:);</span>
-  <span class="k">end</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;g1 must be a vector&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="c">% g1 was a row vector.</span><span class="w"></span>
+<span class="w">    </span><span class="n">g1</span><span class="p">=</span><span class="n">g1</span><span class="p">(:);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-  <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;g2 must be a vector&#39;</span><span class="p">);</span>
-  <span class="k">else</span>
-    <span class="c">% g2 was a row vector.</span>
-    <span class="n">g2</span><span class="p">=</span><span class="n">g2</span><span class="p">(:);</span>
-  <span class="k">end</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;g2 must be a vector&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="c">% g2 was a row vector.</span><span class="w"></span>
+<span class="w">    </span><span class="n">g2</span><span class="p">=</span><span class="n">g2</span><span class="p">(:);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span> <span class="o">||</span> <span class="n">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">==</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;a must be a scalar or 1x2 vector&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">==</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;a must be a scalar or 1x2 vector&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">length</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span>
-  <span class="n">a1</span><span class="p">=</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">a2</span><span class="p">=</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-<span class="k">else</span>
-  <span class="n">a1</span><span class="p">=</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">a2</span><span class="p">=</span><span class="n">a</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="n">a1</span><span class="p">=</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">a2</span><span class="p">=</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">a1</span><span class="p">=</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">a2</span><span class="p">=</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">Lwindow1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">Lwindow2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">Lwindow1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">Lwindow2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">M1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">N1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">M2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-<span class="n">N2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
-<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">M1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">N1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="n">M2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="n">N2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L1</span><span class="p">=</span><span class="n">a1</span><span class="o">*</span><span class="n">N1</span><span class="p">;</span>
-<span class="n">L2</span><span class="p">=</span><span class="n">a2</span><span class="o">*</span><span class="n">N2</span><span class="p">;</span>
+<span class="n">L1</span><span class="p">=</span><span class="n">a1</span><span class="o">*</span><span class="n">N1</span><span class="p">;</span><span class="w"></span>
+<span class="n">L2</span><span class="p">=</span><span class="n">a2</span><span class="o">*</span><span class="n">N2</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Length of window must be dividable by M.</span>
-<span class="c">% We cannot automically zero-extend the window, as it can</span>
-<span class="c">% possible break some symmetry properties of the window, and we don&#39;t</span>
-<span class="c">% know which symmetries to preserve.</span>
-<span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">Lwindow1</span><span class="p">,</span><span class="n">M1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Length of window no. 1 must be dividable by M1.&#39;</span><span class="p">)</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Length of window must be dividable by M.</span><span class="w"></span>
+<span class="c">% We cannot automically zero-extend the window, as it can</span><span class="w"></span>
+<span class="c">% possible break some symmetry properties of the window, and we don&#39;t</span><span class="w"></span>
+<span class="c">% know which symmetries to preserve.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="n">Lwindow1</span><span class="p">,</span><span class="n">M1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Length of window no. 1 must be dividable by M1.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">Lwindow2</span><span class="p">,</span><span class="n">M2</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Length of window no. 2 must be dividable by M2.&#39;</span><span class="p">)</span>
-<span class="k">end</span><span class="p">;</span>
-    
+<span class="k">if</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="n">Lwindow2</span><span class="p">,</span><span class="n">M2</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Length of window no. 2 must be dividable by M2.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
 
 
-<span class="c">% --- first dimension</span>
+<span class="c">% --- first dimension</span><span class="w"></span>
 
-<span class="c">% Change c to correct shape.</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="n">N1</span><span class="p">,</span><span class="n">M2</span><span class="o">*</span><span class="n">N2</span><span class="o">*</span><span class="n">W</span><span class="p">);</span>
+<span class="c">% Change c to correct shape.</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="n">N1</span><span class="p">,</span><span class="n">M2</span><span class="o">*</span><span class="n">N2</span><span class="o">*</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g1</span><span class="p">,</span><span class="n">a1</span><span class="p">,[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g1</span><span class="p">,</span><span class="n">a1</span><span class="p">,[</span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Check if Ls was specified.</span>
-<span class="k">if</span> <span class="n">doLs</span>
-  <span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
-<span class="k">else</span>
-  <span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="n">L1</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Check if Ls was specified.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">doLs</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="n">L1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Change to correct size</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">M2</span><span class="o">*</span><span class="n">N2</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
+<span class="c">% Change to correct size</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">M2</span><span class="o">*</span><span class="n">N2</span><span class="p">,</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Exchange first and second dimension.</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+<span class="c">% Exchange first and second dimension.</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span><span class="w"></span>
 
-<span class="c">% --- second dimension</span>
+<span class="c">% --- second dimension</span><span class="w"></span>
 
-<span class="c">% Change c to correct shape.</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="n">N2</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">W</span><span class="p">);</span>
+<span class="c">% Change c to correct shape.</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="n">N2</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span><span class="n">a2</span><span class="p">,[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span><span class="n">a2</span><span class="p">,[</span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Check if Ls was specified.</span>
-<span class="k">if</span> <span class="n">doLs</span>
-  <span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
-<span class="k">else</span>
-  <span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">)=</span><span class="n">L2</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Check if Ls was specified.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">doLs</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">)=</span><span class="n">L2</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Change to correct size</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">W</span><span class="p">);</span>
+<span class="c">% Change to correct size</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Exchange first and second dimension.</span>
-<span class="n">f</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+<span class="c">% Exchange first and second dimension.</span><span class="w"></span>
+<span class="n">f</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span><span class="w"></span>
 </pre></div>
 
 

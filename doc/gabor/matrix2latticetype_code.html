@@ -41,143 +41,143 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">MATRIX2LATTICETYPE - Convert matrix form to standard lattice description</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[a,M,lt]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">matrix2latticetype</span><span class="p">(</span>L,V<span class="p">);</span>
-<span class="c">%MATRIX2LATTICETYPE  Convert matrix form to standard lattice description</span>
-<span class="c">%   Usage: [a,M,lt] = matrix2latticetype(L,V);</span>
-<span class="c">%</span>
-<span class="c">%   [a,M,lt]=MATRIX2LATTICETYPE(L,V) converts a 2x2 integer matrix</span>
-<span class="c">%   description into the standard description of a lattice using the a,</span>
-<span class="c">%   M and lt. The conversion is only valid for the specified transform</span>
-<span class="c">%   length L.</span>
-<span class="c">%</span>
-<span class="c">%   The lattice type lt is a 1 x2 vector [lt_1,lt_2] denoting an</span>
-<span class="c">%   irreducible fraction lt_1/lt_2. This fraction describes the distance</span>
-<span class="c">%   in frequency (counted in frequency channels) that each coefficient is</span>
-<span class="c">%   offset when moving in time by the time-shift of a. Some examples:</span>
-<span class="c">%   lt=[0 1] defines a square lattice, lt=[1 2] defines the quinqux</span>
-<span class="c">%   (almost hexagonal) lattice, lt=[1 3] describes a lattice with a</span>
-<span class="c">%   1/3 frequency offset for each time shift and so forth.</span>
-<span class="c">%</span>
-<span class="c">%   An example:</span>
-<span class="c">%</span>
-<span class="c">%     [a,M,lt] = matrix2latticetype(120,[10 0; 5 10])</span>
-<span class="c">%</span>
-<span class="c">%   Coefficient layout:</span>
-<span class="c">%   -------------------</span>
-<span class="c">%</span>
-<span class="c">%   The following code generates plots which show the coefficient layout</span>
-<span class="c">%   and enumeration of the first 4 lattices in the time-frequecy plane:</span>
-<span class="c">%</span>
-<span class="c">%     a=6;</span>
-<span class="c">%     M=6;</span>
-<span class="c">%     L=36;</span>
-<span class="c">%     b=L/M;</span>
-<span class="c">%     N=L/a;</span>
-<span class="c">%     cw=3;</span>
-<span class="c">%     ftz=12;</span>
-<span class="c">%     </span>
-<span class="c">%     [x,y]=meshgrid(a*(0:N-1),b*(0:M-1));</span>
-<span class="c">%</span>
-<span class="c">%     lt1=[0 1 1 2];</span>
-<span class="c">%     lt2=[1 2 3 3];</span>
-<span class="c">%</span>
-<span class="c">%     for fignum=1:4</span>
-<span class="c">%       subplot(2,2,fignum);</span>
-<span class="c">%       z=y;</span>
-<span class="c">%       if lt2(fignum)&gt;0</span>
-<span class="c">%         z=z+mod(lt1(fignum)*x/lt2(fignum),b);</span>
-<span class="c">%       end;</span>
-<span class="c">%       for ii=1:M*N</span>
-<span class="c">%         text(x(ii)-cw/4,z(ii),sprintf(&#39;%2.0i&#39;,ii),&#39;Fontsize&#39;,ftz);</span>
-<span class="c">%         rectangle(&#39;Curvature&#39;,[1 1], &#39;Position&#39;,[x(ii)-cw/2,z(ii)-cw/2,cw,cw]);</span>
-<span class="c">%       end;</span>
-<span class="c">%       axis([-cw L -cw L]);</span>
-<span class="c">%       axis(&#39;square&#39;);</span>
-<span class="c">%       title(sprintf(&#39;lt=[%i %i]&#39;,lt1(fignum),lt2(fignum)),&#39;Fontsize&#39;,ftz);</span>
-<span class="c">%     end;</span>
-<span class="c">%</span>
-<span class="c">%   See also: latticetype2matrix</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/matrix2latticetype.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[a,M,lt]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">matrix2latticetype</span><span class="p">(</span>L,V<span class="p">);</span><span class="w"></span>
+<span class="c">%MATRIX2LATTICETYPE  Convert matrix form to standard lattice description</span><span class="w"></span>
+<span class="c">%   Usage: [a,M,lt] = matrix2latticetype(L,V);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [a,M,lt]=MATRIX2LATTICETYPE(L,V) converts a 2x2 integer matrix</span><span class="w"></span>
+<span class="c">%   description into the standard description of a lattice using the a,</span><span class="w"></span>
+<span class="c">%   M and lt. The conversion is only valid for the specified transform</span><span class="w"></span>
+<span class="c">%   length L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The lattice type lt is a 1 x2 vector [lt_1,lt_2] denoting an</span><span class="w"></span>
+<span class="c">%   irreducible fraction lt_1/lt_2. This fraction describes the distance</span><span class="w"></span>
+<span class="c">%   in frequency (counted in frequency channels) that each coefficient is</span><span class="w"></span>
+<span class="c">%   offset when moving in time by the time-shift of a. Some examples:</span><span class="w"></span>
+<span class="c">%   lt=[0 1] defines a square lattice, lt=[1 2] defines the quinqux</span><span class="w"></span>
+<span class="c">%   (almost hexagonal) lattice, lt=[1 3] describes a lattice with a</span><span class="w"></span>
+<span class="c">%   1/3 frequency offset for each time shift and so forth.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   An example:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     [a,M,lt] = matrix2latticetype(120,[10 0; 5 10])</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Coefficient layout:</span><span class="w"></span>
+<span class="c">%   -------------------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following code generates plots which show the coefficient layout</span><span class="w"></span>
+<span class="c">%   and enumeration of the first 4 lattices in the time-frequecy plane:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     a=6;</span><span class="w"></span>
+<span class="c">%     M=6;</span><span class="w"></span>
+<span class="c">%     L=36;</span><span class="w"></span>
+<span class="c">%     b=L/M;</span><span class="w"></span>
+<span class="c">%     N=L/a;</span><span class="w"></span>
+<span class="c">%     cw=3;</span><span class="w"></span>
+<span class="c">%     ftz=12;</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     [x,y]=meshgrid(a*(0:N-1),b*(0:M-1));</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     lt1=[0 1 1 2];</span><span class="w"></span>
+<span class="c">%     lt2=[1 2 3 3];</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     for fignum=1:4</span><span class="w"></span>
+<span class="c">%       subplot(2,2,fignum);</span><span class="w"></span>
+<span class="c">%       z=y;</span><span class="w"></span>
+<span class="c">%       if lt2(fignum)&gt;0</span><span class="w"></span>
+<span class="c">%         z=z+mod(lt1(fignum)*x/lt2(fignum),b);</span><span class="w"></span>
+<span class="c">%       end;</span><span class="w"></span>
+<span class="c">%       for ii=1:M*N</span><span class="w"></span>
+<span class="c">%         text(x(ii)-cw/4,z(ii),sprintf(&#39;%2.0i&#39;,ii),&#39;Fontsize&#39;,ftz);</span><span class="w"></span>
+<span class="c">%         rectangle(&#39;Curvature&#39;,[1 1], &#39;Position&#39;,[x(ii)-cw/2,z(ii)-cw/2,cw,cw]);</span><span class="w"></span>
+<span class="c">%       end;</span><span class="w"></span>
+<span class="c">%       axis([-cw L -cw L]);</span><span class="w"></span>
+<span class="c">%       axis(&#39;square&#39;);</span><span class="w"></span>
+<span class="c">%       title(sprintf(&#39;lt=[%i %i]&#39;,lt1(fignum),lt2(fignum)),&#39;Fontsize&#39;,ftz);</span><span class="w"></span>
+<span class="c">%     end;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: latticetype2matrix</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/matrix2latticetype.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% The Hermite normal form code was originally written by Arno J. van Leest, 1999.</span>
-<span class="c">% Positive determinant by Peter L. Søndergaard, 2004.</span>
-<span class="c">% Unique form by Christoph Wiesmeyr, 2012</span>
+<span class="c">% The Hermite normal form code was originally written by Arno J. van Leest, 1999.</span><span class="w"></span>
+<span class="c">% Positive determinant by Peter L. Søndergaard, 2004.</span><span class="w"></span>
+<span class="c">% Unique form by Christoph Wiesmeyr, 2012</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">~=</span><span class="mi">2</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Wrong number of input arguments.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">~=</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Wrong number of input arguments.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Check if matrix has correct size.</span>
-<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span> <span class="o">||</span> <span class="nb">size</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: V must be a 2x2 matrix.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Check if matrix has correct size.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: V must be a 2x2 matrix.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Integer values</span>
-<span class="k">if</span> <span class="n">norm</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">~=</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: V must have all integer values.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Integer values</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: V must have all integer values.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Convert to Arnos normal form.</span>
-<span class="n">gcd1</span><span class="p">=</span><span class="nb">gcd</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
-<span class="n">gcd2</span><span class="p">=</span><span class="nb">gcd</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+<span class="c">% Convert to Arnos normal form.</span><span class="w"></span>
+<span class="n">gcd1</span><span class="p">=</span><span class="nb">gcd</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="n">gcd2</span><span class="p">=</span><span class="nb">gcd</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">A</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">A</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)=</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">/</span><span class="n">gcd1</span><span class="p">;</span>
-<span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)=</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">/</span><span class="n">gcd2</span><span class="p">;</span>
+<span class="n">A</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="n">A</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)=</span><span class="n">V</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">/</span><span class="n">gcd1</span><span class="p">;</span><span class="w"></span>
+<span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)=</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">/</span><span class="n">gcd2</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">D</span> <span class="p">=</span> <span class="n">det</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+<span class="n">D</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">det</span><span class="p">(</span><span class="n">A</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Exchange vectors if determinant is negative.</span>
-<span class="k">if</span> <span class="n">D</span><span class="o">&lt;</span><span class="mi">0</span>
-  <span class="n">D</span><span class="p">=</span><span class="o">-</span><span class="n">D</span><span class="p">;</span>
-  <span class="n">A</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Exchange vectors if determinant is negative.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">D</span><span class="o">&lt;</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="n">D</span><span class="p">=</span><span class="o">-</span><span class="n">D</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">A</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">A</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">h0</span><span class="p">,</span><span class="n">h1</span><span class="p">]</span> <span class="p">=</span> <span class="nb">gcd</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">A</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">h0</span><span class="p">,</span><span class="n">h1</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">gcd</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">A</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">x</span> <span class="p">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">*</span><span class="p">[</span><span class="n">h0</span><span class="p">;</span><span class="n">h1</span><span class="p">];</span>
+<span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">*</span><span class="p">[</span><span class="n">h0</span><span class="p">;</span><span class="n">h1</span><span class="p">];</span><span class="w"></span>
 
-<span class="n">x</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">D</span><span class="p">);</span>
+<span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">D</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Octave does not automatically round the double division to integer</span>
-<span class="c">% numbers, and this causes confusion later in the GCD computations. </span>
-<span class="n">a</span> <span class="p">=</span> <span class="n">gcd1</span><span class="p">;</span>
-<span class="n">b</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">D</span><span class="o">*</span><span class="n">gcd2</span><span class="p">);</span>
-<span class="n">s</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">gcd2</span><span class="p">);</span>
+<span class="c">% Octave does not automatically round the double division to integer</span><span class="w"></span>
+<span class="c">% numbers, and this causes confusion later in the GCD computations. </span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gcd1</span><span class="p">;</span><span class="w"></span>
+<span class="n">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">D</span><span class="o">*</span><span class="n">gcd2</span><span class="p">);</span><span class="w"></span>
+<span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">gcd2</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% compute nabs format of &lt;a,s&gt;</span>
-<span class="n">b1</span> <span class="p">=</span> <span class="nb">gcd</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-<span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">k1</span><span class="p">]</span> <span class="p">=</span> <span class="nb">gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-<span class="n">s</span> <span class="p">=</span> <span class="n">k1</span><span class="o">*</span><span class="n">s</span><span class="p">;</span>
+<span class="c">% compute nabs format of &lt;a,s&gt;</span><span class="w"></span>
+<span class="n">b1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">gcd</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">k1</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">k1</span><span class="o">*</span><span class="n">s</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% update b</span>
-<span class="n">b</span> <span class="p">=</span> <span class="nb">gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">gcd</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="n">L</span><span class="p">));</span>
+<span class="c">% update b</span><span class="w"></span>
+<span class="n">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">gcd</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span><span class="n">L</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% update s</span>
-<span class="n">s</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+<span class="c">% update s</span><span class="w"></span>
+<span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">b</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% conversion from nabs to latticetype</span>
-<span class="n">M</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">b</span><span class="p">;</span>
+<span class="c">% conversion from nabs to latticetype</span><span class="w"></span>
+<span class="n">M</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">b</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">k</span><span class="p">=</span><span class="nb">gcd</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
-<span class="n">lt</span><span class="p">=[</span><span class="n">s</span><span class="o">/</span><span class="n">k</span> <span class="n">b</span><span class="o">/</span><span class="n">k</span><span class="p">];</span>
+<span class="n">k</span><span class="p">=</span><span class="nb">gcd</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">b</span><span class="p">);</span><span class="w"></span>
+<span class="n">lt</span><span class="p">=[</span><span class="n">s</span><span class="o">/</span><span class="n">k</span><span class="w"> </span><span class="n">b</span><span class="o">/</span><span class="n">k</span><span class="p">];</span><span class="w"></span>
 </pre></div>
 
 

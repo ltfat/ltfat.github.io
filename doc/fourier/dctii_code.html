@@ -44,129 +44,129 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">DCTII - Discrete Consine Transform type II</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">dctii</span><span class="p">(</span>f,L,dim<span class="p">)</span><span class="w"></span>
-<span class="c">%DCTII  Discrete Consine Transform type II</span>
-<span class="c">%   Usage:  c=dctii(f);</span>
-<span class="c">%           c=dctii(f,L);</span>
-<span class="c">%           c=dctii(f,[],dim);</span>
-<span class="c">%           c=dctii(f,L,dim);</span>
-<span class="c">%</span>
-<span class="c">%   DCTII(f) computes the discrete cosine transform of type II of the</span>
-<span class="c">%   input signal f. If f is multi-dimensional, the transformation is</span>
-<span class="c">%   applied along the first non-singleton dimension.</span>
-<span class="c">%</span>
-<span class="c">%   DCTII(f,L) zero-pads or truncates f to length L before doing the</span>
-<span class="c">%   transformation.</span>
-<span class="c">%</span>
-<span class="c">%   DCTII(f,[],dim) or DCTII(f,L,dim) applies the transformation along</span>
-<span class="c">%   dimension dim.</span>
-<span class="c">%</span>
-<span class="c">%   The transform is real (output is real if input is real) and orthonormal.</span>
-<span class="c">%</span>
-<span class="c">%   This is the inverse of DCTIII.</span>
-<span class="c">%</span>
-<span class="c">%   Let f be a signal of length L, let c=DCTII(f) and define the</span>
-<span class="c">%   vector w of length L by</span>
-<span class="c">%</span>
-<span class="c">%      w = [1/sqrt(2) 1 1 1 1 ...]</span>
-<span class="c">%</span>
-<span class="c">%   Then </span>
-<span class="c">%</span>
-<span class="c">%                          L-1</span>
-<span class="c">%     c(n+1) = sqrt(2/L) * sum w(n+1)*f(m+1)*cos(pi*n*(m+.5)/L) </span>
-<span class="c">%                          m=0 </span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   The following figures show the first 4 basis functions of the DCTII of</span>
-<span class="c">%   length 20:</span>
-<span class="c">%</span>
-<span class="c">%     % The dctiii is the adjoint of dctii.</span>
-<span class="c">%     F=dctiii(eye(20));</span>
-<span class="c">%</span>
-<span class="c">%     for ii=1:4</span>
-<span class="c">%       subplot(4,1,ii);</span>
-<span class="c">%       stem(F(:,ii));</span>
-<span class="c">%     end;</span>
-<span class="c">%</span>
-<span class="c">%   See also:  dctiii, dctiv, dstii</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     K. Rao and P. Yip. Discrete Cosine Transform, Algorithms, Advantages,</span>
-<span class="c">%     Applications. Academic Press, 1990.</span>
-<span class="c">%     </span>
-<span class="c">%     M. V. Wickerhauser. Adapted wavelet analysis from theory to software.</span>
-<span class="c">%     Wellesley-Cambridge Press, Wellesley, MA, 1994.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/fourier/dctii.html</span>
+<span class="c">%DCTII  Discrete Consine Transform type II</span><span class="w"></span>
+<span class="c">%   Usage:  c=dctii(f);</span><span class="w"></span>
+<span class="c">%           c=dctii(f,L);</span><span class="w"></span>
+<span class="c">%           c=dctii(f,[],dim);</span><span class="w"></span>
+<span class="c">%           c=dctii(f,L,dim);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   DCTII(f) computes the discrete cosine transform of type II of the</span><span class="w"></span>
+<span class="c">%   input signal f. If f is multi-dimensional, the transformation is</span><span class="w"></span>
+<span class="c">%   applied along the first non-singleton dimension.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   DCTII(f,L) zero-pads or truncates f to length L before doing the</span><span class="w"></span>
+<span class="c">%   transformation.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   DCTII(f,[],dim) or DCTII(f,L,dim) applies the transformation along</span><span class="w"></span>
+<span class="c">%   dimension dim.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The transform is real (output is real if input is real) and orthonormal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This is the inverse of DCTIII.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Let f be a signal of length L, let c=DCTII(f) and define the</span><span class="w"></span>
+<span class="c">%   vector w of length L by</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      w = [1/sqrt(2) 1 1 1 1 ...]</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Then </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%                          L-1</span><span class="w"></span>
+<span class="c">%     c(n+1) = sqrt(2/L) * sum w(n+1)*f(m+1)*cos(pi*n*(m+.5)/L) </span><span class="w"></span>
+<span class="c">%                          m=0 </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following figures show the first 4 basis functions of the DCTII of</span><span class="w"></span>
+<span class="c">%   length 20:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % The dctiii is the adjoint of dctii.</span><span class="w"></span>
+<span class="c">%     F=dctiii(eye(20));</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     for ii=1:4</span><span class="w"></span>
+<span class="c">%       subplot(4,1,ii);</span><span class="w"></span>
+<span class="c">%       stem(F(:,ii));</span><span class="w"></span>
+<span class="c">%     end;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  dctiii, dctiv, dstii</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     K. Rao and P. Yip. Discrete Cosine Transform, Algorithms, Advantages,</span><span class="w"></span>
+<span class="c">%     Applications. Academic Press, 1990.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     M. V. Wickerhauser. Adapted wavelet analysis from theory to software.</span><span class="w"></span>
+<span class="c">%     Wellesley-Cambridge Press, Wellesley, MA, 1994.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/fourier/dctii.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR: Peter L. Søndergaard</span>
-<span class="c">%   TESTING: TEST_PUREFREQ</span>
-<span class="c">%   REFERENCE: REF_DCTII</span>
+<span class="c">%   AUTHOR: Peter L. Søndergaard</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_PUREFREQ</span><span class="w"></span>
+<span class="c">%   REFERENCE: REF_DCTII</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-  <span class="n">dim</span><span class="p">=[];</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">  </span><span class="n">dim</span><span class="p">=[];</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
-  <span class="n">L</span><span class="p">=[];</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=[];</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="s">&#39;DCTII&#39;</span><span class="p">);</span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="s">&#39;DCTII&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-  <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
-  <span class="n">c</span><span class="p">=</span><span class="n">comp_dct</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-<span class="c">% c=zeros(L,W,assert_classname(f));</span>
-<span class="c">% </span>
-<span class="c">% m1=1/sqrt(2)*exp(-(0:L-1)*pi*i/(2*L)).&#39;;</span>
-<span class="c">% m1(1)=1;</span>
-<span class="c">% </span>
-<span class="c">% m2=1/sqrt(2)*exp((1:L-1)*pi*i/(2*L)).&#39;;</span>
-<span class="c">% </span>
-<span class="c">% s1=fft([f;flipud(f)]);</span>
-<span class="c">% </span>
-<span class="c">% % This could be done by a repmat instead.</span>
-<span class="c">% for w=1:W</span>
-<span class="c">%   c(:,w)=s1(1:L,w).*m1+[0;s1(2*L:-1:L+2,w).*m2];</span>
-<span class="c">% end;</span>
-<span class="c">% </span>
-<span class="c">% c=c/sqrt(L)/2;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">comp_dct</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="c">% c=zeros(L,W,assert_classname(f));</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">% m1=1/sqrt(2)*exp(-(0:L-1)*pi*i/(2*L)).&#39;;</span><span class="w"></span>
+<span class="c">% m1(1)=1;</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">% m2=1/sqrt(2)*exp((1:L-1)*pi*i/(2*L)).&#39;;</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">% s1=fft([f;flipud(f)]);</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">% % This could be done by a repmat instead.</span><span class="w"></span>
+<span class="c">% for w=1:W</span><span class="w"></span>
+<span class="c">%   c(:,w)=s1(1:L,w).*m1+[0;s1(2*L:-1:L+2,w).*m2];</span><span class="w"></span>
+<span class="c">% end;</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">% c=c/sqrt(L)/2;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-  <span class="n">c</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% This is a slow, but convenient way of expressing the algorithm.</span>
-<span class="c">%R=1/sqrt(2)*[diag(exp((0:L-1)*pi*i/(2*L)));...</span>
-<span class="c">%	     zeros(1,L); ...</span>
-<span class="c">%	     [zeros(L-1,1),flipud(diag(exp(-(1:L-1)*pi*i/(2*L))))]];</span>
+<span class="c">% This is a slow, but convenient way of expressing the algorithm.</span><span class="w"></span>
+<span class="c">%R=1/sqrt(2)*[diag(exp((0:L-1)*pi*i/(2*L)));...</span><span class="w"></span>
+<span class="c">%	     zeros(1,L); ...</span><span class="w"></span>
+<span class="c">%	     [zeros(L-1,1),flipud(diag(exp(-(1:L-1)*pi*i/(2*L))))]];</span><span class="w"></span>
 
-<span class="c">%R(1,1)=1;</span>
+<span class="c">%R(1,1)=1;</span><span class="w"></span>
 
-<span class="c">%c=R&#39;*fft([f;flipud(f)])/sqrt(L)/2;</span>
+<span class="c">%c=R&#39;*fft([f;flipud(f)])/sqrt(L)/2;</span><span class="w"></span>
 </pre></div>
 
 

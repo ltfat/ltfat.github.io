@@ -43,54 +43,54 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">IOPERATOR - Apply inverse of operator</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>outsig<span class="p">=</span><span class="nf">ioperator</span><span class="p">(</span>Op,insig<span class="p">);</span>
-<span class="c">%IOPERATOR  Apply inverse of operator</span>
-<span class="c">%   Usage: c=ioperator(Op,f);</span>
-<span class="c">%</span>
-<span class="c">%   c=IOPERATOR(Op,f) applies the inverse op the operator Op to the</span>
-<span class="c">%   input signal f.  The operator object Op must have been created using</span>
-<span class="c">%   OPERATORNEW.</span>
-<span class="c">%</span>
-<span class="c">%   If f is a matrix, the transform will be applied along the columns</span>
-<span class="c">%   of f. If f is an N-D array, the transform will be applied along</span>
-<span class="c">%   the first non-singleton dimension.</span>
-<span class="c">%</span>
-<span class="c">%   See also: operatornew, operator, operatoradj</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/operators/ioperator.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>outsig<span class="p">=</span><span class="nf">ioperator</span><span class="p">(</span>Op,insig<span class="p">);</span><span class="w"></span>
+<span class="c">%IOPERATOR  Apply inverse of operator</span><span class="w"></span>
+<span class="c">%   Usage: c=ioperator(Op,f);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   c=IOPERATOR(Op,f) applies the inverse op the operator Op to the</span><span class="w"></span>
+<span class="c">%   input signal f.  The operator object Op must have been created using</span><span class="w"></span>
+<span class="c">%   OPERATORNEW.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If f is a matrix, the transform will be applied along the columns</span><span class="w"></span>
+<span class="c">%   of f. If f is an N-D array, the transform will be applied along</span><span class="w"></span>
+<span class="c">%   the first non-singleton dimension.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: operatornew, operator, operatoradj</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/operators/ioperator.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">2</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isstruct</span><span class="p">(</span><span class="n">Op</span><span class="p">)</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: First agument must be a operator definition structure.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isstruct</span><span class="p">(</span><span class="n">Op</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: First agument must be a operator definition structure.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">switch</span><span class="p">(</span><span class="n">Op</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
-  <span class="k">case</span> <span class="s">&#39;framemul&#39;</span>
-    <span class="n">outsig</span><span class="p">=</span><span class="n">iframemul</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">Fa</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">Fs</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">s</span><span class="p">);</span>
-  <span class="k">case</span> <span class="s">&#39;spread&#39;</span>
-    <span class="n">outsig</span><span class="p">=</span><span class="n">spreadinv</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">s</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">switch</span><span class="p">(</span><span class="n">Op</span><span class="p">.</span><span class="n">type</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;framemul&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="n">outsig</span><span class="p">=</span><span class="n">iframemul</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">Fa</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">Fs</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;spread&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="n">outsig</span><span class="p">=</span><span class="n">spreadinv</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="n">Op</span><span class="p">.</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-  
+<span class="w">  </span>
 </pre></div>
 
 

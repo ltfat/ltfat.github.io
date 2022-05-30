@@ -43,215 +43,215 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FRANAGROUPLASSO - Group LASSO regression in the TF-domain</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[tc,relres,iter,frec]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">franagrouplasso</span><span class="p">(</span>F,f,lambda,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FRANAGROUPLASSO  Group LASSO regression in the TF-domain</span>
-<span class="c">%   Usage: tc = franagrouplasso(F,f,lambda)</span>
-<span class="c">%          tc = franagrouplasso(F,f,lambda,C,tol,maxit)</span>
-<span class="c">%          [tc,relres,iter,frec] = franagrouplasso(...)</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%      F        : Frame definition</span>
-<span class="c">%      f        : Input signal</span>
-<span class="c">%      lambda   : Regularisation parameter, controls sparsity of the solution</span>
-<span class="c">%      C        : Step size of the algorithm.</span>
-<span class="c">%      tol      : Reative error tolerance.</span>
-<span class="c">%      maxit    : Maximum number of iterations.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%      tc        : Thresholded coefficients</span>
-<span class="c">%      relres    : Vector of residuals.</span>
-<span class="c">%      iter      : Number of iterations done.</span>
-<span class="c">%      frec      : Reconstructed signal</span>
-<span class="c">%</span>
-<span class="c">%   FRANAGROUPLASSO(F,f,lambda) solves the group LASSO regression problem</span>
-<span class="c">%   in the time-frequency domain: minimize a functional of the synthesis</span>
-<span class="c">%   coefficients defined as the sum of half the l^2 norm of the</span>
-<span class="c">%   approximation error and the mixed l^1 / l^2 norm of the coefficient</span>
-<span class="c">%   sequence, with a penalization coefficient lambda.</span>
-<span class="c">%  </span>
-<span class="c">%   The matrix of time-frequency coefficients is labelled in terms of groups</span>
-<span class="c">%   and members.  By default, the obtained expansion is sparse in terms of</span>
-<span class="c">%   groups, no sparsity being imposed to the members of a given group. This</span>
-<span class="c">%   is achieved by a regularization term composed of l^2 norm within a</span>
-<span class="c">%   group, and l^1 norm with respect to groups. See the help on</span>
-<span class="c">%   GROUPTHRESH for more information.</span>
-<span class="c">%</span>
-<span class="c">%   *Note* the involved frame F must support regular time-frequency</span>
-<span class="c">%   layout of coefficients.   </span>
-<span class="c">%</span>
-<span class="c">%   [tc,relres,iter] = FRANAGROUPLASSO(...) returns the residuals relres in</span>
-<span class="c">%   a vector and the number of iteration steps done, maxit.</span>
-<span class="c">%</span>
-<span class="c">%   [tc,relres,iter,frec] = FRANAGROUPLASSO(...) returns the reconstructed</span>
-<span class="c">%   signal from the coefficients, frec. Note that this requires additional</span>
-<span class="c">%   computations.</span>
-<span class="c">%</span>
-<span class="c">%   The function takes the following optional parameters at the end of</span>
-<span class="c">%   the line of input arguments:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;freq&#39;     Group in frequency (search for tonal components). This is the</span>
-<span class="c">%                default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;time&#39;     Group in time (search for transient components). </span>
-<span class="c">%</span>
-<span class="c">%     &#39;C&#39;,cval   Landweber iteration parameter: must be larger than</span>
-<span class="c">%                square of upper frame bound. Default value is the upper</span>
-<span class="c">%                frame bound.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;maxit&#39;,maxit</span>
-<span class="c">%                Stopping criterion: maximal number of iterations. </span>
-<span class="c">%                Default value is 100.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;tol&#39;,tol  Stopping criterion: minimum relative difference between</span>
-<span class="c">%                norms in two consecutive iterations. Default value is</span>
-<span class="c">%                1e-2.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;print&#39;    Display the progress.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;quiet&#39;    Don&#39;t print anything, this is the default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;printstep&#39;,p</span>
-<span class="c">%                If &#39;print&#39; is specified, then print every p&#39;th</span>
-<span class="c">%                iteration. Default value is 10;</span>
-<span class="c">%</span>
-<span class="c">%   In addition to these parameters, this function accepts all flags from</span>
-<span class="c">%   the GROUPTHRESH and THRESH functions. This makes it possible to</span>
-<span class="c">%   switch the grouping mechanism or inner thresholding type.</span>
-<span class="c">%</span>
-<span class="c">%   The parameters C, maxit and tol may also be specified on the</span>
-<span class="c">%   command line in that order: FRANAGROUPLASSO(F,x,lambda,C,tol,maxit).</span>
-<span class="c">%</span>
-<span class="c">%   The solution is obtained via an iterative procedure, called Landweber</span>
-<span class="c">%   iteration, involving iterative group thresholdings.</span>
-<span class="c">%</span>
-<span class="c">%   The relationship between the output coefficients is given by :</span>
-<span class="c">%</span>
-<span class="c">%     frec = frsyn(F,tc);</span>
-<span class="c">%</span>
-<span class="c">%   See also: franalasso, framebounds</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     M. Kowalski. Sparse regression using mixed norms. Appl. Comput. Harmon.</span>
-<span class="c">%     Anal., 27(3):303--324, 2009.</span>
-<span class="c">%     </span>
-<span class="c">%     M. Kowalski and B. Torrésani. Sparsity and persistence: mixed norms</span>
-<span class="c">%     provide simple signal models with dependent coefficients. Signal, Image</span>
-<span class="c">%     and Video Processing, 3(3):251--264, 2009.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/franagrouplasso.html</span>
+<span class="c">%FRANAGROUPLASSO  Group LASSO regression in the TF-domain</span><span class="w"></span>
+<span class="c">%   Usage: tc = franagrouplasso(F,f,lambda)</span><span class="w"></span>
+<span class="c">%          tc = franagrouplasso(F,f,lambda,C,tol,maxit)</span><span class="w"></span>
+<span class="c">%          [tc,relres,iter,frec] = franagrouplasso(...)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%      F        : Frame definition</span><span class="w"></span>
+<span class="c">%      f        : Input signal</span><span class="w"></span>
+<span class="c">%      lambda   : Regularisation parameter, controls sparsity of the solution</span><span class="w"></span>
+<span class="c">%      C        : Step size of the algorithm.</span><span class="w"></span>
+<span class="c">%      tol      : Reative error tolerance.</span><span class="w"></span>
+<span class="c">%      maxit    : Maximum number of iterations.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%      tc        : Thresholded coefficients</span><span class="w"></span>
+<span class="c">%      relres    : Vector of residuals.</span><span class="w"></span>
+<span class="c">%      iter      : Number of iterations done.</span><span class="w"></span>
+<span class="c">%      frec      : Reconstructed signal</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FRANAGROUPLASSO(F,f,lambda) solves the group LASSO regression problem</span><span class="w"></span>
+<span class="c">%   in the time-frequency domain: minimize a functional of the synthesis</span><span class="w"></span>
+<span class="c">%   coefficients defined as the sum of half the l^2 norm of the</span><span class="w"></span>
+<span class="c">%   approximation error and the mixed l^1 / l^2 norm of the coefficient</span><span class="w"></span>
+<span class="c">%   sequence, with a penalization coefficient lambda.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%   The matrix of time-frequency coefficients is labelled in terms of groups</span><span class="w"></span>
+<span class="c">%   and members.  By default, the obtained expansion is sparse in terms of</span><span class="w"></span>
+<span class="c">%   groups, no sparsity being imposed to the members of a given group. This</span><span class="w"></span>
+<span class="c">%   is achieved by a regularization term composed of l^2 norm within a</span><span class="w"></span>
+<span class="c">%   group, and l^1 norm with respect to groups. See the help on</span><span class="w"></span>
+<span class="c">%   GROUPTHRESH for more information.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   *Note* the involved frame F must support regular time-frequency</span><span class="w"></span>
+<span class="c">%   layout of coefficients.   </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tc,relres,iter] = FRANAGROUPLASSO(...) returns the residuals relres in</span><span class="w"></span>
+<span class="c">%   a vector and the number of iteration steps done, maxit.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tc,relres,iter,frec] = FRANAGROUPLASSO(...) returns the reconstructed</span><span class="w"></span>
+<span class="c">%   signal from the coefficients, frec. Note that this requires additional</span><span class="w"></span>
+<span class="c">%   computations.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function takes the following optional parameters at the end of</span><span class="w"></span>
+<span class="c">%   the line of input arguments:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;freq&#39;     Group in frequency (search for tonal components). This is the</span><span class="w"></span>
+<span class="c">%                default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;time&#39;     Group in time (search for transient components). </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;C&#39;,cval   Landweber iteration parameter: must be larger than</span><span class="w"></span>
+<span class="c">%                square of upper frame bound. Default value is the upper</span><span class="w"></span>
+<span class="c">%                frame bound.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;maxit&#39;,maxit</span><span class="w"></span>
+<span class="c">%                Stopping criterion: maximal number of iterations. </span><span class="w"></span>
+<span class="c">%                Default value is 100.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;tol&#39;,tol  Stopping criterion: minimum relative difference between</span><span class="w"></span>
+<span class="c">%                norms in two consecutive iterations. Default value is</span><span class="w"></span>
+<span class="c">%                1e-2.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;print&#39;    Display the progress.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;quiet&#39;    Don&#39;t print anything, this is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;printstep&#39;,p</span><span class="w"></span>
+<span class="c">%                If &#39;print&#39; is specified, then print every p&#39;th</span><span class="w"></span>
+<span class="c">%                iteration. Default value is 10;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In addition to these parameters, this function accepts all flags from</span><span class="w"></span>
+<span class="c">%   the GROUPTHRESH and THRESH functions. This makes it possible to</span><span class="w"></span>
+<span class="c">%   switch the grouping mechanism or inner thresholding type.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The parameters C, maxit and tol may also be specified on the</span><span class="w"></span>
+<span class="c">%   command line in that order: FRANAGROUPLASSO(F,x,lambda,C,tol,maxit).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The solution is obtained via an iterative procedure, called Landweber</span><span class="w"></span>
+<span class="c">%   iteration, involving iterative group thresholdings.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The relationship between the output coefficients is given by :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     frec = frsyn(F,tc);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: franalasso, framebounds</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     M. Kowalski. Sparse regression using mixed norms. Appl. Comput. Harmon.</span><span class="w"></span>
+<span class="c">%     Anal., 27(3):303--324, 2009.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     M. Kowalski and B. Torrésani. Sparsity and persistence: mixed norms</span><span class="w"></span>
+<span class="c">%     provide simple signal models with dependent coefficients. Signal, Image</span><span class="w"></span>
+<span class="c">%     and Video Processing, 3(3):251--264, 2009.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/franagrouplasso.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;FRANAGROUPLASSO&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANAGROUPLASSO&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;FRANAGROUPLASSO&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANAGROUPLASSO&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input signal must be a vector.&#39;</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isvector</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Input signal must be a vector.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Define initial value for flags and key/value pairs.</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;thresh&#39;</span><span class="p">,</span><span class="s">&#39;groupthresh&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">group</span><span class="p">={</span><span class="s">&#39;freq&#39;</span><span class="p">,</span><span class="s">&#39;time&#39;</span><span class="p">};</span>
+<span class="c">% Define initial value for flags and key/value pairs.</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;thresh&#39;</span><span class="p">,</span><span class="s">&#39;groupthresh&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">group</span><span class="p">={</span><span class="s">&#39;freq&#39;</span><span class="p">,</span><span class="s">&#39;time&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">C</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-2</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">C</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-2</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
+<span class="n">L</span><span class="p">=</span><span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">)</span>
-  <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">]</span> <span class="p">=</span> <span class="n">framebounds</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">framebounds</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Initialization of thresholded coefficients</span>
-<span class="n">c0</span> <span class="p">=</span> <span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">f</span><span class="p">);</span>
+<span class="c">% Initialization of thresholded coefficients</span><span class="w"></span>
+<span class="n">c0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% We have to convert the coefficients to time-frequency layout to</span>
-<span class="c">% discover their size</span>
-<span class="n">tc</span> <span class="p">=</span> <span class="n">framecoef2tf</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">c0</span><span class="p">);</span>
+<span class="c">% We have to convert the coefficients to time-frequency layout to</span><span class="w"></span>
+<span class="c">% discover their size</span><span class="w"></span>
+<span class="n">tc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">framecoef2tf</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">c0</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% [M,N]=size(tc);</span>
-<span class="c">% Normalization to turn lambda to a value comparable to lasso</span>
-<span class="c">%if flags.do_time</span>
-<span class="c">%  lambda = lambda*sqrt(N);</span>
-<span class="c">%else</span>
-<span class="c">%  lambda = lambda*sqrt(M);</span>
-<span class="c">%end</span>
+<span class="c">% [M,N]=size(tc);</span><span class="w"></span>
+<span class="c">% Normalization to turn lambda to a value comparable to lasso</span><span class="w"></span>
+<span class="c">%if flags.do_time</span><span class="w"></span>
+<span class="c">%  lambda = lambda*sqrt(N);</span><span class="w"></span>
+<span class="c">%else</span><span class="w"></span>
+<span class="c">%  lambda = lambda*sqrt(M);</span><span class="w"></span>
+<span class="c">%end</span><span class="w"></span>
 
-<span class="c">% Various parameter initializations</span>
-<span class="n">threshold</span> <span class="p">=</span> <span class="n">lambda</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">;</span>
+<span class="c">% Various parameter initializations</span><span class="w"></span>
+<span class="n">threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lambda</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">;</span><span class="w"></span>
 
 
 
-<span class="n">tc0</span> <span class="p">=</span> <span class="n">c0</span><span class="p">;</span>
-<span class="n">relres</span> <span class="p">=</span> <span class="mf">1e16</span><span class="p">;</span>
-<span class="n">iter</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">tc0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c0</span><span class="p">;</span><span class="w"></span>
+<span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e16</span><span class="p">;</span><span class="w"></span>
+<span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Choose the dimension to group along</span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span>
-  <span class="n">kv</span><span class="p">.</span><span class="n">dim</span><span class="p">=</span><span class="mi">2</span><span class="p">;</span>
-<span class="k">else</span>
-  <span class="n">kv</span><span class="p">.</span><span class="n">dim</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Choose the dimension to group along</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_freq</span><span class="w"></span>
+<span class="w">  </span><span class="n">kv</span><span class="p">.</span><span class="n">dim</span><span class="p">=</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">kv</span><span class="p">.</span><span class="n">dim</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="o">==</span><span class="mi">1</span>
-        
-    <span class="n">tc</span><span class="p">=</span><span class="n">groupthresh</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span><span class="n">threshold</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">dim</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">iofun</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">    </span><span class="n">tc</span><span class="p">=</span><span class="n">groupthresh</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span><span class="n">threshold</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">dim</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">iofun</span><span class="p">);</span><span class="w"></span>
 
-    <span class="c">% Convert back from TF-plane</span>
-    <span class="n">tc</span><span class="p">=</span><span class="n">frametf2coef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span>        
+<span class="w">    </span><span class="c">% Convert back from TF-plane</span><span class="w"></span>
+<span class="w">    </span><span class="n">tc</span><span class="p">=</span><span class="n">frametf2coef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span><span class="w">        </span>
 
-<span class="k">else</span>
+<span class="k">else</span><span class="w"></span>
 
-    <span class="c">% Main loop</span>
-    <span class="k">while</span> <span class="p">((</span><span class="n">iter</span> <span class="o">&lt;</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">relres</span> <span class="o">&gt;</span><span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">))</span>
-        <span class="n">tc</span> <span class="p">=</span> <span class="n">c0</span> <span class="o">-</span> <span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc0</span><span class="p">));</span>
-        <span class="n">tc</span> <span class="p">=</span> <span class="n">tc0</span> <span class="o">+</span> <span class="n">tc</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">;</span>
-        
-        <span class="c">%  ------------ Convert to TF-plane ---------</span>
-        <span class="n">tc</span> <span class="p">=</span> <span class="n">framecoef2tf</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span>
-        
-        <span class="n">tc</span> <span class="p">=</span> <span class="n">groupthresh</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span><span class="n">threshold</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span>
-        
-        <span class="c">% Convert back from TF-plane</span>
-        <span class="n">tc</span><span class="p">=</span><span class="n">frametf2coef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span>
-        <span class="c">% -------------------------------------------</span>
-        
-        <span class="n">relres</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">tc</span><span class="p">(:)</span><span class="o">-</span><span class="n">tc0</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">tc0</span><span class="p">(:));</span>
-        <span class="n">tc0</span> <span class="p">=</span> <span class="n">tc</span><span class="p">;</span>
-        <span class="n">iter</span> <span class="p">=</span> <span class="n">iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
-            <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>        
-                <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Iteration %d: relative error = %f\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">);</span>
-            <span class="k">end</span><span class="p">;</span>
-        <span class="k">end</span><span class="p">;</span>
-    <span class="k">end</span>
-    
-<span class="k">end</span><span class="p">;</span>
+<span class="w">    </span><span class="c">% Main loop</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">iter</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">relres</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">tc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">frana</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc0</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">tc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tc0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tc</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">C</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c">%  ------------ Convert to TF-plane ---------</span><span class="w"></span>
+<span class="w">        </span><span class="n">tc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">framecoef2tf</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">tc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">groupthresh</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span><span class="n">threshold</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c">% Convert back from TF-plane</span><span class="w"></span>
+<span class="w">        </span><span class="n">tc</span><span class="p">=</span><span class="n">frametf2coef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="c">% -------------------------------------------</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">tc</span><span class="p">(:)</span><span class="o">-</span><span class="n">tc0</span><span class="p">(:))</span><span class="o">/</span><span class="nb">norm</span><span class="p">(</span><span class="n">tc0</span><span class="p">(:));</span><span class="w"></span>
+<span class="w">        </span><span class="n">tc0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tc</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_print</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="w">        </span>
+<span class="w">                </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Iteration %d: relative error = %f\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Reconstruction</span>
-<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">3</span>
-  <span class="n">frec</span> <span class="p">=</span> <span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Reconstruction</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">  </span><span class="n">frec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">tc</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

@@ -43,59 +43,59 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">WFBTCLENGTH - WFBT subband lengths from a signal length</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[Lc,L]<span class="p">=</span><span class="nf">wfbtclength</span><span class="p">(</span>Ls,wt,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%WFBTCLENGTH  WFBT subband lengths from a signal length</span>
-<span class="c">%   Usage: Lc=wfbtclength(Ls,wt);</span>
-<span class="c">%          [Lc,L]=wfbtclength(...);</span>
-<span class="c">%</span>
-<span class="c">%   Lc=WFBTCLENGTH(Ls,wt) returns the lengths of coefficient subbands </span>
-<span class="c">%   obtained from WFBT for a signal of length Ls. Please see the help </span>
-<span class="c">%   on WFBT for an explanation of the parameters wt. </span>
-<span class="c">%</span>
-<span class="c">%   [Lc,L]=WFBTCLENGTH(...) additionally returns the next legal length </span>
-<span class="c">%   of the input signal for the given extension type.</span>
-<span class="c">%</span>
-<span class="c">%   The function support the same boundary-handling flags as the FWT</span>
-<span class="c">%   does.</span>
-<span class="c">%</span>
-<span class="c">%   See also: wfbt, wfbtlength</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfbtclength.html</span>
+<span class="c">%WFBTCLENGTH  WFBT subband lengths from a signal length</span><span class="w"></span>
+<span class="c">%   Usage: Lc=wfbtclength(Ls,wt);</span><span class="w"></span>
+<span class="c">%          [Lc,L]=wfbtclength(...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Lc=WFBTCLENGTH(Ls,wt) returns the lengths of coefficient subbands </span><span class="w"></span>
+<span class="c">%   obtained from WFBT for a signal of length Ls. Please see the help </span><span class="w"></span>
+<span class="c">%   on WFBT for an explanation of the parameters wt. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [Lc,L]=WFBTCLENGTH(...) additionally returns the next legal length </span><span class="w"></span>
+<span class="c">%   of the input signal for the given extension type.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function support the same boundary-handling flags as the FWT</span><span class="w"></span>
+<span class="c">%   does.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: wfbt, wfbtlength</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/wavelets/wfbtclength.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% AUTHOR: Zdenek Prusa</span>
+<span class="c">% AUTHOR: Zdenek Prusa</span><span class="w"></span>
 
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;WFBTCLENGTH&#39;</span><span class="p">);</span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;WFBTCLENGTH&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;fwt&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;fwt&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Initialize the wavelet filters structure</span>
-<span class="n">wt</span> <span class="p">=</span> <span class="n">wfbtinit</span><span class="p">(</span><span class="n">wt</span><span class="p">);</span>
+<span class="c">% Initialize the wavelet filters structure</span><span class="w"></span>
+<span class="n">wt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">wfbtinit</span><span class="p">(</span><span class="n">wt</span><span class="p">);</span><span class="w"></span>
 
 
-<span class="k">if</span><span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">do_per</span><span class="p">)</span>
-   <span class="n">a</span> <span class="p">=</span> <span class="n">treeSub</span><span class="p">(</span><span class="n">wt</span><span class="p">);</span>
-   <span class="n">L</span> <span class="p">=</span> <span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-   <span class="n">Lc</span> <span class="p">=</span> <span class="n">L</span><span class="o">./</span><span class="n">a</span><span class="p">;</span>
-<span class="k">else</span>
-   <span class="n">L</span> <span class="p">=</span> <span class="n">Ls</span><span class="p">;</span>
-   <span class="n">Lc</span> <span class="p">=</span> <span class="n">treeOutLen</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">wt</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="p">(</span><span class="n">flags</span><span class="p">.</span><span class="n">do_per</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">treeSub</span><span class="p">(</span><span class="n">wt</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">Lc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="o">./</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Ls</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">Lc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">treeOutLen</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">wt</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

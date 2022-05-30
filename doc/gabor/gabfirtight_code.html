@@ -46,143 +46,143 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">GABFIRTIGHT - Compute FIR tight window</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[gt,relres,iter]<span class="p">=</span><span class="nf">gabfirtight</span><span class="p">(</span>Lsupport,g,a,M,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%GABFIRTIGHT  Compute FIR tight window</span>
-<span class="c">%   Usage: gt=gabfirtight(Lsupport,g,a,M);</span>
-<span class="c">%          gt=gabfirtight(Lsupport,g,a,M, varagin);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%     Lsupport  : Length of the tight window</span>
-<span class="c">%     g      : Initial window function</span>
-<span class="c">%     a      : Time shift</span>
-<span class="c">%     M      : Number of Channels</span>
-<span class="c">%</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%     gt     : Tight window</span>
-<span class="c">%</span>
-<span class="c">%   GABFIRTIGHT(Lsupport,g,a,M) computes an FIR window gd which is tight. </span>
-<span class="c">%   The FIR dual window will be supported on Lsupport samples.</span>
-<span class="c">%</span>
-<span class="c">%   This function solve a convex optimization problem that can be written</span>
-<span class="c">%   as:</span>
-<span class="c">%</span>
-<span class="c">%      gd  = argmin_x    || alpha x||_1 +  || beta Fx||_1  </span>
-<span class="c">%</span>
-<span class="c">%                      + || omega (x -g_l) ||_2^2 + delta || x ||_S0</span>
-<span class="c">%</span>
-<span class="c">%                      + gamma || nabla F x ||_2^2 + mu || nabla x ||_2^2</span>
-<span class="c">%</span>
-<span class="c">%          such that  x is a tight FIR windows</span>
-<span class="c">%</span>
-<span class="c">%   *Note**: This function require the unlocbox. You can download it at</span>
-<span class="c">%   http://unlocbox.sourceforge.net</span>
-<span class="c">%</span>
-<span class="c">%   The function uses an iterative algorithm to compute the approximate</span>
-<span class="c">%   FIR tight windows. Warning The algorithm solve a non convex problem and</span>
-<span class="c">%   might be stack in bad local minima. The algorithm can be controlled by</span>
-<span class="c">%   the following flags: </span>
-<span class="c">%</span>
-<span class="c">%     &#39;alpha&#39;,alpha  Weight in time. If it is a scalar, it represent the</span>
-<span class="c">%                  weights of the entire L1 function in time. If it is a </span>
-<span class="c">%                  vector, it is the associated weight assotiated to each</span>
-<span class="c">%                  component of the L1 norm (length: Ldual).</span>
-<span class="c">%                  Default value is alpha=0.</span>
-<span class="c">%                  *Warning**: this value should not be too big in order to</span>
-<span class="c">%                  avoid the the L1 norm proximal operator kill the signal.</span>
-<span class="c">%                  No L1-time constraint: alpha=0</span>
-<span class="c">%</span>
-<span class="c">%     &#39;beta&#39;,beta  Weight in frequency. If it is a scalar, it represent the</span>
-<span class="c">%                  weights of the entire L1 function in frequency. If it is a </span>
-<span class="c">%                  vector, it is the associated weight assotiated to each</span>
-<span class="c">%                  component of the L1 norm in frequency. (length: Ldual).</span>
-<span class="c">%                  Default value is beta=0.</span>
-<span class="c">%                  *Warning**: this value should not be too big in order to</span>
-<span class="c">%                  avoid the the L1 norm proximal operator kill the signal.</span>
-<span class="c">%                  No L1-frequency constraint: beta=0</span>
-<span class="c">%</span>
-<span class="c">%     &#39;omega&#39;,omega</span>
-<span class="c">%                  Weight in time of the L2-norm. If it is a scalar,</span>
-<span class="c">%                  it represent the</span>
-<span class="c">%                  weights of the entire L2 function in time. If it is a </span>
-<span class="c">%                  vector, it is the associated weight assotiated to each</span>
-<span class="c">%                  component of the L2 norm (length: Ldual).</span>
-<span class="c">%                  Default value is omega=0.</span>
-<span class="c">%                  No L2-time constraint: omega=0</span>
-<span class="c">%</span>
-<span class="c">%     &#39;glike&#39;,g_l  g_l is a windows in time. The algorithm try to shape</span>
-<span class="c">%                  the dual window like g_l. Normalization of g_l is done</span>
-<span class="c">%                  automatically. To use option omega should be different</span>
-<span class="c">%                  from 0. By default g_d=0.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;mu&#39;,mu      Weight of the smooth constraint Default value is 1. </span>
-<span class="c">%                  No smooth constraint: mu=0</span>
-<span class="c">%   </span>
-<span class="c">%     &#39;gamma&#39;,gamma  Weight of the smooth constraint in frequency.</span>
-<span class="c">%                    Default value is 1. No smooth constraint: gamma=0</span>
-<span class="c">%   </span>
-<span class="c">%     &#39;delta&#39;,delta  Weight of the S0-norm. Default value is 0. </span>
-<span class="c">%                    No S0-norm: delta=0</span>
-<span class="c">%</span>
-<span class="c">%     &#39;dual&#39;       Look for a dual windows (default)</span>
-<span class="c">%</span>
-<span class="c">%     &#39;painless&#39;   Construct a starting guess using a painless-case</span>
-<span class="c">%                  approximation. This is the default</span>
-<span class="c">%</span>
-<span class="c">%     &#39;zero&#39;       Choose a starting guess of zero.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the </span>
-<span class="c">%                  specified tolerance.  </span>
-<span class="c">%</span>
-<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations. default 200</span>
-<span class="c">%</span>
-<span class="c">%     &#39;print&#39;      Display the progress.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;debug&#39;      Display all the progresses.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;fast&#39;       Fast algorithm, this is the default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;slow&#39;       Safer algorithm, you can try this if the fast algorithm</span>
-<span class="c">%                  is not working. Before using this, try to iterate more.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span>
-<span class="c">%                    iteration. Default value is p=10;</span>
-<span class="c">%</span>
-<span class="c">%     &#39;hardconstraint&#39; Force the projection at the end (default)</span>
-<span class="c">%</span>
-<span class="c">%     &#39;softconstaint&#39; Do not force the projection at the end</span>
-<span class="c">%</span>
-<span class="c">%   See also: gaboptdual, gabdual, gabtight, gabfirdual, gabconvexopt</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabfirtight.html</span>
+<span class="c">%GABFIRTIGHT  Compute FIR tight window</span><span class="w"></span>
+<span class="c">%   Usage: gt=gabfirtight(Lsupport,g,a,M);</span><span class="w"></span>
+<span class="c">%          gt=gabfirtight(Lsupport,g,a,M, varagin);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%     Lsupport  : Length of the tight window</span><span class="w"></span>
+<span class="c">%     g      : Initial window function</span><span class="w"></span>
+<span class="c">%     a      : Time shift</span><span class="w"></span>
+<span class="c">%     M      : Number of Channels</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%     gt     : Tight window</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABFIRTIGHT(Lsupport,g,a,M) computes an FIR window gd which is tight. </span><span class="w"></span>
+<span class="c">%   The FIR dual window will be supported on Lsupport samples.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This function solve a convex optimization problem that can be written</span><span class="w"></span>
+<span class="c">%   as:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      gd  = argmin_x    || alpha x||_1 +  || beta Fx||_1  </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%                      + || omega (x -g_l) ||_2^2 + delta || x ||_S0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%                      + gamma || nabla F x ||_2^2 + mu || nabla x ||_2^2</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%          such that  x is a tight FIR windows</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   *Note**: This function require the unlocbox. You can download it at</span><span class="w"></span>
+<span class="c">%   http://unlocbox.sourceforge.net</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function uses an iterative algorithm to compute the approximate</span><span class="w"></span>
+<span class="c">%   FIR tight windows. Warning The algorithm solve a non convex problem and</span><span class="w"></span>
+<span class="c">%   might be stack in bad local minima. The algorithm can be controlled by</span><span class="w"></span>
+<span class="c">%   the following flags: </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;alpha&#39;,alpha  Weight in time. If it is a scalar, it represent the</span><span class="w"></span>
+<span class="c">%                  weights of the entire L1 function in time. If it is a </span><span class="w"></span>
+<span class="c">%                  vector, it is the associated weight assotiated to each</span><span class="w"></span>
+<span class="c">%                  component of the L1 norm (length: Ldual).</span><span class="w"></span>
+<span class="c">%                  Default value is alpha=0.</span><span class="w"></span>
+<span class="c">%                  *Warning**: this value should not be too big in order to</span><span class="w"></span>
+<span class="c">%                  avoid the the L1 norm proximal operator kill the signal.</span><span class="w"></span>
+<span class="c">%                  No L1-time constraint: alpha=0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;beta&#39;,beta  Weight in frequency. If it is a scalar, it represent the</span><span class="w"></span>
+<span class="c">%                  weights of the entire L1 function in frequency. If it is a </span><span class="w"></span>
+<span class="c">%                  vector, it is the associated weight assotiated to each</span><span class="w"></span>
+<span class="c">%                  component of the L1 norm in frequency. (length: Ldual).</span><span class="w"></span>
+<span class="c">%                  Default value is beta=0.</span><span class="w"></span>
+<span class="c">%                  *Warning**: this value should not be too big in order to</span><span class="w"></span>
+<span class="c">%                  avoid the the L1 norm proximal operator kill the signal.</span><span class="w"></span>
+<span class="c">%                  No L1-frequency constraint: beta=0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;omega&#39;,omega</span><span class="w"></span>
+<span class="c">%                  Weight in time of the L2-norm. If it is a scalar,</span><span class="w"></span>
+<span class="c">%                  it represent the</span><span class="w"></span>
+<span class="c">%                  weights of the entire L2 function in time. If it is a </span><span class="w"></span>
+<span class="c">%                  vector, it is the associated weight assotiated to each</span><span class="w"></span>
+<span class="c">%                  component of the L2 norm (length: Ldual).</span><span class="w"></span>
+<span class="c">%                  Default value is omega=0.</span><span class="w"></span>
+<span class="c">%                  No L2-time constraint: omega=0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;glike&#39;,g_l  g_l is a windows in time. The algorithm try to shape</span><span class="w"></span>
+<span class="c">%                  the dual window like g_l. Normalization of g_l is done</span><span class="w"></span>
+<span class="c">%                  automatically. To use option omega should be different</span><span class="w"></span>
+<span class="c">%                  from 0. By default g_d=0.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;mu&#39;,mu      Weight of the smooth constraint Default value is 1. </span><span class="w"></span>
+<span class="c">%                  No smooth constraint: mu=0</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%     &#39;gamma&#39;,gamma  Weight of the smooth constraint in frequency.</span><span class="w"></span>
+<span class="c">%                    Default value is 1. No smooth constraint: gamma=0</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%     &#39;delta&#39;,delta  Weight of the S0-norm. Default value is 0. </span><span class="w"></span>
+<span class="c">%                    No S0-norm: delta=0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;dual&#39;       Look for a dual windows (default)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;painless&#39;   Construct a starting guess using a painless-case</span><span class="w"></span>
+<span class="c">%                  approximation. This is the default</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;zero&#39;       Choose a starting guess of zero.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the </span><span class="w"></span>
+<span class="c">%                  specified tolerance.  </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations. default 200</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;print&#39;      Display the progress.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;debug&#39;      Display all the progresses.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;fast&#39;       Fast algorithm, this is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;slow&#39;       Safer algorithm, you can try this if the fast algorithm</span><span class="w"></span>
+<span class="c">%                  is not working. Before using this, try to iterate more.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span><span class="w"></span>
+<span class="c">%                    iteration. Default value is p=10;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;hardconstraint&#39; Force the projection at the end (default)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;softconstaint&#39; Do not force the projection at the end</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: gaboptdual, gabdual, gabtight, gabfirdual, gabconvexopt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabfirtight.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-    
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">    </span>
 
-<span class="c">% Author: Nathanael Perraudin</span>
-<span class="c">% Date  : 18 Feb 2014</span>
+<span class="c">% Author: Nathanael Perraudin</span><span class="w"></span>
+<span class="c">% Date  : 18 Feb 2014</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">4</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">4</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">gt</span><span class="p">,</span><span class="n">relres</span><span class="p">,</span><span class="n">iter</span><span class="p">]=</span><span class="n">gabconvexopt</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:},</span> <span class="s">&#39;support&#39;</span><span class="p">,</span><span class="n">Lsupport</span><span class="p">,</span><span class="s">&#39;tight&#39;</span><span class="p">);</span>
+<span class="p">[</span><span class="n">gt</span><span class="p">,</span><span class="n">relres</span><span class="p">,</span><span class="n">iter</span><span class="p">]=</span><span class="n">gabconvexopt</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:},</span><span class="w"> </span><span class="s">&#39;support&#39;</span><span class="p">,</span><span class="n">Lsupport</span><span class="p">,</span><span class="s">&#39;tight&#39;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

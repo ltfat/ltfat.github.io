@@ -46,328 +46,328 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FRANABP - Frame Analysis Basis Pursuit</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,relres,iter,frec,cd]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">franabp</span><span class="p">(</span>F,f,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FRANABP Frame Analysis Basis Pursuit</span>
-<span class="c">%   Usage: c = franabp(F,f)</span>
-<span class="c">%          c = franabp(F,f,lambda,C,tol,maxit)</span>
-<span class="c">%          [c,relres,iter,frec,cd] = franabp(...)</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%       F        : Frame definition</span>
-<span class="c">%       f        : Input signal</span>
-<span class="c">%       lambda   : Regularisation parameter.</span>
-<span class="c">%       C        : Step size of the algorithm.</span>
-<span class="c">%       tol      : Reative error tolerance.</span>
-<span class="c">%       maxit    : Maximum number of iterations.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%       c        : Sparse coefficients.</span>
-<span class="c">%       relres   : Last relative error.</span>
-<span class="c">%       iter     : Number of iterations done.</span>
-<span class="c">%       frec     : Reconstructed signal such that frec = frsyn(F,c)</span>
-<span class="c">%       cd       : The min c||_2 solution using the canonical dual frame.</span>
-<span class="c">%</span>
-<span class="c">%   c = FRANABP(F,f) solves the basis pursuit problem</span>
-<span class="c">%</span>
-<span class="c">%      argmin ||c||_1 subject to Fc = f</span>
-<span class="c">%</span>
-<span class="c">%   for a general frame F using SALSA (Split Augmented Lagrangian</span>
-<span class="c">%   Srinkage algorithm) which is an appication of ADMM (Alternating</span>
-<span class="c">%   Direction Method of Multipliers) to the basis pursuit problem.</span>
-<span class="c">%</span>
-<span class="c">%   The algorithm given F and f and parameters C &gt;0, lambda &gt;0 </span>
-<span class="c">%   (see below) acts as follows:</span>
-<span class="c">%</span>
-<span class="c">%     Initialize c,d</span>
-<span class="c">%     repeat</span>
-<span class="c">%       v &lt;- soft(c+d,lambda/C) - d</span>
-<span class="c">%       d &lt;- F*(FF*)^(-1)(f - Fv)</span>
-<span class="c">%       c &lt;- d + v</span>
-<span class="c">%     end</span>
-<span class="c">%</span>
-<span class="c">%   When compared to other algorithms, Fc = f holds exactly (up to a num.</span>
-<span class="c">%   prec) in each iteration.</span>
-<span class="c">%</span>
-<span class="c">%   For a quick execution, the function requires analysis operator of the</span>
-<span class="c">%   canonical dual frame F*(FF*)^(-1). By default, the function attempts</span>
-<span class="c">%   to call FRAMEDUAL to create the canonical dual frame explicitly.</span>
-<span class="c">%   If it is not available, the conjugate gradient method algorithm is</span>
-<span class="c">%   used for inverting the frame operator in each iteration of the</span>
-<span class="c">%   algorithm.</span>
-<span class="c">%   Optionally, the canonical dual frame object or an anonymous function </span>
-<span class="c">%   acting as the analysis operator of the canonical dual frame can be </span>
-<span class="c">%   passed as a key-value pair &#39;Fd&#39;,Fd see below. </span>
-<span class="c">%</span>
-<span class="c">%   Optional positional parameters (lambda,C,tol,maxit)</span>
-<span class="c">%   ---------------------------------------------------</span>
-<span class="c">%</span>
-<span class="c">%   lambda</span>
-<span class="c">%       A parameter for weighting coefficients in the objective</span>
-<span class="c">%       function. For lambda~=1 the basis pursuit problem changes to</span>
-<span class="c">%</span>
-<span class="c">%          argmin ||lambda c||_1 subject to Fc = f</span>
-<span class="c">%</span>
-<span class="c">%       lambda can either be a scalar or a vector of the same length</span>
-<span class="c">%       as c (in such case the product is carried out elementwise). </span>
-<span class="c">%       One can obtain length of c from length of f by</span>
-<span class="c">%       FRAMECLENGTH. FRAMECOEF2NATIVE and FRAMENATIVE2COEF will</span>
-<span class="c">%       help with defining weights specific to some regions of</span>
-<span class="c">%       coefficients (e.g. channel-specific weighting can be achieved</span>
-<span class="c">%       this way).           </span>
-<span class="c">%       The default value of lambda is 1.</span>
-<span class="c">%</span>
-<span class="c">%   C</span>
-<span class="c">%      A step parameter of the SALSA algorithm. </span>
-<span class="c">%      The default value of C is the upper frame bound of F. </span>
-<span class="c">%      Depending on the structure of the frame, this can be an expensive</span>
-<span class="c">%      operation.</span>
-<span class="c">%</span>
-<span class="c">%   tol</span>
-<span class="c">%      Defines tolerance of relres which is a norm or a relative</span>
-<span class="c">%      difference of coefficients obtained in two consecutive iterations</span>
-<span class="c">%      of the algorithm.</span>
-<span class="c">%      The default value 1e-2.</span>
-<span class="c">%</span>
-<span class="c">%   maxit</span>
-<span class="c">%      Maximum number of iterations to do.</span>
-<span class="c">%      The default value is 100.</span>
-<span class="c">%</span>
-<span class="c">%   Other optional parameters</span>
-<span class="c">%   -------------------------</span>
-<span class="c">%</span>
-<span class="c">%   Key-value pairs:</span>
-<span class="c">%</span>
-<span class="c">%   &#39;Fd&#39;,Fd</span>
-<span class="c">%      A canonical dual frame object or an anonymous function </span>
-<span class="c">%      acting as the analysis operator of the canonical dual frame.</span>
-<span class="c">%</span>
-<span class="c">%   &#39;printstep&#39;,printstep</span>
-<span class="c">%      Print current status every printstep iteration.</span>
-<span class="c">%</span>
-<span class="c">%   Flag groups (first one listed is the default):</span>
-<span class="c">%</span>
-<span class="c">%   &#39;print&#39;,&#39;quiet&#39;</span>
-<span class="c">%       Enables/disables printing of notifications.</span>
-<span class="c">%</span>
-<span class="c">%   &#39;zeros&#39;,&#39;frana&#39;</span>
-<span class="c">%      Starting point of the algorithm. With &#39;zeros&#39; enabled, the</span>
-<span class="c">%      algorithm starts from coefficients set to zero, with &#39;frana&#39;</span>
-<span class="c">%      the algorithm starts from c=frana(F,f).             </span>
-<span class="c">%</span>
-<span class="c">%   Returned arguments:</span>
-<span class="c">%   -------------------</span>
-<span class="c">%</span>
-<span class="c">%   [c,relres,iter] = FRANABP(...) returns the residuals relres in a</span>
-<span class="c">%   vector and the number of iteration steps done iter.</span>
-<span class="c">%</span>
-<span class="c">%   [c,relres,iter,frec,cd] = FRANABP(...) returns the reconstructed</span>
-<span class="c">%   signal from the coefficients, frec (this requires additional</span>
-<span class="c">%   computations) and a coefficients cd minimising the c||_2 norm</span>
-<span class="c">%   (this is a byproduct of the algorithm).</span>
-<span class="c">%</span>
-<span class="c">%   The relationship between the output coefficients frec and c is</span>
-<span class="c">%   given by :</span>
-<span class="c">%</span>
-<span class="c">%     frec = frsyn(F,c);</span>
-<span class="c">%</span>
-<span class="c">%   And cd and f by :</span>
-<span class="c">%</span>
-<span class="c">%     cd = frana(framedual(F),f);</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   The following example shows how FRANABP produces a sparse</span>
-<span class="c">%   representation of a test signal greasy still maintaining a perfect</span>
-<span class="c">%   reconstruction:</span>
-<span class="c">%</span>
-<span class="c">%      f = greasy;</span>
-<span class="c">%      % Gabor frame with redundancy 8</span>
-<span class="c">%      F = frame(&#39;dgtreal&#39;,&#39;gauss&#39;,64,512);</span>
-<span class="c">%      % Solve the basis pursuit problem</span>
-<span class="c">%      [c,~,~,frec,cd] = franabp(F,f);</span>
-<span class="c">%      % Plot sparse coefficients</span>
-<span class="c">%      figure(1);</span>
-<span class="c">%      plotframe(F,c,&#39;dynrange&#39;,50);</span>
-<span class="c">%</span>
-<span class="c">%      % Plot coefficients obtained by applying an analysis operator of a</span>
-<span class="c">%      % dual Gabor system to f*</span>
-<span class="c">%      figure(2);</span>
-<span class="c">%      plotframe(F,cd,&#39;dynrange&#39;,50);</span>
-<span class="c">%</span>
-<span class="c">%      % Check the reconstruction error (should be close do zero).</span>
-<span class="c">%      % frec is obtained by applying the synthesis operator of frame F*</span>
-<span class="c">%      % to sparse coefficients c.</span>
-<span class="c">%      norm(f-frec)</span>
-<span class="c">%</span>
-<span class="c">%      % Compare decay of coefficients sorted by absolute values</span>
-<span class="c">%      % (compressibility of coefficients)</span>
-<span class="c">%      figure(3);</span>
-<span class="c">%      semilogx([sort(abs(c),&#39;descend&#39;)/max(abs(c)),...</span>
-<span class="c">%      sort(abs(cd),&#39;descend&#39;)/max(abs(cd))]);</span>
-<span class="c">%      legend({&#39;sparsified coefficients&#39;,&#39;dual system coefficients&#39;});</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame, frana, frsyn, framebounds, franalasso</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     S. Boyd, N. Parikh, E. Chu, B. Peleato, and J. Eckstein. Distributed</span>
-<span class="c">%     optimization and statistical learning via the alternating direction</span>
-<span class="c">%     method of multipliers. Found. Trends Mach. Learn., 3(1):1--122, Jan.</span>
-<span class="c">%     2011. [1]http ]</span>
-<span class="c">%     </span>
-<span class="c">%     I. Selesnick. L1-Norm Penalized Least Squares with SALSA. OpenStax_CNX,</span>
-<span class="c">%     Jan. 2014.</span>
-<span class="c">%     </span>
-<span class="c">%     References</span>
-<span class="c">%     </span>
-<span class="c">%     1. http://dx.doi.org/10.1561/2200000016</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/franabp.html</span>
+<span class="c">%FRANABP Frame Analysis Basis Pursuit</span><span class="w"></span>
+<span class="c">%   Usage: c = franabp(F,f)</span><span class="w"></span>
+<span class="c">%          c = franabp(F,f,lambda,C,tol,maxit)</span><span class="w"></span>
+<span class="c">%          [c,relres,iter,frec,cd] = franabp(...)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%       F        : Frame definition</span><span class="w"></span>
+<span class="c">%       f        : Input signal</span><span class="w"></span>
+<span class="c">%       lambda   : Regularisation parameter.</span><span class="w"></span>
+<span class="c">%       C        : Step size of the algorithm.</span><span class="w"></span>
+<span class="c">%       tol      : Reative error tolerance.</span><span class="w"></span>
+<span class="c">%       maxit    : Maximum number of iterations.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%       c        : Sparse coefficients.</span><span class="w"></span>
+<span class="c">%       relres   : Last relative error.</span><span class="w"></span>
+<span class="c">%       iter     : Number of iterations done.</span><span class="w"></span>
+<span class="c">%       frec     : Reconstructed signal such that frec = frsyn(F,c)</span><span class="w"></span>
+<span class="c">%       cd       : The min c||_2 solution using the canonical dual frame.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   c = FRANABP(F,f) solves the basis pursuit problem</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      argmin ||c||_1 subject to Fc = f</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   for a general frame F using SALSA (Split Augmented Lagrangian</span><span class="w"></span>
+<span class="c">%   Srinkage algorithm) which is an appication of ADMM (Alternating</span><span class="w"></span>
+<span class="c">%   Direction Method of Multipliers) to the basis pursuit problem.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The algorithm given F and f and parameters C &gt;0, lambda &gt;0 </span><span class="w"></span>
+<span class="c">%   (see below) acts as follows:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     Initialize c,d</span><span class="w"></span>
+<span class="c">%     repeat</span><span class="w"></span>
+<span class="c">%       v &lt;- soft(c+d,lambda/C) - d</span><span class="w"></span>
+<span class="c">%       d &lt;- F*(FF*)^(-1)(f - Fv)</span><span class="w"></span>
+<span class="c">%       c &lt;- d + v</span><span class="w"></span>
+<span class="c">%     end</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   When compared to other algorithms, Fc = f holds exactly (up to a num.</span><span class="w"></span>
+<span class="c">%   prec) in each iteration.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   For a quick execution, the function requires analysis operator of the</span><span class="w"></span>
+<span class="c">%   canonical dual frame F*(FF*)^(-1). By default, the function attempts</span><span class="w"></span>
+<span class="c">%   to call FRAMEDUAL to create the canonical dual frame explicitly.</span><span class="w"></span>
+<span class="c">%   If it is not available, the conjugate gradient method algorithm is</span><span class="w"></span>
+<span class="c">%   used for inverting the frame operator in each iteration of the</span><span class="w"></span>
+<span class="c">%   algorithm.</span><span class="w"></span>
+<span class="c">%   Optionally, the canonical dual frame object or an anonymous function </span><span class="w"></span>
+<span class="c">%   acting as the analysis operator of the canonical dual frame can be </span><span class="w"></span>
+<span class="c">%   passed as a key-value pair &#39;Fd&#39;,Fd see below. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Optional positional parameters (lambda,C,tol,maxit)</span><span class="w"></span>
+<span class="c">%   ---------------------------------------------------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   lambda</span><span class="w"></span>
+<span class="c">%       A parameter for weighting coefficients in the objective</span><span class="w"></span>
+<span class="c">%       function. For lambda~=1 the basis pursuit problem changes to</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%          argmin ||lambda c||_1 subject to Fc = f</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       lambda can either be a scalar or a vector of the same length</span><span class="w"></span>
+<span class="c">%       as c (in such case the product is carried out elementwise). </span><span class="w"></span>
+<span class="c">%       One can obtain length of c from length of f by</span><span class="w"></span>
+<span class="c">%       FRAMECLENGTH. FRAMECOEF2NATIVE and FRAMENATIVE2COEF will</span><span class="w"></span>
+<span class="c">%       help with defining weights specific to some regions of</span><span class="w"></span>
+<span class="c">%       coefficients (e.g. channel-specific weighting can be achieved</span><span class="w"></span>
+<span class="c">%       this way).           </span><span class="w"></span>
+<span class="c">%       The default value of lambda is 1.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   C</span><span class="w"></span>
+<span class="c">%      A step parameter of the SALSA algorithm. </span><span class="w"></span>
+<span class="c">%      The default value of C is the upper frame bound of F. </span><span class="w"></span>
+<span class="c">%      Depending on the structure of the frame, this can be an expensive</span><span class="w"></span>
+<span class="c">%      operation.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   tol</span><span class="w"></span>
+<span class="c">%      Defines tolerance of relres which is a norm or a relative</span><span class="w"></span>
+<span class="c">%      difference of coefficients obtained in two consecutive iterations</span><span class="w"></span>
+<span class="c">%      of the algorithm.</span><span class="w"></span>
+<span class="c">%      The default value 1e-2.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   maxit</span><span class="w"></span>
+<span class="c">%      Maximum number of iterations to do.</span><span class="w"></span>
+<span class="c">%      The default value is 100.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Other optional parameters</span><span class="w"></span>
+<span class="c">%   -------------------------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Key-value pairs:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   &#39;Fd&#39;,Fd</span><span class="w"></span>
+<span class="c">%      A canonical dual frame object or an anonymous function </span><span class="w"></span>
+<span class="c">%      acting as the analysis operator of the canonical dual frame.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   &#39;printstep&#39;,printstep</span><span class="w"></span>
+<span class="c">%      Print current status every printstep iteration.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Flag groups (first one listed is the default):</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   &#39;print&#39;,&#39;quiet&#39;</span><span class="w"></span>
+<span class="c">%       Enables/disables printing of notifications.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   &#39;zeros&#39;,&#39;frana&#39;</span><span class="w"></span>
+<span class="c">%      Starting point of the algorithm. With &#39;zeros&#39; enabled, the</span><span class="w"></span>
+<span class="c">%      algorithm starts from coefficients set to zero, with &#39;frana&#39;</span><span class="w"></span>
+<span class="c">%      the algorithm starts from c=frana(F,f).             </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Returned arguments:</span><span class="w"></span>
+<span class="c">%   -------------------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [c,relres,iter] = FRANABP(...) returns the residuals relres in a</span><span class="w"></span>
+<span class="c">%   vector and the number of iteration steps done iter.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [c,relres,iter,frec,cd] = FRANABP(...) returns the reconstructed</span><span class="w"></span>
+<span class="c">%   signal from the coefficients, frec (this requires additional</span><span class="w"></span>
+<span class="c">%   computations) and a coefficients cd minimising the c||_2 norm</span><span class="w"></span>
+<span class="c">%   (this is a byproduct of the algorithm).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The relationship between the output coefficients frec and c is</span><span class="w"></span>
+<span class="c">%   given by :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     frec = frsyn(F,c);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   And cd and f by :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     cd = frana(framedual(F),f);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example shows how FRANABP produces a sparse</span><span class="w"></span>
+<span class="c">%   representation of a test signal greasy still maintaining a perfect</span><span class="w"></span>
+<span class="c">%   reconstruction:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      f = greasy;</span><span class="w"></span>
+<span class="c">%      % Gabor frame with redundancy 8</span><span class="w"></span>
+<span class="c">%      F = frame(&#39;dgtreal&#39;,&#39;gauss&#39;,64,512);</span><span class="w"></span>
+<span class="c">%      % Solve the basis pursuit problem</span><span class="w"></span>
+<span class="c">%      [c,~,~,frec,cd] = franabp(F,f);</span><span class="w"></span>
+<span class="c">%      % Plot sparse coefficients</span><span class="w"></span>
+<span class="c">%      figure(1);</span><span class="w"></span>
+<span class="c">%      plotframe(F,c,&#39;dynrange&#39;,50);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      % Plot coefficients obtained by applying an analysis operator of a</span><span class="w"></span>
+<span class="c">%      % dual Gabor system to f*</span><span class="w"></span>
+<span class="c">%      figure(2);</span><span class="w"></span>
+<span class="c">%      plotframe(F,cd,&#39;dynrange&#39;,50);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      % Check the reconstruction error (should be close do zero).</span><span class="w"></span>
+<span class="c">%      % frec is obtained by applying the synthesis operator of frame F*</span><span class="w"></span>
+<span class="c">%      % to sparse coefficients c.</span><span class="w"></span>
+<span class="c">%      norm(f-frec)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      % Compare decay of coefficients sorted by absolute values</span><span class="w"></span>
+<span class="c">%      % (compressibility of coefficients)</span><span class="w"></span>
+<span class="c">%      figure(3);</span><span class="w"></span>
+<span class="c">%      semilogx([sort(abs(c),&#39;descend&#39;)/max(abs(c)),...</span><span class="w"></span>
+<span class="c">%      sort(abs(cd),&#39;descend&#39;)/max(abs(cd))]);</span><span class="w"></span>
+<span class="c">%      legend({&#39;sparsified coefficients&#39;,&#39;dual system coefficients&#39;});</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame, frana, frsyn, framebounds, franalasso</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     S. Boyd, N. Parikh, E. Chu, B. Peleato, and J. Eckstein. Distributed</span><span class="w"></span>
+<span class="c">%     optimization and statistical learning via the alternating direction</span><span class="w"></span>
+<span class="c">%     method of multipliers. Found. Trends Mach. Learn., 3(1):1--122, Jan.</span><span class="w"></span>
+<span class="c">%     2011. [1]http ]</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     I. Selesnick. L1-Norm Penalized Least Squares with SALSA. OpenStax_CNX,</span><span class="w"></span>
+<span class="c">%     Jan. 2014.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     References</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     1. http://dx.doi.org/10.1561/2200000016</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/franabp.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR: Zdenek Prusa</span>
-<span class="c">%   TO DO: Detect when F is a tight frame and simplify the algorithm. </span>
-<span class="c">%   Maybe add a &#39;tight&#39; flag to indicate the frame is already tight.</span>
+<span class="c">%   AUTHOR: Zdenek Prusa</span><span class="w"></span>
+<span class="c">%   TO DO: Detect when F is a tight frame and simplify the algorithm. </span><span class="w"></span>
+<span class="c">%   Maybe add a &#39;tight&#39; flag to indicate the frame is already tight.</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRANABP&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANABP&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRANABP&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANABP&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Define initial value for flags and key/value pairs.</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">C</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lambda</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-2</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Fd</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;print&#39;</span><span class="p">,</span><span class="s">&#39;quiet&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startpoint</span><span class="p">={</span><span class="s">&#39;zeros&#39;</span><span class="p">,</span><span class="s">&#39;frana&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">lambda</span><span class="p">,</span><span class="n">C</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;lambda&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="c">% Define initial value for flags and key/value pairs.</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">C</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lambda</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-2</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Fd</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;print&#39;</span><span class="p">,</span><span class="s">&#39;quiet&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startpoint</span><span class="p">={</span><span class="s">&#39;zeros&#39;</span><span class="p">,</span><span class="s">&#39;frana&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">lambda</span><span class="p">,</span><span class="n">C</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;lambda&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span>
-    <span class="n">lambda</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">lambda</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: &#39;&#39;lambda&#39;&#39; parameter must be positive.&#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: &#39;&#39;lambda&#39;&#39; parameter must be positive.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">          </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
-<span class="c">% Change f to correct shape.</span>
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="c">%% ----- step 1 : Verify f and determine its length -------</span><span class="w"></span>
+<span class="c">% Change f to correct shape.</span><span class="w"></span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Input signal can be single channel only.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Input signal can be single channel only.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Do a correct postpad so that we can call F.frana and F.frsyn</span>
-<span class="c">% directly.</span>
-<span class="n">L</span> <span class="p">=</span> <span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
-<span class="n">f</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="c">% Do a correct postpad so that we can call F.frana and F.frsyn</span><span class="w"></span>
+<span class="c">% directly.</span><span class="w"></span>
+<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+<span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
-    <span class="c">% Use the upper framebound as C</span>
-   <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">C</span><span class="p">]</span> <span class="p">=</span> <span class="n">framebounds</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-<span class="k">else</span>
-   <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">||</span> <span class="n">C</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">0</span>
-       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: &#39;&#39;C&#39;&#39; parameter must be a positive scalar.&#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-   <span class="k">end</span>
-<span class="k">end</span><span class="p">;</span>
-
-
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span>
-    <span class="c">% If the dual frame was not explicitly passed try creating it</span>
-    <span class="k">try</span>
-       <span class="c">% Try to create and accelerate the dual frame</span>
-       <span class="n">Fd</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">framedual</span><span class="p">(</span><span class="n">F</span><span class="p">),</span><span class="n">L</span><span class="p">);</span>
-       <span class="n">Fdfrana</span> <span class="p">=</span> <span class="p">@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">Fd</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span>
-    <span class="k">catch</span>
-       <span class="n">warning</span><span class="p">(</span><span class="n">sprintf</span><span class="p">([</span><span class="s">&#39;The canonical dual system is not available for a given &#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;frame.\n Using franaiter.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">)));</span>
-        <span class="c">% err = lasterror.message;</span>
-        <span class="c">% The dual system cannot be created.</span>
-        <span class="c">% We will use franaiter instead</span>
-       <span class="n">Fdfrana</span> <span class="p">=</span> <span class="p">@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">franaiter</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">insig</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="mf">1e-14</span><span class="p">);</span>
-    <span class="k">end</span>
-<span class="k">else</span>
-   <span class="k">if</span> <span class="n">isstruct</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">isfield</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;frana&#39;</span><span class="p">)</span> 
-      <span class="c">% The canonical dual frame was passed explicitly as a frame object</span>
-      <span class="n">Fd</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-      <span class="n">Fdfrana</span> <span class="p">=</span> <span class="p">@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">Fd</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span>
-   <span class="k">elseif</span> <span class="n">isa</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span>
-      <span class="c">% The anonymous function is expected to do F*(FF*)^(-1)</span>
-      <span class="n">Fdfrana</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">;</span>
-   <span class="k">else</span>
-       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid format of Fd.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfielname</span><span class="p">));</span>
-   <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="c">% Accelerate the frame</span>
-<span class="n">F</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-
-<span class="c">% Cache the constant part</span>
-<span class="n">cd</span> <span class="p">=</span> <span class="n">Fdfrana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-
-<span class="c">% Intermediate results</span>
-<span class="n">d</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">cd</span><span class="p">));</span>
-<span class="c">% Initial point</span>
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_frana</span>
-   <span class="n">tc0</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-<span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zeros</span>
-   <span class="n">tc0</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">cd</span><span class="p">));</span>
-<span class="k">end</span>
-<span class="n">c</span> <span class="p">=</span> <span class="n">tc0</span><span class="p">;</span>
-
-<span class="n">threshold</span> <span class="p">=</span> <span class="n">lambda</span><span class="o">./</span><span class="n">C</span><span class="p">;</span>
-<span class="n">relres</span> <span class="p">=</span> <span class="mf">1e16</span><span class="p">;</span>
-<span class="n">iter</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="k">if</span> <span class="n">norm</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="n">relres</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">frec</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
-    <span class="k">return</span><span class="p">;</span>
-<span class="k">end</span>
-
-<span class="c">% Main loop</span>
-<span class="k">while</span> <span class="p">((</span><span class="n">iter</span> <span class="o">&lt;</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">relres</span> <span class="o">&gt;</span><span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">))</span>
-   <span class="c">% Main part of the algorithm </span>
-   <span class="n">v</span> <span class="p">=</span> <span class="n">thresh</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span><span class="n">threshold</span><span class="p">,</span><span class="s">&#39;soft&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">d</span><span class="p">;</span>
-   <span class="n">d</span> <span class="p">=</span> <span class="n">cd</span> <span class="o">-</span> <span class="n">Fdfrana</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">v</span><span class="p">));</span>
-   <span class="n">c</span> <span class="p">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">v</span><span class="p">;</span>
-   
-   <span class="c">% Bookkeeping</span>
-   <span class="n">relres</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">c</span><span class="p">(:)</span><span class="o">-</span><span class="n">tc0</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">tc0</span><span class="p">(:));</span>
-   <span class="n">tc0</span> <span class="p">=</span> <span class="n">c</span><span class="p">;</span>
-   <span class="n">iter</span> <span class="p">=</span> <span class="n">iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
-     <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
-       <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;Iteration %d: relative error = %f\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">);</span>
-     <span class="k">end</span><span class="p">;</span>
-   <span class="k">end</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Use the upper framebound as C</span><span class="w"></span>
+<span class="w">   </span><span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">C</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">framebounds</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">C</span><span class="o">&lt;=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">       </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: &#39;&#39;C&#39;&#39; parameter must be a positive scalar.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
 
-<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">3</span>
-    <span class="c">% Do a reconstruction with the original frame</span>
-    <span class="n">frec</span> <span class="p">=</span> <span class="n">postpad</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">Ls</span><span class="p">);</span>
-    <span class="c">% Reformat to the original shape</span>
-    <span class="n">frec</span> <span class="p">=</span> <span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">frec</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c">% If the dual frame was not explicitly passed try creating it</span><span class="w"></span>
+<span class="w">    </span><span class="k">try</span><span class="w"></span>
+<span class="w">       </span><span class="c">% Try to create and accelerate the dual frame</span><span class="w"></span>
+<span class="w">       </span><span class="n">Fd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frameaccel</span><span class="p">(</span><span class="n">framedual</span><span class="p">(</span><span class="n">F</span><span class="p">),</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="n">Fdfrana</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">insig</span><span class="p">)</span><span class="w"> </span><span class="n">Fd</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">catch</span><span class="w"></span>
+<span class="w">       </span><span class="nb">warning</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;The canonical dual system is not available for a given &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;frame.\n Using franaiter.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">)));</span><span class="w"></span>
+<span class="w">        </span><span class="c">% err = lasterror.message;</span><span class="w"></span>
+<span class="w">        </span><span class="c">% The dual system cannot be created.</span><span class="w"></span>
+<span class="w">        </span><span class="c">% We will use franaiter instead</span><span class="w"></span>
+<span class="w">       </span><span class="n">Fdfrana</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">insig</span><span class="p">)</span><span class="w"> </span><span class="n">franaiter</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">insig</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="mf">1e-14</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="nb">isstruct</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;frana&#39;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">      </span><span class="c">% The canonical dual frame was passed explicitly as a frame object</span><span class="w"></span>
+<span class="w">      </span><span class="n">Fd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frameaccel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">Fdfrana</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">insig</span><span class="p">)</span><span class="w"> </span><span class="n">Fd</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="k">elseif</span><span class="w"> </span><span class="nb">isa</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">% The anonymous function is expected to do F*(FF*)^(-1)</span><span class="w"></span>
+<span class="w">      </span><span class="n">Fdfrana</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">else</span><span class="w"></span>
+<span class="w">       </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid format of Fd.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="n">mfielname</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">% Accelerate the frame</span><span class="w"></span>
+<span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Cache the constant part</span><span class="w"></span>
+<span class="nb">cd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Fdfrana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Intermediate results</span><span class="w"></span>
+<span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="nb">cd</span><span class="p">));</span><span class="w"></span>
+<span class="c">% Initial point</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_frana</span><span class="w"></span>
+<span class="w">   </span><span class="n">tc0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+<span class="k">elseif</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_zeros</span><span class="w"></span>
+<span class="w">   </span><span class="n">tc0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="nb">cd</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tc0</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lambda</span><span class="o">./</span><span class="n">C</span><span class="p">;</span><span class="w"></span>
+<span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e16</span><span class="p">;</span><span class="w"></span>
+<span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">frec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">% Main loop</span><span class="w"></span>
+<span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">iter</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">relres</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="c">% Main part of the algorithm </span><span class="w"></span>
+<span class="w">   </span><span class="n">v</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">thresh</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="n">threshold</span><span class="p">,</span><span class="s">&#39;soft&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Fdfrana</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">v</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span>
+<span class="w">   </span><span class="c">% Bookkeeping</span><span class="w"></span>
+<span class="w">   </span><span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">c</span><span class="p">(:)</span><span class="o">-</span><span class="n">tc0</span><span class="p">(:))</span><span class="o">/</span><span class="nb">norm</span><span class="p">(</span><span class="n">tc0</span><span class="p">(:));</span><span class="w"></span>
+<span class="w">   </span><span class="n">tc0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_print</span><span class="w"></span>
+<span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="w"></span>
+<span class="w">       </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Iteration %d: relative error = %f\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+
+<span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Do a reconstruction with the original frame</span><span class="w"></span>
+<span class="w">    </span><span class="n">frec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">postpad</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Reformat to the original shape</span><span class="w"></span>
+<span class="w">    </span><span class="n">frec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">frec</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

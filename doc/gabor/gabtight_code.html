@@ -45,253 +45,253 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">GABTIGHT - Canonical tight window of Gabor frame</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>gt<span class="p">=</span><span class="nf">gabtight</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%GABTIGHT  Canonical tight window of Gabor frame</span>
-<span class="c">%   Usage:  gt=gabtight(a,M,L);</span>
-<span class="c">%           gt=gabtight(g,a,M);</span>
-<span class="c">%           gt=gabtight(g,a,M,L);</span>
-<span class="c">%           gd=gabtight(g,a,M,&#39;lt&#39;,lt);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         g     : Gabor window.</span>
-<span class="c">%         a     : Length of time shift.</span>
-<span class="c">%         M     : Number of modulations.</span>
-<span class="c">%         L     : Length of window. (optional)</span>
-<span class="c">%         lt    : Lattice type (for non-separable lattices).</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         gt    : Canonical tight window, column vector.</span>
-<span class="c">%</span>
-<span class="c">%   GABTIGHT(a,M,L) computes a nice tight window of length L for a</span>
-<span class="c">%   lattice with parameters a, M. The window is not an FIR window,</span>
-<span class="c">%   meaning that it will only generate a tight system if the system</span>
-<span class="c">%   length is equal to L.</span>
-<span class="c">%</span>
-<span class="c">%   GABTIGHT(g,a,M) computes the canonical tight window of the Gabor frame</span>
-<span class="c">%   with window g and parameters a, M.</span>
-<span class="c">%</span>
-<span class="c">%   The window g may be a vector of numerical values, a text string or a</span>
-<span class="c">%   cell array. See the help of GABWIN for more details.</span>
-<span class="c">%  </span>
-<span class="c">%   If the length of g is equal to M, then the input window is assumed to</span>
-<span class="c">%   be a FIR window. In this case, the canonical dual window also has</span>
-<span class="c">%   length of M. Otherwise the smallest possible transform length is</span>
-<span class="c">%   chosen as the window length.</span>
-<span class="c">%</span>
-<span class="c">%   GABTIGHT(g,a,M,L) returns a window that is tight for a system of</span>
-<span class="c">%   length L. Unless the input window g is a FIR window, the returned</span>
-<span class="c">%   tight window will have length L.</span>
-<span class="c">%</span>
-<span class="c">%   GABTIGHT(g,a,M,&#39;lt&#39;,lt) does the same for a non-separable lattice</span>
-<span class="c">%   specified by lt. Please see the help of MATRIX2LATTICETYPE for a</span>
-<span class="c">%   precise description of the parameter lt.</span>
-<span class="c">%</span>
-<span class="c">%   If a&gt;M then an orthonormal window of the Gabor Riesz sequence with</span>
-<span class="c">%   window g and parameters a and M will be calculated.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   The following example shows the canonical tight window of the Gaussian</span>
-<span class="c">%   window. This is calculated by default by GABTIGHT if no window is</span>
-<span class="c">%   specified:</span>
-<span class="c">%</span>
-<span class="c">%     a=20;</span>
-<span class="c">%     M=30;</span>
-<span class="c">%     L=300;</span>
-<span class="c">%     gt=gabtight(a,M,L);</span>
-<span class="c">%     </span>
-<span class="c">%     % Simple plot in the time-domain</span>
-<span class="c">%     figure(1);</span>
-<span class="c">%     plot(gt);</span>
-<span class="c">%</span>
-<span class="c">%     % Frequency domain</span>
-<span class="c">%     figure(2);</span>
-<span class="c">%     magresp(gt,&#39;dynrange&#39;,100);</span>
-<span class="c">%</span>
-<span class="c">%   See also:  gabdual, gabwin, fir2long, dgt</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabtight.html</span>
+<span class="c">%GABTIGHT  Canonical tight window of Gabor frame</span><span class="w"></span>
+<span class="c">%   Usage:  gt=gabtight(a,M,L);</span><span class="w"></span>
+<span class="c">%           gt=gabtight(g,a,M);</span><span class="w"></span>
+<span class="c">%           gt=gabtight(g,a,M,L);</span><span class="w"></span>
+<span class="c">%           gd=gabtight(g,a,M,&#39;lt&#39;,lt);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         g     : Gabor window.</span><span class="w"></span>
+<span class="c">%         a     : Length of time shift.</span><span class="w"></span>
+<span class="c">%         M     : Number of modulations.</span><span class="w"></span>
+<span class="c">%         L     : Length of window. (optional)</span><span class="w"></span>
+<span class="c">%         lt    : Lattice type (for non-separable lattices).</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         gt    : Canonical tight window, column vector.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABTIGHT(a,M,L) computes a nice tight window of length L for a</span><span class="w"></span>
+<span class="c">%   lattice with parameters a, M. The window is not an FIR window,</span><span class="w"></span>
+<span class="c">%   meaning that it will only generate a tight system if the system</span><span class="w"></span>
+<span class="c">%   length is equal to L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABTIGHT(g,a,M) computes the canonical tight window of the Gabor frame</span><span class="w"></span>
+<span class="c">%   with window g and parameters a, M.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The window g may be a vector of numerical values, a text string or a</span><span class="w"></span>
+<span class="c">%   cell array. See the help of GABWIN for more details.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%   If the length of g is equal to M, then the input window is assumed to</span><span class="w"></span>
+<span class="c">%   be a FIR window. In this case, the canonical dual window also has</span><span class="w"></span>
+<span class="c">%   length of M. Otherwise the smallest possible transform length is</span><span class="w"></span>
+<span class="c">%   chosen as the window length.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABTIGHT(g,a,M,L) returns a window that is tight for a system of</span><span class="w"></span>
+<span class="c">%   length L. Unless the input window g is a FIR window, the returned</span><span class="w"></span>
+<span class="c">%   tight window will have length L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABTIGHT(g,a,M,&#39;lt&#39;,lt) does the same for a non-separable lattice</span><span class="w"></span>
+<span class="c">%   specified by lt. Please see the help of MATRIX2LATTICETYPE for a</span><span class="w"></span>
+<span class="c">%   precise description of the parameter lt.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If a&gt;M then an orthonormal window of the Gabor Riesz sequence with</span><span class="w"></span>
+<span class="c">%   window g and parameters a and M will be calculated.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example shows the canonical tight window of the Gaussian</span><span class="w"></span>
+<span class="c">%   window. This is calculated by default by GABTIGHT if no window is</span><span class="w"></span>
+<span class="c">%   specified:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     a=20;</span><span class="w"></span>
+<span class="c">%     M=30;</span><span class="w"></span>
+<span class="c">%     L=300;</span><span class="w"></span>
+<span class="c">%     gt=gabtight(a,M,L);</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     % Simple plot in the time-domain</span><span class="w"></span>
+<span class="c">%     figure(1);</span><span class="w"></span>
+<span class="c">%     plot(gt);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Frequency domain</span><span class="w"></span>
+<span class="c">%     figure(2);</span><span class="w"></span>
+<span class="c">%     magresp(gt,&#39;dynrange&#39;,100);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  gabdual, gabwin, fir2long, dgt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabtight.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard.</span>
-<span class="c">%   TESTING: TEST_DGT</span>
-<span class="c">%   REFERENCE: OK</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard.</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_DGT</span><span class="w"></span>
+<span class="c">%   REFERENCE: OK</span><span class="w"></span>
 
-<span class="c">%% ------------ decode input parameters ------------</span>
+<span class="c">%% ------------ decode input parameters ------------</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span><span class="o">==</span><span class="mi">1</span>
-  <span class="c">% First argument is a scalar.</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="c">% First argument is a scalar.</span><span class="w"></span>
 
-  <span class="n">a</span><span class="p">=</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
-  <span class="n">M</span><span class="p">=</span><span class="n">varargin</span><span class="p">{</span><span class="mi">2</span><span class="p">};</span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="nb">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">M</span><span class="p">=</span><span class="nb">varargin</span><span class="p">{</span><span class="mi">2</span><span class="p">};</span><span class="w"></span>
 
-  <span class="n">g</span><span class="p">=</span><span class="s">&#39;gauss&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="n">g</span><span class="p">=</span><span class="s">&#39;gauss&#39;</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">varargin</span><span class="p">=</span><span class="n">varargin</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>  
-<span class="k">else</span>    
-  <span class="c">% First argument assumed to be a vector.</span>
+<span class="w">  </span><span class="nb">varargin</span><span class="p">=</span><span class="nb">varargin</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w">  </span>
+<span class="k">else</span><span class="w">    </span>
+<span class="w">  </span><span class="c">% First argument assumed to be a vector.</span><span class="w"></span>
 
-  <span class="n">g</span><span class="p">=</span><span class="n">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
-  <span class="n">a</span><span class="p">=</span><span class="n">varargin</span><span class="p">{</span><span class="mi">2</span><span class="p">};</span>
-  <span class="n">M</span><span class="p">=</span><span class="n">varargin</span><span class="p">{</span><span class="mi">3</span><span class="p">};</span>
+<span class="w">  </span><span class="n">g</span><span class="p">=</span><span class="nb">varargin</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="nb">varargin</span><span class="p">{</span><span class="mi">2</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">M</span><span class="p">=</span><span class="nb">varargin</span><span class="p">{</span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
 
-  <span class="n">varargin</span><span class="p">=</span><span class="n">varargin</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="nb">varargin</span><span class="p">=</span><span class="nb">varargin</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">nsalg</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
-
-
-<span class="c">%% ------ step 2: Verify a, M and L</span>
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-        <span class="c">% Use the window length</span>
-        <span class="n">Ls</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
-    <span class="k">else</span>
-        <span class="c">% Use the smallest possible length</span>
-        <span class="n">Ls</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
-
-    <span class="c">% ----- step 2b : Verify a, M and get L from the window length ----------</span>
-    <span class="n">L</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
-
-<span class="k">else</span>
-
-    <span class="c">% ----- step 2a : Verify a, M and get L</span>
-
-    <span class="n">Luser</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
-    <span class="k">if</span> <span class="n">Luser</span><span class="o">~=</span><span class="n">L</span>
-        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect transform length L=%i specified. Next valid length &#39;</span> <span class="c">...</span>
-               <span class="s">&#39;is L=%i. See the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="c">...</span>
-              <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">Luser</span><span class="p">);</span>
-    <span class="k">end</span><span class="p">;</span>
-
-<span class="k">end</span><span class="p">;</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">L</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">nsalg</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;L&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
 
-<span class="c">%% ----- step 3 : Determine the window </span>
+<span class="c">%% ------ step 2: Verify a, M and L</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="c">% Use the window length</span><span class="w"></span>
+<span class="w">        </span><span class="n">Ls</span><span class="p">=</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="c">% Use the smallest possible length</span><span class="w"></span>
+<span class="w">        </span><span class="n">Ls</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="w">    </span><span class="c">% ----- step 2b : Verify a, M and get L from the window length ----------</span><span class="w"></span>
+<span class="w">    </span><span class="n">L</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">L</span><span class="o">&lt;</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Window is too long.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">else</span><span class="w"></span>
 
-<span class="n">R</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="c">% ----- step 2a : Verify a, M and get L</span><span class="w"></span>
 
-<span class="c">% -------- Are we in the Riesz sequence of in the frame case</span>
+<span class="w">    </span><span class="n">Luser</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">Luser</span><span class="o">~=</span><span class="n">L</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect transform length L=%i specified. Next valid length &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;is L=%i. See the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">              </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">Luser</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">scale</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="k">if</span> <span class="n">a</span><span class="o">&gt;</span><span class="n">M</span><span class="o">*</span><span class="n">R</span>
-  <span class="c">% Handle the Riesz basis (dual lattice) case.</span>
-  <span class="c">% Swap a and M, and scale differently.</span>
-  <span class="n">scale</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">M</span><span class="p">);</span>
-  <span class="n">tmp</span><span class="p">=</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">=</span><span class="n">M</span><span class="p">;</span>
-  <span class="n">M</span><span class="p">=</span><span class="n">tmp</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% -------- Compute ------------- </span>
 
-<span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-    <span class="c">% Rectangular case</span>
+<span class="c">%% ----- step 3 : Determine the window </span><span class="w"></span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="o">&lt;</span><span class="p">=</span><span class="n">M</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">R</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
 
-        <span class="c">% Diagonal of the frame operator</span>
-        <span class="n">d</span> <span class="p">=</span> <span class="n">gabframediag</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-        <span class="n">gt</span><span class="p">=</span><span class="n">g</span><span class="o">./</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">long2fir</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="p">));</span>
+<span class="k">if</span><span class="w"> </span><span class="n">L</span><span class="o">&lt;</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Window is too long.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">else</span>
-        
-        <span class="c">% Long window case</span>
-        
-        <span class="c">% Just in case, otherwise the call is harmless. </span>
-        <span class="n">g</span><span class="p">=</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-        
-        <span class="n">gt</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span><span class="p">;</span>
-        
-    <span class="k">end</span><span class="p">;</span>
+<span class="n">R</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">else</span>
-    
-    <span class="c">% Just in case, otherwise the call is harmless. </span>
-    <span class="n">g</span><span class="p">=</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="c">% -------- Are we in the Riesz sequence of in the frame case</span><span class="w"></span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">nsalg</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">nsalg</span><span class="o">==</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">2</span><span class="p">)</span> 
-        
-        <span class="n">mwin</span><span class="p">=</span><span class="n">comp_nonsepwin2multi</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-        
-        <span class="n">gtfull</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">mwin</span><span class="p">,</span><span class="n">a</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span><span class="p">;</span>
-        
-        <span class="c">% We need just the first vector</span>
-        <span class="n">gt</span><span class="p">=</span><span class="n">gtfull</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span>
-            
-    <span class="k">else</span>
-        
-        <span class="p">[</span><span class="n">s0</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">br</span><span class="p">]</span> <span class="p">=</span> <span class="n">shearfind</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>        
-        
-        <span class="k">if</span> <span class="n">s1</span> <span class="o">~=</span> <span class="mi">0</span>
-            <span class="n">p1</span> <span class="p">=</span> <span class="n">comp_pchirp</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">s1</span><span class="p">);</span>
-            <span class="n">g</span> <span class="p">=</span> <span class="n">p1</span><span class="o">.*</span><span class="n">g</span><span class="p">;</span>                
-        <span class="k">end</span>
-        
-        <span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
-        <span class="n">Mr</span> <span class="p">=</span> <span class="n">L</span><span class="o">/</span><span class="n">br</span><span class="p">;</span>
-        <span class="n">ar</span> <span class="p">=</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="n">br</span><span class="p">;</span>
-        
-        <span class="k">if</span> <span class="n">s0</span> <span class="o">==</span> <span class="mi">0</span>
-            <span class="n">gt</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">ar</span><span class="p">,</span><span class="n">Mr</span><span class="p">);</span>
-        <span class="k">else</span>                
-            <span class="n">p0</span><span class="p">=</span><span class="n">comp_pchirp</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="o">-</span><span class="n">s0</span><span class="p">);</span>
-            <span class="n">g</span> <span class="p">=</span> <span class="n">p0</span><span class="o">.*</span><span class="n">fft</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
-            <span class="n">gt</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="o">/</span><span class="n">Mr</span><span class="p">,</span><span class="n">L</span><span class="o">/</span><span class="n">ar</span><span class="p">)</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
-            <span class="n">gt</span> <span class="p">=</span> <span class="n">ifft</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span><span class="o">.*</span><span class="n">gt</span><span class="p">);</span>                                 
-        <span class="k">end</span>
-        
-        <span class="k">if</span> <span class="n">s1</span> <span class="o">~=</span> <span class="mi">0</span>
-            <span class="n">gt</span> <span class="p">=</span> <span class="nb">conj</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.*</span><span class="n">gt</span><span class="p">;</span>
-        <span class="k">end</span>
-        
-    <span class="k">end</span><span class="p">;</span>
-    
-    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="o">&lt;</span><span class="p">=</span><span class="n">M</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">R</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">gt</span><span class="p">=</span><span class="n">long2fir</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-    <span class="k">end</span><span class="p">;</span>
-    
-<span class="k">end</span><span class="p">;</span>
+<span class="nb">scale</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">a</span><span class="o">&gt;</span><span class="n">M</span><span class="o">*</span><span class="n">R</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Handle the Riesz basis (dual lattice) case.</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Swap a and M, and scale differently.</span><span class="w"></span>
+<span class="w">  </span><span class="nb">scale</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">tmp</span><span class="p">=</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">M</span><span class="p">=</span><span class="n">tmp</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% --------- post process result -------</span>
+<span class="c">% -------- Compute ------------- </span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="p">=</span><span class="mi">2</span><span class="p">)</span>
-  <span class="c">% If g is real and the lattice is either rectangular or quinqux, then</span>
-  <span class="c">% the output is known to be real.</span>
-  <span class="n">gt</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">gt</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Rectangular case</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">info</span><span class="p">.</span><span class="n">wasrow</span>
-  <span class="n">gt</span><span class="p">=</span><span class="n">gt</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="o">&lt;=</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">% Diagonal of the frame operator</span><span class="w"></span>
+<span class="w">        </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gabframediag</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gt</span><span class="p">=</span><span class="n">g</span><span class="o">./</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">long2fir</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c">% Long window case</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c">% Just in case, otherwise the call is harmless. </span><span class="w"></span>
+<span class="w">        </span><span class="n">g</span><span class="p">=</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">gt</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="nb">scale</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Just in case, otherwise the call is harmless. </span><span class="w"></span>
+<span class="w">    </span><span class="n">g</span><span class="p">=</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">nsalg</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">nsalg</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">mwin</span><span class="p">=</span><span class="n">comp_nonsepwin2multi</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">gtfull</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">mwin</span><span class="p">,</span><span class="n">a</span><span class="o">*</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">M</span><span class="p">)</span><span class="o">*</span><span class="nb">scale</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c">% We need just the first vector</span><span class="w"></span>
+<span class="w">        </span><span class="n">gt</span><span class="p">=</span><span class="n">gtfull</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="p">[</span><span class="n">s0</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">br</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">shearfind</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span><span class="w">        </span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">p1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_pchirp</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">s1</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">g</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">p1</span><span class="o">.*</span><span class="n">g</span><span class="p">;</span><span class="w">                </span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">Mr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="o">/</span><span class="n">br</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">ar</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="n">br</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">s0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">gt</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">ar</span><span class="p">,</span><span class="n">Mr</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="w">                </span>
+<span class="w">            </span><span class="n">p0</span><span class="p">=</span><span class="n">comp_pchirp</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="o">-</span><span class="n">s0</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">g</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">p0</span><span class="o">.*</span><span class="nb">fft</span><span class="p">(</span><span class="n">g</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">gt</span><span class="p">=</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="o">/</span><span class="n">Mr</span><span class="p">,</span><span class="n">L</span><span class="o">/</span><span class="n">ar</span><span class="p">)</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">gt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ifft</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span><span class="o">.*</span><span class="n">gt</span><span class="p">);</span><span class="w">                                 </span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">            </span><span class="n">gt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">conj</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.*</span><span class="n">gt</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="o">&lt;=</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">gt</span><span class="p">=</span><span class="n">long2fir</span><span class="p">(</span><span class="n">gt</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% --------- post process result -------</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="c">% If g is real and the lattice is either rectangular or quinqux, then</span><span class="w"></span>
+<span class="w">  </span><span class="c">% the output is known to be real.</span><span class="w"></span>
+<span class="w">  </span><span class="n">gt</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">gt</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">wasrow</span><span class="w"></span>
+<span class="w">  </span><span class="n">gt</span><span class="p">=</span><span class="n">gt</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

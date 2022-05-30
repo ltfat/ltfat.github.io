@@ -45,46 +45,46 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">SPREADFUN - Spreading function of a matrix</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>coef<span class="p">=</span><span class="nf">spreadfun</span><span class="p">(</span>T<span class="p">)</span><span class="w"></span>
-<span class="c">%SPREADFUN  Spreading function of a matrix</span>
-<span class="c">%   Usage:  c=spreadfun(T);</span>
-<span class="c">%</span>
-<span class="c">%   SPREADFUN(T) computes the spreading function of the operator T,</span>
-<span class="c">%   represented as a matrix. The spreading function represent the operator T*</span>
-<span class="c">%   as a weighted sum of time-frequency shifts. See the help text for</span>
-<span class="c">%   SPREADOP for the exact definition.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  spreadop, tconv, spreadinv, spreadadj</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/operators/spreadfun.html</span>
+<span class="c">%SPREADFUN  Spreading function of a matrix</span><span class="w"></span>
+<span class="c">%   Usage:  c=spreadfun(T);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   SPREADFUN(T) computes the spreading function of the operator T,</span><span class="w"></span>
+<span class="c">%   represented as a matrix. The spreading function represent the operator T*</span><span class="w"></span>
+<span class="c">%   as a weighted sum of time-frequency shifts. See the help text for</span><span class="w"></span>
+<span class="c">%   SPREADOP for the exact definition.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  spreadop, tconv, spreadinv, spreadadj</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/operators/spreadfun.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">ndims</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span> <span class="o">||</span> <span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input symbol T must be a square matrix.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">ndims</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Input symbol T must be a square matrix.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% The &#39;full&#39; appearing on the next line is to guard the mex file.</span>
-<span class="n">coef</span><span class="p">=</span><span class="n">comp_col2diag</span><span class="p">(</span><span class="n">full</span><span class="p">(</span><span class="n">T</span><span class="p">));</span>
+<span class="c">% The &#39;full&#39; appearing on the next line is to guard the mex file.</span><span class="w"></span>
+<span class="n">coef</span><span class="p">=</span><span class="n">comp_col2diag</span><span class="p">(</span><span class="nb">full</span><span class="p">(</span><span class="n">T</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">coef</span><span class="p">=</span><span class="n">fft</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">;</span>
+<span class="n">coef</span><span class="p">=</span><span class="nb">fft</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="o">/</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

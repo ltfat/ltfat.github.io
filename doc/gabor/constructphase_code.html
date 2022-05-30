@@ -44,194 +44,194 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">CONSTRUCTPHASE - Construct phase for DGT</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,newphase,usedmask,tgrad,fgrad]<span class="p">=</span><span class="nf">constructphase</span><span class="p">(</span>s,g,a,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%CONSTRUCTPHASE  Construct phase for DGT</span>
-<span class="c">%   Usage:  c=constructphase(s,g,a);</span>
-<span class="c">%           c=constructphase(s,g,a,tol);</span>
-<span class="c">%           c=constructphase(c,g,a,tol,mask);</span>
-<span class="c">%           c=constructphase(c,g,a,tol,mask,usephase);</span>
-<span class="c">%           [c,newphase,usedmask,tgrad,fgrad] = constructphase(...);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         s        : Initial coefficients.</span>
-<span class="c">%         g        : Analysis Gabor window.</span>
-<span class="c">%         a        : Hop factor.</span>
-<span class="c">%         tol      : Relative tolerance.</span>
-<span class="c">%         mask     : Mask for selecting known phase.</span>
-<span class="c">%         usephase : Explicit known phase.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         c        : Coefficients with the constructed phase.</span>
-<span class="c">%         newphase : Just the (unwrapped) phase.</span>
-<span class="c">%         usedmask : Mask for selecting coefficients with the new phase.</span>
-<span class="c">%         tgrad    : Relative time phase derivative.</span>
-<span class="c">%         fgrad    : Relative frequency phase derivative.</span>
-<span class="c">%</span>
-<span class="c">%   CONSTRUCTPHASE(s,g,a) will construct a suitable phase for the postive</span>
-<span class="c">%   valued coefficients s. </span>
-<span class="c">%  </span>
-<span class="c">%   If s is the absolute values of the Gabor coefficients of a signal</span>
-<span class="c">%   obtained using the window g and time-shift a, i.e.:</span>
-<span class="c">%</span>
-<span class="c">%     c=dgt(f,g,a,M);</span>
-<span class="c">%     s=abs(c);</span>
-<span class="c">%</span>
-<span class="c">%   then constuctphase(s,g,a) will attempt to reconstruct c.</span>
-<span class="c">%</span>
-<span class="c">%   The window g must be Gaussian, i.e. g must have the value &#39;gauss&#39;</span>
-<span class="c">%   or be a cell array {&#39;gauss&#39;,tfr}. </span>
-<span class="c">%</span>
-<span class="c">%   CONSTRUCTPHASE(s,g,a,tol) does as above, but sets the phase of</span>
-<span class="c">%   coefficients less than tol to random values. </span>
-<span class="c">%   By default, tol has the value 1e-10.</span>
-<span class="c">%</span>
-<span class="c">%   CONSTRUCTPHASE(c,g,a,M,tol,mask) accepts real or complex valued</span>
-<span class="c">%   c and real valued mask of the same size. Values in mask which can</span>
-<span class="c">%   be converted to logical true (anything other than 0) determine</span>
-<span class="c">%   coefficients with known phase which is used in the output. Only the</span>
-<span class="c">%   phase of remaining coefficients (for which mask==0) is computed.</span>
-<span class="c">%</span>
-<span class="c">%   CONSTRUCTPHASEreal(c,g,a,M,tol,mask,usephase) does the same as before</span>
-<span class="c">%   but uses the known phase values from usephase rather than from c.</span>
-<span class="c">%</span>
-<span class="c">%   In addition, tol can be a vector containing decreasing values. In </span>
-<span class="c">%   that case, the algorithm is run numel(tol) times, initialized with</span>
-<span class="c">%   the result from the previous step in the 2nd and the further steps.</span>
-<span class="c">%</span>
-<span class="c">%   Further, the function accepts the following flags:</span>
-<span class="c">%</span>
-<span class="c">%      &#39;freqinv&#39;  The constructed phase complies with the frequency</span>
-<span class="c">%                 invariant phase convention such that it can be directly</span>
-<span class="c">%                 used in IDGTREAL.</span>
-<span class="c">%                 This is the default.</span>
-<span class="c">%</span>
-<span class="c">%      &#39;timeinv&#39;  The constructed phase complies with the time-invariant</span>
-<span class="c">%                 phase convention. The same flag must be used in the other</span>
-<span class="c">%                 functions e.g. IDGTREAL</span>
-<span class="c">%</span>
-<span class="c">%   This function requires a computational subroutine that is only</span>
-<span class="c">%   available in C. Use LTFATMEX to compile it.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  dgt, gabphasegrad, ltfatmex</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     Z. Průša, P. Balazs, and P. L. Søndergaard. A Non-iterative Method for</span>
-<span class="c">%     STFT Phase (Re)Construction. IEEE/ACM Transactions on Audio, Speech,</span>
-<span class="c">%     and Language Processing, 2016. In preparation. Preprint will be</span>
-<span class="c">%     available at http://ltfat.github.io/notes/ltfatnote040.pdf.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/constructphase.html</span>
+<span class="c">%CONSTRUCTPHASE  Construct phase for DGT</span><span class="w"></span>
+<span class="c">%   Usage:  c=constructphase(s,g,a);</span><span class="w"></span>
+<span class="c">%           c=constructphase(s,g,a,tol);</span><span class="w"></span>
+<span class="c">%           c=constructphase(c,g,a,tol,mask);</span><span class="w"></span>
+<span class="c">%           c=constructphase(c,g,a,tol,mask,usephase);</span><span class="w"></span>
+<span class="c">%           [c,newphase,usedmask,tgrad,fgrad] = constructphase(...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         s        : Initial coefficients.</span><span class="w"></span>
+<span class="c">%         g        : Analysis Gabor window.</span><span class="w"></span>
+<span class="c">%         a        : Hop factor.</span><span class="w"></span>
+<span class="c">%         tol      : Relative tolerance.</span><span class="w"></span>
+<span class="c">%         mask     : Mask for selecting known phase.</span><span class="w"></span>
+<span class="c">%         usephase : Explicit known phase.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         c        : Coefficients with the constructed phase.</span><span class="w"></span>
+<span class="c">%         newphase : Just the (unwrapped) phase.</span><span class="w"></span>
+<span class="c">%         usedmask : Mask for selecting coefficients with the new phase.</span><span class="w"></span>
+<span class="c">%         tgrad    : Relative time phase derivative.</span><span class="w"></span>
+<span class="c">%         fgrad    : Relative frequency phase derivative.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   CONSTRUCTPHASE(s,g,a) will construct a suitable phase for the postive</span><span class="w"></span>
+<span class="c">%   valued coefficients s. </span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%   If s is the absolute values of the Gabor coefficients of a signal</span><span class="w"></span>
+<span class="c">%   obtained using the window g and time-shift a, i.e.:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     c=dgt(f,g,a,M);</span><span class="w"></span>
+<span class="c">%     s=abs(c);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   then constuctphase(s,g,a) will attempt to reconstruct c.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The window g must be Gaussian, i.e. g must have the value &#39;gauss&#39;</span><span class="w"></span>
+<span class="c">%   or be a cell array {&#39;gauss&#39;,tfr}. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   CONSTRUCTPHASE(s,g,a,tol) does as above, but sets the phase of</span><span class="w"></span>
+<span class="c">%   coefficients less than tol to random values. </span><span class="w"></span>
+<span class="c">%   By default, tol has the value 1e-10.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   CONSTRUCTPHASE(c,g,a,M,tol,mask) accepts real or complex valued</span><span class="w"></span>
+<span class="c">%   c and real valued mask of the same size. Values in mask which can</span><span class="w"></span>
+<span class="c">%   be converted to logical true (anything other than 0) determine</span><span class="w"></span>
+<span class="c">%   coefficients with known phase which is used in the output. Only the</span><span class="w"></span>
+<span class="c">%   phase of remaining coefficients (for which mask==0) is computed.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   CONSTRUCTPHASEreal(c,g,a,M,tol,mask,usephase) does the same as before</span><span class="w"></span>
+<span class="c">%   but uses the known phase values from usephase rather than from c.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In addition, tol can be a vector containing decreasing values. In </span><span class="w"></span>
+<span class="c">%   that case, the algorithm is run numel(tol) times, initialized with</span><span class="w"></span>
+<span class="c">%   the result from the previous step in the 2nd and the further steps.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Further, the function accepts the following flags:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      &#39;freqinv&#39;  The constructed phase complies with the frequency</span><span class="w"></span>
+<span class="c">%                 invariant phase convention such that it can be directly</span><span class="w"></span>
+<span class="c">%                 used in IDGTREAL.</span><span class="w"></span>
+<span class="c">%                 This is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      &#39;timeinv&#39;  The constructed phase complies with the time-invariant</span><span class="w"></span>
+<span class="c">%                 phase convention. The same flag must be used in the other</span><span class="w"></span>
+<span class="c">%                 functions e.g. IDGTREAL</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This function requires a computational subroutine that is only</span><span class="w"></span>
+<span class="c">%   available in C. Use LTFATMEX to compile it.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  dgt, gabphasegrad, ltfatmex</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     Z. Průša, P. Balazs, and P. L. Søndergaard. A Non-iterative Method for</span><span class="w"></span>
+<span class="c">%     STFT Phase (Re)Construction. IEEE/ACM Transactions on Audio, Speech,</span><span class="w"></span>
+<span class="c">%     and Language Processing, 2016. In preparation. Preprint will be</span><span class="w"></span>
+<span class="c">%     available at http://ltfat.github.io/notes/ltfatnote040.pdf.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/constructphase.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% AUTHOR: Peter L. Søndergaard, Zdenek Prusa</span>
+<span class="c">% AUTHOR: Peter L. Søndergaard, Zdenek Prusa</span><span class="w"></span>
 
-<span class="n">thismfilename</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="n">thismfilename</span><span class="p">);</span>
+<span class="n">thismfilename</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="n">thismfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=[</span><span class="mf">1e-1</span> <span class="mf">1e-10</span><span class="p">];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mask</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">usephase</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;mask&#39;</span><span class="p">,</span><span class="s">&#39;usephase&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=[</span><span class="mf">1e-1</span><span class="w"> </span><span class="mf">1e-10</span><span class="p">];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mask</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">usephase</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phase</span><span class="p">={</span><span class="s">&#39;freqinv&#39;</span><span class="p">,</span><span class="s">&#39;timeinv&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">usephase</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;mask&#39;</span><span class="p">,</span><span class="s">&#39;usephase&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> 
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: *s* must be numeric.&#39;</span><span class="p">,</span><span class="n">thismfilename</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: *s* must be numeric.&#39;</span><span class="p">,</span><span class="n">thismfilename</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Both mask and usephase must be used at the same time.&#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="n">thismfilename</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Both mask and usephase must be used at the same time.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">          </span><span class="n">thismfilename</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> 
-    <span class="k">if</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">||</span> <span class="n">any</span><span class="p">(</span><span class="n">s</span><span class="p">(:)</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: *s* must be real and positive when no mask is used.&#39;</span><span class="p">,</span><span class="c">...</span>
-              <span class="n">thismfilename</span><span class="p">);</span>
-    <span class="k">end</span>
-<span class="k">else</span> 
-    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: s and mask must have the same size and mask must&#39;</span><span class="p">,</span><span class="c">...</span>
-               <span class="s">&#39; be real.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="c">% Sanitize mask (anything other than 0 is true)</span>
-    <span class="n">mask</span> <span class="p">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="s">&#39;double&#39;</span><span class="p">);</span>
-    <span class="n">mask</span><span class="p">(</span><span class="n">mask</span><span class="o">~=</span><span class="mi">0</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">s</span><span class="p">(:)</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: *s* must be real and positive when no mask is used.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">              </span><span class="n">thismfilename</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">else</span><span class="w"> </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: s and mask must have the same size and mask must&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39; be real.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Sanitize mask (anything other than 0 is true)</span><span class="w"></span>
+<span class="w">    </span><span class="n">mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cast</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="s">&#39;double&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">mask</span><span class="p">(</span><span class="n">mask</span><span class="o">~=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="o">~=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span>
-        <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: s and usephase must have the same size and usephase must&#39;</span><span class="p">,</span><span class="c">...</span>
-               <span class="s">&#39; be real.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">)</span>        
-    <span class="k">end</span>
-<span class="k">else</span>
-    <span class="n">usephase</span> <span class="p">=</span> <span class="nb">angle</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">usephase</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: s and usephase must have the same size and usephase must&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39; be real.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">)</span><span class="w">        </span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">usephase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">angle</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">tol</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span><span class="n">sort</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span><span class="s">&#39;descend&#39;</span><span class="p">))</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: *tol* must be a scalar or a vector sorted in a &#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;descending manner.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span><span class="nb">sort</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span><span class="s">&#39;descend&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: *tol* must be a scalar or a vector sorted in a &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;descending manner.&#39;</span><span class="p">],</span><span class="n">thismfilename</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">abss</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-<span class="c">% Compute phase gradient, check parameteres</span>
-<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">]</span> <span class="p">=</span> <span class="n">gabphasegrad</span><span class="p">(</span><span class="s">&#39;abs&#39;</span><span class="p">,</span><span class="n">abss</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">abss</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="c">% Compute phase gradient, check parameteres</span><span class="w"></span>
+<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gabphasegrad</span><span class="p">(</span><span class="s">&#39;abs&#39;</span><span class="p">,</span><span class="n">abss</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">absthr</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">abss</span><span class="p">(:))</span><span class="o">*</span><span class="n">tol</span><span class="p">;</span>
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-    <span class="n">usedmask</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
-<span class="k">else</span>
-    <span class="n">usedmask</span> <span class="p">=</span> <span class="n">mask</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="n">absthr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">abss</span><span class="p">(:))</span><span class="o">*</span><span class="n">tol</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">usedmask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">));</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">usedmask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-    <span class="c">% Build the phase (calling a MEX file)</span>
-    <span class="n">newphase</span><span class="p">=</span><span class="n">comp_heapint</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">tol</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">);</span>
-    <span class="c">% Set phase of the coefficients below tol to random values</span>
-    <span class="n">bigenoughidx</span> <span class="p">=</span> <span class="n">abss</span><span class="o">&gt;</span><span class="n">absthr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">usedmask</span><span class="p">(</span><span class="n">bigenoughidx</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="k">else</span>
-    <span class="n">newphase</span><span class="p">=</span><span class="n">comp_maskedheapint</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">tol</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="c">...</span>
-                                <span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="n">usephase</span><span class="p">);</span>
-    <span class="c">% Set phase of small coefficient to random values</span>
-    <span class="c">% but just in the missing part</span>
-    <span class="c">% Find all small coefficients in the unknown phase area</span>
-    <span class="n">missingidx</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">usedmask</span><span class="o">==</span><span class="mi">0</span><span class="p">);</span>
-    <span class="n">bigenoughidx</span> <span class="p">=</span> <span class="n">abss</span><span class="p">(</span><span class="n">missingidx</span><span class="p">)</span><span class="o">&gt;</span><span class="n">absthr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">usedmask</span><span class="p">(</span><span class="n">missingidx</span><span class="p">(</span><span class="n">bigenoughidx</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Build the phase (calling a MEX file)</span><span class="w"></span>
+<span class="w">    </span><span class="n">newphase</span><span class="p">=</span><span class="n">comp_heapint</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">tol</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Set phase of the coefficients below tol to random values</span><span class="w"></span>
+<span class="w">    </span><span class="n">bigenoughidx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">abss</span><span class="o">&gt;</span><span class="n">absthr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">usedmask</span><span class="p">(</span><span class="n">bigenoughidx</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">newphase</span><span class="p">=</span><span class="n">comp_maskedheapint</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">tol</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">                                </span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="n">usephase</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Set phase of small coefficient to random values</span><span class="w"></span>
+<span class="w">    </span><span class="c">% but just in the missing part</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Find all small coefficients in the unknown phase area</span><span class="w"></span>
+<span class="w">    </span><span class="n">missingidx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">usedmask</span><span class="o">==</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">bigenoughidx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">abss</span><span class="p">(</span><span class="n">missingidx</span><span class="p">)</span><span class="o">&gt;</span><span class="n">absthr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">usedmask</span><span class="p">(</span><span class="n">missingidx</span><span class="p">(</span><span class="n">bigenoughidx</span><span class="p">))</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Do further tol</span>
-<span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">2</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">tol</span><span class="p">)</span>
-    <span class="n">newphase</span><span class="p">=</span><span class="n">comp_maskedheapint</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">usedmask</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">tol</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="c">...</span>
-                                <span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="n">newphase</span><span class="p">);</span>
-    <span class="n">missingidx</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">usedmask</span><span class="o">==</span><span class="mi">0</span><span class="p">);</span>
-    <span class="n">bigenoughidx</span> <span class="p">=</span> <span class="n">abss</span><span class="p">(</span><span class="n">missingidx</span><span class="p">)</span><span class="o">&gt;</span><span class="n">absthr</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
-    <span class="n">usedmask</span><span class="p">(</span><span class="n">missingidx</span><span class="p">(</span><span class="n">bigenoughidx</span><span class="p">))</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>                  
-<span class="k">end</span>
+<span class="c">% Do further tol</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">2</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">tol</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">newphase</span><span class="p">=</span><span class="n">comp_maskedheapint</span><span class="p">(</span><span class="n">abss</span><span class="p">,</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">usedmask</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">tol</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="k">...</span><span class="w"></span>
+<span class="w">                                </span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="n">newphase</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">missingidx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">usedmask</span><span class="o">==</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">bigenoughidx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">abss</span><span class="p">(</span><span class="n">missingidx</span><span class="p">)</span><span class="o">&gt;</span><span class="n">absthr</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">usedmask</span><span class="p">(</span><span class="n">missingidx</span><span class="p">(</span><span class="n">bigenoughidx</span><span class="p">))</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">                  </span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Convert the mask so it can be used directly for indexing</span>
-<span class="n">usedmask</span> <span class="p">=</span> <span class="n">logical</span><span class="p">(</span><span class="n">usedmask</span><span class="p">);</span>
-<span class="c">% Assign random values to coefficients below tolerance</span>
-<span class="n">zerono</span> <span class="p">=</span> <span class="nb">numel</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="o">~</span><span class="n">usedmask</span><span class="p">));</span>
-<span class="n">newphase</span><span class="p">(</span><span class="o">~</span><span class="n">usedmask</span><span class="p">)</span> <span class="p">=</span> <span class="nb">rand</span><span class="p">(</span><span class="n">zerono</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">;</span>
+<span class="c">% Convert the mask so it can be used directly for indexing</span><span class="w"></span>
+<span class="n">usedmask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">logical</span><span class="p">(</span><span class="n">usedmask</span><span class="p">);</span><span class="w"></span>
+<span class="c">% Assign random values to coefficients below tolerance</span><span class="w"></span>
+<span class="n">zerono</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="o">~</span><span class="n">usedmask</span><span class="p">));</span><span class="w"></span>
+<span class="n">newphase</span><span class="p">(</span><span class="o">~</span><span class="n">usedmask</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">rand</span><span class="p">(</span><span class="n">zerono</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Combine the magnitude and phase</span>
-<span class="n">c</span><span class="p">=</span><span class="n">abss</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="n">newphase</span><span class="p">);</span>
+<span class="c">% Combine the magnitude and phase</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="n">abss</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span>1<span class="nb">i</span><span class="o">*</span><span class="n">newphase</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

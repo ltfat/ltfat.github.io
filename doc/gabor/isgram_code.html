@@ -44,294 +44,294 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">ISGRAM - Spectrogram inversion</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[f,relres,iter]<span class="p">=</span><span class="nf">isgram</span><span class="p">(</span>s,g,a,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%ISGRAM  Spectrogram inversion</span>
-<span class="c">%   Usage:  f=isgram(c,g,a);</span>
-<span class="c">%           f=isgram(c,g,a,Ls);</span>
-<span class="c">%           [f,relres,iter]=isgram(...);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         c       : Array of coefficients.</span>
-<span class="c">%         g       : Window function.</span>
-<span class="c">%         a       : Length of time shift.</span>
-<span class="c">%         Ls      : length of signal.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         f       : Signal.</span>
-<span class="c">%         relres  : Vector of residuals.</span>
-<span class="c">%         iter    : Number of iterations done.</span>
-<span class="c">%</span>
-<span class="c">%   ISGRAM(s,g,a) attempts to invert a spectrogram computed by :</span>
-<span class="c">%</span>
-<span class="c">%     s = abs(dgt(f,g,a,M)).^2;</span>
-<span class="c">%</span>
-<span class="c">%   using an iterative method.</span>
-<span class="c">%</span>
-<span class="c">%   ISGRAM(c,g,a,Ls) does as above but cuts or extends f to length Ls.</span>
-<span class="c">%</span>
-<span class="c">%   If the phase of the spectrogram is known, it is much better to use</span>
-<span class="c">%   idgt.</span>
-<span class="c">%</span>
-<span class="c">%   [f,relres,iter]=ISGRAM(...) additionally return the residuals in a</span>
-<span class="c">%   vector relres and the number of iteration steps iter.</span>
-<span class="c">%</span>
-<span class="c">%   Generally, if the spectrogram has not been modified, the iterative</span>
-<span class="c">%   algorithm will converge slowly to the correct result. If the</span>
-<span class="c">%   spectrogram has been modified, the algorithm is not guaranteed to</span>
-<span class="c">%   converge at all.  </span>
-<span class="c">%</span>
-<span class="c">%   ISGRAM takes the following parameters at the end of the line of input</span>
-<span class="c">%   arguments:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;lt&#39;,lt      Specify the lattice type. See the help on MATRIX2LATTICETYPE.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;zero&#39;       Choose a starting phase of zero. This is the default</span>
-<span class="c">%</span>
-<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;int&#39;        Construct a starting phase by integration. Only works</span>
-<span class="c">%                  for Gaussian windows.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;griflim&#39;    Use the Griffin-Lim iterative method, this is the</span>
-<span class="c">%                  default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;bfgs&#39;       Use the limited-memory Broyden Fletcher Goldfarb</span>
-<span class="c">%                  Shanno (BFGS) method.  </span>
-<span class="c">%</span>
-<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the specified tolerance.  </span>
-<span class="c">%</span>
-<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;print&#39;      Display the progress.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span>
-<span class="c">%                    iteration. Default value is p=10;</span>
-<span class="c">%</span>
-<span class="c">%   The BFGS method makes use of the minFunc software. To use the BFGS method, </span>
-<span class="c">%   please install the minFunc software from:</span>
-<span class="c">%   http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   To reconstruct the phase of &#39;greasy&#39;, use the following:</span>
-<span class="c">%</span>
-<span class="c">%     % Setup the problem and the coefficients</span>
-<span class="c">%     f=greasy;</span>
-<span class="c">%     g=&#39;gauss&#39;;</span>
-<span class="c">%     a=20; M=200;</span>
-<span class="c">%     c=dgt(f,g,a,M);</span>
-<span class="c">%     s=abs(c).^2;</span>
-<span class="c">%     theta=angle(c);</span>
-<span class="c">%</span>
-<span class="c">%     % Reconstruct and get spectrogram and angle</span>
-<span class="c">%     r=isgram(s,g,a);</span>
-<span class="c">%     c_r=dgt(r,g,a,M);</span>
-<span class="c">%     s_r=abs(c_r).^2;</span>
-<span class="c">%     theta_r=angle(c_r);</span>
-<span class="c">%</span>
-<span class="c">%     % Compute the angular difference</span>
-<span class="c">%     d1=abs(theta-theta_r);</span>
-<span class="c">%     d2=2*pi-d1;</span>
-<span class="c">%     anglediff=min(d1,d2);</span>
-<span class="c">%</span>
-<span class="c">%     % Plot the difference in spectrogram and phase</span>
-<span class="c">%     figure(1);</span>
-<span class="c">%     plotdgt(s./s_r,a,16000,&#39;clim&#39;,[-10,10]);</span>
-<span class="c">%     colormap([bone;flipud(bone)])</span>
-<span class="c">%     title(&#39;Relative difference in spectrogram&#39;);</span>
-<span class="c">%</span>
-<span class="c">%     figure(2);</span>
-<span class="c">%     plotdgt(anglediff,a,16000,&#39;lin&#39;);</span>
-<span class="c">%     colormap(bone);</span>
-<span class="c">%     title(&#39;Difference in angle&#39;);</span>
-<span class="c">%</span>
-<span class="c">%   See also:  isgramreal, frsynabs, dgt</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     R. Decorsière and P. L. Søndergaard. Modulation filtering using an</span>
-<span class="c">%     optimization approach to spectrogram reconstruction. In Proceedings of</span>
-<span class="c">%     the Forum Acousticum, 2011.</span>
-<span class="c">%     </span>
-<span class="c">%     D. Griffin and J. Lim. Signal estimation from modified short-time</span>
-<span class="c">%     Fourier transform. IEEE Trans. Acoust. Speech Signal Process.,</span>
-<span class="c">%     32(2):236--243, 1984.</span>
-<span class="c">%     </span>
-<span class="c">%     D. Liu and J. Nocedal. On the limited memory BFGS method for large</span>
-<span class="c">%     scale optimization. Mathematical programming, 45(1):503--528, 1989.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/isgram.html</span>
+<span class="c">%ISGRAM  Spectrogram inversion</span><span class="w"></span>
+<span class="c">%   Usage:  f=isgram(c,g,a);</span><span class="w"></span>
+<span class="c">%           f=isgram(c,g,a,Ls);</span><span class="w"></span>
+<span class="c">%           [f,relres,iter]=isgram(...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         c       : Array of coefficients.</span><span class="w"></span>
+<span class="c">%         g       : Window function.</span><span class="w"></span>
+<span class="c">%         a       : Length of time shift.</span><span class="w"></span>
+<span class="c">%         Ls      : length of signal.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         f       : Signal.</span><span class="w"></span>
+<span class="c">%         relres  : Vector of residuals.</span><span class="w"></span>
+<span class="c">%         iter    : Number of iterations done.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   ISGRAM(s,g,a) attempts to invert a spectrogram computed by :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     s = abs(dgt(f,g,a,M)).^2;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   using an iterative method.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   ISGRAM(c,g,a,Ls) does as above but cuts or extends f to length Ls.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If the phase of the spectrogram is known, it is much better to use</span><span class="w"></span>
+<span class="c">%   idgt.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [f,relres,iter]=ISGRAM(...) additionally return the residuals in a</span><span class="w"></span>
+<span class="c">%   vector relres and the number of iteration steps iter.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Generally, if the spectrogram has not been modified, the iterative</span><span class="w"></span>
+<span class="c">%   algorithm will converge slowly to the correct result. If the</span><span class="w"></span>
+<span class="c">%   spectrogram has been modified, the algorithm is not guaranteed to</span><span class="w"></span>
+<span class="c">%   converge at all.  </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   ISGRAM takes the following parameters at the end of the line of input</span><span class="w"></span>
+<span class="c">%   arguments:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;lt&#39;,lt      Specify the lattice type. See the help on MATRIX2LATTICETYPE.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;zero&#39;       Choose a starting phase of zero. This is the default</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;int&#39;        Construct a starting phase by integration. Only works</span><span class="w"></span>
+<span class="c">%                  for Gaussian windows.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;griflim&#39;    Use the Griffin-Lim iterative method, this is the</span><span class="w"></span>
+<span class="c">%                  default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;bfgs&#39;       Use the limited-memory Broyden Fletcher Goldfarb</span><span class="w"></span>
+<span class="c">%                  Shanno (BFGS) method.  </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the specified tolerance.  </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;print&#39;      Display the progress.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span><span class="w"></span>
+<span class="c">%                    iteration. Default value is p=10;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The BFGS method makes use of the minFunc software. To use the BFGS method, </span><span class="w"></span>
+<span class="c">%   please install the minFunc software from:</span><span class="w"></span>
+<span class="c">%   http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To reconstruct the phase of &#39;greasy&#39;, use the following:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Setup the problem and the coefficients</span><span class="w"></span>
+<span class="c">%     f=greasy;</span><span class="w"></span>
+<span class="c">%     g=&#39;gauss&#39;;</span><span class="w"></span>
+<span class="c">%     a=20; M=200;</span><span class="w"></span>
+<span class="c">%     c=dgt(f,g,a,M);</span><span class="w"></span>
+<span class="c">%     s=abs(c).^2;</span><span class="w"></span>
+<span class="c">%     theta=angle(c);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Reconstruct and get spectrogram and angle</span><span class="w"></span>
+<span class="c">%     r=isgram(s,g,a);</span><span class="w"></span>
+<span class="c">%     c_r=dgt(r,g,a,M);</span><span class="w"></span>
+<span class="c">%     s_r=abs(c_r).^2;</span><span class="w"></span>
+<span class="c">%     theta_r=angle(c_r);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Compute the angular difference</span><span class="w"></span>
+<span class="c">%     d1=abs(theta-theta_r);</span><span class="w"></span>
+<span class="c">%     d2=2*pi-d1;</span><span class="w"></span>
+<span class="c">%     anglediff=min(d1,d2);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Plot the difference in spectrogram and phase</span><span class="w"></span>
+<span class="c">%     figure(1);</span><span class="w"></span>
+<span class="c">%     plotdgt(s./s_r,a,16000,&#39;clim&#39;,[-10,10]);</span><span class="w"></span>
+<span class="c">%     colormap([bone;flipud(bone)])</span><span class="w"></span>
+<span class="c">%     title(&#39;Relative difference in spectrogram&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     figure(2);</span><span class="w"></span>
+<span class="c">%     plotdgt(anglediff,a,16000,&#39;lin&#39;);</span><span class="w"></span>
+<span class="c">%     colormap(bone);</span><span class="w"></span>
+<span class="c">%     title(&#39;Difference in angle&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  isgramreal, frsynabs, dgt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     R. Decorsière and P. L. Søndergaard. Modulation filtering using an</span><span class="w"></span>
+<span class="c">%     optimization approach to spectrogram reconstruction. In Proceedings of</span><span class="w"></span>
+<span class="c">%     the Forum Acousticum, 2011.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     D. Griffin and J. Lim. Signal estimation from modified short-time</span><span class="w"></span>
+<span class="c">%     Fourier transform. IEEE Trans. Acoust. Speech Signal Process.,</span><span class="w"></span>
+<span class="c">%     32(2):236--243, 1984.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     D. Liu and J. Nocedal. On the limited memory BFGS method for large</span><span class="w"></span>
+<span class="c">%     scale optimization. Mathematical programming, 45(1):503--528, 1989.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/isgram.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="c">%   AUTHOR : Remi Decorsiere and Peter L. Søndergaard.</span>
-<span class="c">%   REFERENCE: OK</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="c">%   AUTHOR : Remi Decorsiere and Peter L. Søndergaard.</span><span class="w"></span>
+<span class="c">%   REFERENCE: OK</span><span class="w"></span>
 
-<span class="c">% Check input paramameters.</span>
+<span class="c">% Check input paramameters.</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;g must be a vector (you probably forgot to supply the window function as input parameter.)&#39;</span><span class="p">);</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-6</span><span class="p">;</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">={</span><span class="s">&#39;griflim&#39;</span><span class="p">,</span><span class="s">&#39;bfgs&#39;</span><span class="p">};</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
-  <span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startphase</span><span class="p">={</span><span class="s">&#39;zero&#39;</span><span class="p">,</span><span class="s">&#39;rand&#39;</span><span class="p">,</span><span class="s">&#39;int&#39;</span><span class="p">};</span>
-  
-  <span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;g must be a vector (you probably forgot to supply the window function as input parameter.)&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-6</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">={</span><span class="s">&#39;griflim&#39;</span><span class="p">,</span><span class="s">&#39;bfgs&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startphase</span><span class="p">={</span><span class="s">&#39;zero&#39;</span><span class="p">,</span><span class="s">&#39;rand&#39;</span><span class="p">,</span><span class="s">&#39;int&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-  <span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-  
-  <span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-      <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: &quot;a&quot; must be a scalar&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-      <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: &quot;a&quot; must be an integer&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-  
-  <span class="n">Ltest</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
-  
-  <span class="k">if</span> <span class="n">Ltest</span><span class="o">~=</span><span class="n">L</span>
-      <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect size of coefficient array or &quot;a&quot; parameter. See &#39;</span> <span class="c">...</span>
-             <span class="s">&#39;the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span> <span class="c">...</span>
-            <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">))</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  
-  <span class="n">sqrt_s</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-  
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zero</span>
-    <span class="c">% Start with a phase of zero.</span>
-    <span class="n">c</span><span class="p">=</span><span class="n">sqrt_s</span><span class="p">;</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_rand</span>
-    <span class="n">c</span><span class="p">=</span><span class="n">sqrt_s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="nb">rand</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">));</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_int</span>
-      <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-          <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The integration initilization is not implemented for &#39;</span> <span class="c">...</span>
-                 <span class="s">&#39;non-sep lattices.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-      <span class="k">end</span><span class="p">;</span>
-          
-      <span class="n">c</span><span class="p">=</span><span class="n">constructphase</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span>
-  <span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: &quot;a&quot; must be a scalar&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: &quot;a&quot; must be an integer&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="n">N</span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">Ltest</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">Ltest</span><span class="o">~=</span><span class="n">L</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect size of coefficient array or &quot;a&quot; parameter. See &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">             </span><span class="s">&#39;the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">            </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">sqrt_s</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_zero</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Start with a phase of zero.</span><span class="w"></span>
+<span class="w">    </span><span class="n">c</span><span class="p">=</span><span class="n">sqrt_s</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_rand</span><span class="w"></span>
+<span class="w">    </span><span class="n">c</span><span class="p">=</span><span class="n">sqrt_s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="nb">rand</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_int</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">          </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: The integration initilization is not implemented for &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;non-sep lattices.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span>
+<span class="w">      </span><span class="n">c</span><span class="p">=</span><span class="n">constructphase</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-  <span class="c">% gabwin is called after constructphase above, because constructphase</span>
-  <span class="c">% needs the window as a string/cell</span>
-  <span class="n">g</span><span class="p">=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    
-  
-  <span class="n">gd</span> <span class="p">=</span> <span class="n">gabdual</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-    
-  <span class="c">% For normalization purposes</span>
-  <span class="n">norm_s</span><span class="p">=</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span>
-  
-  <span class="n">relres</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_griflim</span>
-    
-    <span class="k">for</span> <span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
-        <span class="c">%c = comp_dgt_proj(c,g,gd,a,M,L);</span>
-        <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-            <span class="n">f</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-            <span class="n">c</span><span class="p">=</span><span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-        <span class="k">else</span>
-            <span class="n">f</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-            <span class="n">c</span><span class="p">=</span><span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>            
-        <span class="k">end</span><span class="p">;</span>
-      
-      <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
-      
-      <span class="n">c</span><span class="p">=</span><span class="n">sqrt_s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="nb">i</span><span class="o">*</span><span class="nb">angle</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
-      
-      <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
-        <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
-          <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;ISGRAM: Iteration %i, residual = %f\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span>
-        <span class="k">end</span><span class="p">;</span>    
-      <span class="k">end</span><span class="p">;</span>
-      
-      <span class="k">if</span> <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="o">&lt;</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span>
-        <span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iter</span><span class="p">);</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="k">end</span><span class="p">;</span>
-      
-    <span class="k">end</span><span class="p">;</span>
-    
-    <span class="n">f</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_bfgs</span>
-    <span class="k">if</span> <span class="n">exist</span><span class="p">(</span><span class="s">&#39;minFunc&#39;</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span>
-      <span class="n">error</span><span class="p">([</span><span class="s">&#39;To use the BFGS method in ISGRAMREAL, please install the minFunc &#39;</span> <span class="c">...</span>
-             <span class="s">&#39;software from http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.&#39;</span><span class="p">]);</span>
-    <span class="k">end</span><span class="p">;</span>
-    
-    <span class="c">% Setting up the options for minFunc</span>
-    <span class="n">opts</span> <span class="p">=</span> <span class="n">struct</span><span class="p">;</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">display</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">;</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">maxiter</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span>
-    
-    <span class="c">% Don&#39;t limit the number of function evaluations, just the number of</span>
-    <span class="c">% time-steps.</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">MaxFunEvals</span> <span class="p">=</span> <span class="mf">1e9</span><span class="p">;</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">usemex</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-    
-    <span class="n">f0</span> <span class="p">=</span> <span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fval</span><span class="p">,</span><span class="n">exitflag</span><span class="p">,</span><span class="n">output</span><span class="p">]=</span><span class="n">minFunc</span><span class="p">(@</span><span class="n">objfun</span><span class="p">,</span><span class="n">f0</span><span class="p">,</span><span class="n">opts</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
-    <span class="c">% First entry of output.trace.fval is the objective function</span>
-    <span class="c">% evaluated on the initial input. Skip it to be consistent.</span>
-    <span class="n">relres</span> <span class="p">=</span> <span class="n">output</span><span class="p">.</span><span class="n">trace</span><span class="p">.</span><span class="n">fval</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
-    <span class="n">iter</span> <span class="p">=</span> <span class="n">output</span><span class="p">.</span><span class="n">iterations</span><span class="p">;</span>
-  <span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="c">% gabwin is called after constructphase above, because constructphase</span><span class="w"></span>
+<span class="w">  </span><span class="c">% needs the window as a string/cell</span><span class="w"></span>
+<span class="w">  </span><span class="n">g</span><span class="p">=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">gd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gabdual</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">  </span><span class="c">% For normalization purposes</span><span class="w"></span>
+<span class="w">  </span><span class="n">norm_s</span><span class="p">=</span><span class="nb">norm</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">relres</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_griflim</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="w"></span>
+<span class="w">        </span><span class="c">%c = comp_dgt_proj(c,g,gd,a,M,L);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">f</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">c</span><span class="p">=</span><span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="w"></span>
+<span class="w">            </span><span class="n">f</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">c</span><span class="p">=</span><span class="n">comp_dgt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w">            </span>
+<span class="w">        </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span>
+<span class="w">      </span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="nb">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span>
+<span class="w">      </span><span class="n">c</span><span class="p">=</span><span class="n">sqrt_s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="nb">i</span><span class="o">*</span><span class="nb">angle</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"></span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_print</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="w"></span>
+<span class="w">          </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;ISGRAM: Iteration %i, residual = %f\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="p">;</span><span class="w">    </span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="o">&lt;</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="w"></span>
+<span class="w">        </span><span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iter</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">f</span><span class="p">=</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_bfgs</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="s">&#39;minFunc&#39;</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;To use the BFGS method in ISGRAMREAL, please install the minFunc &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">             </span><span class="s">&#39;software from http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Setting up the options for minFunc</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">display</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">maxiter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Don&#39;t limit the number of function evaluations, just the number of</span><span class="w"></span>
+<span class="w">    </span><span class="c">% time-steps.</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">MaxFunEvals</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e9</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">usemex</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">f0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">gd</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">fval</span><span class="p">,</span><span class="n">exitflag</span><span class="p">,</span><span class="n">output</span><span class="p">]=</span><span class="n">minFunc</span><span class="p">(@</span><span class="n">objfun</span><span class="p">,</span><span class="n">f0</span><span class="p">,</span><span class="n">opts</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% First entry of output.trace.fval is the objective function</span><span class="w"></span>
+<span class="w">    </span><span class="c">% evaluated on the initial input. Skip it to be consistent.</span><span class="w"></span>
+<span class="w">    </span><span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">trace</span><span class="p">.</span><span class="n">fval</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">iterations</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-    
-  <span class="c">% Cut or extend f to the correct length, if desired.</span>
-  <span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span>
-    <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
-  <span class="k">else</span>
-    <span class="n">Ls</span><span class="p">=</span><span class="n">L</span><span class="p">;</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-  <span class="n">f</span><span class="p">=</span><span class="n">comp_sigreshape_post</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="mi">0</span><span class="p">,[</span><span class="mi">0</span><span class="p">;</span> <span class="n">W</span><span class="p">]);</span>
+<span class="w">    </span>
+<span class="w">  </span><span class="c">% Cut or extend f to the correct length, if desired.</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ls</span><span class="p">=</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="n">comp_sigreshape_post</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="mi">0</span><span class="p">,[</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">W</span><span class="p">]);</span><span class="w"></span>
 
-<span class="c">%  Subfunction to compute the objective function for the BFGS method.</span>
-<span class="k">function</span><span class="w"> </span>[f,df]<span class="p">=</span><span class="nf">objfun</span><span class="p">(</span>x,g,a,M,s,lt<span class="p">);</span>
-  <span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-  <span class="n">c</span><span class="p">=</span><span class="n">comp_dgt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  
-  <span class="n">inner</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="o">-</span><span class="n">s</span><span class="p">;</span>
-  <span class="n">f</span><span class="p">=</span><span class="n">norm</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span>
-  
-  <span class="n">df</span><span class="p">=</span><span class="mi">4</span><span class="o">*</span><span class="nb">real</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">inner</span><span class="o">.*</span><span class="n">c</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)));</span>
+<span class="c">%  Subfunction to compute the objective function for the BFGS method.</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span>[f,df]<span class="p">=</span><span class="nf">objfun</span><span class="p">(</span>x,g,a,M,s,lt<span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">comp_dgt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">inner</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="o">-</span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="nb">norm</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">df</span><span class="p">=</span><span class="mi">4</span><span class="o">*</span><span class="nb">real</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">comp_idgt</span><span class="p">(</span><span class="n">inner</span><span class="o">.*</span><span class="n">c</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">lt</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)));</span><span class="w"></span>
 </pre></div>
 
 

@@ -41,115 +41,115 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">ZAK - Zak transform</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">zak</span><span class="p">(</span>f,a<span class="p">);</span>
-<span class="c">%ZAK  Zak transform</span>
-<span class="c">%   Usage:  c=zak(f,a);</span>
-<span class="c">%</span>
-<span class="c">%   ZAK(f,a) computes the Zak transform of f with parameter a.  The</span>
-<span class="c">%   coefficients are arranged in an a xL/a matrix, where L is the</span>
-<span class="c">%   length of f.</span>
-<span class="c">%</span>
-<span class="c">%   If f is a matrix then the transformation is applied to each column.</span>
-<span class="c">%   This is then indexed by the third dimension of the output.</span>
-<span class="c">%</span>
-<span class="c">%   Assume that c=zak(f,a), where f is a column vector of length L and</span>
-<span class="c">%   N=L/a. Then the following holds for m=0,...,a-1 and n=0,...,N-1</span>
-<span class="c">%</span>
-<span class="c">%                          N-1  </span>
-<span class="c">%     c(m+1,n+1)=1/sqrt(N)*sum f(m-k*a+1)*exp(2*pi*i*n*k/N)</span>
-<span class="c">%                          k=0</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   This figure shows the absolute value of the Zak-transform of a Gaussian.</span>
-<span class="c">%   Notice that the Zak-transform is 0 in only a single point right in the</span>
-<span class="c">%   middle of the plot :</span>
-<span class="c">%</span>
-<span class="c">%     a=64;</span>
-<span class="c">%     L=a^2; </span>
-<span class="c">%     g=pgauss(L);</span>
-<span class="c">%     zg=zak(g,a);</span>
-<span class="c">%</span>
-<span class="c">%     surf(abs(zg));</span>
-<span class="c">%   </span>
-<span class="c">%   This figure shows the absolute value of the Zak-transform of a 4th order</span>
-<span class="c">%   Hermite function.  Notice how the Zak transform of the Hermite functions</span>
-<span class="c">%   is zero on a circle centered on the corner :</span>
-<span class="c">%</span>
-<span class="c">%     a=64;</span>
-<span class="c">%     L=a^2; </span>
-<span class="c">%     g=pherm(L,4);</span>
-<span class="c">%     zg=zak(g,a);</span>
-<span class="c">%</span>
-<span class="c">%     surf(abs(zg));</span>
-<span class="c">%</span>
-<span class="c">%   See also:  izak</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     A. J. E. M. Janssen. Duality and biorthogonality for discrete-time</span>
-<span class="c">%     Weyl-Heisenberg frames. Unclassified report, Philips Electronics,</span>
-<span class="c">%     002/94.</span>
-<span class="c">%     </span>
-<span class="c">%     H. Bölcskei and F. Hlawatsch. Discrete Zak transforms, polyphase</span>
-<span class="c">%     transforms, and applications. IEEE Trans. Signal Process.,</span>
-<span class="c">%     45(4):851--866, april 1997.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/zak.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">zak</span><span class="p">(</span>f,a<span class="p">);</span><span class="w"></span>
+<span class="c">%ZAK  Zak transform</span><span class="w"></span>
+<span class="c">%   Usage:  c=zak(f,a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   ZAK(f,a) computes the Zak transform of f with parameter a.  The</span><span class="w"></span>
+<span class="c">%   coefficients are arranged in an a xL/a matrix, where L is the</span><span class="w"></span>
+<span class="c">%   length of f.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If f is a matrix then the transformation is applied to each column.</span><span class="w"></span>
+<span class="c">%   This is then indexed by the third dimension of the output.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Assume that c=zak(f,a), where f is a column vector of length L and</span><span class="w"></span>
+<span class="c">%   N=L/a. Then the following holds for m=0,...,a-1 and n=0,...,N-1</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%                          N-1  </span><span class="w"></span>
+<span class="c">%     c(m+1,n+1)=1/sqrt(N)*sum f(m-k*a+1)*exp(2*pi*i*n*k/N)</span><span class="w"></span>
+<span class="c">%                          k=0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This figure shows the absolute value of the Zak-transform of a Gaussian.</span><span class="w"></span>
+<span class="c">%   Notice that the Zak-transform is 0 in only a single point right in the</span><span class="w"></span>
+<span class="c">%   middle of the plot :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     a=64;</span><span class="w"></span>
+<span class="c">%     L=a^2; </span><span class="w"></span>
+<span class="c">%     g=pgauss(L);</span><span class="w"></span>
+<span class="c">%     zg=zak(g,a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     surf(abs(zg));</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   This figure shows the absolute value of the Zak-transform of a 4th order</span><span class="w"></span>
+<span class="c">%   Hermite function.  Notice how the Zak transform of the Hermite functions</span><span class="w"></span>
+<span class="c">%   is zero on a circle centered on the corner :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     a=64;</span><span class="w"></span>
+<span class="c">%     L=a^2; </span><span class="w"></span>
+<span class="c">%     g=pherm(L,4);</span><span class="w"></span>
+<span class="c">%     zg=zak(g,a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     surf(abs(zg));</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  izak</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     A. J. E. M. Janssen. Duality and biorthogonality for discrete-time</span><span class="w"></span>
+<span class="c">%     Weyl-Heisenberg frames. Unclassified report, Philips Electronics,</span><span class="w"></span>
+<span class="c">%     002/94.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     H. Bölcskei and F. Hlawatsch. Discrete Zak transforms, polyphase</span><span class="w"></span>
+<span class="c">%     transforms, and applications. IEEE Trans. Signal Process.,</span><span class="w"></span>
+<span class="c">%     45(4):851--866, april 1997.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/zak.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard</span>
-<span class="c">%   TESTING: TEST_ZAK</span>
-<span class="c">%   REFERENCE: REF_ZAK</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_ZAK</span><span class="w"></span>
+<span class="c">%   REFERENCE: REF_ZAK</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">~=</span><span class="mi">1</span> <span class="o">||</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
-  <span class="n">error</span><span class="p">([</span><span class="n">callfun</span><span class="p">,</span><span class="s">&#39;: a must be a scalar&#39;</span><span class="p">]);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">~=</span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">([</span><span class="n">callfun</span><span class="p">,</span><span class="s">&#39;: a must be a scalar&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">([</span><span class="n">callfun</span><span class="p">,</span><span class="s">&#39;: a must be an integer&#39;</span><span class="p">]);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">([</span><span class="n">callfun</span><span class="p">,</span><span class="s">&#39;: a must be an integer&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
 
-<span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-  <span class="c">% f was a row vector.</span>
-  <span class="n">f</span><span class="p">=</span><span class="n">f</span><span class="p">(:);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="c">% f was a row vector.</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="n">f</span><span class="p">(:);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-<span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
+<span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">rem</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;The parameter for ZAK must divide the length of the signal.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;The parameter for ZAK must divide the length of the signal.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
+<span class="n">c</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
 
-<span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">W</span>
-  <span class="c">% Compute it, it can be done in one line!</span>
-  <span class="c">% We use a normalized DFT, as this gives the correct normalization</span>
-  <span class="c">% of the Zak transform.</span>
-  <span class="n">c</span><span class="p">(:,:,</span><span class="n">ii</span><span class="p">)=</span><span class="n">dft</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">f</span><span class="p">(:,</span><span class="n">ii</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">N</span><span class="p">),[],</span><span class="mi">2</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">W</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Compute it, it can be done in one line!</span><span class="w"></span>
+<span class="w">  </span><span class="c">% We use a normalized DFT, as this gives the correct normalization</span><span class="w"></span>
+<span class="w">  </span><span class="c">% of the Zak transform.</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">(:,:,</span><span class="n">ii</span><span class="p">)=</span><span class="n">dft</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">f</span><span class="p">(:,</span><span class="n">ii</span><span class="p">),</span><span class="n">a</span><span class="p">,</span><span class="n">N</span><span class="p">),[],</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

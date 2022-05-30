@@ -42,54 +42,54 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FRAMELENGTHCOEF - Frame length from coefficients</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>L<span class="p">=</span><span class="nf">framelengthcoef</span><span class="p">(</span>F,Ncoef<span class="p">);</span>
-<span class="c">%FRAMELENGTHCOEF  Frame length from coefficients</span>
-<span class="c">%   Usage: L=framelengthcoef(F,Ncoef);</span>
-<span class="c">%</span>
-<span class="c">%   FRAMELENGTHCOEF(F,Ncoef) returns the length of the frame F, such that</span>
-<span class="c">%   F is long enough to expand the coefficients of length Ncoef.</span>
-<span class="c">%</span>
-<span class="c">%   If instead a signal is given, call FRAMELENGTH.</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame, framelength</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/framelengthcoef.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>L<span class="p">=</span><span class="nf">framelengthcoef</span><span class="p">(</span>F,Ncoef<span class="p">);</span><span class="w"></span>
+<span class="c">%FRAMELENGTHCOEF  Frame length from coefficients</span><span class="w"></span>
+<span class="c">%   Usage: L=framelengthcoef(F,Ncoef);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FRAMELENGTHCOEF(F,Ncoef) returns the length of the frame F, such that</span><span class="w"></span>
+<span class="c">%   F is long enough to expand the coefficients of length Ncoef.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If instead a signal is given, call FRAMELENGTH.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame, framelength</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/framelengthcoef.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">callfun</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">,</span><span class="s">&#39;Ncoef&#39;</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span>
+<span class="n">callfun</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">,</span><span class="s">&#39;Ncoef&#39;</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span><span class="w"></span>
 
 
-<span class="n">L</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">lengthcoef</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">);</span>
-<span class="c">% sprintf for Octave compatibility</span>
-<span class="n">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">L</span><span class="p">))</span><span class="o">&lt;</span><span class="mf">1e-3</span><span class="p">,</span><span class="c">...</span>
-       <span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;%s: There is a bug. L=%d should be an integer.&#39;</span><span class="p">,</span><span class="c">...</span>
-       <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">));</span>
-<span class="n">L</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
-    
-<span class="c">% Verify the computed length</span>
-<span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="n">L</span><span class="o">==</span><span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">))</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: The coefficient number given does not correspond to a valid &#39;</span> <span class="c">...</span>
-           <span class="s">&#39;set of coefficients for this type of frame.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    
-<span class="k">end</span><span class="p">;</span>
+<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">lengthcoef</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">);</span><span class="w"></span>
+<span class="c">% sprintf for Octave compatibility</span><span class="w"></span>
+<span class="nb">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">L</span><span class="p">))</span><span class="o">&lt;</span><span class="mf">1e-3</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">       </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%s: There is a bug. L=%d should be an integer.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">       </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">));</span><span class="w"></span>
+<span class="n">L</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="c">% Verify the computed length</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">L</span><span class="o">==</span><span class="n">framelength</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: The coefficient number given does not correspond to a valid &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;set of coefficients for this type of frame.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

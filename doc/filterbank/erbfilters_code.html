@@ -46,103 +46,103 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">ERBFILTERS - ERB-spaced filters</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[g,a,fc,L]<span class="p">=</span><span class="nf">erbfilters</span><span class="p">(</span>fs,Ls,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%ERBFILTERS   ERB-spaced filters</span>
-<span class="c">%   Usage:  [g,a,fc,L]=erbfilters(fs,Ls);</span>
-<span class="c">%           [g,a,fc,L]=erbfilters(fs,Ls,...);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%      fs    : Sampling rate (in Hz).</span>
-<span class="c">%      Ls    : Signal length.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%      g     : Cell array of filters.</span>
-<span class="c">%      a     : Downsampling rate for each channel.</span>
-<span class="c">%      fc    : Center frequency of each channel.</span>
-<span class="c">%      L     : Next admissible length suitable for the generated filters.</span>
-<span class="c">%</span>
-<span class="c">%   [g,a,fc]=ERBFILTERS(fs,Ls) constructs a set of filters g that are</span>
-<span class="c">%   equidistantly spaced on the ERB-scale (see FREQTOERB) with bandwidths</span>
-<span class="c">%   that are proportional to the width of the auditory filters</span>
-<span class="c">%   AUDFILTBW. The filters are intended to work with signals with a</span>
-<span class="c">%   sampling rate of fs.</span>
-<span class="c">%</span>
-<span class="c">%   Note that this function just forwards the arguments to AUDFILTERS.</span>
-<span class="c">%   Please see the help of AUDFILTERS for more details.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   In the first example, we construct a highly redudant uniform</span>
-<span class="c">%   filterbank and visualize the result:</span>
-<span class="c">%</span>
-<span class="c">%     [f,fs]=greasy;  % Get the test signal</span>
-<span class="c">%     [g,a,fc]=erbfilters(fs,length(f),&#39;uniform&#39;,&#39;M&#39;,100);</span>
-<span class="c">%     c=filterbank(f,g,a);</span>
-<span class="c">%     plotfilterbank(c,a,fc,fs,90,&#39;audtick&#39;);</span>
-<span class="c">%</span>
-<span class="c">%   In the second example, we construct a non-uniform filterbank with</span>
-<span class="c">%   fractional sampling that works for this particular signal length, and</span>
-<span class="c">%   test the reconstruction. The plot displays the response of the</span>
-<span class="c">%   filterbank to verify that the filters are well-behaved both on a</span>
-<span class="c">%   normal and an ERB-scale. The second plot shows frequency responses of</span>
-<span class="c">%   filters used for analysis (top) and synthesis (bottom). :</span>
-<span class="c">%</span>
-<span class="c">%     [f,fs]=greasy;  % Get the test signal</span>
-<span class="c">%     L=length(f);</span>
-<span class="c">%     [g,a,fc]=erbfilters(fs,L,&#39;fractional&#39;);</span>
-<span class="c">%     c=filterbank(f,{&#39;realdual&#39;,g},a);</span>
-<span class="c">%     r=2*real(ifilterbank(c,g,a));</span>
-<span class="c">%     norm(f-r)</span>
-<span class="c">%</span>
-<span class="c">%     % Plot the response</span>
-<span class="c">%     figure(1);</span>
-<span class="c">%     subplot(2,1,1);</span>
-<span class="c">%     R=filterbankresponse(g,a,L,fs,&#39;real&#39;,&#39;plot&#39;);</span>
-<span class="c">%</span>
-<span class="c">%     subplot(2,1,2);</span>
-<span class="c">%     semiaudplot(linspace(0,fs/2,L/2+1),R(1:L/2+1));</span>
-<span class="c">%     ylabel(&#39;Magnitude&#39;);</span>
-<span class="c">%</span>
-<span class="c">%     % Plot frequency responses of individual filters</span>
-<span class="c">%     gd=filterbankrealdual(g,a,L);</span>
-<span class="c">%     figure(2);</span>
-<span class="c">%     subplot(2,1,1);</span>
-<span class="c">%     filterbankfreqz(gd,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span>
-<span class="c">%</span>
-<span class="c">%     subplot(2,1,2);</span>
-<span class="c">%     filterbankfreqz(g,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   See also: audfilters, filterbank, ufilterbank, ifilterbank, ceil23</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     T. Necciari, P. Balazs, N. Holighaus, and P. L. Søndergaard. The ERBlet</span>
-<span class="c">%     transform: An auditory-based time-frequency representation with perfect</span>
-<span class="c">%     reconstruction. In Proceedings of the 38th International Conference on</span>
-<span class="c">%     Acoustics, Speech, and Signal Processing (ICASSP 2013), pages 498--502,</span>
-<span class="c">%     Vancouver, Canada, May 2013. IEEE.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/filterbank/erbfilters.html</span>
+<span class="c">%ERBFILTERS   ERB-spaced filters</span><span class="w"></span>
+<span class="c">%   Usage:  [g,a,fc,L]=erbfilters(fs,Ls);</span><span class="w"></span>
+<span class="c">%           [g,a,fc,L]=erbfilters(fs,Ls,...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%      fs    : Sampling rate (in Hz).</span><span class="w"></span>
+<span class="c">%      Ls    : Signal length.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%      g     : Cell array of filters.</span><span class="w"></span>
+<span class="c">%      a     : Downsampling rate for each channel.</span><span class="w"></span>
+<span class="c">%      fc    : Center frequency of each channel.</span><span class="w"></span>
+<span class="c">%      L     : Next admissible length suitable for the generated filters.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [g,a,fc]=ERBFILTERS(fs,Ls) constructs a set of filters g that are</span><span class="w"></span>
+<span class="c">%   equidistantly spaced on the ERB-scale (see FREQTOERB) with bandwidths</span><span class="w"></span>
+<span class="c">%   that are proportional to the width of the auditory filters</span><span class="w"></span>
+<span class="c">%   AUDFILTBW. The filters are intended to work with signals with a</span><span class="w"></span>
+<span class="c">%   sampling rate of fs.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Note that this function just forwards the arguments to AUDFILTERS.</span><span class="w"></span>
+<span class="c">%   Please see the help of AUDFILTERS for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In the first example, we construct a highly redudant uniform</span><span class="w"></span>
+<span class="c">%   filterbank and visualize the result:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     [f,fs]=greasy;  % Get the test signal</span><span class="w"></span>
+<span class="c">%     [g,a,fc]=erbfilters(fs,length(f),&#39;uniform&#39;,&#39;M&#39;,100);</span><span class="w"></span>
+<span class="c">%     c=filterbank(f,g,a);</span><span class="w"></span>
+<span class="c">%     plotfilterbank(c,a,fc,fs,90,&#39;audtick&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In the second example, we construct a non-uniform filterbank with</span><span class="w"></span>
+<span class="c">%   fractional sampling that works for this particular signal length, and</span><span class="w"></span>
+<span class="c">%   test the reconstruction. The plot displays the response of the</span><span class="w"></span>
+<span class="c">%   filterbank to verify that the filters are well-behaved both on a</span><span class="w"></span>
+<span class="c">%   normal and an ERB-scale. The second plot shows frequency responses of</span><span class="w"></span>
+<span class="c">%   filters used for analysis (top) and synthesis (bottom). :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     [f,fs]=greasy;  % Get the test signal</span><span class="w"></span>
+<span class="c">%     L=length(f);</span><span class="w"></span>
+<span class="c">%     [g,a,fc]=erbfilters(fs,L,&#39;fractional&#39;);</span><span class="w"></span>
+<span class="c">%     c=filterbank(f,{&#39;realdual&#39;,g},a);</span><span class="w"></span>
+<span class="c">%     r=2*real(ifilterbank(c,g,a));</span><span class="w"></span>
+<span class="c">%     norm(f-r)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Plot the response</span><span class="w"></span>
+<span class="c">%     figure(1);</span><span class="w"></span>
+<span class="c">%     subplot(2,1,1);</span><span class="w"></span>
+<span class="c">%     R=filterbankresponse(g,a,L,fs,&#39;real&#39;,&#39;plot&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     subplot(2,1,2);</span><span class="w"></span>
+<span class="c">%     semiaudplot(linspace(0,fs/2,L/2+1),R(1:L/2+1));</span><span class="w"></span>
+<span class="c">%     ylabel(&#39;Magnitude&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Plot frequency responses of individual filters</span><span class="w"></span>
+<span class="c">%     gd=filterbankrealdual(g,a,L);</span><span class="w"></span>
+<span class="c">%     figure(2);</span><span class="w"></span>
+<span class="c">%     subplot(2,1,1);</span><span class="w"></span>
+<span class="c">%     filterbankfreqz(gd,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     subplot(2,1,2);</span><span class="w"></span>
+<span class="c">%     filterbankfreqz(g,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: audfilters, filterbank, ufilterbank, ifilterbank, ceil23</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     T. Necciari, P. Balazs, N. Holighaus, and P. L. Søndergaard. The ERBlet</span><span class="w"></span>
+<span class="c">%     transform: An auditory-based time-frequency representation with perfect</span><span class="w"></span>
+<span class="c">%     reconstruction. In Proceedings of the 38th International Conference on</span><span class="w"></span>
+<span class="c">%     Acoustics, Speech, and Signal Processing (ICASSP 2013), pages 498--502,</span><span class="w"></span>
+<span class="c">%     Vancouver, Canada, May 2013. IEEE.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/filterbank/erbfilters.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% Authors: Peter L. Søndergaard, Zdenek Prusa, Nicki Holighaus</span>
+<span class="c">% Authors: Peter L. Søndergaard, Zdenek Prusa, Nicki Holighaus</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">audfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:},</span><span class="s">&#39;erb&#39;</span><span class="p">);</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">audfilters</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:},</span><span class="s">&#39;erb&#39;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

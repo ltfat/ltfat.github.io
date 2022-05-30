@@ -43,378 +43,378 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FRSYNABS - Reconstruction from magnitude of coefficients</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[f,relres,iter,c]<span class="p">=</span><span class="nf">frsynabs</span><span class="p">(</span>F,s,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FRSYNABS  Reconstruction from magnitude of coefficients</span>
-<span class="c">%   Usage:  f=frsynabs(F,s);</span>
-<span class="c">%           f=frsynabs(F,s,Ls);</span>
-<span class="c">%           [f,relres,iter,c]=frsynabs(...);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         F       : Frame</span>
-<span class="c">%         s       : Array of coefficients.</span>
-<span class="c">%         Ls      : length of signal.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         f       : Signal.</span>
-<span class="c">%         relres  : Vector of residuals.</span>
-<span class="c">%         iter    : Number of iterations done.</span>
-<span class="c">%         c       : Coefficients with the reconstructed phase</span>
-<span class="c">%</span>
-<span class="c">%   FRSYNABS(F,s) attempts to find a signal which has s as the absolute</span>
-<span class="c">%   value of its frame coefficients :</span>
-<span class="c">%</span>
-<span class="c">%     s = abs(frana(F,f));</span>
-<span class="c">%</span>
-<span class="c">%   using an iterative method.</span>
-<span class="c">%</span>
-<span class="c">%   FRSYNABS(F,s,Ls) does as above but cuts or extends f to length Ls.</span>
-<span class="c">%</span>
-<span class="c">%   If the phase of the coefficients s is known, it is much better to use</span>
-<span class="c">%   frsyn.</span>
-<span class="c">%</span>
-<span class="c">%   [f,relres,iter]=FRSYNABS(...) additionally returns the residuals in a</span>
-<span class="c">%   vector relres and the number of iteration steps iter. The residuals</span>
-<span class="c">%   are computed as:</span>
-<span class="c">%</span>
-<span class="c">%      relres = norm(abs(cn)-s,&#39;fro&#39;)/norm(s,&#39;fro&#39;)</span>
-<span class="c">%</span>
-<span class="c">%   where c_n is the Gabor coefficients of the signal in iteration n.</span>
-<span class="c">%</span>
-<span class="c">%   [f,relres,iter,c]=FRSYNABS(...,&#39;griflim&#39;|&#39;fgriflim&#39;) additionally returns</span>
-<span class="c">%   coefficients c with the reconstructed phase prior to the final reconstruction.</span>
-<span class="c">%   This is usefull for determining the consistency (energy lost in the nullspace</span>
-<span class="c">%   of F) of the reconstructed spectrogram. c will only be equal to frana(F,f)</span>
-<span class="c">%   if the spectrogram is already consistent (i.e. already in the range space of F*).</span>
-<span class="c">%   This is possible only for &#39;griflim&#39; and &#39;fgriflim&#39; methods.</span>
-<span class="c">%</span>
-<span class="c">%   Generally, if the absolute value of the frame coefficients has not been</span>
-<span class="c">%   modified, the iterative algorithm will converge slowly to the correct</span>
-<span class="c">%   result. If the coefficients have been modified, the algorithm is not</span>
-<span class="c">%   guaranteed to converge at all.</span>
-<span class="c">%</span>
-<span class="c">%   FRSYNABS takes the following parameters at the end of the line of input</span>
-<span class="c">%   arguments.</span>
-<span class="c">%</span>
-<span class="c">%   Initial phase guess:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;input&#39;      Choose the starting phase as the phase of the input</span>
-<span class="c">%                  s. This is the default</span>
-<span class="c">%</span>
-<span class="c">%     &#39;zero&#39;       Choose a starting phase of zero.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span>
-<span class="c">%</span>
-<span class="c">%   The Griffin-Lim algorithm related parameters:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;griflim&#39;    Use the Griffin-Lim iterative method. This is the</span>
-<span class="c">%                  default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;fgriflim&#39;   Use the Fast Griffin-Lim iterative method.</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%     &#39;Fd&#39;,Fd      A canonical dual frame object or an anonymous function</span>
-<span class="c">%                  acting as the synthesis operator of the canonical dual frame.</span>
-<span class="c">%                  If not provided, the function attempts to create one using</span>
-<span class="c">%                  Fd=framedual(F).</span>
-<span class="c">%</span>
-<span class="c">%     &#39;alpha&#39;,a    Parameter of the Fast Griffin-Lim algorithm. It is</span>
-<span class="c">%                  ignored if not used together with &#39;fgriflim&#39; flag.</span>
-<span class="c">%</span>
-<span class="c">%   The BFGS method related paramaters:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;bfgs&#39;       Use the limited-memory Broyden Fletcher Goldfarb</span>
-<span class="c">%                  Shanno (BFGS) method.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;p&#39;,p        Parameter for the compressed version of the obj. function</span>
-<span class="c">%                  in the l-BFGS method. It is ignored if not used together</span>
-<span class="c">%                  with &#39;bfgs&#39; flag.</span>
-<span class="c">%</span>
-<span class="c">%   Other:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the</span>
-<span class="c">%                  specified tolerance.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;print&#39;      Display the progress.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span>
-<span class="c">%                    iteration. Default value is p=10;</span>
-<span class="c">%</span>
-<span class="c">%   The BFGS method makes use of the minFunc software. To use the BFGS method,</span>
-<span class="c">%   please install the minFunc software from:</span>
-<span class="c">%   http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  frana, frsyn</span>
-<span class="c">%</span>
-<span class="c">%   Demos:  demo_frsynabs, demo_phaseret</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     D. Griffin and J. Lim. Signal estimation from modified short-time</span>
-<span class="c">%     Fourier transform. IEEE Trans. Acoust. Speech Signal Process.,</span>
-<span class="c">%     32(2):236--243, 1984.</span>
-<span class="c">%     </span>
-<span class="c">%     N. Perraudin, P. Balazs, and P. L. Søndergaard. A fast Griffin-Lim</span>
-<span class="c">%     algorithm. In Applications of Signal Processing to Audio and Acoustics</span>
-<span class="c">%     (WASPAA), 2013 IEEE Workshop on, pages 1--4, Oct 2013.</span>
-<span class="c">%     </span>
-<span class="c">%     R. Decorsiere, P. Søndergaard, E. MacDonald, and T. Dau. Inversion of</span>
-<span class="c">%     auditory spectrograms, traditional spectrograms, and other envelope</span>
-<span class="c">%     representations. Audio, Speech, and Language Processing, IEEE/ACM</span>
-<span class="c">%     Transactions on, 23(1):46--56, Jan 2015.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/frsynabs.html</span>
+<span class="c">%FRSYNABS  Reconstruction from magnitude of coefficients</span><span class="w"></span>
+<span class="c">%   Usage:  f=frsynabs(F,s);</span><span class="w"></span>
+<span class="c">%           f=frsynabs(F,s,Ls);</span><span class="w"></span>
+<span class="c">%           [f,relres,iter,c]=frsynabs(...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         F       : Frame</span><span class="w"></span>
+<span class="c">%         s       : Array of coefficients.</span><span class="w"></span>
+<span class="c">%         Ls      : length of signal.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         f       : Signal.</span><span class="w"></span>
+<span class="c">%         relres  : Vector of residuals.</span><span class="w"></span>
+<span class="c">%         iter    : Number of iterations done.</span><span class="w"></span>
+<span class="c">%         c       : Coefficients with the reconstructed phase</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FRSYNABS(F,s) attempts to find a signal which has s as the absolute</span><span class="w"></span>
+<span class="c">%   value of its frame coefficients :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     s = abs(frana(F,f));</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   using an iterative method.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FRSYNABS(F,s,Ls) does as above but cuts or extends f to length Ls.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If the phase of the coefficients s is known, it is much better to use</span><span class="w"></span>
+<span class="c">%   frsyn.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [f,relres,iter]=FRSYNABS(...) additionally returns the residuals in a</span><span class="w"></span>
+<span class="c">%   vector relres and the number of iteration steps iter. The residuals</span><span class="w"></span>
+<span class="c">%   are computed as:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      relres = norm(abs(cn)-s,&#39;fro&#39;)/norm(s,&#39;fro&#39;)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   where c_n is the Gabor coefficients of the signal in iteration n.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [f,relres,iter,c]=FRSYNABS(...,&#39;griflim&#39;|&#39;fgriflim&#39;) additionally returns</span><span class="w"></span>
+<span class="c">%   coefficients c with the reconstructed phase prior to the final reconstruction.</span><span class="w"></span>
+<span class="c">%   This is usefull for determining the consistency (energy lost in the nullspace</span><span class="w"></span>
+<span class="c">%   of F) of the reconstructed spectrogram. c will only be equal to frana(F,f)</span><span class="w"></span>
+<span class="c">%   if the spectrogram is already consistent (i.e. already in the range space of F*).</span><span class="w"></span>
+<span class="c">%   This is possible only for &#39;griflim&#39; and &#39;fgriflim&#39; methods.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Generally, if the absolute value of the frame coefficients has not been</span><span class="w"></span>
+<span class="c">%   modified, the iterative algorithm will converge slowly to the correct</span><span class="w"></span>
+<span class="c">%   result. If the coefficients have been modified, the algorithm is not</span><span class="w"></span>
+<span class="c">%   guaranteed to converge at all.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FRSYNABS takes the following parameters at the end of the line of input</span><span class="w"></span>
+<span class="c">%   arguments.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Initial phase guess:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;input&#39;      Choose the starting phase as the phase of the input</span><span class="w"></span>
+<span class="c">%                  s. This is the default</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;zero&#39;       Choose a starting phase of zero.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;rand&#39;       Choose a random starting phase.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The Griffin-Lim algorithm related parameters:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;griflim&#39;    Use the Griffin-Lim iterative method. This is the</span><span class="w"></span>
+<span class="c">%                  default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;fgriflim&#39;   Use the Fast Griffin-Lim iterative method.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;Fd&#39;,Fd      A canonical dual frame object or an anonymous function</span><span class="w"></span>
+<span class="c">%                  acting as the synthesis operator of the canonical dual frame.</span><span class="w"></span>
+<span class="c">%                  If not provided, the function attempts to create one using</span><span class="w"></span>
+<span class="c">%                  Fd=framedual(F).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;alpha&#39;,a    Parameter of the Fast Griffin-Lim algorithm. It is</span><span class="w"></span>
+<span class="c">%                  ignored if not used together with &#39;fgriflim&#39; flag.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The BFGS method related paramaters:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;bfgs&#39;       Use the limited-memory Broyden Fletcher Goldfarb</span><span class="w"></span>
+<span class="c">%                  Shanno (BFGS) method.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;p&#39;,p        Parameter for the compressed version of the obj. function</span><span class="w"></span>
+<span class="c">%                  in the l-BFGS method. It is ignored if not used together</span><span class="w"></span>
+<span class="c">%                  with &#39;bfgs&#39; flag.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Other:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the</span><span class="w"></span>
+<span class="c">%                  specified tolerance.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;print&#39;      Display the progress.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;printstep&#39;,p  If &#39;print&#39; is specified, then print every p&#39;th</span><span class="w"></span>
+<span class="c">%                    iteration. Default value is p=10;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The BFGS method makes use of the minFunc software. To use the BFGS method,</span><span class="w"></span>
+<span class="c">%   please install the minFunc software from:</span><span class="w"></span>
+<span class="c">%   http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  frana, frsyn</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Demos:  demo_frsynabs, demo_phaseret</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     D. Griffin and J. Lim. Signal estimation from modified short-time</span><span class="w"></span>
+<span class="c">%     Fourier transform. IEEE Trans. Acoust. Speech Signal Process.,</span><span class="w"></span>
+<span class="c">%     32(2):236--243, 1984.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     N. Perraudin, P. Balazs, and P. L. Søndergaard. A fast Griffin-Lim</span><span class="w"></span>
+<span class="c">%     algorithm. In Applications of Signal Processing to Audio and Acoustics</span><span class="w"></span>
+<span class="c">%     (WASPAA), 2013 IEEE Workshop on, pages 1--4, Oct 2013.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     R. Decorsiere, P. Søndergaard, E. MacDonald, and T. Dau. Inversion of</span><span class="w"></span>
+<span class="c">%     auditory spectrograms, traditional spectrograms, and other envelope</span><span class="w"></span>
+<span class="c">%     representations. Audio, Speech, and Language Processing, IEEE/ACM</span><span class="w"></span>
+<span class="c">%     Transactions on, 23(1):46--56, Jan 2015.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/frsynabs.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Remi Decorsiere and Peter L. Søndergaard.</span>
-<span class="c">%   REFERENCE: OK</span>
+<span class="c">%   AUTHOR : Remi Decorsiere and Peter L. Søndergaard.</span><span class="w"></span>
+<span class="c">%   REFERENCE: OK</span><span class="w"></span>
 
-<span class="c">% Check input paramameters.</span>
+<span class="c">% Check input paramameters.</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRSYNABS&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRSYNABS&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRSYNABS&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRSYNABS&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-6</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Fd</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">alpha</span><span class="p">=</span><span class="mf">0.99</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">p</span><span class="p">=</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startphase</span><span class="p">={</span><span class="s">&#39;input&#39;</span><span class="p">,</span><span class="s">&#39;zero&#39;</span><span class="p">,</span><span class="s">&#39;rand&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">={</span><span class="s">&#39;griflim&#39;</span><span class="p">,</span><span class="s">&#39;bfgs&#39;</span><span class="p">,</span><span class="s">&#39;fgriflim&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mf">1e-6</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Fd</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">alpha</span><span class="p">=</span><span class="mf">0.99</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">p</span><span class="p">=</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">startphase</span><span class="p">={</span><span class="s">&#39;input&#39;</span><span class="p">,</span><span class="s">&#39;zero&#39;</span><span class="p">,</span><span class="s">&#39;rand&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">method</span><span class="p">={</span><span class="s">&#39;griflim&#39;</span><span class="p">,</span><span class="s">&#39;bfgs&#39;</span><span class="p">,</span><span class="s">&#39;fgriflim&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Determine the proper length of the frame</span>
-<span class="n">L</span><span class="p">=</span><span class="n">framelengthcoef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="c">% Determine the proper length of the frame</span><span class="w"></span>
+<span class="n">L</span><span class="p">=</span><span class="n">framelengthcoef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_input</span>
-  <span class="c">% Start with the phase given by the input.</span>
-  <span class="n">c</span><span class="p">=</span><span class="n">s</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_input</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Start with the phase given by the input.</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_zero</span>
-  <span class="c">% Start with a phase of zero.</span>
-  <span class="n">c</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_zero</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Start with a phase of zero.</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_rand</span>
-  <span class="n">c</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="nb">rand</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">)));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_rand</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="nb">i</span><span class="o">*</span><span class="nb">rand</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">)));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Use only abs(s) in the residum evaluations</span>
-<span class="n">s</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="c">% Use only abs(s) in the residum evaluations</span><span class="w"></span>
+<span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% For normalization purposes</span>
-<span class="n">norm_s</span><span class="p">=</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span>
+<span class="c">% For normalization purposes</span><span class="w"></span>
+<span class="n">norm_s</span><span class="p">=</span><span class="nb">norm</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">relres</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">relres</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span>
-    <span class="k">try</span>
-       <span class="n">Fd</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">framedual</span><span class="p">(</span><span class="n">F</span><span class="p">),</span><span class="n">L</span><span class="p">);</span>
-       <span class="n">Fdfrsyn</span> <span class="p">=</span> <span class="p">@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">Fd</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span>
-    <span class="k">catch</span>
-        <span class="c">% Canonical dual frame cannot be creted explicitly</span>
-        <span class="c">% TO DO: use pcg</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: The canonical dual frame is not available.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    <span class="k">end</span>
-<span class="k">else</span>
-   <span class="k">if</span> <span class="n">isstruct</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">isfield</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;frsyn&#39;</span><span class="p">)</span>
-      <span class="c">% The canonical dual frame was passed explicitly as a frame object</span>
-      <span class="n">Fd</span> <span class="p">=</span> <span class="n">frameaccel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-      <span class="n">Fdfrsyn</span> <span class="p">=</span> <span class="p">@(</span><span class="n">insig</span><span class="p">)</span> <span class="n">Fd</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span>
-   <span class="k">elseif</span> <span class="n">isa</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span>
-      <span class="c">% The anonymous function is expected to do (FF*)^(-1)F</span>
-      <span class="n">Fdfrsyn</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">;</span>
-   <span class="k">else</span>
-       <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid format of Fd.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfielname</span><span class="p">));</span>
-   <span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">try</span><span class="w"></span>
+<span class="w">       </span><span class="n">Fd</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">framedual</span><span class="p">(</span><span class="n">F</span><span class="p">),</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="n">Fdfrsyn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">insig</span><span class="p">)</span><span class="w"> </span><span class="n">Fd</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">catch</span><span class="w"></span>
+<span class="w">        </span><span class="c">% Canonical dual frame cannot be creted explicitly</span><span class="w"></span>
+<span class="w">        </span><span class="c">% TO DO: use pcg</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: The canonical dual frame is not available.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="nb">isstruct</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;frsyn&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">% The canonical dual frame was passed explicitly as a frame object</span><span class="w"></span>
+<span class="w">      </span><span class="n">Fd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frameaccel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">Fdfrsyn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">insig</span><span class="p">)</span><span class="w"> </span><span class="n">Fd</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="k">elseif</span><span class="w"> </span><span class="nb">isa</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">,</span><span class="s">&#39;function_handle&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="c">% The anonymous function is expected to do (FF*)^(-1)F</span><span class="w"></span>
+<span class="w">      </span><span class="n">Fdfrsyn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">Fd</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">else</span><span class="w"></span>
+<span class="w">       </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid format of Fd.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="n">mfielname</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
 
-<span class="k">end</span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Initialize windows to speed up computation</span>
-<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="c">% Initialize windows to speed up computation</span><span class="w"></span>
+<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_griflim</span>
-  <span class="k">for</span> <span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
-    <span class="n">f</span><span class="p">=</span><span class="n">Fdfrsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-    <span class="n">c2</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_griflim</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="p">=</span><span class="n">Fdfrsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">c2</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">c</span><span class="p">=</span><span class="n">s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">angle</span><span class="p">(</span><span class="n">c2</span><span class="p">));</span>
-    <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
+<span class="w">    </span><span class="n">c</span><span class="p">=</span><span class="n">s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span>1<span class="nb">i</span><span class="o">*</span><span class="nb">angle</span><span class="p">(</span><span class="n">c2</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="nb">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
-      <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
-        <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;FRSYNABS: Iteration %i, residual = %f.\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span>
-      <span class="k">end</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_print</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;FRSYNABS: Iteration %i, residual = %f.\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">if</span> <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="o">&lt;</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span>
-      <span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iter</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="o">&lt;</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="w"></span>
+<span class="w">      </span><span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iter</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">end</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_fgriflim</span>
-  <span class="n">told</span><span class="p">=</span><span class="n">c</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_fgriflim</span><span class="w"></span>
+<span class="w">  </span><span class="n">told</span><span class="p">=</span><span class="n">c</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">for</span> <span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span>
-    <span class="n">f</span><span class="p">=</span><span class="n">Fdfrsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-    <span class="n">tnew</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">iter</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="p">=</span><span class="n">Fdfrsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">tnew</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">tnew</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
+<span class="w">    </span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)=</span><span class="nb">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">tnew</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span><span class="w"></span>
 
-    <span class="n">tnew</span><span class="p">=</span><span class="n">s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">angle</span><span class="p">(</span><span class="n">tnew</span><span class="p">));</span>
-    <span class="n">c</span><span class="p">=</span><span class="n">tnew</span><span class="o">+</span><span class="n">kv</span><span class="p">.</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">tnew</span><span class="o">-</span><span class="n">told</span><span class="p">);</span>
-
-
-    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_print</span>
-      <span class="k">if</span> <span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
-        <span class="n">fprintf</span><span class="p">(</span><span class="s">&#39;FRSYNABS: Iteration %i, residual = %f.\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span>
-      <span class="k">end</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
-
-    <span class="k">if</span> <span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="o">&lt;</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span>
-      <span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iter</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
-
-    <span class="n">told</span><span class="p">=</span><span class="n">tnew</span><span class="p">;</span>
-
-  <span class="k">end</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
-
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_bfgs</span>
-    <span class="k">if</span> <span class="n">exist</span><span class="p">(</span><span class="s">&#39;minFunc&#39;</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span>
-      <span class="n">error</span><span class="p">([</span><span class="s">&#39;To use the BFGS method in FRSYNABS, please install the minFunc &#39;</span> <span class="c">...</span>
-             <span class="s">&#39;software from http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.&#39;</span><span class="p">]);</span>
-    <span class="k">end</span><span class="p">;</span>
-
-    <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">3</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: 4th argument cannot be returned when using the BFGS method.&#39;</span><span class="p">,</span><span class="c">...</span>
-              <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-    <span class="k">end</span>
-
-    <span class="c">% Setting up the options for minFunc</span>
-    <span class="n">opts</span> <span class="p">=</span> <span class="n">struct</span><span class="p">;</span>
-    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_quiet</span>
-          <span class="n">opts</span><span class="p">.</span><span class="n">Display</span> <span class="p">=</span> <span class="s">&#39;off&#39;</span><span class="p">;</span>
-    <span class="k">end</span>
+<span class="w">    </span><span class="n">tnew</span><span class="p">=</span><span class="n">s</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span>1<span class="nb">i</span><span class="o">*</span><span class="nb">angle</span><span class="p">(</span><span class="n">tnew</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="n">c</span><span class="p">=</span><span class="n">tnew</span><span class="o">+</span><span class="n">kv</span><span class="p">.</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">tnew</span><span class="o">-</span><span class="n">told</span><span class="p">);</span><span class="w"></span>
 
 
-    <span class="n">opts</span><span class="p">.</span><span class="n">MaxIter</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">optTol</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">;</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">progTol</span> <span class="p">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_print</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">printstep</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;FRSYNABS: Iteration %i, residual = %f.\n&#39;</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
-        <span class="c">% This custom function is called after each iteration.</span>
-        <span class="c">% We cannot use the objective function itself as it might be called</span>
-        <span class="c">% several times in a single iteration.</span>
-        <span class="c">% We use outputFcn to keep track of norm(abs(c)+s)</span>
-        <span class="c">% because the objective function is different: norm(abs(c).^p+s.^p)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">relres</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span><span class="o">&lt;</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="w"></span>
+<span class="w">      </span><span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iter</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-        <span class="n">opts</span><span class="p">.</span><span class="n">outputFcn</span> <span class="p">=</span> <span class="p">@</span><span class="n">outputFcn</span><span class="p">;</span>
-        <span class="n">opts</span><span class="p">.</span><span class="n">outputFcn</span><span class="p">(</span><span class="s">&#39;init&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">s</span><span class="p">);</span>
-    <span class="k">end</span>
+<span class="w">    </span><span class="n">told</span><span class="p">=</span><span class="n">tnew</span><span class="p">;</span><span class="w"></span>
 
-    <span class="c">% Don&#39;t limit the number of function evaluations, just the number of</span>
-    <span class="c">% time-steps.</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">MaxFunEvals</span> <span class="p">=</span> <span class="mf">1e9</span><span class="p">;</span>
-    <span class="n">opts</span><span class="p">.</span><span class="n">usemex</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">f0</span> <span class="p">=</span> <span class="n">Fdfrsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">if</span> <span class="n">kv</span><span class="p">.</span><span class="n">p</span> <span class="o">~=</span> <span class="mi">2</span>
-      <span class="n">objfun</span> <span class="p">=</span> <span class="p">@(</span><span class="n">x</span><span class="p">)</span> <span class="n">gradfunp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">p</span><span class="p">);</span>
-    <span class="k">else</span>
-      <span class="n">objfun</span> <span class="p">=</span> <span class="p">@(</span><span class="n">x</span><span class="p">)</span> <span class="n">gradfun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">s</span><span class="p">);</span>
-    <span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_bfgs</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="s">&#39;minFunc&#39;</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;To use the BFGS method in FRSYNABS, please install the minFunc &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">             </span><span class="s">&#39;software from http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html.&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-    <span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">output</span><span class="p">]</span> <span class="p">=</span> <span class="n">minFunc</span><span class="p">(</span><span class="n">objfun</span><span class="p">,</span><span class="n">f0</span><span class="p">,</span><span class="n">opts</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: 4th argument cannot be returned when using the BFGS method.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">              </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 
-    <span class="k">if</span> <span class="n">nargout</span> <span class="o">&gt;</span> <span class="mi">1</span>
-        <span class="n">iter</span> <span class="p">=</span> <span class="n">output</span><span class="p">.</span><span class="n">iterations</span><span class="p">;</span>
-        <span class="n">res</span> <span class="p">=</span> <span class="n">opts</span><span class="p">.</span><span class="n">outputFcn</span><span class="p">(</span><span class="s">&#39;getRes&#39;</span><span class="p">);</span>
-        <span class="n">relres</span> <span class="p">=</span> <span class="n">res</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span>
-    <span class="k">end</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="w">    </span><span class="c">% Setting up the options for minFunc</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_quiet</span><span class="w"></span>
+<span class="w">          </span><span class="n">opts</span><span class="p">.</span><span class="n">Display</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;off&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 
 
-<span class="c">% Cut or extend f to the correct length, if desired.</span>
-<span class="k">if</span> <span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span>
-  <span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
-<span class="k">else</span>
-  <span class="n">Ls</span><span class="p">=</span><span class="n">L</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">MaxIter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">optTol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">progTol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">f</span><span class="p">=</span><span class="n">comp_sigreshape_post</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="mi">0</span><span class="p">,[</span><span class="mi">0</span><span class="p">;</span> <span class="n">W</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="c">% This custom function is called after each iteration.</span><span class="w"></span>
+<span class="w">        </span><span class="c">% We cannot use the objective function itself as it might be called</span><span class="w"></span>
+<span class="w">        </span><span class="c">% several times in a single iteration.</span><span class="w"></span>
+<span class="w">        </span><span class="c">% We use outputFcn to keep track of norm(abs(c)+s)</span><span class="w"></span>
+<span class="w">        </span><span class="c">% because the objective function is different: norm(abs(c).^p+s.^p)</span><span class="w"></span>
 
-<span class="c">%  Subfunction to compute the objective function for the BFGS method.</span>
+<span class="w">        </span><span class="n">opts</span><span class="p">.</span><span class="n">outputFcn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">outputFcn</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">opts</span><span class="p">.</span><span class="n">outputFcn</span><span class="p">(</span><span class="s">&#39;init&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">% Don&#39;t limit the number of function evaluations, just the number of</span><span class="w"></span>
+<span class="w">    </span><span class="c">% time-steps.</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">MaxFunEvals</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1e9</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">opts</span><span class="p">.</span><span class="n">usemex</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">f0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Fdfrsyn</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">p</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">      </span><span class="n">objfun</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">gradfunp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">p</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="n">objfun</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">gradfun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">output</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">minFunc</span><span class="p">(</span><span class="n">objfun</span><span class="p">,</span><span class="n">f0</span><span class="p">,</span><span class="n">opts</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">output</span><span class="p">.</span><span class="n">iterations</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opts</span><span class="p">.</span><span class="n">outputFcn</span><span class="p">(</span><span class="s">&#39;getRes&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">relres</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">res</span><span class="o">/</span><span class="n">norm_s</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+
+<span class="c">% Cut or extend f to the correct length, if desired.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ls</span><span class="p">=</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">f</span><span class="p">=</span><span class="n">comp_sigreshape_post</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="mi">0</span><span class="p">,[</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">W</span><span class="p">]);</span><span class="w"></span>
+
+<span class="c">%  Subfunction to compute the objective function for the BFGS method.</span><span class="w"></span>
 <span class="k">function</span><span class="w"> </span>[f,df]<span class="p">=</span><span class="nf">gradfun</span><span class="p">(</span>x,F,s<span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="c">% f  obj function value</span>
-  <span class="c">% df gradient value</span>
-  <span class="n">c</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="c">% f  obj function value</span><span class="w"></span>
+<span class="w">  </span><span class="c">% df gradient value</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">inner</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="o">-</span><span class="n">s</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
-  <span class="n">f</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span>
-  <span class="n">df</span> <span class="p">=</span> <span class="mi">4</span><span class="o">*</span><span class="nb">real</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">inner</span><span class="o">.*</span><span class="n">c</span><span class="p">)));</span>
+<span class="w">  </span><span class="n">inner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="o">-</span><span class="n">s</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">df</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="nb">real</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">inner</span><span class="o">.*</span><span class="n">c</span><span class="p">)));</span><span class="w"></span>
 
-<span class="c">%  Subfunction to compute the p-compressed objective function for the BFGS method.</span>
+<span class="c">%  Subfunction to compute the p-compressed objective function for the BFGS method.</span><span class="w"></span>
 <span class="k">function</span><span class="w"> </span>[f,df]<span class="p">=</span><span class="nf">gradfunp</span><span class="p">(</span>x,F,s,p<span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
-  <span class="n">inner</span> <span class="p">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="n">p</span><span class="o">-</span><span class="n">s</span><span class="o">.^</span><span class="n">p</span><span class="p">;</span>
-  <span class="n">f</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span>
-  <span class="n">df</span> <span class="p">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="nb">real</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span> <span class="n">inner</span><span class="o">.*</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="n">c</span><span class="p">)));</span>
+<span class="w">  </span><span class="n">c</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">inner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="n">p</span><span class="o">-</span><span class="n">s</span><span class="o">.^</span><span class="n">p</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">)</span>^<span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">df</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="nb">real</span><span class="p">(</span><span class="nb">conj</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="w"> </span><span class="n">inner</span><span class="o">.*</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.^</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.*</span><span class="n">c</span><span class="p">)));</span><span class="w"></span>
 
 <span class="k">function</span><span class="w"> </span>stop<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">outputFcn</span><span class="p">(</span>x,iterationType,itNo,funEvals,f,t,gtd,g,d,optCond<span class="p">)</span><span class="w"></span>
-<span class="c">% This is unfortunatelly a messy function.</span>
-<span class="c">% Moreover, it computes one more analysis</span>
+<span class="c">% This is unfortunatelly a messy function.</span><span class="w"></span>
+<span class="c">% Moreover, it computes one more analysis</span><span class="w"></span>
 
-<span class="k">persistent</span> <span class="n">res</span><span class="p">;</span>
-<span class="k">persistent</span> <span class="n">F</span><span class="p">;</span>
-<span class="k">persistent</span> <span class="n">s</span><span class="p">;</span>
+<span class="k">persistent</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w"></span>
+<span class="k">persistent</span><span class="w"> </span><span class="n">F</span><span class="p">;</span><span class="w"></span>
+<span class="k">persistent</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">ischar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">switch</span> <span class="n">x</span>
-        <span class="k">case</span> <span class="s">&#39;init&#39;</span>
-            <span class="n">res</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">iterationType</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-            <span class="n">F</span> <span class="p">=</span> <span class="n">itNo</span><span class="p">;</span>
-            <span class="n">s</span> <span class="p">=</span> <span class="n">funEvals</span><span class="p">;</span>
-            <span class="k">return</span><span class="p">;</span>
-        <span class="k">case</span> <span class="s">&#39;getRes&#39;</span>
-            <span class="n">stop</span> <span class="p">=</span> <span class="n">res</span><span class="p">;</span>
-            <span class="n">F</span> <span class="p">=</span> <span class="p">[];</span> <span class="n">s</span><span class="p">=[];</span> <span class="n">res</span> <span class="p">=</span> <span class="p">[];</span>
-            <span class="k">return</span><span class="p">;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;init&#39;</span><span class="w"></span>
+<span class="w">            </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">iterationType</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">itNo</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">funEvals</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;getRes&#39;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">stop</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"> </span><span class="n">s</span><span class="p">=[];</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;OUTPUTFCN: Initialize res first!&#39;</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;OUTPUTFCN: Initialize res first!&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">res</span><span class="p">(</span><span class="n">itNo</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span>
-<span class="n">stop</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">res</span><span class="p">(</span><span class="n">itNo</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">norm</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="s">&#39;fro&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">stop</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

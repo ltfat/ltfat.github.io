@@ -43,60 +43,60 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FRSYN - Frame synthesis operator</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>outsig<span class="p">=</span><span class="nf">frsyn</span><span class="p">(</span>F,insig<span class="p">);</span>
-<span class="c">%FRSYN  Frame synthesis operator</span>
-<span class="c">%   Usage: f=frsyn(F,c);</span>
-<span class="c">%</span>
-<span class="c">%   f=FRSYN(F,c) constructs a signal f from the frame coefficients c*</span>
-<span class="c">%   using the frame F. The frame object F must have been created using</span>
-<span class="c">%   FRAME.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   In the following example a signal f is constructed through the frame</span>
-<span class="c">%   synthesis operator using a Gabor frame. The coefficients associated with </span>
-<span class="c">%   this Gabor expansion are contained in an identity matrix. The identity </span>
-<span class="c">%   matrix corresponds to a diagonal in the time-frequency plane, that is, </span>
-<span class="c">%   one atom at each time position with increasing frequency.:</span>
-<span class="c">%</span>
-<span class="c">%      a = 10;</span>
-<span class="c">%      M = 40;</span>
-<span class="c">%</span>
-<span class="c">%      F = frame(&#39;dgt&#39;, &#39;gauss&#39;, a, M);</span>
-<span class="c">%</span>
-<span class="c">%      c = framenative2coef(F, eye(40));</span>
-<span class="c">%</span>
-<span class="c">%      f = frsyn(F, c);</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame, frana, plotframe</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/frsyn.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>outsig<span class="p">=</span><span class="nf">frsyn</span><span class="p">(</span>F,insig<span class="p">);</span><span class="w"></span>
+<span class="c">%FRSYN  Frame synthesis operator</span><span class="w"></span>
+<span class="c">%   Usage: f=frsyn(F,c);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   f=FRSYN(F,c) constructs a signal f from the frame coefficients c*</span><span class="w"></span>
+<span class="c">%   using the frame F. The frame object F must have been created using</span><span class="w"></span>
+<span class="c">%   FRAME.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   In the following example a signal f is constructed through the frame</span><span class="w"></span>
+<span class="c">%   synthesis operator using a Gabor frame. The coefficients associated with </span><span class="w"></span>
+<span class="c">%   this Gabor expansion are contained in an identity matrix. The identity </span><span class="w"></span>
+<span class="c">%   matrix corresponds to a diagonal in the time-frequency plane, that is, </span><span class="w"></span>
+<span class="c">%   one atom at each time position with increasing frequency.:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      a = 10;</span><span class="w"></span>
+<span class="c">%      M = 40;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      F = frame(&#39;dgt&#39;, &#39;gauss&#39;, a, M);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      c = framenative2coef(F, eye(40));</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      f = frsyn(F, c);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame, frana, plotframe</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/frsyn.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRSYN&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRSYN&#39;</span><span class="p">);</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRSYN&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRSYN&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="n">framelengthcoef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">L</span><span class="p">=</span><span class="n">framelengthcoef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">insig</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">outsig</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span>
+<span class="n">outsig</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

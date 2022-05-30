@@ -44,150 +44,150 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">GABPHASEGRAD - Phase gradient of the DGT</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[tgrad,fgrad,c]<span class="p">=</span><span class="nf">gabphasegrad</span><span class="p">(</span>method,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%GABPHASEGRAD   Phase gradient of the DGT</span>
-<span class="c">%   Usage:  [tgrad,fgrad,c] = gabphasegrad(&#39;dgt&#39;,f,g,a,M);</span>
-<span class="c">%           [tgrad,fgrad]   = gabphasegrad(&#39;phase&#39;,cphase,a);</span>
-<span class="c">%           [tgrad,fgrad]   = gabphasegrad(&#39;abs&#39;,s,g,a);</span>
-<span class="c">%</span>
-<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(method,...) computes the relative </span>
-<span class="c">%   time-frequency gradient of the phase of the DGT of a signal. </span>
-<span class="c">%   The derivative in time tgrad is the relative instantaneous </span>
-<span class="c">%   frequency while the frequency derivative fgrad is the negative</span>
-<span class="c">%   of the local group delay.</span>
-<span class="c">%</span>
-<span class="c">%   tgrad is a measure the deviation from the current channel frequency,</span>
-<span class="c">%   so a value of zero means that the instantaneous frequency is equal to </span>
-<span class="c">%   the center frequency of the considered channel, a positive value means</span>
-<span class="c">%   the true absolute intantaneous frequency is higher than the current </span>
-<span class="c">%   channel frequency and vice versa. </span>
-<span class="c">%   Similarly, fgrad is a measure of deviation from the current time </span>
-<span class="c">%   positions.</span>
-<span class="c">%</span>
-<span class="c">%   fgrad is scaled such that distances are measured in samples. Similarly,</span>
-<span class="c">%   tgrad is scaled such that the Nyquist frequency (the highest possible</span>
-<span class="c">%   frequency) corresponds to a value of L/2. The absolute time and </span>
-<span class="c">%   frequency positions can be obtained as</span>
-<span class="c">%</span>
-<span class="c">%      tgradabs = bsxfun(@plus,tgrad,fftindex(M)*L/M);</span>
-<span class="c">%      fgradabs = bsxfun(@plus,fgrad,(0:L/a-1)*a);</span>
-<span class="c">%</span>
-<span class="c">%   Please note that neither tgrad and fgrad nor tgradabs and </span>
-<span class="c">%   fgradabs are true derivatives of the DGT phase. To obtain the true</span>
-<span class="c">%   phase derivatives, one has to explicitly pass either &#39;freqinv&#39; or </span>
-<span class="c">%   &#39;timeinv&#39; flags and scale both tgrad and fgrad by 2*pi/L.</span>
-<span class="c">%</span>
-<span class="c">%   The computation of tgrad and fgrad is inaccurate when the absolute</span>
-<span class="c">%   value of the Gabor coefficients is low. This is due to the fact the the</span>
-<span class="c">%   phase of complex numbers close to the machine precision is almost</span>
-<span class="c">%   random. Therefore, tgrad and fgrad may attain very large random values</span>
-<span class="c">%   when abs(c) is close to zero.</span>
-<span class="c">%</span>
-<span class="c">%   The computation can be done using four different methods.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;dgt&#39;    Directly from the signal using algorithm by Auger and</span>
-<span class="c">%              Flandrin.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;phase&#39;  From the phase of a DGT of the signal. This is the</span>
-<span class="c">%              classic method used in the phase vocoder.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;abs&#39;    From the absolute value of the DGT. Currently this</span>
-<span class="c">%              method works only for Gaussian windows.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;cross&#39;  Directly from the signal using algorithm by Nelson.</span>
-<span class="c">%</span>
-<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;dgt&#39;,f,g,a,M) computes the time-frequency</span>
-<span class="c">%   gradient using a DGT of the signal f. The DGT is computed using the</span>
-<span class="c">%   window g on the lattice specified by the time shift a and the number</span>
-<span class="c">%   of channels M. The algorithm used to perform this calculation computes</span>
-<span class="c">%   several DGTs, and therefore this routine takes the exact same input</span>
-<span class="c">%   parameters as DGT.</span>
-<span class="c">%</span>
-<span class="c">%   The window g may be specified as in DGT. If the window used is</span>
-<span class="c">%   &#39;gauss&#39;, the computation will be done by a faster algorithm.</span>
-<span class="c">%</span>
-<span class="c">%   [tgrad,fgrad,c]=GABPHASEGRAD(&#39;dgt&#39;,f,g,a,M) additionally returns the</span>
-<span class="c">%   Gabor coefficients c, as they are always computed as a byproduct of the</span>
-<span class="c">%   algorithm.</span>
-<span class="c">%</span>
-<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;cross&#39;,f,g,a,M) does the same as above</span>
-<span class="c">%   but this time using algorithm by Nelson which is based on computing </span>
-<span class="c">%   several DGTs.</span>
-<span class="c">%</span>
-<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;phase&#39;,cphase,a) computes the phase</span>
-<span class="c">%   gradient from the phase cphase of a DGT of the signal. The original DGT</span>
-<span class="c">%   from which the phase is obtained must have been computed using a</span>
-<span class="c">%   time-shift of a using the default phase convention (&#39;freqinv&#39;) e.g.:</span>
-<span class="c">%</span>
-<span class="c">%        [tgrad,fgrad]=gabphasegrad(&#39;phase&#39;,angle(dgt(f,g,a,M)),a)</span>
-<span class="c">%</span>
-<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;abs&#39;,s,g,a) computes the phase gradient</span>
-<span class="c">%   from the spectrogram s. The spectrogram must have been computed using</span>
-<span class="c">%   the window g and time-shift a e.g.:</span>
-<span class="c">%</span>
-<span class="c">%        [tgrad,fgrad]=gabphasegrad(&#39;abs&#39;,abs(dgt(f,g,a,M)),g,a)</span>
-<span class="c">%</span>
-<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;abs&#39;,s,g,a,difforder) uses a centered finite</span>
-<span class="c">%   diffence scheme of order difforder to perform the needed numerical</span>
-<span class="c">%   differentiation. Default is to use a 4th order scheme.</span>
-<span class="c">%</span>
-<span class="c">%   Currently the &#39;abs&#39; method only works if the window g is a Gaussian</span>
-<span class="c">%   window specified as a string or cell array.</span>
-<span class="c">%</span>
-<span class="c">%   See also: resgram, gabreassign, dgt</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     F. Auger and P. Flandrin. Improving the readability of time-frequency</span>
-<span class="c">%     and time-scale representations by the reassignment method. IEEE Trans.</span>
-<span class="c">%     Signal Process., 43(5):1068--1089, 1995.</span>
-<span class="c">%     </span>
-<span class="c">%     E. Chassande-Mottin, I. Daubechies, F. Auger, and P. Flandrin.</span>
-<span class="c">%     Differential reassignment. Signal Processing Letters, IEEE,</span>
-<span class="c">%     4(10):293--294, 1997.</span>
-<span class="c">%     </span>
-<span class="c">%     J. Flanagan, D. Meinhart, R. Golden, and M. Sondhi. Phase Vocoder. The</span>
-<span class="c">%     Journal of the Acoustical Society of America, 38:939, 1965.</span>
-<span class="c">%     </span>
-<span class="c">%     Z. Průša. STFT and DGT phase conventions and phase derivatives</span>
-<span class="c">%     interpretation. Technical report, Acoustics Research Institute,</span>
-<span class="c">%     Austrian Academy of Sciences, 2015.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabphasegrad.html</span>
+<span class="c">%GABPHASEGRAD   Phase gradient of the DGT</span><span class="w"></span>
+<span class="c">%   Usage:  [tgrad,fgrad,c] = gabphasegrad(&#39;dgt&#39;,f,g,a,M);</span><span class="w"></span>
+<span class="c">%           [tgrad,fgrad]   = gabphasegrad(&#39;phase&#39;,cphase,a);</span><span class="w"></span>
+<span class="c">%           [tgrad,fgrad]   = gabphasegrad(&#39;abs&#39;,s,g,a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(method,...) computes the relative </span><span class="w"></span>
+<span class="c">%   time-frequency gradient of the phase of the DGT of a signal. </span><span class="w"></span>
+<span class="c">%   The derivative in time tgrad is the relative instantaneous </span><span class="w"></span>
+<span class="c">%   frequency while the frequency derivative fgrad is the negative</span><span class="w"></span>
+<span class="c">%   of the local group delay.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   tgrad is a measure the deviation from the current channel frequency,</span><span class="w"></span>
+<span class="c">%   so a value of zero means that the instantaneous frequency is equal to </span><span class="w"></span>
+<span class="c">%   the center frequency of the considered channel, a positive value means</span><span class="w"></span>
+<span class="c">%   the true absolute intantaneous frequency is higher than the current </span><span class="w"></span>
+<span class="c">%   channel frequency and vice versa. </span><span class="w"></span>
+<span class="c">%   Similarly, fgrad is a measure of deviation from the current time </span><span class="w"></span>
+<span class="c">%   positions.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   fgrad is scaled such that distances are measured in samples. Similarly,</span><span class="w"></span>
+<span class="c">%   tgrad is scaled such that the Nyquist frequency (the highest possible</span><span class="w"></span>
+<span class="c">%   frequency) corresponds to a value of L/2. The absolute time and </span><span class="w"></span>
+<span class="c">%   frequency positions can be obtained as</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      tgradabs = bsxfun(@plus,tgrad,fftindex(M)*L/M);</span><span class="w"></span>
+<span class="c">%      fgradabs = bsxfun(@plus,fgrad,(0:L/a-1)*a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Please note that neither tgrad and fgrad nor tgradabs and </span><span class="w"></span>
+<span class="c">%   fgradabs are true derivatives of the DGT phase. To obtain the true</span><span class="w"></span>
+<span class="c">%   phase derivatives, one has to explicitly pass either &#39;freqinv&#39; or </span><span class="w"></span>
+<span class="c">%   &#39;timeinv&#39; flags and scale both tgrad and fgrad by 2*pi/L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The computation of tgrad and fgrad is inaccurate when the absolute</span><span class="w"></span>
+<span class="c">%   value of the Gabor coefficients is low. This is due to the fact the the</span><span class="w"></span>
+<span class="c">%   phase of complex numbers close to the machine precision is almost</span><span class="w"></span>
+<span class="c">%   random. Therefore, tgrad and fgrad may attain very large random values</span><span class="w"></span>
+<span class="c">%   when abs(c) is close to zero.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The computation can be done using four different methods.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;dgt&#39;    Directly from the signal using algorithm by Auger and</span><span class="w"></span>
+<span class="c">%              Flandrin.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;phase&#39;  From the phase of a DGT of the signal. This is the</span><span class="w"></span>
+<span class="c">%              classic method used in the phase vocoder.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;abs&#39;    From the absolute value of the DGT. Currently this</span><span class="w"></span>
+<span class="c">%              method works only for Gaussian windows.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;cross&#39;  Directly from the signal using algorithm by Nelson.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;dgt&#39;,f,g,a,M) computes the time-frequency</span><span class="w"></span>
+<span class="c">%   gradient using a DGT of the signal f. The DGT is computed using the</span><span class="w"></span>
+<span class="c">%   window g on the lattice specified by the time shift a and the number</span><span class="w"></span>
+<span class="c">%   of channels M. The algorithm used to perform this calculation computes</span><span class="w"></span>
+<span class="c">%   several DGTs, and therefore this routine takes the exact same input</span><span class="w"></span>
+<span class="c">%   parameters as DGT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The window g may be specified as in DGT. If the window used is</span><span class="w"></span>
+<span class="c">%   &#39;gauss&#39;, the computation will be done by a faster algorithm.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tgrad,fgrad,c]=GABPHASEGRAD(&#39;dgt&#39;,f,g,a,M) additionally returns the</span><span class="w"></span>
+<span class="c">%   Gabor coefficients c, as they are always computed as a byproduct of the</span><span class="w"></span>
+<span class="c">%   algorithm.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;cross&#39;,f,g,a,M) does the same as above</span><span class="w"></span>
+<span class="c">%   but this time using algorithm by Nelson which is based on computing </span><span class="w"></span>
+<span class="c">%   several DGTs.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;phase&#39;,cphase,a) computes the phase</span><span class="w"></span>
+<span class="c">%   gradient from the phase cphase of a DGT of the signal. The original DGT</span><span class="w"></span>
+<span class="c">%   from which the phase is obtained must have been computed using a</span><span class="w"></span>
+<span class="c">%   time-shift of a using the default phase convention (&#39;freqinv&#39;) e.g.:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%        [tgrad,fgrad]=gabphasegrad(&#39;phase&#39;,angle(dgt(f,g,a,M)),a)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;abs&#39;,s,g,a) computes the phase gradient</span><span class="w"></span>
+<span class="c">%   from the spectrogram s. The spectrogram must have been computed using</span><span class="w"></span>
+<span class="c">%   the window g and time-shift a e.g.:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%        [tgrad,fgrad]=gabphasegrad(&#39;abs&#39;,abs(dgt(f,g,a,M)),g,a)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [tgrad,fgrad]=GABPHASEGRAD(&#39;abs&#39;,s,g,a,difforder) uses a centered finite</span><span class="w"></span>
+<span class="c">%   diffence scheme of order difforder to perform the needed numerical</span><span class="w"></span>
+<span class="c">%   differentiation. Default is to use a 4th order scheme.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Currently the &#39;abs&#39; method only works if the window g is a Gaussian</span><span class="w"></span>
+<span class="c">%   window specified as a string or cell array.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: resgram, gabreassign, dgt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     F. Auger and P. Flandrin. Improving the readability of time-frequency</span><span class="w"></span>
+<span class="c">%     and time-scale representations by the reassignment method. IEEE Trans.</span><span class="w"></span>
+<span class="c">%     Signal Process., 43(5):1068--1089, 1995.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     E. Chassande-Mottin, I. Daubechies, F. Auger, and P. Flandrin.</span><span class="w"></span>
+<span class="c">%     Differential reassignment. Signal Processing Letters, IEEE,</span><span class="w"></span>
+<span class="c">%     4(10):293--294, 1997.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     J. Flanagan, D. Meinhart, R. Golden, and M. Sondhi. Phase Vocoder. The</span><span class="w"></span>
+<span class="c">%     Journal of the Acoustical Society of America, 38:939, 1965.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     Z. Průša. STFT and DGT phase conventions and phase derivatives</span><span class="w"></span>
+<span class="c">%     interpretation. Technical report, Acoustics Research Institute,</span><span class="w"></span>
+<span class="c">%     Austrian Academy of Sciences, 2015.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabphasegrad.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
 
-<span class="c">% AUTHOR: Peter L. Søndergaard, 2008; Zdenek Průša 2015</span>
+<span class="c">% AUTHOR: Peter L. Søndergaard, 2008; Zdenek Průša 2015</span><span class="w"></span>
 
-<span class="c">%narginchk(4,6);</span>
+<span class="c">%narginchk(4,6);</span><span class="w"></span>
 
-<span class="c">% If no phaseconv flag was passed, add &#39;relative&#39;</span>
-<span class="n">definput</span> <span class="p">=</span> <span class="n">arg_gabphasederivconv</span><span class="p">;</span>
-<span class="k">if</span> <span class="o">~</span><span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span> <span class="n">any</span><span class="p">(</span><span class="n">strcmpi</span><span class="p">(</span><span class="n">el</span><span class="p">,</span><span class="n">varargin</span><span class="p">)),</span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">))</span>
-    <span class="n">varargin</span><span class="p">{</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span> <span class="p">=</span> <span class="s">&#39;relative&#39;</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="c">% If no phaseconv flag was passed, add &#39;relative&#39;</span><span class="w"></span>
+<span class="n">definput</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">arg_gabphasederivconv</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">any</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">el</span><span class="p">,</span><span class="nb">varargin</span><span class="p">)),</span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">phaseconv</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="nb">varargin</span><span class="p">{</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;relative&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargout</span><span class="o">&lt;</span><span class="mi">3</span>
-    <span class="n">phased</span> <span class="p">=</span> <span class="n">gabphasederiv</span><span class="p">({</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">},</span><span class="n">method</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
-<span class="k">else</span>
-    <span class="p">[</span><span class="n">phased</span><span class="p">,</span><span class="n">c</span><span class="p">]</span> <span class="p">=</span> <span class="n">gabphasederiv</span><span class="p">({</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">},</span><span class="n">method</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="n">phased</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gabphasederiv</span><span class="p">({</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">},</span><span class="n">method</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:});</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">phased</span><span class="p">,</span><span class="n">c</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gabphasederiv</span><span class="p">({</span><span class="s">&#39;t&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">},</span><span class="n">method</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:});</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">]</span> <span class="p">=</span> <span class="n">deal</span><span class="p">(</span><span class="n">phased</span><span class="p">{:});</span>
+<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">deal</span><span class="p">(</span><span class="n">phased</span><span class="p">{:});</span><span class="w"></span>
 </pre></div>
 
 

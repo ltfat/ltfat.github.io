@@ -43,189 +43,189 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">GABREASSIGNADJUST - Adjustable reassignment of a time-frequency distribution</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>sr<span class="p">=</span><span class="nf">gabreassignadjust</span><span class="p">(</span>s,pderivs,a,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%GABREASSIGNADJUST Adjustable reassignment of a time-frequency distribution</span>
-<span class="c">%   Usage:  sr = gabreassignadjust(s,pderivs,a,mu);</span>
-<span class="c">%</span>
-<span class="c">%   GABREASSIGNADJUST(s,pderivs,a,mu) reassigns the values of the positive</span>
-<span class="c">%   time-frequency distribution s using first and second order phase </span>
-<span class="c">%   derivatives given by pderivs and parameter mu*&gt;0. </span>
-<span class="c">%   The lattice is determined by the time shift a and the number of </span>
-<span class="c">%   channels deduced from the size of s.</span>
-<span class="c">%</span>
-<span class="c">%   pderivs is a cell array of phase derivatives which can be obtained </span>
-<span class="c">%   as follows:</span>
-<span class="c">%</span>
-<span class="c">%      pderivs = gabphasederiv({&#39;t&#39;,&#39;f&#39;,&#39;tt&#39;,&#39;ff&#39;,&#39;tf&#39;},...,&#39;relative&#39;);</span>
-<span class="c">%</span>
-<span class="c">%   Please see help of GABPHASEDERIV for description of the missing</span>
-<span class="c">%   parameters.</span>
-<span class="c">%</span>
-<span class="c">%   gabreassign(s,pderivs,a,mu,despeckle) works as above, but some </span>
-<span class="c">%   coeficients are removed prior to the reassignment process. More</span>
-<span class="c">%   precisely a mixed phase derivative pderivs{5} is used to determine </span>
-<span class="c">%   which coefficients m,n belong to sinusoidal components (such that </span>
-<span class="c">%   abs(1+pderivs{5}(m,n)) is close to zero) and to impulsive</span>
-<span class="c">%   components (such that abs(pderivs{5}(m,n)) is close to zero).</span>
-<span class="c">%   Parameter despeckle determines a threshold on the previous quantities</span>
-<span class="c">%   such that coefficients with higher associated values are set to zeros.</span>
-<span class="c">%</span>
-<span class="c">%   Algorithm</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   The routine uses the adjustable reassignment presented in the</span>
-<span class="c">%   references.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   The following example demonstrates how to manually create a</span>
-<span class="c">%   reassigned spectrogram.:</span>
-<span class="c">%</span>
-<span class="c">%     % Compute the phase derivatives</span>
-<span class="c">%     a=4; M=100;</span>
-<span class="c">%     [pderivs, c] = gabphasederiv({&#39;t&#39;,&#39;f&#39;,&#39;tt&#39;,&#39;ff&#39;,&#39;tf&#39;},&#39;dgt&#39;,bat,&#39;gauss&#39;,a,M,&#39;relative&#39;);</span>
-<span class="c">%</span>
-<span class="c">%     % Reassignemt parameter</span>
-<span class="c">%     mu = 0.1;</span>
-<span class="c">%     % Perform the actual reassignment</span>
-<span class="c">%     sr = gabreassignadjust(abs(c).^2,pderivs,a,mu);</span>
-<span class="c">%</span>
-<span class="c">%     % Display it using plotdgt</span>
-<span class="c">%     plotdgt(sr,a,143000,50);</span>
-<span class="c">%  </span>
-<span class="c">%   See also: gabphasederiv, gabreassign</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     F. Auger, E. Chassande-Mottin, and P. Flandrin. On phase-magnitude</span>
-<span class="c">%     relationships in the short-time fourier transform. Signal Processing</span>
-<span class="c">%     Letters, IEEE, 19(5):267--270, May 2012.</span>
-<span class="c">%     </span>
-<span class="c">%     F. Auger, E. Chassande-Mottin, and P. Flandrin. Making reassignment</span>
-<span class="c">%     adjustable: The Levenberg-Marquardt approach. In Acoustics, Speech and</span>
-<span class="c">%     Signal Processing (ICASSP), 2012 IEEE International Conference on,</span>
-<span class="c">%     pages 3889--3892, March 2012.</span>
-<span class="c">%     </span>
-<span class="c">%     Z. Průša. STFT and DGT phase conventions and phase derivatives</span>
-<span class="c">%     interpretation. Technical report, Acoustics Research Institute,</span>
-<span class="c">%     Austrian Academy of Sciences, 2015.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabreassignadjust.html</span>
+<span class="c">%GABREASSIGNADJUST Adjustable reassignment of a time-frequency distribution</span><span class="w"></span>
+<span class="c">%   Usage:  sr = gabreassignadjust(s,pderivs,a,mu);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABREASSIGNADJUST(s,pderivs,a,mu) reassigns the values of the positive</span><span class="w"></span>
+<span class="c">%   time-frequency distribution s using first and second order phase </span><span class="w"></span>
+<span class="c">%   derivatives given by pderivs and parameter mu*&gt;0. </span><span class="w"></span>
+<span class="c">%   The lattice is determined by the time shift a and the number of </span><span class="w"></span>
+<span class="c">%   channels deduced from the size of s.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   pderivs is a cell array of phase derivatives which can be obtained </span><span class="w"></span>
+<span class="c">%   as follows:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      pderivs = gabphasederiv({&#39;t&#39;,&#39;f&#39;,&#39;tt&#39;,&#39;ff&#39;,&#39;tf&#39;},...,&#39;relative&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Please see help of GABPHASEDERIV for description of the missing</span><span class="w"></span>
+<span class="c">%   parameters.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   gabreassign(s,pderivs,a,mu,despeckle) works as above, but some </span><span class="w"></span>
+<span class="c">%   coeficients are removed prior to the reassignment process. More</span><span class="w"></span>
+<span class="c">%   precisely a mixed phase derivative pderivs{5} is used to determine </span><span class="w"></span>
+<span class="c">%   which coefficients m,n belong to sinusoidal components (such that </span><span class="w"></span>
+<span class="c">%   abs(1+pderivs{5}(m,n)) is close to zero) and to impulsive</span><span class="w"></span>
+<span class="c">%   components (such that abs(pderivs{5}(m,n)) is close to zero).</span><span class="w"></span>
+<span class="c">%   Parameter despeckle determines a threshold on the previous quantities</span><span class="w"></span>
+<span class="c">%   such that coefficients with higher associated values are set to zeros.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Algorithm</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The routine uses the adjustable reassignment presented in the</span><span class="w"></span>
+<span class="c">%   references.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example demonstrates how to manually create a</span><span class="w"></span>
+<span class="c">%   reassigned spectrogram.:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Compute the phase derivatives</span><span class="w"></span>
+<span class="c">%     a=4; M=100;</span><span class="w"></span>
+<span class="c">%     [pderivs, c] = gabphasederiv({&#39;t&#39;,&#39;f&#39;,&#39;tt&#39;,&#39;ff&#39;,&#39;tf&#39;},&#39;dgt&#39;,bat,&#39;gauss&#39;,a,M,&#39;relative&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Reassignemt parameter</span><span class="w"></span>
+<span class="c">%     mu = 0.1;</span><span class="w"></span>
+<span class="c">%     % Perform the actual reassignment</span><span class="w"></span>
+<span class="c">%     sr = gabreassignadjust(abs(c).^2,pderivs,a,mu);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     % Display it using plotdgt</span><span class="w"></span>
+<span class="c">%     plotdgt(sr,a,143000,50);</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%   See also: gabphasederiv, gabreassign</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     F. Auger, E. Chassande-Mottin, and P. Flandrin. On phase-magnitude</span><span class="w"></span>
+<span class="c">%     relationships in the short-time fourier transform. Signal Processing</span><span class="w"></span>
+<span class="c">%     Letters, IEEE, 19(5):267--270, May 2012.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     F. Auger, E. Chassande-Mottin, and P. Flandrin. Making reassignment</span><span class="w"></span>
+<span class="c">%     adjustable: The Levenberg-Marquardt approach. In Acoustics, Speech and</span><span class="w"></span>
+<span class="c">%     Signal Processing (ICASSP), 2012 IEEE International Conference on,</span><span class="w"></span>
+<span class="c">%     pages 3889--3892, March 2012.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     Z. Průša. STFT and DGT phase conventions and phase derivatives</span><span class="w"></span>
+<span class="c">%     interpretation. Technical report, Acoustics Research Institute,</span><span class="w"></span>
+<span class="c">%     Austrian Academy of Sciences, 2015.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabreassignadjust.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">% AUTHOR: Peter L. Søndergaard, 2008; Zdeněk Průša 2015</span>
+<span class="c">% AUTHOR: Peter L. Søndergaard, 2008; Zdeněk Průša 2015</span><span class="w"></span>
 
-<span class="n">thisname</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span>
+<span class="n">thisname</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mu</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">despeckle</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">mu</span><span class="p">,</span><span class="n">despeckle</span><span class="p">]</span> <span class="p">=</span> <span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;mu&#39;</span><span class="p">,</span><span class="s">&#39;despeckle&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mu</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">despeckle</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">mu</span><span class="p">,</span><span class="n">despeckle</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;mu&#39;</span><span class="p">,</span><span class="s">&#39;despeckle&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">mu</span><span class="o">&gt;</span><span class="p">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: mu must be a real positive number.&#39;</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">mu</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: mu must be a real positive number.&#39;</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">despeckle</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">despeckle</span><span class="o">&gt;</span><span class="p">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: despeckle must be a real positive number.&#39;</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">despeckle</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">despeckle</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: despeckle must be a real positive number.&#39;</span><span class="p">,</span><span class="n">thisname</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
-<span class="k">if</span> <span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: c must be 2D matrix.&#39;</span><span class="p">],</span><span class="n">thisname</span><span class="p">);</span> 
-<span class="k">end</span>
+<span class="p">[</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">W</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">W</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: c must be 2D matrix.&#39;</span><span class="p">],</span><span class="n">thisname</span><span class="p">);</span><span class="w"> </span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="n">iscell</span><span class="p">(</span><span class="n">pderivs</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">numel</span><span class="p">(</span><span class="n">pderivs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span> 
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: pderiv must be a cell array of phase derivatives in &#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;the following order t,f,tt,ff,tf.&#39;</span><span class="p">],</span><span class="n">thisname</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">iscell</span><span class="p">(</span><span class="n">pderivs</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">pderivs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: pderiv must be a cell array of phase derivatives in &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;the following order t,f,tt,ff,tf.&#39;</span><span class="p">],</span><span class="n">thisname</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Basic checks</span>
-<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">el</span><span class="p">),{</span><span class="n">s</span><span class="p">,</span><span class="n">pderivs</span><span class="p">{:}}))</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: s and elements of the cell array pderivs must be &#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="s">&#39;non-empty and numeric.&#39;</span><span class="p">],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="c">% Basic checks</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">el</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">el</span><span class="p">),{</span><span class="n">s</span><span class="p">,</span><span class="n">pderivs</span><span class="p">{:}}))</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: s and elements of the cell array pderivs must be &#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;non-empty and numeric.&#39;</span><span class="p">],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Check if argument sizes are consistent</span>
-<span class="n">sizes</span> <span class="p">=</span> <span class="n">cellfun</span><span class="p">(@</span><span class="nb">size</span><span class="p">,</span><span class="n">pderivs</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="k">if</span> <span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="n">sizes</span><span class="p">{:})</span>
-   <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: s and all elements of the cell array pderivs must &#39;</span><span class="p">,</span><span class="c">... </span>
-         <span class="s">&#39;have the same size.&#39;</span><span class="p">],</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="c">% Check if argument sizes are consistent</span><span class="w"></span>
+<span class="n">sizes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@</span><span class="nb">size</span><span class="p">,</span><span class="n">pderivs</span><span class="p">,</span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="n">sizes</span><span class="p">{:})</span><span class="w"></span>
+<span class="w">   </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: s and all elements of the cell array pderivs must &#39;</span><span class="p">,</span><span class="k">...</span><span class="c"> </span><span class="w"></span>
+<span class="w">         </span><span class="s">&#39;have the same size.&#39;</span><span class="p">],</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="c">% Check if any argument is not real</span>
-<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">el</span><span class="p">),{</span><span class="n">s</span><span class="p">,</span><span class="n">pderivs</span><span class="p">{:}}))</span>
-   <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s and all elements of the cell array pderivs must be real.&#39;</span><span class="p">,</span><span class="c">...</span>
-          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="c">% Check if any argument is not real</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">el</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">el</span><span class="p">),{</span><span class="n">s</span><span class="p">,</span><span class="n">pderivs</span><span class="p">{:}}))</span><span class="w"></span>
+<span class="w">   </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: s and all elements of the cell array pderivs must be real.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">          </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">any</span><span class="p">(</span><span class="n">s</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: s must contain positive numbers only.&#39;</span><span class="p">,</span><span class="c">...</span>
-        <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">s</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: s must contain positive numbers only.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">        </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">ttgrad</span><span class="p">,</span><span class="n">ffgrad</span><span class="p">,</span><span class="n">tfgrad</span><span class="p">]</span> <span class="p">=</span> <span class="n">deal</span><span class="p">(</span><span class="n">pderivs</span><span class="p">{:});</span>
-
-
-<span class="k">if</span> <span class="n">despeckle</span><span class="o">~=</span><span class="mi">0</span>
-    <span class="c">% Removes coefficients which are neither sinusoidal component or</span>
-    <span class="c">% impulse component based on the mixed derivative.</span>
-    
-    <span class="c">% How reassigned time position changes over time</span>
-    <span class="n">thatdt</span> <span class="p">=</span> <span class="o">-</span><span class="n">tfgrad</span><span class="p">;</span>
-    <span class="c">% How reassigned frequency position changes along frequency</span>
-    <span class="n">ohatdo</span> <span class="p">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">tfgrad</span><span class="p">;</span>
-    <span class="c">% Only coefficients with any of the previous lower than despeckle is</span>
-    <span class="c">% kept.</span>
-    <span class="n">s</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ohatdo</span><span class="p">)</span><span class="o">&lt;</span><span class="n">despeckle</span> <span class="o">|</span> <span class="nb">abs</span><span class="p">(</span><span class="n">thatdt</span><span class="p">)</span><span class="o">&lt;</span><span class="n">despeckle</span><span class="p">))</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="p">[</span><span class="n">tgrad</span><span class="p">,</span><span class="n">fgrad</span><span class="p">,</span><span class="n">ttgrad</span><span class="p">,</span><span class="n">ffgrad</span><span class="p">,</span><span class="n">tfgrad</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">deal</span><span class="p">(</span><span class="n">pderivs</span><span class="p">{:});</span><span class="w"></span>
 
 
-<span class="c">% Construct the inverses explicitly</span>
-<span class="c">%</span>
-<span class="c">%  |trelpos| = |A1  A2|^-1|B1|</span>
-<span class="c">%  |frelpos| = |A3  A4|   |B2|</span>
-<span class="c">%</span>
-<span class="c">%  det(A)*|trelpos| = | A4  -A2|*|B1|</span>
-<span class="c">%         |frelpos| = |-A3   A1 |B2|</span>
+<span class="k">if</span><span class="w"> </span><span class="n">despeckle</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Removes coefficients which are neither sinusoidal component or</span><span class="w"></span>
+<span class="w">    </span><span class="c">% impulse component based on the mixed derivative.</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% How reassigned time position changes over time</span><span class="w"></span>
+<span class="w">    </span><span class="n">thatdt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">tfgrad</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="c">% How reassigned frequency position changes along frequency</span><span class="w"></span>
+<span class="w">    </span><span class="n">ohatdo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">+</span><span class="n">tfgrad</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Only coefficients with any of the previous lower than despeckle is</span><span class="w"></span>
+<span class="w">    </span><span class="c">% kept.</span><span class="w"></span>
+<span class="w">    </span><span class="n">s</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ohatdo</span><span class="p">)</span><span class="o">&lt;</span><span class="n">despeckle</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">thatdt</span><span class="p">)</span><span class="o">&lt;</span><span class="n">despeckle</span><span class="p">))</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">B1</span> <span class="p">=</span> <span class="n">fgrad</span><span class="p">(:);</span>
-<span class="n">B2</span> <span class="p">=</span> <span class="n">tgrad</span><span class="p">(:);</span>
 
-<span class="n">A1</span> <span class="p">=</span>  <span class="n">tfgrad</span><span class="p">(:)</span>  <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">mu</span><span class="p">;</span>
-<span class="n">A2</span> <span class="p">=</span> <span class="o">-</span><span class="n">ffgrad</span><span class="p">(:);</span>
-<span class="n">A3</span> <span class="p">=</span> <span class="o">-</span><span class="n">ttgrad</span><span class="p">(:);</span>
-<span class="n">A4</span> <span class="p">=</span> <span class="o">-</span><span class="n">tfgrad</span><span class="p">(:)</span> <span class="o">+</span> <span class="n">mu</span><span class="p">;</span>
+<span class="c">% Construct the inverses explicitly</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%  |trelpos| = |A1  A2|^-1|B1|</span><span class="w"></span>
+<span class="c">%  |frelpos| = |A3  A4|   |B2|</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%  det(A)*|trelpos| = | A4  -A2|*|B1|</span><span class="w"></span>
+<span class="c">%         |frelpos| = |-A3   A1 |B2|</span><span class="w"></span>
 
-<span class="n">dets</span> <span class="p">=</span> <span class="p">(</span><span class="n">A1</span><span class="o">.*</span><span class="n">A4</span><span class="o">-</span><span class="n">A2</span><span class="o">.*</span><span class="n">A3</span><span class="p">);</span>
+<span class="n">B1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fgrad</span><span class="p">(:);</span><span class="w"></span>
+<span class="n">B2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tgrad</span><span class="p">(:);</span><span class="w"></span>
 
-<span class="n">oneoverdets</span><span class="p">=</span><span class="mf">1.</span><span class="o">/</span><span class="n">dets</span><span class="p">;</span>
-<span class="c">% Remove nearly singular matrices</span>
-<span class="c">% The coefficients will not be reassigned</span>
-<span class="n">oneoverdets</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dets</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-10</span><span class="p">)</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">A1</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="n">tfgrad</span><span class="p">(:)</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mu</span><span class="p">;</span><span class="w"></span>
+<span class="n">A2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">ffgrad</span><span class="p">(:);</span><span class="w"></span>
+<span class="n">A3</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">ttgrad</span><span class="p">(:);</span><span class="w"></span>
+<span class="n">A4</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">tfgrad</span><span class="p">(:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mu</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">trelpos</span> <span class="p">=</span> <span class="n">oneoverdets</span><span class="o">.*</span><span class="p">(</span> <span class="n">A4</span><span class="o">.*</span><span class="n">B1</span> <span class="o">-</span> <span class="n">A2</span><span class="o">.*</span><span class="n">B2</span><span class="p">);</span>
-<span class="n">frelpos</span> <span class="p">=</span> <span class="n">oneoverdets</span><span class="o">.*</span><span class="p">(</span><span class="o">-</span><span class="n">A3</span><span class="o">.*</span><span class="n">B1</span> <span class="o">+</span> <span class="n">A1</span><span class="o">.*</span><span class="n">B2</span><span class="p">);</span>
+<span class="n">dets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">A1</span><span class="o">.*</span><span class="n">A4</span><span class="o">-</span><span class="n">A2</span><span class="o">.*</span><span class="n">A3</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% frelpos is derived from tgrad and</span>
-<span class="c">% trelpos is derived from fgrad</span>
-<span class="n">sr</span><span class="p">=</span><span class="n">comp_gabreassign</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="nb">reshape</span><span class="p">(</span><span class="n">frelpos</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">reshape</span><span class="p">(</span><span class="n">trelpos</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="n">a</span><span class="p">);</span>
+<span class="n">oneoverdets</span><span class="p">=</span><span class="mi">1</span><span class="o">./</span><span class="n">dets</span><span class="p">;</span><span class="w"></span>
+<span class="c">% Remove nearly singular matrices</span><span class="w"></span>
+<span class="c">% The coefficients will not be reassigned</span><span class="w"></span>
+<span class="n">oneoverdets</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dets</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-10</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">trelpos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">oneoverdets</span><span class="o">.*</span><span class="p">(</span><span class="w"> </span><span class="n">A4</span><span class="o">.*</span><span class="n">B1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A2</span><span class="o">.*</span><span class="n">B2</span><span class="p">);</span><span class="w"></span>
+<span class="n">frelpos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">oneoverdets</span><span class="o">.*</span><span class="p">(</span><span class="o">-</span><span class="n">A3</span><span class="o">.*</span><span class="n">B1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A1</span><span class="o">.*</span><span class="n">B2</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% frelpos is derived from tgrad and</span><span class="w"></span>
+<span class="c">% trelpos is derived from fgrad</span><span class="w"></span>
+<span class="n">sr</span><span class="p">=</span><span class="n">comp_gabreassign</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="nb">reshape</span><span class="p">(</span><span class="n">frelpos</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">reshape</span><span class="p">(</span><span class="n">trelpos</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

@@ -37,107 +37,107 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">UQUANT - Simulate uniform quantization</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>xo<span class="p">=</span><span class="nf">uquant</span><span class="p">(</span>xi,varargin<span class="p">);</span>
-<span class="c">%UQUANT  Simulate uniform quantization</span>
-<span class="c">%   Usage:  x=uquant(x);</span>
-<span class="c">%           x=uquant(x,nbits,xmax,...);</span>
-<span class="c">%</span>
-<span class="c">%   UQUANT(x,nbits,xmax) simulates the effect of uniform quantization of</span>
-<span class="c">%   x using nbits bits. The output is simply x rounded to 2^{nbits}</span>
-<span class="c">%   different values.  The xmax parameters specify the maximal value that</span>
-<span class="c">%   should be quantifiable.</span>
-<span class="c">%</span>
-<span class="c">%   UQUANT(x,nbits) assumes a maximal quantifiable value of 1.</span>
-<span class="c">%</span>
-<span class="c">%   UQUANT(x) additionally assumes 8 bit quantization.</span>
-<span class="c">%</span>
-<span class="c">%   UQUANT takes the following flags at the end of the input arguments:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;nbits&#39;  Number of bits to use in the quantization. Default is 8.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;xmax&#39;   Maximal quantifiable value. Default is 1.</span>
-<span class="c">%  </span>
-<span class="c">%     &#39;s&#39;      Use signed quantization. This assumes that the signal</span>
-<span class="c">%              has a both positive and negative part. Useful for sound</span>
-<span class="c">%              signals. This is the default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;u&#39;      Use unsigned quantization. Assumes the signal is positive.</span>
-<span class="c">%              Negative values are silently rounded to zero.</span>
-<span class="c">%              Useful for images.</span>
-<span class="c">%</span>
-<span class="c">%   If this function is applied to a complex signal, it will be applied to</span>
-<span class="c">%   the real and imaginary part separately.</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/sigproc/uquant.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>xo<span class="p">=</span><span class="nf">uquant</span><span class="p">(</span>xi,varargin<span class="p">);</span><span class="w"></span>
+<span class="c">%UQUANT  Simulate uniform quantization</span><span class="w"></span>
+<span class="c">%   Usage:  x=uquant(x);</span><span class="w"></span>
+<span class="c">%           x=uquant(x,nbits,xmax,...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   UQUANT(x,nbits,xmax) simulates the effect of uniform quantization of</span><span class="w"></span>
+<span class="c">%   x using nbits bits. The output is simply x rounded to 2^{nbits}</span><span class="w"></span>
+<span class="c">%   different values.  The xmax parameters specify the maximal value that</span><span class="w"></span>
+<span class="c">%   should be quantifiable.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   UQUANT(x,nbits) assumes a maximal quantifiable value of 1.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   UQUANT(x) additionally assumes 8 bit quantization.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   UQUANT takes the following flags at the end of the input arguments:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;nbits&#39;  Number of bits to use in the quantization. Default is 8.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;xmax&#39;   Maximal quantifiable value. Default is 1.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     &#39;s&#39;      Use signed quantization. This assumes that the signal</span><span class="w"></span>
+<span class="c">%              has a both positive and negative part. Useful for sound</span><span class="w"></span>
+<span class="c">%              signals. This is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;u&#39;      Use unsigned quantization. Assumes the signal is positive.</span><span class="w"></span>
+<span class="c">%              Negative values are silently rounded to zero.</span><span class="w"></span>
+<span class="c">%              Useful for images.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If this function is applied to a complex signal, it will be applied to</span><span class="w"></span>
+<span class="c">%   the real and imaginary part separately.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/sigproc/uquant.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard and Bruno Torresani.  </span>
-<span class="c">%   TESTING: OK</span>
-<span class="c">%   REFERENCE: OK</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard and Bruno Torresani.  </span><span class="w"></span>
+<span class="c">%   TESTING: OK</span><span class="w"></span>
+<span class="c">%   REFERENCE: OK</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">1</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Too few input parameters.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Too few input parameters.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Define initial value for flags and key/value pairs.</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="nb">sign</span><span class="p">={</span><span class="s">&#39;s&#39;</span><span class="p">,</span><span class="s">&#39;u&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">nbits</span><span class="p">=</span><span class="mi">8</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">xmax</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">keyvals</span><span class="p">,</span><span class="n">nbits</span><span class="p">,</span><span class="n">xmax</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;nbits&#39;</span><span class="p">,</span><span class="s">&#39;xmax&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="c">% Define initial value for flags and key/value pairs.</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">sign</span><span class="p">={</span><span class="s">&#39;s&#39;</span><span class="p">,</span><span class="s">&#39;u&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">nbits</span><span class="p">=</span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">xmax</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">keyvals</span><span class="p">,</span><span class="n">nbits</span><span class="p">,</span><span class="n">xmax</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;nbits&#39;</span><span class="p">,</span><span class="s">&#39;xmax&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% ------ handle complex values ------------------</span>
-<span class="k">if</span> <span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
-  <span class="n">xo</span> <span class="p">=</span> <span class="n">uquant</span><span class="p">(</span><span class="nb">real</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span><span class="n">nbits</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:})</span> <span class="o">+</span> <span class="c">...</span>
-	<span class="nb">i</span><span class="o">*</span><span class="n">uquant</span><span class="p">(</span><span class="nb">imag</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span><span class="n">nbits</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
-  <span class="k">return</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% ------ handle complex values ------------------</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isreal</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">xo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">uquant</span><span class="p">(</span><span class="nb">real</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span><span class="n">nbits</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:})</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">	</span><span class="nb">i</span><span class="o">*</span><span class="n">uquant</span><span class="p">(</span><span class="nb">imag</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span><span class="n">nbits</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:});</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nbits</span><span class="o">&lt;</span><span class="mi">2</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Must specify at least 2 bits.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">nbits</span><span class="o">&lt;</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Must specify at least 2 bits.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Calculate number of buckets.</span>
-<span class="n">nbuck</span><span class="p">=</span><span class="mi">2</span>^<span class="n">nbits</span><span class="p">;</span>    
+<span class="c">% Calculate number of buckets.</span><span class="w"></span>
+<span class="n">nbuck</span><span class="p">=</span><span class="mi">2</span>^<span class="n">nbits</span><span class="p">;</span><span class="w">    </span>
 
-<span class="k">if</span> <span class="n">xmax</span><span class="o">&lt;</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">xi</span><span class="p">(:)))</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Signal contains values higher than xmax.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">xmax</span><span class="o">&lt;</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">xi</span><span class="p">(:)))</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Signal contains values higher than xmax.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_s</span>
-  
-  <span class="c">% ------------ unsigned case -----------------</span>
-  
-  <span class="n">bucksize</span><span class="p">=</span><span class="n">xmax</span><span class="o">/</span><span class="p">(</span><span class="n">nbuck</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-  
-  <span class="n">xo</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">xi</span><span class="o">/</span><span class="n">bucksize</span><span class="p">)</span><span class="o">*</span><span class="n">bucksize</span><span class="p">;</span>        
-  
-<span class="k">else</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_s</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% ------------ unsigned case -----------------</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">bucksize</span><span class="p">=</span><span class="n">xmax</span><span class="o">/</span><span class="p">(</span><span class="n">nbuck</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">xo</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">xi</span><span class="o">/</span><span class="n">bucksize</span><span class="p">)</span><span class="o">*</span><span class="n">bucksize</span><span class="p">;</span><span class="w">        </span>
+<span class="w">  </span>
+<span class="k">else</span><span class="w"></span>
 
-  <span class="c">% ------------- signed case------------</span>
-  
-  <span class="n">bucksize</span><span class="p">=</span><span class="n">xmax</span><span class="o">/</span><span class="p">(</span><span class="n">nbuck</span><span class="o">-</span><span class="p">.</span><span class="mi">51</span><span class="p">);</span>
-  
-  <span class="c">% Thresh all negative values to zero.</span>
-  <span class="n">xi</span><span class="p">=</span><span class="n">xi</span><span class="o">.*</span><span class="p">(</span><span class="n">xi</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">);</span>
-  
-  <span class="n">xo</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">xi</span><span class="o">/</span><span class="n">bucksize</span><span class="p">)</span><span class="o">*</span><span class="n">bucksize</span><span class="p">;</span>        
-  
-<span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="c">% ------------- signed case------------</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">bucksize</span><span class="p">=</span><span class="n">xmax</span><span class="o">/</span><span class="p">(</span><span class="n">nbuck</span><span class="o">-</span><span class="mf">.51</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Thresh all negative values to zero.</span><span class="w"></span>
+<span class="w">  </span><span class="n">xi</span><span class="p">=</span><span class="n">xi</span><span class="o">.*</span><span class="p">(</span><span class="n">xi</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">xo</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">xi</span><span class="o">/</span><span class="n">bucksize</span><span class="p">)</span><span class="o">*</span><span class="n">bucksize</span><span class="p">;</span><span class="w">        </span>
+<span class="w">  </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

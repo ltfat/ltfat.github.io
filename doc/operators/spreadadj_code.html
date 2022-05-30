@@ -45,112 +45,112 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">SPREADADJ - Symbol of adjoint spreading function</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>cadj<span class="p">=</span><span class="nf">spreadadj</span><span class="p">(</span>coef<span class="p">)</span><span class="w"></span>
-<span class="c">%SPREADADJ  Symbol of adjoint spreading function</span>
-<span class="c">%   Usage: cadj=spreadadj(c);</span>
-<span class="c">%</span>
-<span class="c">%   cadj=SPREADADJ(c) computes the symbol cadj of the spreading</span>
-<span class="c">%   operator that is the adjoint of the spreading operator with symbol c.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  spreadop, tconv, spreadfun, spreadinv</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/operators/spreadadj.html</span>
+<span class="c">%SPREADADJ  Symbol of adjoint spreading function</span><span class="w"></span>
+<span class="c">%   Usage: cadj=spreadadj(c);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   cadj=SPREADADJ(c) computes the symbol cadj of the spreading</span><span class="w"></span>
+<span class="c">%   operator that is the adjoint of the spreading operator with symbol c.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  spreadop, tconv, spreadfun, spreadinv</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/operators/spreadadj.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR: Florent Jaillet</span>
-<span class="c">%   TESTING: TEST_SPREAD</span>
-<span class="c">%   REFERENCE: REF_SPREADADJ REF_SPREADADJ_1</span>
-  
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="c">%   AUTHOR: Florent Jaillet</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_SPREAD</span><span class="w"></span>
+<span class="c">%   REFERENCE: REF_SPREADADJ REF_SPREADADJ_1</span><span class="w"></span>
+<span class="w">  </span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span> <span class="o">||</span> <span class="nb">ndims</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span> <span class="o">||</span> <span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input symbol coef must be a square matrix.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">ndims</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="o">~=</span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Input symbol coef must be a square matrix.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">L</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% The algorithm used to compute the adjoint symbol can be expressed by</span>
-<span class="c">% the following code. See ref_spreadadj_1</span>
-<span class="c">%</span>
-<span class="c">% cadj=zeros(L);</span>
-<span class="c">% for ii=0:L-1</span>
-<span class="c">%   for jj=0:L-1</span>
-<span class="c">%     cadj(ii+1,jj+1)=conj(coef(mod(L-ii,L)+1,mod(L-jj,L)+1))...</span>
-<span class="c">%         *exp(-i*2*pi*ii*jj/L);</span>
-<span class="c">%   end;</span>
-<span class="c">% end;</span>
-<span class="c">%</span>
-<span class="c">% The two algorithms below for full and sparse matrices are adaptations</span>
-<span class="c">% of this algorithm.</span>
+<span class="c">% The algorithm used to compute the adjoint symbol can be expressed by</span><span class="w"></span>
+<span class="c">% the following code. See ref_spreadadj_1</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% cadj=zeros(L);</span><span class="w"></span>
+<span class="c">% for ii=0:L-1</span><span class="w"></span>
+<span class="c">%   for jj=0:L-1</span><span class="w"></span>
+<span class="c">%     cadj(ii+1,jj+1)=conj(coef(mod(L-ii,L)+1,mod(L-jj,L)+1))...</span><span class="w"></span>
+<span class="c">%         *exp(-i*2*pi*ii*jj/L);</span><span class="w"></span>
+<span class="c">%   end;</span><span class="w"></span>
+<span class="c">% end;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% The two algorithms below for full and sparse matrices are adaptations</span><span class="w"></span>
+<span class="c">% of this algorithm.</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">issparse</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
-  <span class="c">% implementation for sparse matrix without loop</span>
-  
-  <span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">,</span><span class="n">val</span><span class="p">]=</span><span class="nb">find</span><span class="p">(</span><span class="n">coef</span><span class="p">);</span>
-  
-  <span class="c">% This array keeps all possible values of the exponential that we could</span>
-  <span class="c">% possible need. Indexing this array is faster than computing the</span>
-  <span class="c">% exponential directly.</span>
-  <span class="n">temp</span><span class="p">=</span><span class="nb">exp</span><span class="p">((</span><span class="o">-</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;</span><span class="p">);</span>
-  
-  <span class="n">ii</span><span class="p">=</span><span class="nb">mod</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="p">);</span>
-  <span class="n">jj</span><span class="p">=</span><span class="nb">mod</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="p">);</span>
-  <span class="n">cadj</span><span class="p">=</span><span class="n">sparse</span><span class="p">(</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">jj</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">conj</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.*</span><span class="n">temp</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">ii</span><span class="o">.*</span><span class="n">jj</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>        
-  
-<span class="k">else</span>
-  
-  <span class="c">% implementation for full matrix.</span>
-  <span class="c">%</span>
-  <span class="c">% This implementation uses the direct formula with </span>
-  <span class="c">% the following Optimizations :</span>
-  <span class="c">% - Avoiding mod : In the loop of for the explicit case, we see that </span>
-  <span class="c">%   mod(L-ii,L)~=L-ii only for ii==0 (idem for jj), so we can</span>
-  <span class="c">%   remove the mod by processing separetly the cases ii==0 or</span>
-  <span class="c">%   jj==0.</span>
-  <span class="c">% - Precomputation of exp : In the loop of the explicit case, we see that we</span>
-  <span class="c">%   compute many time complex exponential terms with the same </span>
-  <span class="c">%   values. Using precomputation and modulo, we can reduce the</span>
-  <span class="c">%   computation time</span>
-  <span class="c">%    </span>
-  
-  <span class="n">cadj</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">coef</span><span class="p">));</span>
-  
-  <span class="c">% Proceesing for ii==0 or jj==0</span>
-  <span class="n">cadj</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-  <span class="n">cadj</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-  <span class="n">cadj</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">));</span>
-  
-  <span class="c">% Proceesing for ii~=0 and jj~=0</span>
-  
-  <span class="c">% Precomputation for exponential term  </span>
-  <span class="n">temp2</span><span class="p">=</span><span class="nb">exp</span><span class="p">((</span><span class="o">-</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
-  
-  <span class="c">% Optimization note : Here we are computing indexes for all the</span>
-  <span class="c">% exponential terms, which leads to a highly structured matrix</span>
-  <span class="c">% which strcture can be formalized (notably it is symetric) and</span>
-  <span class="c">% used to reduce the computation cost</span>
-  <span class="n">temp</span><span class="p">=</span><span class="nb">mod</span><span class="p">((</span><span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;*</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    
-  <span class="c">% Finaly we construct the matrix containing all the needed exponential</span>
-  <span class="c">% terms. This is (part of) the DFT matrix.</span>
-  <span class="n">temp</span><span class="p">=</span><span class="n">temp2</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
-  
-  <span class="n">cadj</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="n">L</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="n">L</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="n">L</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">))</span><span class="o">.*</span><span class="n">temp</span><span class="p">;</span>    
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">issparse</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="c">% implementation for sparse matrix without loop</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">,</span><span class="n">val</span><span class="p">]=</span><span class="nb">find</span><span class="p">(</span><span class="n">coef</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% This array keeps all possible values of the exponential that we could</span><span class="w"></span>
+<span class="w">  </span><span class="c">% possible need. Indexing this array is faster than computing the</span><span class="w"></span>
+<span class="w">  </span><span class="c">% exponential directly.</span><span class="w"></span>
+<span class="w">  </span><span class="n">temp</span><span class="p">=</span><span class="nb">exp</span><span class="p">((</span><span class="o">-</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">ii</span><span class="p">=</span><span class="nb">mod</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">jj</span><span class="p">=</span><span class="nb">mod</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">cadj</span><span class="p">=</span><span class="nb">sparse</span><span class="p">(</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">jj</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">conj</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.*</span><span class="n">temp</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">ii</span><span class="o">.*</span><span class="n">jj</span><span class="p">,</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w">        </span>
+<span class="w">  </span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% implementation for full matrix.</span><span class="w"></span>
+<span class="w">  </span><span class="c">%</span><span class="w"></span>
+<span class="w">  </span><span class="c">% This implementation uses the direct formula with </span><span class="w"></span>
+<span class="w">  </span><span class="c">% the following Optimizations :</span><span class="w"></span>
+<span class="w">  </span><span class="c">% - Avoiding mod : In the loop of for the explicit case, we see that </span><span class="w"></span>
+<span class="w">  </span><span class="c">%   mod(L-ii,L)~=L-ii only for ii==0 (idem for jj), so we can</span><span class="w"></span>
+<span class="w">  </span><span class="c">%   remove the mod by processing separetly the cases ii==0 or</span><span class="w"></span>
+<span class="w">  </span><span class="c">%   jj==0.</span><span class="w"></span>
+<span class="w">  </span><span class="c">% - Precomputation of exp : In the loop of the explicit case, we see that we</span><span class="w"></span>
+<span class="w">  </span><span class="c">%   compute many time complex exponential terms with the same </span><span class="w"></span>
+<span class="w">  </span><span class="c">%   values. Using precomputation and modulo, we can reduce the</span><span class="w"></span>
+<span class="w">  </span><span class="c">%   computation time</span><span class="w"></span>
+<span class="w">  </span><span class="c">%    </span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">cadj</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">coef</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Proceesing for ii==0 or jj==0</span><span class="w"></span>
+<span class="w">  </span><span class="n">cadj</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="n">cadj</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="n">cadj</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Proceesing for ii~=0 and jj~=0</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Precomputation for exponential term  </span><span class="w"></span>
+<span class="w">  </span><span class="n">temp2</span><span class="p">=</span><span class="nb">exp</span><span class="p">((</span><span class="o">-</span><span class="nb">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Optimization note : Here we are computing indexes for all the</span><span class="w"></span>
+<span class="w">  </span><span class="c">% exponential terms, which leads to a highly structured matrix</span><span class="w"></span>
+<span class="w">  </span><span class="c">% which strcture can be formalized (notably it is symetric) and</span><span class="w"></span>
+<span class="w">  </span><span class="c">% used to reduce the computation cost</span><span class="w"></span>
+<span class="w">  </span><span class="n">temp</span><span class="p">=</span><span class="nb">mod</span><span class="p">((</span><span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;*</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">L</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">  </span><span class="c">% Finaly we construct the matrix containing all the needed exponential</span><span class="w"></span>
+<span class="w">  </span><span class="c">% terms. This is (part of) the DFT matrix.</span><span class="w"></span>
+<span class="w">  </span><span class="n">temp</span><span class="p">=</span><span class="n">temp2</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">cadj</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="n">L</span><span class="p">)=</span><span class="nb">conj</span><span class="p">(</span><span class="n">coef</span><span class="p">(</span><span class="n">L</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="n">L</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">))</span><span class="o">.*</span><span class="n">temp</span><span class="p">;</span><span class="w">    </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

@@ -44,129 +44,129 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">IDWILT2 - 2D Inverse Discrete Wilson transform</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[f]<span class="p">=</span><span class="nf">idwilt2</span><span class="p">(</span>c,g1,p3,p4<span class="p">)</span><span class="w"></span>
-<span class="c">%IDWILT2  2D Inverse Discrete Wilson transform</span>
-<span class="c">%   Usage: f=idwilt2(c,g);</span>
-<span class="c">%          f=idwilt2(c,g1,g2);</span>
-<span class="c">%          f=idwilt2(c,g1,g2,Ls);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         c       : Array of coefficients.</span>
-<span class="c">%         g,g1,g2 : Window functions.</span>
-<span class="c">%         Ls      : Size of reconstructed signal.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         f       : Output data, matrix.</span>
-<span class="c">%</span>
-<span class="c">%   IDWILT2(c,g) calculates a separable two dimensional inverse</span>
-<span class="c">%   discrete Wilson transformation of the input coefficients c using the</span>
-<span class="c">%   window g. The number of channels is deduced from the size of the</span>
-<span class="c">%   coefficients c.</span>
-<span class="c">%</span>
-<span class="c">%   IDWILT2(c,g1,g2) does the same using the window g1 along the first</span>
-<span class="c">%   dimension, and window g2 along the second dimension.</span>
-<span class="c">%</span>
-<span class="c">%   IDWILT2(c,g1,g2,Ls) cuts the signal to size Ls after the transformation</span>
-<span class="c">%   is done.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  dwilt2, dgt2, wildual</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/idwilt2.html</span>
+<span class="c">%IDWILT2  2D Inverse Discrete Wilson transform</span><span class="w"></span>
+<span class="c">%   Usage: f=idwilt2(c,g);</span><span class="w"></span>
+<span class="c">%          f=idwilt2(c,g1,g2);</span><span class="w"></span>
+<span class="c">%          f=idwilt2(c,g1,g2,Ls);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         c       : Array of coefficients.</span><span class="w"></span>
+<span class="c">%         g,g1,g2 : Window functions.</span><span class="w"></span>
+<span class="c">%         Ls      : Size of reconstructed signal.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         f       : Output data, matrix.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   IDWILT2(c,g) calculates a separable two dimensional inverse</span><span class="w"></span>
+<span class="c">%   discrete Wilson transformation of the input coefficients c using the</span><span class="w"></span>
+<span class="c">%   window g. The number of channels is deduced from the size of the</span><span class="w"></span>
+<span class="c">%   coefficients c.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   IDWILT2(c,g1,g2) does the same using the window g1 along the first</span><span class="w"></span>
+<span class="c">%   dimension, and window g2 along the second dimension.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   IDWILT2(c,g1,g2,Ls) cuts the signal to size Ls after the transformation</span><span class="w"></span>
+<span class="c">%   is done.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  dwilt2, dgt2, wildual</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/idwilt2.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">Ls</span><span class="p">=[];</span>
+<span class="n">Ls</span><span class="p">=[];</span><span class="w"></span>
 
-<span class="k">switch</span> <span class="n">nargin</span>
-  <span class="k">case</span> <span class="mi">2</span>
-    <span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span>
-  <span class="k">case</span> <span class="mi">3</span>
-    <span class="k">if</span> <span class="n">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">p3</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span>
-      <span class="c">% Two windows was specified.</span>
-      <span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-    <span class="k">else</span>
-      <span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span>
-      <span class="n">Ls</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
-  <span class="k">case</span> <span class="mi">4</span>
-    <span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
-    <span class="n">Ls</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
-  
+<span class="k">switch</span><span class="w"> </span><span class="nb">nargin</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">    </span><span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">prod</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">p3</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span><span class="w"></span>
+<span class="w">      </span><span class="c">% Two windows was specified.</span><span class="w"></span>
+<span class="w">      </span><span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="n">g2</span><span class="p">=</span><span class="n">g1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">Ls</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">    </span><span class="n">g2</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ls</span><span class="p">=</span><span class="n">p4</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
 
-<span class="k">if</span> <span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">4</span> <span class="o">||</span> <span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">5</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;c must be 4 or 5 dimensional.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">4</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">ndims</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">5</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;c must be 4 or 5 dimensional.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">M1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">N1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">M2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">N2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">M1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="n">N1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="n">M2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="n">N2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L1</span><span class="p">=</span><span class="n">M1</span><span class="o">*</span><span class="n">N1</span><span class="p">;</span>
-<span class="n">L2</span><span class="p">=</span><span class="n">M2</span><span class="o">*</span><span class="n">N2</span><span class="p">;</span>
+<span class="n">L1</span><span class="p">=</span><span class="n">M1</span><span class="o">*</span><span class="n">N1</span><span class="p">;</span><span class="w"></span>
+<span class="n">L2</span><span class="p">=</span><span class="n">M2</span><span class="o">*</span><span class="n">N2</span><span class="p">;</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g1</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wilwin</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="n">L1</span><span class="p">,</span><span class="s">&#39;IDWILT2&#39;</span><span class="p">);</span>
-<span class="p">[</span><span class="n">g2</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wilwin</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="s">&#39;IDWILT2&#39;</span><span class="p">);</span>
+<span class="p">[</span><span class="n">g1</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wilwin</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="n">L1</span><span class="p">,</span><span class="s">&#39;IDWILT2&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">g2</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">wilwin</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="s">&#39;IDWILT2&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% If input is real, and window is real, output must be real as well.</span>
-<span class="n">inputwasreal</span> <span class="p">=</span> <span class="p">(</span><span class="nb">isreal</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">g2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">isreal</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+<span class="c">% If input is real, and window is real, output must be real as well.</span><span class="w"></span>
+<span class="n">inputwasreal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nb">isreal</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">g2</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"></span>
 
 
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span>
-  <span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="n">L1</span><span class="p">;</span>
-  <span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">)=</span><span class="n">L2</span><span class="p">;</span>
-<span class="k">else</span>
-  <span class="n">Ls</span><span class="p">=</span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">Ls</span><span class="p">,[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="n">L1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">)=</span><span class="n">L2</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ls</span><span class="p">=</span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">Ls</span><span class="p">,[</span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% --- first dimension</span>
+<span class="c">% --- first dimension</span><span class="w"></span>
 
-<span class="c">% Change c to correct shape.</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M1</span><span class="p">,</span><span class="n">N1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">L2</span><span class="o">*</span><span class="n">W</span><span class="p">);</span>
+<span class="c">% Change c to correct shape.</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M1</span><span class="p">,</span><span class="n">N1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">L2</span><span class="o">*</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">comp_idwilt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g1</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">comp_idwilt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g1</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">L2</span><span class="p">,</span><span class="n">W</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">L2</span><span class="p">,</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+<span class="n">c</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span><span class="w"></span>
 
-<span class="c">% --- second dimension</span>
+<span class="c">% --- second dimension</span><span class="w"></span>
 
-<span class="c">% Change c to correct shape.</span>
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M2</span><span class="p">,</span><span class="n">N2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">W</span><span class="p">);</span>
+<span class="c">% Change c to correct shape.</span><span class="w"></span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M2</span><span class="p">,</span><span class="n">N2</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">comp_idwilt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g2</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">comp_idwilt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">g2</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+<span class="n">c</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">W</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">Ls</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">Ls</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">W</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">f</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+<span class="n">f</span><span class="p">=</span><span class="nb">permute</span><span class="p">(</span><span class="n">c</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span><span class="w"></span>
 
-<span class="c">% Clean signal if it is known to be real</span>
-<span class="k">if</span> <span class="n">inputwasreal</span>
-  <span class="n">f</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Clean signal if it is known to be real</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">inputwasreal</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="nb">real</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

@@ -45,138 +45,138 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FRANAITER - Iterative analysis</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[c,relres,iter]<span class="p">=</span><span class="nf">franaiter</span><span class="p">(</span>F,f,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FRANAITER  Iterative analysis</span>
-<span class="c">%   Usage:  c=franaiter(F,f);</span>
-<span class="c">%           [c,relres,iter]=franaiter(F,f,...);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         F       : Frame.</span>
-<span class="c">%         f       : Signal.</span>
-<span class="c">%         Ls      : Length of signal.</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         c       : Array of coefficients.    </span>
-<span class="c">%         relres  : Vector of residuals.</span>
-<span class="c">%         iter    : Number of iterations done.</span>
-<span class="c">%</span>
-<span class="c">%   c=FRANAITER(F,f) computes the frame coefficients c of the signal f*</span>
-<span class="c">%   using an iterative method such that perfect reconstruction can be</span>
-<span class="c">%   obtained using FRSYN. FRANAITER always works, even when FRANA</span>
-<span class="c">%   cannot generate perfect reconstruction coefficients.</span>
-<span class="c">%</span>
-<span class="c">%   [c,relres,iter]=FRANAITER(...) additionally returns the relative</span>
-<span class="c">%   residuals in a vector relres and the number of iteration steps iter.</span>
-<span class="c">%  </span>
-<span class="c">%   *Note:* If it is possible to explicitly calculate the canonical dual</span>
-<span class="c">%   frame then this is usually a much faster method than invoking</span>
-<span class="c">%   FRANAITER.</span>
-<span class="c">%</span>
-<span class="c">%   FRANAITER takes the following parameters at the end of the line of</span>
-<span class="c">%   input arguments:</span>
-<span class="c">%</span>
-<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the</span>
-<span class="c">%                  specified tolerance. Default is 1e-9 (1e-5 for single precision)</span>
-<span class="c">%</span>
-<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;pg&#39;        Solve the problem using the Conjugate Gradient</span>
-<span class="c">%                  algorithm. This is the default.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;pcg&#39;        Solve the problem using the Preconditioned Conjugate Gradient</span>
-<span class="c">%                  algorithm.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;print&#39;      Display the progress.</span>
-<span class="c">%</span>
-<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span>
-<span class="c">%</span>
-<span class="c">%   Examples</span>
-<span class="c">%   --------</span>
-<span class="c">%</span>
-<span class="c">%   The following example shows how to rectruct a signal without ever</span>
-<span class="c">%   using the dual frame:</span>
-<span class="c">%</span>
-<span class="c">%      f=greasy;</span>
-<span class="c">%      F=frame(&#39;dgtreal&#39;,&#39;gauss&#39;,40,60);</span>
-<span class="c">%      [c,relres,iter]=franaiter(F,f,&#39;tol&#39;,1e-14);</span>
-<span class="c">%      r=frsyn(F,c);</span>
-<span class="c">%      norm(f-r)/norm(f)</span>
-<span class="c">%      semilogy(relres);</span>
-<span class="c">%      title(&#39;Conversion rate of the CG algorithm&#39;);</span>
-<span class="c">%      xlabel(&#39;No. of iterations&#39;);</span>
-<span class="c">%      ylabel(&#39;Relative residual&#39;);</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame, frana, frsyn, frsyniter</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/franaiter.html</span>
+<span class="c">%FRANAITER  Iterative analysis</span><span class="w"></span>
+<span class="c">%   Usage:  c=franaiter(F,f);</span><span class="w"></span>
+<span class="c">%           [c,relres,iter]=franaiter(F,f,...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         F       : Frame.</span><span class="w"></span>
+<span class="c">%         f       : Signal.</span><span class="w"></span>
+<span class="c">%         Ls      : Length of signal.</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         c       : Array of coefficients.    </span><span class="w"></span>
+<span class="c">%         relres  : Vector of residuals.</span><span class="w"></span>
+<span class="c">%         iter    : Number of iterations done.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   c=FRANAITER(F,f) computes the frame coefficients c of the signal f*</span><span class="w"></span>
+<span class="c">%   using an iterative method such that perfect reconstruction can be</span><span class="w"></span>
+<span class="c">%   obtained using FRSYN. FRANAITER always works, even when FRANA</span><span class="w"></span>
+<span class="c">%   cannot generate perfect reconstruction coefficients.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [c,relres,iter]=FRANAITER(...) additionally returns the relative</span><span class="w"></span>
+<span class="c">%   residuals in a vector relres and the number of iteration steps iter.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%   *Note:* If it is possible to explicitly calculate the canonical dual</span><span class="w"></span>
+<span class="c">%   frame then this is usually a much faster method than invoking</span><span class="w"></span>
+<span class="c">%   FRANAITER.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FRANAITER takes the following parameters at the end of the line of</span><span class="w"></span>
+<span class="c">%   input arguments:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;tol&#39;,t      Stop if relative residual error is less than the</span><span class="w"></span>
+<span class="c">%                  specified tolerance. Default is 1e-9 (1e-5 for single precision)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;maxit&#39;,n    Do at most n iterations.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;pg&#39;        Solve the problem using the Conjugate Gradient</span><span class="w"></span>
+<span class="c">%                  algorithm. This is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;pcg&#39;        Solve the problem using the Preconditioned Conjugate Gradient</span><span class="w"></span>
+<span class="c">%                  algorithm.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;print&#39;      Display the progress.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;quiet&#39;      Don&#39;t print anything, this is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples</span><span class="w"></span>
+<span class="c">%   --------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example shows how to rectruct a signal without ever</span><span class="w"></span>
+<span class="c">%   using the dual frame:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      f=greasy;</span><span class="w"></span>
+<span class="c">%      F=frame(&#39;dgtreal&#39;,&#39;gauss&#39;,40,60);</span><span class="w"></span>
+<span class="c">%      [c,relres,iter]=franaiter(F,f,&#39;tol&#39;,1e-14);</span><span class="w"></span>
+<span class="c">%      r=frsyn(F,c);</span><span class="w"></span>
+<span class="c">%      norm(f-r)/norm(f)</span><span class="w"></span>
+<span class="c">%      semilogy(relres);</span><span class="w"></span>
+<span class="c">%      title(&#39;Conversion rate of the CG algorithm&#39;);</span><span class="w"></span>
+<span class="c">%      xlabel(&#39;No. of iterations&#39;);</span><span class="w"></span>
+<span class="c">%      ylabel(&#39;Relative residual&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame, frana, frsyn, frsyniter</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/franaiter.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="c">% AUTHORS: Peter L. Søndergaard</span>
-    
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRANAITER&#39;</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANAITER&#39;</span><span class="p">);</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="c">% AUTHORS: Peter L. Søndergaard</span><span class="w"></span>
+<span class="w">    </span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;FRANAITER&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;FRANAITER&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">tolchooser</span><span class="p">.</span><span class="n">double</span><span class="p">=</span><span class="mf">1e-9</span><span class="p">;</span>
-<span class="n">tolchooser</span><span class="p">.</span><span class="n">single</span><span class="p">=</span><span class="mf">1e-5</span><span class="p">;</span>
+<span class="n">tolchooser</span><span class="p">.</span><span class="n">double</span><span class="p">=</span><span class="mf">1e-9</span><span class="p">;</span><span class="w"></span>
+<span class="n">tolchooser</span><span class="p">.</span><span class="n">single</span><span class="p">=</span><span class="mf">1e-5</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="n">class</span><span class="p">(</span><span class="n">f</span><span class="p">));</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">={</span><span class="s">&#39;cg&#39;</span><span class="p">,</span><span class="s">&#39;pcg&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="nb">class</span><span class="p">(</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">={</span><span class="s">&#39;cg&#39;</span><span class="p">,</span><span class="s">&#39;pcg&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">printstep</span><span class="p">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">print</span><span class="p">={</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span><span class="s">&#39;print&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">%% ----- step 1 : Verify f and determine its length -------</span>
-<span class="c">% Change f to correct shape.</span>
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="c">%% ----- step 1 : Verify f and determine its length -------</span><span class="w"></span>
+<span class="c">% Change f to correct shape.</span><span class="w"></span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],[],</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
 
-<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span>
-<span class="n">L</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">;</span>
+<span class="n">F</span><span class="p">=</span><span class="n">frameaccel</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
+<span class="n">L</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">%% -- run the iteration </span>
+<span class="c">%% -- run the iteration </span><span class="w"></span>
 
-<span class="n">A</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span> <span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+<span class="n">A</span><span class="p">=@(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">frsyn</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">x</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% An explicit postpad is needed for the pcg algorithm to not fail</span>
-<span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
+<span class="c">% An explicit postpad is needed for the pcg algorithm to not fail</span><span class="w"></span>
+<span class="n">f</span><span class="p">=</span><span class="n">postpad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_pcg</span>
-    <span class="n">d</span><span class="p">=</span><span class="n">framediag</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-    <span class="n">M</span><span class="p">=</span><span class="n">spdiags</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-    
-    <span class="p">[</span><span class="n">fout</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="n">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-<span class="k">else</span>
-    
-    <span class="p">[</span><span class="n">fout</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="n">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">);</span>          
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_pcg</span><span class="w"></span>
+<span class="w">    </span><span class="n">d</span><span class="p">=</span><span class="n">framediag</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">M</span><span class="p">=</span><span class="nb">spdiags</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="p">[</span><span class="n">fout</span><span class="p">,</span><span class="nb">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="nb">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="p">[</span><span class="n">fout</span><span class="p">,</span><span class="nb">flag</span><span class="p">,</span><span class="o">~</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">relres</span><span class="p">]=</span><span class="nb">pcg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">);</span><span class="w">          </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fout</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">F</span><span class="p">.</span><span class="n">frana</span><span class="p">(</span><span class="n">fout</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargout</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">fout</span><span class="p">(:));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">relres</span><span class="p">=</span><span class="n">relres</span><span class="o">/</span><span class="nb">norm</span><span class="p">(</span><span class="n">fout</span><span class="p">(:));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
 
-<span class="c">%% --- cleanup -----</span>
+<span class="c">%% --- cleanup -----</span><span class="w"></span>
 
-<span class="n">permutedsize</span><span class="p">=[</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">permutedsize</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)];</span>
+<span class="n">permutedsize</span><span class="p">=[</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">permutedsize</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)];</span><span class="w"></span>
 
-<span class="n">c</span><span class="p">=</span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span>
+<span class="n">c</span><span class="p">=</span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 
 

@@ -45,145 +45,145 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">WILORTH - Wilson orthonormal window</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[gt]<span class="p">=</span><span class="nf">wilorth</span><span class="p">(</span>p1,p2,p3<span class="p">)</span><span class="w"></span>
-<span class="c">%WILORTH  Wilson orthonormal window</span>
-<span class="c">%   Usage:   gt=wilorth(M,L);</span>
-<span class="c">%            gt=wilorth(g,M);</span>
-<span class="c">%            gt=wilorth(g,M,L);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         g   : Auxiliary window window function (optional).</span>
-<span class="c">%         M   : Number of modulations.</span>
-<span class="c">%         L   : Length of window (optional).</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         gt  : Window generating an orthonormal Wilson basis.</span>
-<span class="c">%</span>
-<span class="c">%   WILORTH(M,L) computes a nice window of length L generating an</span>
-<span class="c">%   orthonormal Wilson or WMDCT basis with M frequency bands for signals</span>
-<span class="c">%   of length L.</span>
-<span class="c">%</span>
-<span class="c">%   WILORTH(g,M) computes a window generating an orthonomal basis from the</span>
-<span class="c">%   window g and number of channels M.</span>
-<span class="c">%</span>
-<span class="c">%   The window g may be a vector of numerical values, a text string or a</span>
-<span class="c">%   cell array. See the help of WILWIN for more details.</span>
-<span class="c">%</span>
-<span class="c">%   If the length of g is equal to 2xM, then the input window is</span>
-<span class="c">%   assumed to be a FIR window. In this case, the orthonormal window also</span>
-<span class="c">%   has length of 2xM. Otherwise the smallest possible transform</span>
-<span class="c">%   length is chosen as the window length.</span>
-<span class="c">%</span>
-<span class="c">%   WILORTH(g,M,L) pads or truncates g to length L before calculating</span>
-<span class="c">%   the orthonormal window. The output will also be of length L.</span>
-<span class="c">%</span>
-<span class="c">%   The input window g must be real whole-point even. If g is not</span>
-<span class="c">%   whole-point even, the computed window will not generate an orthonormal</span>
-<span class="c">%   system (i.e. reconstruction will not be perfect). For a random window</span>
-<span class="c">%   g, the window closest to g that satisfies these restrictions can be</span>
-<span class="c">%   found by :</span>
-<span class="c">%</span>
-<span class="c">%     g_wpe = real(peven(g));</span>
-<span class="c">%</span>
-<span class="c">%   All Gabor windows in the toolbox satisfies these restrictions unless</span>
-<span class="c">%   clearly stated otherwise.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  dwilt, wmdct, wildual, isevenfunction</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/wilorth.html</span>
+<span class="c">%WILORTH  Wilson orthonormal window</span><span class="w"></span>
+<span class="c">%   Usage:   gt=wilorth(M,L);</span><span class="w"></span>
+<span class="c">%            gt=wilorth(g,M);</span><span class="w"></span>
+<span class="c">%            gt=wilorth(g,M,L);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         g   : Auxiliary window window function (optional).</span><span class="w"></span>
+<span class="c">%         M   : Number of modulations.</span><span class="w"></span>
+<span class="c">%         L   : Length of window (optional).</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         gt  : Window generating an orthonormal Wilson basis.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   WILORTH(M,L) computes a nice window of length L generating an</span><span class="w"></span>
+<span class="c">%   orthonormal Wilson or WMDCT basis with M frequency bands for signals</span><span class="w"></span>
+<span class="c">%   of length L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   WILORTH(g,M) computes a window generating an orthonomal basis from the</span><span class="w"></span>
+<span class="c">%   window g and number of channels M.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The window g may be a vector of numerical values, a text string or a</span><span class="w"></span>
+<span class="c">%   cell array. See the help of WILWIN for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If the length of g is equal to 2xM, then the input window is</span><span class="w"></span>
+<span class="c">%   assumed to be a FIR window. In this case, the orthonormal window also</span><span class="w"></span>
+<span class="c">%   has length of 2xM. Otherwise the smallest possible transform</span><span class="w"></span>
+<span class="c">%   length is chosen as the window length.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   WILORTH(g,M,L) pads or truncates g to length L before calculating</span><span class="w"></span>
+<span class="c">%   the orthonormal window. The output will also be of length L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The input window g must be real whole-point even. If g is not</span><span class="w"></span>
+<span class="c">%   whole-point even, the computed window will not generate an orthonormal</span><span class="w"></span>
+<span class="c">%   system (i.e. reconstruction will not be perfect). For a random window</span><span class="w"></span>
+<span class="c">%   g, the window closest to g that satisfies these restrictions can be</span><span class="w"></span>
+<span class="c">%   found by :</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     g_wpe = real(peven(g));</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   All Gabor windows in the toolbox satisfies these restrictions unless</span><span class="w"></span>
+<span class="c">%   clearly stated otherwise.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  dwilt, wmdct, wildual, isevenfunction</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/wilorth.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR: Peter L. Søndergaard</span>
-<span class="c">%   TESTING: TEST_DWILT TEST_WMDCT</span>
-<span class="c">%   REFERENCE: OK</span>
+<span class="c">%   AUTHOR: Peter L. Søndergaard</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_DWILT TEST_WMDCT</span><span class="w"></span>
+<span class="c">%   REFERENCE: OK</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">wasrow</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">wasrow</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Detect which parameters was entered, and do simple transformations.</span>
-<span class="k">if</span> <span class="n">nargin</span> <span class="o">==</span> <span class="mi">3</span>
-  <span class="n">g</span><span class="p">=</span><span class="n">p1</span><span class="p">;</span>
-  <span class="n">M</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
-  <span class="n">L</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span>
+<span class="c">% Detect which parameters was entered, and do simple transformations.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">  </span><span class="n">g</span><span class="p">=</span><span class="n">p1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">M</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="n">p3</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-      <span class="n">error</span><span class="p">(</span><span class="s">&#39;g must be a vector&#39;</span><span class="p">);</span>
-    <span class="k">else</span>
-      <span class="c">% g was a row vector.</span>
-      <span class="n">wasrow</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-      <span class="n">g</span><span class="p">=</span><span class="n">g</span><span class="p">(:);</span>
-    <span class="k">end</span><span class="p">;</span>
-  <span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;g must be a vector&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="c">% g was a row vector.</span><span class="w"></span>
+<span class="w">      </span><span class="n">wasrow</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">g</span><span class="p">=</span><span class="n">g</span><span class="p">(:);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">assert_squarelat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="p">[</span><span class="n">b</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">assert_L</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assert_squarelat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="n">b</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">assert_L</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">);</span><span class="w"></span>
 
 
-  <span class="c">% fir2long is now safe.</span>
-  <span class="n">g</span><span class="p">=</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span>
-<span class="k">else</span>
+<span class="w">  </span><span class="c">% fir2long is now safe.</span><span class="w"></span>
+<span class="w">  </span><span class="n">g</span><span class="p">=</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-    <span class="c">% First parameter is a vector.</span>
-    <span class="n">g</span><span class="p">=</span><span class="n">p1</span><span class="p">;</span>
-    <span class="n">M</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
-    
-    <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-      <span class="k">if</span> <span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span>
-        <span class="n">error</span><span class="p">(</span><span class="s">&#39;g must be a vector&#39;</span><span class="p">);</span>
-      <span class="k">else</span>
-        <span class="c">% g was a row vector.</span>
-        <span class="n">wasrow</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-        <span class="n">g</span><span class="p">=</span><span class="n">g</span><span class="p">(:);</span>
-      <span class="k">end</span><span class="p">;</span>
-    <span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="c">% First parameter is a vector.</span><span class="w"></span>
+<span class="w">    </span><span class="n">g</span><span class="p">=</span><span class="n">p1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">M</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;g must be a vector&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="c">% g was a row vector.</span><span class="w"></span>
+<span class="w">        </span><span class="n">wasrow</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">g</span><span class="p">=</span><span class="n">g</span><span class="p">(:);</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-    <span class="n">assert_squarelat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="p">[</span><span class="n">b</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">assert_L</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">),[],</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">);</span>
-  <span class="k">else</span>
-    
-    <span class="n">M</span><span class="p">=</span><span class="n">p1</span><span class="p">;</span>
-    <span class="n">L</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span>
-    
-    <span class="n">assert_squarelat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="p">[</span><span class="n">b</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">assert_L</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_squarelat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">b</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">assert_L</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">),</span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">),[],</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">M</span><span class="p">=</span><span class="n">p1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">L</span><span class="p">=</span><span class="n">p2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">assert_squarelat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">b</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">L</span><span class="p">]=</span><span class="n">assert_L</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="s">&#39;WILORTH&#39;</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">a</span><span class="p">=</span><span class="n">M</span><span class="p">;</span>
-    <span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">);</span>
-        
-    <span class="c">% Create default window, a Gaussian.</span>
-    <span class="n">g</span><span class="p">=</span><span class="n">comp_pgauss</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="o">/</span><span class="n">b</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>    
-  <span class="k">end</span><span class="p">;</span>
+<span class="w">    </span><span class="n">a</span><span class="p">=</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">    </span><span class="c">% Create default window, a Gaussian.</span><span class="w"></span>
+<span class="w">    </span><span class="n">g</span><span class="p">=</span><span class="n">comp_pgauss</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="o">/</span><span class="n">b</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w">    </span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">end</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">a</span><span class="p">=</span><span class="n">M</span><span class="p">;</span>
-<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">);</span>
+<span class="n">a</span><span class="p">=</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Multiply by sqrt(2), because comp_gabtight will return a normalized</span>
-<span class="c">% tight frame, i.e. the framebounds are A=B=1 instead of A=B=2. This means</span>
-<span class="c">% that the returned gt only has norm=.701 and not norm=1.</span>
+<span class="c">% Multiply by sqrt(2), because comp_gabtight will return a normalized</span><span class="w"></span>
+<span class="c">% tight frame, i.e. the framebounds are A=B=1 instead of A=B=2. This means</span><span class="w"></span>
+<span class="c">% that the returned gt only has norm=.701 and not norm=1.</span><span class="w"></span>
 
-<span class="n">gt</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">);</span>
+<span class="n">gt</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">comp_gabtight_long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">wasrow</span>
-  <span class="n">gt</span><span class="p">=</span><span class="n">gt</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">wasrow</span><span class="w"></span>
+<span class="w">  </span><span class="n">gt</span><span class="p">=</span><span class="n">gt</span><span class="p">.</span><span class="o">&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

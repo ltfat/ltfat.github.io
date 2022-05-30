@@ -44,74 +44,74 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FRAMEPAIR - Construct a new frame</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[F1,F2]<span class="p">=</span><span class="nf">framepair</span><span class="p">(</span>ftype,g1,g2,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FRAMEPAIR  Construct a new frame</span>
-<span class="c">%   Usage: [F1,F2]=framepair(ftype,g1,g2,...);</span>
-<span class="c">%</span>
-<span class="c">%   [F1,F2]=FRAMEPAIR(ftype,g1,g2,...) constructs two new frame objects </span>
-<span class="c">%   F1 and F2 of the same type ftype using the windows g1 and g2.</span>
-<span class="c">%   The windows are specific to choosen frame type. See the help on frame*</span>
-<span class="c">%   for the windows and arguments. </span>
-<span class="c">%</span>
-<span class="c">%   This function makes it easy to create a pair of canonical dual frames:</span>
-<span class="c">%   simply specify &#39;dual&#39; as window if one frame should be the dual of the</span>
-<span class="c">%   other.</span>
-<span class="c">%</span>
-<span class="c">%   This is most easily explained through some examples. The following</span>
-<span class="c">%   example creates a Gabor frame for real-valued signals with a Gaussian</span>
-<span class="c">%   analysis window and its canonical dual frame as the synthesis frame:</span>
-<span class="c">%</span>
-<span class="c">%      f=greasy;</span>
-<span class="c">%      [Fa,Fs]=framepair(&#39;dgtreal&#39;,&#39;gauss&#39;,&#39;dual&#39;,20,294);</span>
-<span class="c">%      c=frana(Fa,f);</span>
-<span class="c">%      r=frsyn(Fs,c);</span>
-<span class="c">%      norm(f-r)</span>
-<span class="c">%</span>
-<span class="c">%   The following example creates a Wilson basis with a Gaussian</span>
-<span class="c">%   synthesis window, and its canonical dual frame as the analysis</span>
-<span class="c">%   frame:</span>
-<span class="c">% </span>
-<span class="c">%     [Fa,Fs]=framepair(&#39;dwilt&#39;,&#39;dual&#39;,&#39;gauss&#39;,20);</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame, framedual, frametight</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/framepair.html</span>
+<span class="c">%FRAMEPAIR  Construct a new frame</span><span class="w"></span>
+<span class="c">%   Usage: [F1,F2]=framepair(ftype,g1,g2,...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [F1,F2]=FRAMEPAIR(ftype,g1,g2,...) constructs two new frame objects </span><span class="w"></span>
+<span class="c">%   F1 and F2 of the same type ftype using the windows g1 and g2.</span><span class="w"></span>
+<span class="c">%   The windows are specific to choosen frame type. See the help on frame*</span><span class="w"></span>
+<span class="c">%   for the windows and arguments. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This function makes it easy to create a pair of canonical dual frames:</span><span class="w"></span>
+<span class="c">%   simply specify &#39;dual&#39; as window if one frame should be the dual of the</span><span class="w"></span>
+<span class="c">%   other.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This is most easily explained through some examples. The following</span><span class="w"></span>
+<span class="c">%   example creates a Gabor frame for real-valued signals with a Gaussian</span><span class="w"></span>
+<span class="c">%   analysis window and its canonical dual frame as the synthesis frame:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      f=greasy;</span><span class="w"></span>
+<span class="c">%      [Fa,Fs]=framepair(&#39;dgtreal&#39;,&#39;gauss&#39;,&#39;dual&#39;,20,294);</span><span class="w"></span>
+<span class="c">%      c=frana(Fa,f);</span><span class="w"></span>
+<span class="c">%      r=frsyn(Fs,c);</span><span class="w"></span>
+<span class="c">%      norm(f-r)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example creates a Wilson basis with a Gaussian</span><span class="w"></span>
+<span class="c">%   synthesis window, and its canonical dual frame as the analysis</span><span class="w"></span>
+<span class="c">%   frame:</span><span class="w"></span>
+<span class="c">% </span><span class="w"></span>
+<span class="c">%     [Fa,Fs]=framepair(&#39;dwilt&#39;,&#39;dual&#39;,&#39;gauss&#39;,20);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame, framedual, frametight</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/framepair.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-  
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;FRAMEPAIR&#39;</span><span class="p">);</span>
+<span class="w">  </span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;FRAMEPAIR&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">ftype</span><span class="p">=</span><span class="n">lower</span><span class="p">(</span><span class="n">ftype</span><span class="p">);</span>
+<span class="n">ftype</span><span class="p">=</span><span class="nb">lower</span><span class="p">(</span><span class="n">ftype</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">strcmp</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span>
-    <span class="n">F1</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="n">ftype</span><span class="p">,</span><span class="n">g1</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">F1</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="n">ftype</span><span class="p">,</span><span class="n">g1</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:});</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="o">~</span><span class="n">strcmp</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span>
-    <span class="n">F2</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="n">ftype</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span><span class="n">varargin</span><span class="p">{:});</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">F2</span><span class="p">=</span><span class="n">frame</span><span class="p">(</span><span class="n">ftype</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span><span class="nb">varargin</span><span class="p">{:});</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span>
-    <span class="n">F1</span><span class="p">=</span><span class="n">framedual</span><span class="p">(</span><span class="n">F2</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">F1</span><span class="p">=</span><span class="n">framedual</span><span class="p">(</span><span class="n">F2</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span>
-    <span class="n">F2</span><span class="p">=</span><span class="n">framedual</span><span class="p">(</span><span class="n">F1</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span><span class="s">&#39;dual&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">F2</span><span class="p">=</span><span class="n">framedual</span><span class="p">(</span><span class="n">F1</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

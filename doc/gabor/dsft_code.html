@@ -37,75 +37,75 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">DSFT - Discrete Symplectic Fourier Transform</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>F<span class="p">=</span><span class="nf">dsft</span><span class="p">(</span>F<span class="p">);</span>
-<span class="c">%DSFT  Discrete Symplectic Fourier Transform</span>
-<span class="c">%   Usage:  C=dsft(F);</span>
-<span class="c">%</span>
-<span class="c">%   DSFT(F) computes the discrete symplectic Fourier transform of F.</span>
-<span class="c">%   F must be a matrix or a 3D array. If F is a 3D array, the </span>
-<span class="c">%   transformation is applied along the first two dimensions.</span>
-<span class="c">%</span>
-<span class="c">%   Let F be a K xL matrix. Then the DSFT of F is given by</span>
-<span class="c">%</span>
-<span class="c">%                                L-1 K-1</span>
-<span class="c">%     C(m+1,n+1) = 1/sqrt(K*L) * sum sum F(k+1,l+1)*exp(2*pi*i(k*n/K-l*m/L))</span>
-<span class="c">%                                l=0 k=0</span>
-<span class="c">%</span>
-<span class="c">%   for m=0,...,L-1 and n=0,...,K-1.</span>
-<span class="c">%</span>
-<span class="c">%   The DSFT is its own inverse.</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     H. G. Feichtinger, M. Hazewinkel, N. Kaiblinger, E. Matusiak, and</span>
-<span class="c">%     M. Neuhauser. Metaplectic operators on c^n. The Quarterly Journal of</span>
-<span class="c">%     Mathematics, 59(1):15--28, 2008.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/dsft.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>F<span class="p">=</span><span class="nf">dsft</span><span class="p">(</span>F<span class="p">);</span><span class="w"></span>
+<span class="c">%DSFT  Discrete Symplectic Fourier Transform</span><span class="w"></span>
+<span class="c">%   Usage:  C=dsft(F);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   DSFT(F) computes the discrete symplectic Fourier transform of F.</span><span class="w"></span>
+<span class="c">%   F must be a matrix or a 3D array. If F is a 3D array, the </span><span class="w"></span>
+<span class="c">%   transformation is applied along the first two dimensions.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Let F be a K xL matrix. Then the DSFT of F is given by</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%                                L-1 K-1</span><span class="w"></span>
+<span class="c">%     C(m+1,n+1) = 1/sqrt(K*L) * sum sum F(k+1,l+1)*exp(2*pi*i(k*n/K-l*m/L))</span><span class="w"></span>
+<span class="c">%                                l=0 k=0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   for m=0,...,L-1 and n=0,...,K-1.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The DSFT is its own inverse.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     H. G. Feichtinger, M. Hazewinkel, N. Kaiblinger, E. Matusiak, and</span><span class="w"></span>
+<span class="c">%     M. Neuhauser. Metaplectic operators on c^n. The Quarterly Journal of</span><span class="w"></span>
+<span class="c">%     Mathematics, 59(1):15--28, 2008.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/dsft.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard, Jordy van Velthoven (TESTING).</span>
-<span class="c">%   TESTING: TEST_DSFT </span>
-<span class="c">%   REFERENCE: REF_DSFT</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard, Jordy van Velthoven (TESTING).</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_DSFT </span><span class="w"></span>
+<span class="c">%   REFERENCE: REF_DSFT</span><span class="w"></span>
 
-<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">mfilename</span><span class="p">);</span>
+<span class="n">complainif_argnonotinrange</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">D</span><span class="p">=</span><span class="nb">ndims</span><span class="p">(</span><span class="n">F</span><span class="p">);</span>
+<span class="n">D</span><span class="p">=</span><span class="nb">ndims</span><span class="p">(</span><span class="n">F</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">D</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">D</span><span class="o">&gt;</span><span class="mi">3</span><span class="p">)</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;Input must be two/three dimensional.&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">D</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">D</span><span class="o">&gt;</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Input must be two/three dimensional.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">W</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">W</span><span class="o">==</span><span class="mi">1</span>
-  <span class="n">F</span><span class="p">=</span><span class="n">dft</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">F</span><span class="p">).</span><span class="o">&#39;</span><span class="p">);</span>
-<span class="k">else</span>
-  <span class="c">% Apply to set of planes.</span>
-  
-  <span class="n">R1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">R2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-  <span class="n">Fo</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span><span class="n">R1</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">F</span><span class="p">));</span>
-  <span class="k">for</span> <span class="n">w</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">W</span>
-    <span class="n">Fo</span><span class="p">(:,:,</span><span class="n">w</span><span class="p">)=</span><span class="n">dft</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">F</span><span class="p">(:,:,</span><span class="n">w</span><span class="p">).</span><span class="o">&#39;</span><span class="p">));</span>
-  <span class="k">end</span><span class="p">;</span>
-  <span class="n">F</span><span class="p">=</span><span class="n">Fo</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">W</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="n">F</span><span class="p">=</span><span class="n">dft</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">F</span><span class="p">).</span><span class="o">&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Apply to set of planes.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">R1</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">R2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">Fo</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span><span class="n">R1</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">F</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">w</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">W</span><span class="w"></span>
+<span class="w">    </span><span class="n">Fo</span><span class="p">(:,:,</span><span class="n">w</span><span class="p">)=</span><span class="n">dft</span><span class="p">(</span><span class="n">idft</span><span class="p">(</span><span class="n">F</span><span class="p">(:,:,</span><span class="n">w</span><span class="p">).</span><span class="o">&#39;</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">F</span><span class="p">=</span><span class="n">Fo</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

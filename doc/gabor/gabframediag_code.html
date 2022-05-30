@@ -42,81 +42,81 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">GABFRAMEDIAG - Diagonal of Gabor frame operator</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>d<span class="p">=</span><span class="nf">gabframediag</span><span class="p">(</span>g,a,M,L,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%GABFRAMEDIAG  Diagonal of Gabor frame operator</span>
-<span class="c">%   Usage:  d=gabframediag(g,a,M,L);</span>
-<span class="c">%           d=gabframediag(g,a,M,L,&#39;lt&#39;,lt);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         g     : Window function.</span>
-<span class="c">%         a     : Length of time shift.</span>
-<span class="c">%         M     : Number of channels.</span>
-<span class="c">%         L     : Length of transform to do.</span>
-<span class="c">%         lt    : Lattice type (for non-separable lattices).</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         d     : Diagonal stored as a column vector</span>
-<span class="c">%</span>
-<span class="c">%   GABFRAMEDIAG(g,a,M,L) computes the diagonal of the Gabor frame operator</span>
-<span class="c">%   with respect to the window g and parameters a and M. The</span>
-<span class="c">%   diagonal is stored a as column vector of length L.</span>
-<span class="c">%</span>
-<span class="c">%   The diagonal of the frame operator can for instance be used as a</span>
-<span class="c">%   preconditioner.</span>
-<span class="c">%</span>
-<span class="c">%   See also: dgt</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabframediag.html</span>
+<span class="c">%GABFRAMEDIAG  Diagonal of Gabor frame operator</span><span class="w"></span>
+<span class="c">%   Usage:  d=gabframediag(g,a,M,L);</span><span class="w"></span>
+<span class="c">%           d=gabframediag(g,a,M,L,&#39;lt&#39;,lt);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         g     : Window function.</span><span class="w"></span>
+<span class="c">%         a     : Length of time shift.</span><span class="w"></span>
+<span class="c">%         M     : Number of channels.</span><span class="w"></span>
+<span class="c">%         L     : Length of transform to do.</span><span class="w"></span>
+<span class="c">%         lt    : Lattice type (for non-separable lattices).</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         d     : Diagonal stored as a column vector</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   GABFRAMEDIAG(g,a,M,L) computes the diagonal of the Gabor frame operator</span><span class="w"></span>
+<span class="c">%   with respect to the window g and parameters a and M. The</span><span class="w"></span>
+<span class="c">%   diagonal is stored a as column vector of length L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The diagonal of the frame operator can for instance be used as a</span><span class="w"></span>
+<span class="c">%   preconditioner.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: dgt</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabframediag.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">4</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">4</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">];</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">lt</span><span class="p">=[</span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% ----- step 2a : Verify a, M and get L</span>
+<span class="c">% ----- step 2a : Verify a, M and get L</span><span class="w"></span>
 
-<span class="n">Luser</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span>
-<span class="k">if</span> <span class="n">Luser</span><span class="o">~=</span><span class="n">L</span>
-    <span class="n">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect transform length L=%i specified. Next valid length &#39;</span> <span class="c">...</span>
-           <span class="s">&#39;is L=%i. See the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="c">...</span>
-          <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">Luser</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="n">Luser</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">Luser</span><span class="o">~=</span><span class="n">L</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: Incorrect transform length L=%i specified. Next valid length &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;is L=%i. See the help of DGTLENGTH for the requirements.&#39;</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">          </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">L</span><span class="p">,</span><span class="n">Luser</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
 
-<span class="c">%% ----- step 3 : Determine the window </span>
+<span class="c">%% ----- step 3 : Determine the window </span><span class="w"></span>
 
-<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]=</span><span class="n">gabwin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">lt</span><span class="p">,</span><span class="s">&#39;callfun&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">L</span><span class="o">&lt;</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Window is too long.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">L</span><span class="o">&lt;</span><span class="n">info</span><span class="p">.</span><span class="n">gl</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Window is too long.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">%%  compute the diagonal </span>
+<span class="c">%%  compute the diagonal </span><span class="w"></span>
 
-<span class="n">glong2</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">))</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
+<span class="n">glong2</span><span class="p">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">fir2long</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">))</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">d</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">glong2</span><span class="p">));</span>
+<span class="n">d</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">assert_classname</span><span class="p">(</span><span class="n">glong2</span><span class="p">));</span><span class="w"></span>
 
-<span class="c">% The diagonal is a-periodic, so compute a single period by summing up</span>
-<span class="c">% glong2 in slices. </span>
-<span class="n">d</span><span class="p">=</span><span class="nb">repmat</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">glong2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="p">;</span>
+<span class="c">% The diagonal is a-periodic, so compute a single period by summing up</span><span class="w"></span>
+<span class="c">% glong2 in slices. </span><span class="w"></span>
+<span class="n">d</span><span class="p">=</span><span class="nb">repmat</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">glong2</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

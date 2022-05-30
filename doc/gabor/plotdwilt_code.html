@@ -45,87 +45,87 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">PLOTDWILT - Plot DWILT coefficients</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>C<span class="p">=</span><span class="nf">plotdwilt</span><span class="p">(</span>coef,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%PLOTDWILT  Plot DWILT coefficients</span>
-<span class="c">%   Usage: plotdwilt(coef);</span>
-<span class="c">%          plotdwilt(coef,fs);</span>
-<span class="c">%          plotdwilt(coef,fs,dynrange);</span>
-<span class="c">%</span>
-<span class="c">%   PLOTDWILT(coef) will plot coefficients from DWILT.</span>
-<span class="c">%</span>
-<span class="c">%   PLOTDWILT(coef,fs) will do the same assuming a sampling rate of fs*</span>
-<span class="c">%   Hz of the original signal. Since a Wilson representation does not</span>
-<span class="c">%   contain coefficients for all positions on a rectangular TF-grid, there</span>
-<span class="c">%   will be visible &#39;holes&#39; among the lowest (DC) and highest (Nyquist rate)</span>
-<span class="c">%   coefficients. See the help on WIL2RECT.</span>
-<span class="c">%</span>
-<span class="c">%   PLOTDWILT(coef,fs,dynrange) will additionally limit the dynamic</span>
-<span class="c">%   range.</span>
-<span class="c">%</span>
-<span class="c">%   C=PLOTDWILT(...) returns the processed image data used in the</span>
-<span class="c">%   plotting. Inputting this data directly to imagesc or similar</span>
-<span class="c">%   functions will create the plot. This is useful for custom</span>
-<span class="c">%   post-processing of the image data.</span>
-<span class="c">%   </span>
-<span class="c">%   PLOTDWILT supports all the optional parameters of TFPLOT. Please</span>
-<span class="c">%   see the help of TFPLOT for an exhaustive list.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  dwilt, tfplot, sgram, wil2rect</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/plotdwilt.html</span>
+<span class="c">%PLOTDWILT  Plot DWILT coefficients</span><span class="w"></span>
+<span class="c">%   Usage: plotdwilt(coef);</span><span class="w"></span>
+<span class="c">%          plotdwilt(coef,fs);</span><span class="w"></span>
+<span class="c">%          plotdwilt(coef,fs,dynrange);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PLOTDWILT(coef) will plot coefficients from DWILT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PLOTDWILT(coef,fs) will do the same assuming a sampling rate of fs*</span><span class="w"></span>
+<span class="c">%   Hz of the original signal. Since a Wilson representation does not</span><span class="w"></span>
+<span class="c">%   contain coefficients for all positions on a rectangular TF-grid, there</span><span class="w"></span>
+<span class="c">%   will be visible &#39;holes&#39; among the lowest (DC) and highest (Nyquist rate)</span><span class="w"></span>
+<span class="c">%   coefficients. See the help on WIL2RECT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PLOTDWILT(coef,fs,dynrange) will additionally limit the dynamic</span><span class="w"></span>
+<span class="c">%   range.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   C=PLOTDWILT(...) returns the processed image data used in the</span><span class="w"></span>
+<span class="c">%   plotting. Inputting this data directly to imagesc or similar</span><span class="w"></span>
+<span class="c">%   functions will create the plot. This is useful for custom</span><span class="w"></span>
+<span class="c">%   post-processing of the image data.</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   PLOTDWILT supports all the optional parameters of TFPLOT. Please</span><span class="w"></span>
+<span class="c">%   see the help of TFPLOT for an exhaustive list.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  dwilt, tfplot, sgram, wil2rect</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/plotdwilt.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard.</span>
-<span class="c">%   TESTING: NA</span>
-<span class="c">%   REFERENCE: NA</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard.</span><span class="w"></span>
+<span class="c">%   TESTING: NA</span><span class="w"></span>
+<span class="c">%   REFERENCE: NA</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">1</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;ltfattranslate&#39;</span><span class="p">,</span><span class="s">&#39;tfplot&#39;</span><span class="p">};</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;ltfattranslate&#39;</span><span class="p">,</span><span class="s">&#39;tfplot&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">fs</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;fs&#39;</span><span class="p">,</span><span class="s">&#39;dynrange&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+<span class="n">M</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Find smallest value in the coefficients, because we will be inserting</span>
-<span class="c">% zeros, which messes up the dynamic range. Set a minimum value of the</span>
-<span class="c">% dynamic range based on this</span>
-<span class="n">maxc</span><span class="p">=</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">(:)));</span>
-<span class="n">minc</span><span class="p">=</span><span class="n">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">(:)));</span>
-<span class="k">if</span> <span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">dynrange</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_db</span>
-    <span class="n">kv</span><span class="p">.</span><span class="n">dynrange</span><span class="p">=</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">maxc</span><span class="o">/</span><span class="n">minc</span><span class="p">);</span>
-  <span class="k">end</span><span class="p">;</span>
-  <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_dbsq</span>
-    <span class="n">kv</span><span class="p">.</span><span class="n">dynrange</span><span class="p">=</span><span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">maxc</span><span class="o">/</span><span class="n">minc</span><span class="p">);</span>
-  <span class="k">end</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Find smallest value in the coefficients, because we will be inserting</span><span class="w"></span>
+<span class="c">% zeros, which messes up the dynamic range. Set a minimum value of the</span><span class="w"></span>
+<span class="c">% dynamic range based on this</span><span class="w"></span>
+<span class="n">maxc</span><span class="p">=</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">(:)));</span><span class="w"></span>
+<span class="n">minc</span><span class="p">=</span><span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">(:)));</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">dynrange</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_db</span><span class="w"></span>
+<span class="w">    </span><span class="n">kv</span><span class="p">.</span><span class="n">dynrange</span><span class="p">=</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">maxc</span><span class="o">/</span><span class="n">minc</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_dbsq</span><span class="w"></span>
+<span class="w">    </span><span class="n">kv</span><span class="p">.</span><span class="n">dynrange</span><span class="p">=</span><span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">maxc</span><span class="o">/</span><span class="n">minc</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">coef</span><span class="p">=</span><span class="n">wil2rect</span><span class="p">(</span><span class="n">coef</span><span class="p">);</span>
+<span class="n">coef</span><span class="p">=</span><span class="n">wil2rect</span><span class="p">(</span><span class="n">coef</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">yr</span><span class="p">=[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">yr</span><span class="p">=[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
 
-<span class="n">C</span><span class="p">=</span><span class="n">tfplot</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">yr</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span>
+<span class="n">C</span><span class="p">=</span><span class="n">tfplot</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">yr</span><span class="p">,</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargout</span><span class="o">&lt;</span><span class="mi">1</span>
-    <span class="n">clear</span> <span class="n">C</span><span class="p">;</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">clear</span><span class="w"> </span><span class="n">C</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

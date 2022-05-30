@@ -43,90 +43,90 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">PHASEUNLOCKREAL - Undo phase lock of Gabor coefficients</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">phaseunlockreal</span><span class="p">(</span>c,a,M,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%PHASEUNLOCKREAL  Undo phase lock of Gabor coefficients</span>
-<span class="c">%   Usage:  c=phaseunlockreal(c,a,M);</span>
-<span class="c">%</span>
-<span class="c">%   PHASEUNLOCKREAL(c,a,M) removes phase locking from the Gabor coefficients c.</span>
-<span class="c">%   The coefficient must have been obtained from a DGTREAL with parameter a*</span>
-<span class="c">%   and using the &#39;timeinv&#39; flag.</span>
-<span class="c">%</span>
-<span class="c">%   Phase locking the coefficients modifies them so as if they were obtained</span>
-<span class="c">%   from a frequency-invariant Gabor system. A filter bank produces phase locked</span>
-<span class="c">%   coefficients. </span>
-<span class="c">%</span>
-<span class="c">%   See also: dgt, phaselockreal</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     M. Puckette. Phase-locked vocoder. Applications of Signal Processing to</span>
-<span class="c">%     Audio and Acoustics, 1995., IEEE ASSP Workshop on, pages 222 --225,</span>
-<span class="c">%     1995.</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/phaseunlockreal.html</span>
+<span class="c">%PHASEUNLOCKREAL  Undo phase lock of Gabor coefficients</span><span class="w"></span>
+<span class="c">%   Usage:  c=phaseunlockreal(c,a,M);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PHASEUNLOCKREAL(c,a,M) removes phase locking from the Gabor coefficients c.</span><span class="w"></span>
+<span class="c">%   The coefficient must have been obtained from a DGTREAL with parameter a*</span><span class="w"></span>
+<span class="c">%   and using the &#39;timeinv&#39; flag.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Phase locking the coefficients modifies them so as if they were obtained</span><span class="w"></span>
+<span class="c">%   from a frequency-invariant Gabor system. A filter bank produces phase locked</span><span class="w"></span>
+<span class="c">%   coefficients. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: dgt, phaselockreal</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     M. Puckette. Phase-locked vocoder. Applications of Signal Processing to</span><span class="w"></span>
+<span class="c">%     Audio and Acoustics, 1995., IEEE ASSP Workshop on, pages 222 --225,</span><span class="w"></span>
+<span class="c">%     1995.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/phaseunlockreal.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR:    Peter Balazs, Peter L. Søndergaard, Zdenek Prusa</span>
-<span class="c">%   TESTING:   OK</span>
-<span class="c">%   REFERENCE: OK</span>
+<span class="c">%   AUTHOR:    Peter Balazs, Peter L. Søndergaard, Zdenek Prusa</span><span class="w"></span>
+<span class="c">%   TESTING:   OK</span><span class="w"></span>
+<span class="c">%   REFERENCE: OK</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&lt;</span><span class="mi">3</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span>  <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">||</span> <span class="nb">rem</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;a must be integer&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w">  </span><span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;a must be integer&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span>  <span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">||</span> <span class="o">~</span><span class="n">isnumeric</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">||</span> <span class="nb">rem</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;M must be integer&#39;</span><span class="p">);</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w">  </span><span class="o">~</span><span class="nb">isscalar</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">rem</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">~=</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;M must be integer&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">accuracy</span><span class="p">={</span><span class="s">&#39;normal&#39;</span><span class="p">,</span> <span class="s">&#39;precise&#39;</span><span class="p">};</span>
-<span class="n">flags</span><span class="p">=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">accuracy</span><span class="p">={</span><span class="s">&#39;normal&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;precise&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">flags</span><span class="p">=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">M2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">M2user</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">M2</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">M2user</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">M2</span><span class="o">~=</span><span class="n">M2user</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Size of s does not comply with M.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="n">M2</span><span class="o">~=</span><span class="n">M2user</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Size of s does not comply with M.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">N</span><span class="p">=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_normal</span>
-    <span class="n">TimeInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">;</span>
-    <span class="n">FreqInd</span> <span class="p">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">M2</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_normal</span><span class="w"></span>
+<span class="w">    </span><span class="n">TimeInd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">FreqInd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">M2</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
 
-    <span class="n">phase</span> <span class="p">=</span> <span class="n">FreqInd</span><span class="o">&#39;*</span><span class="n">TimeInd</span><span class="p">;</span>
-    <span class="n">phase</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-    <span class="n">phase</span> <span class="p">=</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="mi">1</span><span class="nb">i</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">phase</span><span class="o">/</span><span class="n">M</span><span class="p">);</span>
+<span class="w">    </span><span class="n">phase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">FreqInd</span><span class="o">&#39;*</span><span class="n">TimeInd</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">phase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">phase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span>1<span class="nb">i</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">phase</span><span class="o">/</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
 
-    <span class="c">% Handle multisignals</span>
-    <span class="n">c</span><span class="p">=</span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">phase</span><span class="p">);</span>
-<span class="k">elseif</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_precise</span>
-    
-    <span class="n">frames</span> <span class="p">=</span> <span class="n">ifftreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-    <span class="k">for</span> <span class="n">n</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span>
-        <span class="n">frames</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,:)</span> <span class="p">=</span> <span class="nb">circshift</span><span class="p">(</span><span class="n">frames</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,:),</span><span class="n">n</span><span class="o">*</span><span class="n">a</span><span class="p">);</span>
-    <span class="k">end</span>
-    <span class="n">c</span> <span class="p">=</span> <span class="n">fftreal</span><span class="p">(</span><span class="n">frames</span><span class="p">);</span>
-    
-<span class="k">end</span>
+<span class="w">    </span><span class="c">% Handle multisignals</span><span class="w"></span>
+<span class="w">    </span><span class="n">c</span><span class="p">=</span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">phase</span><span class="p">);</span><span class="w"></span>
+<span class="k">elseif</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_precise</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">frames</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ifftreal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="n">frames</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">circshift</span><span class="p">(</span><span class="n">frames</span><span class="p">(:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,:),</span><span class="n">n</span><span class="o">*</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fftreal</span><span class="p">(</span><span class="n">frames</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

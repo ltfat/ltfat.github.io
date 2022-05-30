@@ -45,39 +45,39 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">PEVEN - Even part of periodic function</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>f<span class="p">=</span><span class="nf">peven</span><span class="p">(</span>f,dim<span class="p">)</span><span class="w"></span>
-<span class="c">%PEVEN   Even part of periodic function</span>
-<span class="c">%   Usage:  fe=peven(f);</span>
-<span class="c">%           fe=peven(f,dim);</span>
-<span class="c">%</span>
-<span class="c">%   PEVEN(f) returns the even part of the periodic sequence f.</span>
-<span class="c">%</span>
-<span class="c">%   PEVEN(f,dim) does the same along dimension dim.</span>
-<span class="c">%</span>
-<span class="c">%   See also:  podd, dft, involute, pconv</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/fourier/peven.html</span>
+<span class="c">%PEVEN   Even part of periodic function</span><span class="w"></span>
+<span class="c">%   Usage:  fe=peven(f);</span><span class="w"></span>
+<span class="c">%           fe=peven(f,dim);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PEVEN(f) returns the even part of the periodic sequence f.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PEVEN(f,dim) does the same along dimension dim.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  podd, dft, involute, pconv</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/fourier/peven.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="k">if</span> <span class="n">nargin</span><span class="o">==</span><span class="mi">1</span>
-  <span class="n">f</span><span class="p">=(</span><span class="n">f</span><span class="o">+</span><span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-<span class="k">else</span>
-  <span class="n">f</span><span class="p">=(</span><span class="n">f</span><span class="o">+</span><span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=(</span><span class="n">f</span><span class="o">+</span><span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=(</span><span class="n">f</span><span class="o">+</span><span class="n">involute</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

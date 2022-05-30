@@ -42,57 +42,57 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">LTFATLOGO - Load the 'ltfatlogo' test signal</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[s,fs]<span class="p">=</span><span class="nf">ltfatlogo</span><span class="p">()</span><span class="w"></span>
-<span class="c">%LTFATLOGO  Load the &#39;ltfatlogo&#39; test signal</span>
-<span class="c">%   Usage:  s=ltfatlogo;</span>
-<span class="c">%</span>
-<span class="c">%   LTFATLOGO loads the &#39;ltfatlogo&#39; signal. This is a sound synthezised</span>
-<span class="c">%   from an artificial spectrogram of the word &#39;LTFAT&#39;. See the help of</span>
-<span class="c">%   LTFATTEXT.</span>
-<span class="c">%</span>
-<span class="c">%   [sig,fs]=LTFATLOGO additionally returns the sampling frequency fs.</span>
-<span class="c">%</span>
-<span class="c">%   The signal is 7200 samples long and recorded at 8 kHz. It has been</span>
-<span class="c">%   scaled to not produce any clipping.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   To produce a spectrogram of the logo, use:</span>
-<span class="c">%</span>
-<span class="c">%     sgram(ltfatlogo,8000,90);</span>
-<span class="c">%</span>
-<span class="c">%   See also: ltfattext</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/signals/ltfatlogo.html</span>
+<span class="c">%LTFATLOGO  Load the &#39;ltfatlogo&#39; test signal</span><span class="w"></span>
+<span class="c">%   Usage:  s=ltfatlogo;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   LTFATLOGO loads the &#39;ltfatlogo&#39; signal. This is a sound synthezised</span><span class="w"></span>
+<span class="c">%   from an artificial spectrogram of the word &#39;LTFAT&#39;. See the help of</span><span class="w"></span>
+<span class="c">%   LTFATTEXT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [sig,fs]=LTFATLOGO additionally returns the sampling frequency fs.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The signal is 7200 samples long and recorded at 8 kHz. It has been</span><span class="w"></span>
+<span class="c">%   scaled to not produce any clipping.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To produce a spectrogram of the logo, use:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     sgram(ltfatlogo,8000,90);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: ltfattext</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/signals/ltfatlogo.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="c">%   AUTHOR : Peter L. Søndergaard</span>
-<span class="c">%   TESTING: TEST_SIGNALS</span>
-<span class="c">%   REFERENCE: OK</span>
-  
-<span class="k">if</span> <span class="n">nargin</span><span class="o">&gt;</span><span class="mi">0</span>
-  <span class="n">error</span><span class="p">(</span><span class="s">&#39;This function does not take input arguments.&#39;</span><span class="p">)</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="c">%   AUTHOR : Peter L. Søndergaard</span><span class="w"></span>
+<span class="c">%   TESTING: TEST_SIGNALS</span><span class="w"></span>
+<span class="c">%   REFERENCE: OK</span><span class="w"></span>
+<span class="w">  </span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&gt;</span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;This function does not take input arguments.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">f</span><span class="p">=</span><span class="n">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">);</span>
+<span class="n">f</span><span class="p">=</span><span class="nb">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">s</span> <span class="p">=</span> <span class="n">wavload</span><span class="p">([</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;.wav&#39;</span><span class="p">]);</span>
-<span class="n">fs</span><span class="p">=</span><span class="mi">8000</span><span class="p">;</span>
+<span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">wavload</span><span class="p">([</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;.wav&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="n">fs</span><span class="p">=</span><span class="mi">8000</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

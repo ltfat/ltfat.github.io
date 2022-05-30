@@ -44,97 +44,97 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">GABIMAGEPARS - Find Gabor parameters to generate image</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[a,M,L,N,Ngood]<span class="p">=</span><span class="nf">gabimagepars</span><span class="p">(</span>Ls,x,y<span class="p">)</span><span class="w"></span>
-<span class="c">%GABIMAGEPARS  Find Gabor parameters to generate image</span>
-<span class="c">%   Usage: [a,M,L,N,Ngood]=gabimagepars(Ls,x,y);</span>
-<span class="c">%</span>
-<span class="c">%   [a,M,L,N,Ngood]=GABIMAGEPARS(Ls,x,y) will compute a reasonable set of</span>
-<span class="c">%   parameters a, M and L to produce a nice Gabor &#39;image&#39; of a signal</span>
-<span class="c">%   of length Ls. The approximate number of pixels in the time direction is</span>
-<span class="c">%   given as x and the number of pixels in the frequency direction is given</span>
-<span class="c">%   as y.</span>
-<span class="c">%</span>
-<span class="c">%   The output parameter Ngood contains the number of time steps (columns</span>
-<span class="c">%   in the coefficients matrix) that contains relevant information. The</span>
-<span class="c">%   columns from Ngood until N only contains information from a</span>
-<span class="c">%   zero-extension of the signal.</span>
-<span class="c">%</span>
-<span class="c">%   If you use this function to calculate a grid size for analysis of a</span>
-<span class="c">%   real-valued signal (using DGTREAL), please input twice of the desired</span>
-<span class="c">%   size y. This is because DGTREAL only returns half as many</span>
-<span class="c">%   coefficients in the frequency direction as DGT.</span>
-<span class="c">%</span>
-<span class="c">%   An example: We wish to compute a Gabor image of a real valued signal f*</span>
-<span class="c">%   of length 7500. The image should have an approximate resolution of</span>
-<span class="c">%   600 x800 pixels:</span>
-<span class="c">%</span>
-<span class="c">%     [f,fs]=linus; f=f(4001:4000+7500);</span>
-<span class="c">%     [a,M,L,N,Ngood] = gabimagepars(7500,800,2*600);</span>
-<span class="c">%     c = dgtreal(f,&#39;gauss&#39;,a,M);</span>
-<span class="c">%     plotdgtreal(c,a,M,fs,90);</span>
-<span class="c">%</span>
-<span class="c">%   The size of c is (M/2)+1 xN equal to 601 x700 pixels. </span>
-<span class="c">%</span>
-<span class="c">%   For this function to work properly, the specified numbers for x and</span>
-<span class="c">%   y must not be large prime numbers.</span>
-<span class="c">%  </span>
-<span class="c">%   See also: dgt, dgtreal, sgram</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabimagepars.html</span>
+<span class="c">%GABIMAGEPARS  Find Gabor parameters to generate image</span><span class="w"></span>
+<span class="c">%   Usage: [a,M,L,N,Ngood]=gabimagepars(Ls,x,y);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [a,M,L,N,Ngood]=GABIMAGEPARS(Ls,x,y) will compute a reasonable set of</span><span class="w"></span>
+<span class="c">%   parameters a, M and L to produce a nice Gabor &#39;image&#39; of a signal</span><span class="w"></span>
+<span class="c">%   of length Ls. The approximate number of pixels in the time direction is</span><span class="w"></span>
+<span class="c">%   given as x and the number of pixels in the frequency direction is given</span><span class="w"></span>
+<span class="c">%   as y.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The output parameter Ngood contains the number of time steps (columns</span><span class="w"></span>
+<span class="c">%   in the coefficients matrix) that contains relevant information. The</span><span class="w"></span>
+<span class="c">%   columns from Ngood until N only contains information from a</span><span class="w"></span>
+<span class="c">%   zero-extension of the signal.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If you use this function to calculate a grid size for analysis of a</span><span class="w"></span>
+<span class="c">%   real-valued signal (using DGTREAL), please input twice of the desired</span><span class="w"></span>
+<span class="c">%   size y. This is because DGTREAL only returns half as many</span><span class="w"></span>
+<span class="c">%   coefficients in the frequency direction as DGT.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   An example: We wish to compute a Gabor image of a real valued signal f*</span><span class="w"></span>
+<span class="c">%   of length 7500. The image should have an approximate resolution of</span><span class="w"></span>
+<span class="c">%   600 x800 pixels:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     [f,fs]=linus; f=f(4001:4000+7500);</span><span class="w"></span>
+<span class="c">%     [a,M,L,N,Ngood] = gabimagepars(7500,800,2*600);</span><span class="w"></span>
+<span class="c">%     c = dgtreal(f,&#39;gauss&#39;,a,M);</span><span class="w"></span>
+<span class="c">%     plotdgtreal(c,a,M,fs,90);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The size of c is (M/2)+1 xN equal to 601 x700 pixels. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   For this function to work properly, the specified numbers for x and</span><span class="w"></span>
+<span class="c">%   y must not be large prime numbers.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%   See also: dgt, dgtreal, sgram</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/gabimagepars.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">&gt;</span><span class="n">Ls</span>
-  <span class="c">% Small values case, just do an STFT</span>
-  <span class="n">M</span><span class="p">=</span><span class="n">Ls</span><span class="p">;</span>
-  <span class="n">N</span><span class="p">=</span><span class="n">Ls</span><span class="p">;</span>
-  <span class="n">a</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
-  <span class="n">Ngood</span><span class="p">=</span><span class="n">N</span><span class="p">;</span>
-  <span class="n">L</span><span class="p">=</span><span class="n">Ls</span><span class="p">;</span>
-<span class="k">else</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">&gt;</span><span class="n">Ls</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Small values case, just do an STFT</span><span class="w"></span>
+<span class="w">  </span><span class="n">M</span><span class="p">=</span><span class="n">Ls</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">N</span><span class="p">=</span><span class="n">Ls</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ngood</span><span class="p">=</span><span class="n">N</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="n">Ls</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
 
-  <span class="c">% Set M and N to be what the user specified</span>
-  <span class="n">M</span><span class="p">=</span><span class="n">y</span><span class="p">;</span>
-  <span class="n">N</span><span class="p">=</span><span class="n">x</span><span class="p">;</span>
+<span class="w">  </span><span class="c">% Set M and N to be what the user specified</span><span class="w"></span>
+<span class="w">  </span><span class="n">M</span><span class="p">=</span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">N</span><span class="p">=</span><span class="n">x</span><span class="p">;</span><span class="w"></span>
 
-  <span class="c">% Determine the minimum transform size.</span>
-  <span class="n">K</span><span class="p">=</span><span class="nb">lcm</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span>
-    
-  <span class="c">% This L is good, but is it not the same as DGT will choose.</span>
-  <span class="n">Llong</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">K</span><span class="p">)</span><span class="o">*</span><span class="n">K</span><span class="p">;</span>
-  
-  <span class="c">% Fix a from the long L</span>
-  <span class="n">a</span><span class="p">=</span><span class="n">Llong</span><span class="o">/</span><span class="n">N</span><span class="p">;</span>
-  
-  <span class="c">% Now we have fixed a and M, so we can use the standard method of choosing L</span>
-  <span class="n">Lsmallest</span><span class="p">=</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span>
-  <span class="n">L</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">Lsmallest</span><span class="p">)</span><span class="o">*</span><span class="n">Lsmallest</span><span class="p">;</span>
-  
-  <span class="c">% We did not get N as desired.</span>
-  <span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span>
-  
-  <span class="c">% Number of columns to display</span>
-  <span class="n">Ngood</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">a</span><span class="p">);</span>
-  
-  <span class="k">if</span> <span class="n">M</span><span class="o">&lt;</span><span class="p">=</span><span class="n">a</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;LTFAT:noframe&#39;</span><span class="p">,[</span><span class="s">&#39;Cannot generate a frame, the signal is too long as compared &#39;</span> <span class="c">...</span>
-           <span class="s">&#39;to the size of the image. Increase x and y.&#39;</span><span class="p">]);</span>
-  <span class="k">end</span><span class="p">;</span>
-  
-<span class="k">end</span><span class="p">;</span>
+<span class="w">  </span><span class="c">% Determine the minimum transform size.</span><span class="w"></span>
+<span class="w">  </span><span class="n">K</span><span class="p">=</span><span class="nb">lcm</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">  </span><span class="c">% This L is good, but is it not the same as DGT will choose.</span><span class="w"></span>
+<span class="w">  </span><span class="n">Llong</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">K</span><span class="p">)</span><span class="o">*</span><span class="n">K</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Fix a from the long L</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">=</span><span class="n">Llong</span><span class="o">/</span><span class="n">N</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Now we have fixed a and M, so we can use the standard method of choosing L</span><span class="w"></span>
+<span class="w">  </span><span class="n">Lsmallest</span><span class="p">=</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">L</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">Lsmallest</span><span class="p">)</span><span class="o">*</span><span class="n">Lsmallest</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% We did not get N as desired.</span><span class="w"></span>
+<span class="w">  </span><span class="n">N</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Number of columns to display</span><span class="w"></span>
+<span class="w">  </span><span class="n">Ngood</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">Ls</span><span class="o">/</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">M</span><span class="o">&lt;=</span><span class="n">a</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;LTFAT:noframe&#39;</span><span class="p">,[</span><span class="s">&#39;Cannot generate a frame, the signal is too long as compared &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="s">&#39;to the size of the image. Increase x and y.&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 
 

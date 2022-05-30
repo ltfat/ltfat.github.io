@@ -43,52 +43,52 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FRAMEMULADJ - Adjoint operator of frame multiplier</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>h<span class="p">=</span><span class="nf">framemuladj</span><span class="p">(</span>f,Fa,Fs,s,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%FRAMEMULADJ  Adjoint operator of frame multiplier</span>
-<span class="c">%   Usage: h=framemuladj(f,Fa,Fs,s);</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%          Fa   : Analysis frame</span>
-<span class="c">%          Fs   : Synthesis frame</span>
-<span class="c">%          s    : Symbol</span>
-<span class="c">%          f    : Input signal</span>
-<span class="c">%</span>
-<span class="c">%   Output parameters: </span>
-<span class="c">%          h    : Output signal</span>
-<span class="c">%</span>
-<span class="c">%   FRAMEMULADJ(f,Fa,Fs,s) applies the adjoint of the frame multiplier</span>
-<span class="c">%   with symbol s to the signal f. The frame Fa is used for analysis</span>
-<span class="c">%   and the frame Fs for synthesis. This is equivalent to calling</span>
-<span class="c">%   framemul(f,Fs,Fa,conj(s)).</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   See also: framemul, iframemul</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/operators/framemuladj.html</span>
+<span class="c">%FRAMEMULADJ  Adjoint operator of frame multiplier</span><span class="w"></span>
+<span class="c">%   Usage: h=framemuladj(f,Fa,Fs,s);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%          Fa   : Analysis frame</span><span class="w"></span>
+<span class="c">%          Fs   : Synthesis frame</span><span class="w"></span>
+<span class="c">%          s    : Symbol</span><span class="w"></span>
+<span class="c">%          f    : Input signal</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Output parameters: </span><span class="w"></span>
+<span class="c">%          h    : Output signal</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FRAMEMULADJ(f,Fa,Fs,s) applies the adjoint of the frame multiplier</span><span class="w"></span>
+<span class="c">%   with symbol s to the signal f. The frame Fa is used for analysis</span><span class="w"></span>
+<span class="c">%   and the frame Fs for synthesis. This is equivalent to calling</span><span class="w"></span>
+<span class="c">%   framemul(f,Fs,Fa,conj(s)).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: framemul, iframemul</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/operators/framemuladj.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-  
-<span class="c">% Author: Peter L. Søndergaard</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="c">% Author: Peter L. Søndergaard</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">nargin</span> <span class="o">&lt;</span> <span class="mi">4</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">% Swap the analysis and synthesis frames and conjugate the symbol.</span>
-<span class="n">h</span><span class="p">=</span><span class="n">frsyn</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="nb">conj</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.*</span><span class="n">frana</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">f</span><span class="p">));</span>
+<span class="c">% Swap the analysis and synthesis frames and conjugate the symbol.</span><span class="w"></span>
+<span class="n">h</span><span class="p">=</span><span class="n">frsyn</span><span class="p">(</span><span class="n">Fa</span><span class="p">,</span><span class="nb">conj</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.*</span><span class="n">frana</span><span class="p">(</span><span class="n">Fs</span><span class="p">,</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
 </pre></div>
 
 

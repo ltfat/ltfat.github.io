@@ -43,65 +43,65 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">FRAMECLENGTH - Number of coefficients from length of signal</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[Ncoef, L]=frameclength</span><span class="p">(</span>F,Ls<span class="p">)</span><span class="w"></span>
-<span class="c">%FRAMECLENGTH  Number of coefficients from length of signal</span>
-<span class="c">%   Usage: Ncoef=frameclength(F,Ls);</span>
-<span class="c">%          [Ncoef,L]=frameclength(...);</span>
-<span class="c">%</span>
-<span class="c">%   Ncoef=FRAMECLENGTH(F,Ls) returns the total number of coefficients </span>
-<span class="c">%   obtained by applying the analysis operator of frame F to a signal</span>
-<span class="c">%   of length Ls i.e. size(frana(F,f),1) for Ls=length(f). </span>
-<span class="c">%</span>
-<span class="c">%   [Ncoef,L]=FRAMECLENGTH(F,Ls) additionally returns L, which is the </span>
-<span class="c">%   same as returned by FRAMELENGTH.</span>
-<span class="c">%</span>
-<span class="c">%   If the frame length L is longer than the signal length Ls, the </span>
-<span class="c">%   signal will be zero-padded to L by FRANA.</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame, framelengthcoef</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/frameclength.html</span>
+<span class="c">%FRAMECLENGTH  Number of coefficients from length of signal</span><span class="w"></span>
+<span class="c">%   Usage: Ncoef=frameclength(F,Ls);</span><span class="w"></span>
+<span class="c">%          [Ncoef,L]=frameclength(...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Ncoef=FRAMECLENGTH(F,Ls) returns the total number of coefficients </span><span class="w"></span>
+<span class="c">%   obtained by applying the analysis operator of frame F to a signal</span><span class="w"></span>
+<span class="c">%   of length Ls i.e. size(frana(F,f),1) for Ls=length(f). </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [Ncoef,L]=FRAMECLENGTH(F,Ls) additionally returns L, which is the </span><span class="w"></span>
+<span class="c">%   same as returned by FRAMELENGTH.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   If the frame length L is longer than the signal length Ls, the </span><span class="w"></span>
+<span class="c">%   signal will be zero-padded to L by FRANA.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame, framelengthcoef</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/frameclength.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">callfun</span> <span class="p">=</span> <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">);</span>
-<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span>
-<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span>
+<span class="n">callfun</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notposint</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span><span class="w"></span>
+<span class="n">complainif_notvalidframeobj</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">callfun</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">L</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="nb">length</span><span class="p">(</span><span class="n">Ls</span><span class="p">);</span>
+<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">length</span><span class="p">(</span><span class="n">Ls</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% Some frames need special function</span>
-<span class="k">if</span> <span class="n">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;clength&#39;</span><span class="p">)</span>
-    <span class="n">Ncoef</span> <span class="p">=</span> <span class="n">F</span><span class="p">.</span><span class="n">clength</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
-<span class="k">else</span>
-    <span class="c">% Generic, works for any non-realonly frame and for</span>
-    <span class="c">% all representaions not having any extra coefficients</span>
+<span class="c">% Some frames need special function</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="s">&#39;clength&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ncoef</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">clength</span><span class="p">(</span><span class="n">L</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Generic, works for any non-realonly frame and for</span><span class="w"></span>
+<span class="w">    </span><span class="c">% all representaions not having any extra coefficients</span><span class="w"></span>
 
-    <span class="n">Ncoef</span> <span class="p">=</span> <span class="n">L</span><span class="o">*</span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="p">;</span>
-    
-    <span class="k">if</span> <span class="n">F</span><span class="p">.</span><span class="n">realinput</span>
-        <span class="n">Ncoef</span><span class="p">=</span><span class="n">Ncoef</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-    <span class="k">end</span>
+<span class="w">    </span><span class="n">Ncoef</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="o">*</span><span class="n">F</span><span class="p">.</span><span class="n">red</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">realinput</span><span class="w"></span>
+<span class="w">        </span><span class="n">Ncoef</span><span class="p">=</span><span class="n">Ncoef</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
 
-    <span class="n">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Ncoef</span><span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">))</span><span class="o">&lt;</span><span class="mf">1e-3</span><span class="p">,</span><span class="c">...</span>
-           <span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;%s: There is a bug. L=%d should be an integer.&#39;</span><span class="p">,</span><span class="c">...</span>
-           <span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">),</span><span class="n">Ncoef</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Ncoef</span><span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">))</span><span class="o">&lt;</span><span class="mf">1e-3</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%s: There is a bug. L=%d should be an integer.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">           </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">Ncoef</span><span class="p">));</span><span class="w"></span>
 
-    <span class="n">Ncoef</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="w">    </span><span class="n">Ncoef</span><span class="p">=</span><span class="nb">round</span><span class="p">(</span><span class="n">Ncoef</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

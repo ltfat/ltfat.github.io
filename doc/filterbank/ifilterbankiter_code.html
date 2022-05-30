@@ -45,144 +45,144 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
         <h1 class="title">IFILTERBANKITER - Filter bank iterative inversion</h1>
 <h2>Program code:</h2>
 <div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[f,relres,iter]<span class="p">=</span><span class="nf">ifilterbankiter</span><span class="p">(</span>c,g,a,varargin<span class="p">)</span><span class="w"></span>
-<span class="c">%IFILTERBANKITER  Filter bank iterative inversion</span>
-<span class="c">%   Usage:  f=ifilterbankiter(c,g,a);</span>
-<span class="c">%</span>
-<span class="c">%   IFILTERBANKITER(c,g,a) iteratively synthesizes a signal f from the</span>
-<span class="c">%   coefficients c which were obtained using the filters stored in g for</span>
-<span class="c">%   a channel subsampling rate of a (the hop-size).</span>
-<span class="c">%</span>
-<span class="c">%   The filter bank g and the subsampling rate a must be the same</span>
-<span class="c">%   as used in FILTERBANK or UFILTERBANK.</span>
-<span class="c">%</span>
-<span class="c">%   This function is useful if there is no way how to explicitly compute</span>
-<span class="c">%   a dual system using FILTERBANKDUAL or FILTERBANKREALDUAL.</span>
-<span class="c">%</span>
-<span class="c">%   Additional parameters</span>
-<span class="c">%   ---------------------</span>
-<span class="c">%</span>
-<span class="c">%   The function calls FRSYNITER and passes all the optional arguments to it.</span>
-<span class="c">%   Please refer to help of FRSYNITER for further details.</span>
-<span class="c">%</span>
-<span class="c">%   Please note that by default, the function expects filterbank g*</span>
-<span class="c">%   to be created for real signals i.e. g cover only the positive frequencies.</span>
-<span class="c">%   Additional flag &#39;complex&#39; is required if the filterbank is defined for </span>
-<span class="c">%   positive and negative frequencies.</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   The following example compares convergence rates of CG and PCG for a</span>
-<span class="c">%   filterbank which forms a frame, but it is neither uniform or painless:</span>
-<span class="c">%</span>
-<span class="c">%       [f,fs] = greasy; L = size(f,1);</span>
-<span class="c">%       [g,a,fc]=erbfilters(fs,L,&#39;fractional&#39;,&#39;bwmul&#39;,0.6,&#39;redmul&#39;,4/5,&#39;complex&#39;);</span>
-<span class="c">%       filterbankfreqz(g,a,L,&#39;plot&#39;,&#39;linabs&#39;);</span>
-<span class="c">%       % Filterbankdual does not work</span>
-<span class="c">%       try</span>
-<span class="c">%           gd=filterbankdual(g,a,L);</span>
-<span class="c">%       catch</span>
-<span class="c">%           disp(&#39;FILTERBANKDUAL exited with error.&#39;);</span>
-<span class="c">%       end</span>
-<span class="c">%</span>
-<span class="c">%       c = filterbank(f,g,a);</span>
-<span class="c">%       [fpcg,~,iterpcg] = ifilterbankiter(c,g,a,&#39;complex&#39;,&#39;pcg&#39;);</span>
-<span class="c">%       [fcg,~,itercg] = ifilterbankiter(c,g,a,&#39;complex&#39;,&#39;cg&#39;);</span>
-<span class="c">%</span>
-<span class="c">%       fprintf(&#39;CG achieved error %e in %d iterations.n&#39;,norm(f-fcg), itercg);</span>
-<span class="c">%       fprintf(&#39;PCG achieved error %e in %d iterations.n&#39;,norm(f-fpcg), iterpcg);</span>
-<span class="c">%</span>
-<span class="c">%   Similar example with real filterbank:</span>
-<span class="c">%</span>
-<span class="c">%       [f,fs] = greasy; L = size(f,1);</span>
-<span class="c">%       [g,a,fc]=erbfilters(fs,L,&#39;fractional&#39;,&#39;bwmul&#39;,0.6,&#39;redmul&#39;,4/5);</span>
-<span class="c">%       filterbankfreqz(g,a,L,&#39;plot&#39;,&#39;linabs&#39;);</span>
-<span class="c">%       % Filterbankrealdual does not work</span>
-<span class="c">%       try</span>
-<span class="c">%           gd=filterbankrealdual(g,a,L);</span>
-<span class="c">%       catch</span>
-<span class="c">%           disp(&#39;FILTERBANKREALDUAL exited with error.&#39;);</span>
-<span class="c">%       end</span>
-<span class="c">%</span>
-<span class="c">%       c = filterbank(f,g,a);</span>
-<span class="c">%       [fpcg,~,iterpcg] = ifilterbankiter(c,g,a,&#39;pcg&#39;);</span>
-<span class="c">%       [fcg,~,itercg] = ifilterbankiter(c,g,a,&#39;cg&#39;);</span>
-<span class="c">%</span>
-<span class="c">%       fprintf(&#39;CG achieved error %e in %d iterations.n&#39;,norm(f-fcg), itercg);</span>
-<span class="c">%       fprintf(&#39;PCG achieved error %e in %d iterations.n&#39;,norm(f-fpcg), iterpcg);</span>
-<span class="c">%</span>
-<span class="c">%   See also: filterbank, ufilterbank, ifilterbank, filterbankdual</span>
-<span class="c">%</span>
-<span class="c">%   References:</span>
-<span class="c">%     T. Necciari, P. Balazs, N. Holighaus, and P. L. Søndergaard. The ERBlet</span>
-<span class="c">%     transform: An auditory-based time-frequency representation with perfect</span>
-<span class="c">%     reconstruction. In Proceedings of the 38th International Conference on</span>
-<span class="c">%     Acoustics, Speech, and Signal Processing (ICASSP 2013), pages 498--502,</span>
-<span class="c">%     Vancouver, Canada, May 2013. IEEE.</span>
-<span class="c">%     </span>
-<span class="c">%     T. Necciari, N. Holighaus, P. Balazs, Z. Průša, P. Majdak, and</span>
-<span class="c">%     O. Derrien. Audlet filter banks: A versatile analysis/synthesis</span>
-<span class="c">%     framework using auditory frequency scales. Applied Sciences, 8(1),</span>
-<span class="c">%     2018. [1]http ]</span>
-<span class="c">%     </span>
-<span class="c">%     References</span>
-<span class="c">%     </span>
-<span class="c">%     1. http://www.mdpi.com/2076-3417/8/1/96</span>
-<span class="c">%     </span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/filterbank/ifilterbankiter.html</span>
+<span class="c">%IFILTERBANKITER  Filter bank iterative inversion</span><span class="w"></span>
+<span class="c">%   Usage:  f=ifilterbankiter(c,g,a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   IFILTERBANKITER(c,g,a) iteratively synthesizes a signal f from the</span><span class="w"></span>
+<span class="c">%   coefficients c which were obtained using the filters stored in g for</span><span class="w"></span>
+<span class="c">%   a channel subsampling rate of a (the hop-size).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The filter bank g and the subsampling rate a must be the same</span><span class="w"></span>
+<span class="c">%   as used in FILTERBANK or UFILTERBANK.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This function is useful if there is no way how to explicitly compute</span><span class="w"></span>
+<span class="c">%   a dual system using FILTERBANKDUAL or FILTERBANKREALDUAL.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Additional parameters</span><span class="w"></span>
+<span class="c">%   ---------------------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function calls FRSYNITER and passes all the optional arguments to it.</span><span class="w"></span>
+<span class="c">%   Please refer to help of FRSYNITER for further details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Please note that by default, the function expects filterbank g*</span><span class="w"></span>
+<span class="c">%   to be created for real signals i.e. g cover only the positive frequencies.</span><span class="w"></span>
+<span class="c">%   Additional flag &#39;complex&#39; is required if the filterbank is defined for </span><span class="w"></span>
+<span class="c">%   positive and negative frequencies.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example compares convergence rates of CG and PCG for a</span><span class="w"></span>
+<span class="c">%   filterbank which forms a frame, but it is neither uniform or painless:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       [f,fs] = greasy; L = size(f,1);</span><span class="w"></span>
+<span class="c">%       [g,a,fc]=erbfilters(fs,L,&#39;fractional&#39;,&#39;bwmul&#39;,0.6,&#39;redmul&#39;,4/5,&#39;complex&#39;);</span><span class="w"></span>
+<span class="c">%       filterbankfreqz(g,a,L,&#39;plot&#39;,&#39;linabs&#39;);</span><span class="w"></span>
+<span class="c">%       % Filterbankdual does not work</span><span class="w"></span>
+<span class="c">%       try</span><span class="w"></span>
+<span class="c">%           gd=filterbankdual(g,a,L);</span><span class="w"></span>
+<span class="c">%       catch</span><span class="w"></span>
+<span class="c">%           disp(&#39;FILTERBANKDUAL exited with error.&#39;);</span><span class="w"></span>
+<span class="c">%       end</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       c = filterbank(f,g,a);</span><span class="w"></span>
+<span class="c">%       [fpcg,~,iterpcg] = ifilterbankiter(c,g,a,&#39;complex&#39;,&#39;pcg&#39;);</span><span class="w"></span>
+<span class="c">%       [fcg,~,itercg] = ifilterbankiter(c,g,a,&#39;complex&#39;,&#39;cg&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       fprintf(&#39;CG achieved error %e in %d iterations.n&#39;,norm(f-fcg), itercg);</span><span class="w"></span>
+<span class="c">%       fprintf(&#39;PCG achieved error %e in %d iterations.n&#39;,norm(f-fpcg), iterpcg);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Similar example with real filterbank:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       [f,fs] = greasy; L = size(f,1);</span><span class="w"></span>
+<span class="c">%       [g,a,fc]=erbfilters(fs,L,&#39;fractional&#39;,&#39;bwmul&#39;,0.6,&#39;redmul&#39;,4/5);</span><span class="w"></span>
+<span class="c">%       filterbankfreqz(g,a,L,&#39;plot&#39;,&#39;linabs&#39;);</span><span class="w"></span>
+<span class="c">%       % Filterbankrealdual does not work</span><span class="w"></span>
+<span class="c">%       try</span><span class="w"></span>
+<span class="c">%           gd=filterbankrealdual(g,a,L);</span><span class="w"></span>
+<span class="c">%       catch</span><span class="w"></span>
+<span class="c">%           disp(&#39;FILTERBANKREALDUAL exited with error.&#39;);</span><span class="w"></span>
+<span class="c">%       end</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       c = filterbank(f,g,a);</span><span class="w"></span>
+<span class="c">%       [fpcg,~,iterpcg] = ifilterbankiter(c,g,a,&#39;pcg&#39;);</span><span class="w"></span>
+<span class="c">%       [fcg,~,itercg] = ifilterbankiter(c,g,a,&#39;cg&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       fprintf(&#39;CG achieved error %e in %d iterations.n&#39;,norm(f-fcg), itercg);</span><span class="w"></span>
+<span class="c">%       fprintf(&#39;PCG achieved error %e in %d iterations.n&#39;,norm(f-fpcg), iterpcg);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: filterbank, ufilterbank, ifilterbank, filterbankdual</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   References:</span><span class="w"></span>
+<span class="c">%     T. Necciari, P. Balazs, N. Holighaus, and P. L. Søndergaard. The ERBlet</span><span class="w"></span>
+<span class="c">%     transform: An auditory-based time-frequency representation with perfect</span><span class="w"></span>
+<span class="c">%     reconstruction. In Proceedings of the 38th International Conference on</span><span class="w"></span>
+<span class="c">%     Acoustics, Speech, and Signal Processing (ICASSP 2013), pages 498--502,</span><span class="w"></span>
+<span class="c">%     Vancouver, Canada, May 2013. IEEE.</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     T. Necciari, N. Holighaus, P. Balazs, Z. Průša, P. Majdak, and</span><span class="w"></span>
+<span class="c">%     O. Derrien. Audlet filter banks: A versatile analysis/synthesis</span><span class="w"></span>
+<span class="c">%     framework using auditory frequency scales. Applied Sciences, 8(1),</span><span class="w"></span>
+<span class="c">%     2018. [1]http ]</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     References</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%     1. http://www.mdpi.com/2076-3417/8/1/96</span><span class="w"></span>
+<span class="c">%     </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/filterbank/ifilterbankiter.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="n">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;IFILTERBANKITER&#39;</span><span class="p">);</span>
+<span class="n">complainif_notenoughargs</span><span class="p">(</span><span class="nb">nargin</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;IFILTERBANKITER&#39;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">tolchooser</span><span class="p">.</span><span class="n">double</span><span class="p">=</span><span class="mf">1e-9</span><span class="p">;</span>
-<span class="n">tolchooser</span><span class="p">.</span><span class="n">single</span><span class="p">=</span><span class="mf">1e-5</span><span class="p">;</span>
+<span class="n">tolchooser</span><span class="p">.</span><span class="n">double</span><span class="p">=</span><span class="mf">1e-9</span><span class="p">;</span><span class="w"></span>
+<span class="n">tolchooser</span><span class="p">.</span><span class="n">single</span><span class="p">=</span><span class="mf">1e-5</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="n">classofc</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">={</span><span class="s">&#39;pcg&#39;</span><span class="p">,</span><span class="s">&#39;cg&#39;</span><span class="p">};</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="nb">real</span><span class="p">={</span><span class="s">&#39;real&#39;</span><span class="p">,</span><span class="s">&#39;complex&#39;</span><span class="p">};</span>
-<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="n">varargin</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">Ls</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="n">tolchooser</span><span class="p">.(</span><span class="n">classofc</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">={</span><span class="s">&#39;pcg&#39;</span><span class="p">,</span><span class="s">&#39;cg&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">real</span><span class="p">={</span><span class="s">&#39;real&#39;</span><span class="p">,</span><span class="s">&#39;complex&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">Ls</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;Ls&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
 
 
-<span class="k">if</span> <span class="n">isnumeric</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
-        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;ufilterbankreal&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
-    <span class="k">else</span>
-        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
-    <span class="k">end</span>
-<span class="k">else</span>
-    <span class="k">if</span> <span class="n">flags</span><span class="p">.</span><span class="n">do_real</span>
-        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
-    <span class="k">else</span>
-        <span class="n">F</span> <span class="p">=</span> <span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span>
-    <span class="k">end</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_real</span><span class="w"></span>
+<span class="w">        </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;ufilterbankreal&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;ufilterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_real</span><span class="w"></span>
+<span class="w">        </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbankreal&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frame</span><span class="p">(</span><span class="s">&#39;filterbank&#39;</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">g</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">relres</span><span class="p">,</span><span class="n">iter</span><span class="p">]</span> <span class="p">=</span> <span class="n">frsyniter</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">framenative2coef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">c</span><span class="p">),</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">);</span>
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">relres</span><span class="p">,</span><span class="n">iter</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frsyniter</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">framenative2coef</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">c</span><span class="p">),</span><span class="s">&#39;Ls&#39;</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">alg</span><span class="p">,</span><span class="s">&#39;maxit&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="s">&#39;tol&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">tol</span><span class="p">);</span><span class="w"></span>
 
 <span class="k">function</span><span class="w"> </span>cl<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">classofc</span><span class="p">(</span>c<span class="p">)</span><span class="w"></span>
-<span class="k">if</span> <span class="n">iscell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="n">cl</span> <span class="p">=</span> <span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span>
-<span class="k">else</span>
-    <span class="n">cl</span> <span class="p">=</span> <span class="n">class</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-<span class="k">end</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">iscell</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">cl</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">class</span><span class="p">(</span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">cl</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">class</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 
 

@@ -41,54 +41,54 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">LATTICETYPE2MATRIX - Convert lattice description to matrix form</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>V<span class="p">=</span><span class="nf">latticetype2matrix</span><span class="p">(</span>L,a,M,lt<span class="p">);</span>
-<span class="c">%LATTICETYPE2MATRIX  Convert lattice description to matrix form</span>
-<span class="c">%   Usage: V=latticetype2matrix(L,a,M,lt);</span>
-<span class="c">%</span>
-<span class="c">%   V=LATTICETYPE2MATRIX(L,a,M,lt) converts a standard description of a</span>
-<span class="c">%   lattice using the a, M and lt parameters into a 2x2</span>
-<span class="c">%   integer matrix description. The conversion is only valid for the</span>
-<span class="c">%   specified transform length L.</span>
-<span class="c">%</span>
-<span class="c">%   The output will be in lower triangular Hemite normal form.</span>
-<span class="c">%</span>
-<span class="c">%   For more information, see</span>
-<span class="c">%   http://en.wikipedia.org/wiki/Hermite_normal_form.</span>
-<span class="c">%</span>
-<span class="c">%   An example:</span>
-<span class="c">%</span>
-<span class="c">%     V = latticetype2matrix(120,10,12,[1 2])</span>
-<span class="c">%</span>
-<span class="c">%   See also: matrix2latticetype</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/gabor/latticetype2matrix.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>V<span class="p">=</span><span class="nf">latticetype2matrix</span><span class="p">(</span>L,a,M,lt<span class="p">);</span><span class="w"></span>
+<span class="c">%LATTICETYPE2MATRIX  Convert lattice description to matrix form</span><span class="w"></span>
+<span class="c">%   Usage: V=latticetype2matrix(L,a,M,lt);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   V=LATTICETYPE2MATRIX(L,a,M,lt) converts a standard description of a</span><span class="w"></span>
+<span class="c">%   lattice using the a, M and lt parameters into a 2x2</span><span class="w"></span>
+<span class="c">%   integer matrix description. The conversion is only valid for the</span><span class="w"></span>
+<span class="c">%   specified transform length L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The output will be in lower triangular Hemite normal form.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   For more information, see</span><span class="w"></span>
+<span class="c">%   http://en.wikipedia.org/wiki/Hermite_normal_form.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   An example:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     V = latticetype2matrix(120,10,12,[1 2])</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: matrix2latticetype</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/gabor/latticetype2matrix.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
-<span class="n">L2</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">lt</span><span class="p">);</span>
+<span class="n">L2</span><span class="p">=</span><span class="n">dgtlength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">lt</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="n">L</span><span class="o">~=</span><span class="n">L2</span>
-    <span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid transform length.&#39;</span><span class="p">,</span><span class="n">upper</span><span class="p">(</span><span class="n">mfilename</span><span class="p">));</span>
-<span class="k">end</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="n">L</span><span class="o">~=</span><span class="n">L2</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Invalid transform length.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span>
-<span class="n">s</span><span class="p">=</span><span class="n">b</span><span class="o">/</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">lt</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">V</span><span class="p">=[</span><span class="n">a</span> <span class="mi">0</span><span class="p">;</span><span class="c">...</span>
-   <span class="n">s</span> <span class="n">b</span><span class="p">];</span>
+<span class="n">b</span><span class="p">=</span><span class="n">L</span><span class="o">/</span><span class="n">M</span><span class="p">;</span><span class="w"></span>
+<span class="n">s</span><span class="p">=</span><span class="n">b</span><span class="o">/</span><span class="n">lt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">lt</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">V</span><span class="p">=[</span><span class="n">a</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="k">...</span><span class="w"></span>
+<span class="w">   </span><span class="n">s</span><span class="w"> </span><span class="n">b</span><span class="p">];</span><span class="w"></span>
 </pre></div>
 
 

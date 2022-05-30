@@ -1,4 +1,4 @@
-PEBFUNDUAL elapsed time 0.030516 s
-GABDUAL elapsed time    2.215562 s
-Reconstruction error PEBFUNDUAL: 2.221637e-15
-Reconstruction error GABDUAL:    1.910800e-15
+PEBFUNDUAL elapsed time 0.031301 s
+GABDUAL elapsed time    2.219689 s
+Reconstruction error PEBFUNDUAL: 2.224585e-15
+Reconstruction error GABDUAL:    1.910271e-15
