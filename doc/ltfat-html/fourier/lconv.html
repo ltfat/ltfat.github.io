@@ -1,0 +1,102 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>LCONV - Linear convolution</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="lconv_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/fourier/pconv.html">pconv</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LCONV - Linear convolution</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+h=lconv(f,g);
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">lconv(f,g)</tt> computes the linear convolution of <em>f</em> and <em>g</em>. The linear
+convolution is given by</p>
+<!-- Lh-1
+h(l+1) = sum f(k+1) * g(l-k+1)
+         k=0 -->
+<div class="math">
+\begin{equation*}
+h\left(l+1\right)=\sum_{k=0}^{L_{h}-1}f\left(k+1\right)g\left(l-k+1\right)
+\end{equation*}
+</div>
+<p>with <span class="math">\(L_{h} = L_{f} + L_{g} - 1\)</span> where <span class="math">\(L_{f}\)</span> and <span class="math">\(L_{g}\)</span> are the lengths of <em>f</em> and <em>g</em>,
+respectively.</p>
+<p><tt class="docutils literal"><span class="pre">lconv(f,g,'r')</span></tt> computes the linear convolution of <em>f</em> and <em>g</em> where <em>g</em> is reversed.
+This type of convolution is also known as linear cross-correlation and is given by</p>
+<!-- Lh-1
+h(l+1) = sum f(k+1) * conj(g(k-l+1))
+         k=0 -->
+<div class="math">
+\begin{equation*}
+h\left(l+1\right)=\sum_{k=0}^{L_{h}-1}f\left(k+1\right)\overline{g\left(k-l+1\right)}
+\end{equation*}
+</div>
+<p><tt class="docutils literal"><span class="pre">lconv(f,g,'rr')</span></tt> computes the alternative where both <em>f</em> and <em>g</em> are
+reversed given by</p>
+<!-- Lh-1
+h(l+1) = sum conj(f(-k+1)) * conj(g(k-l+1))
+         k=0 -->
+<div class="math">
+\begin{equation*}
+h\left(l+1\right)=\sum_{k=0}^{L_{h}-1}f\left(-k+1\right)g\left(l-k+1\right)
+\end{equation*}
+</div>
+<p>In the above formulas, <span class="math">\(l-k\)</span>, <span class="math">\(k-l\)</span> and <span class="math">\(-k\)</span> are computed modulo <span class="math">\(L_{h}\)</span>.</p>
+<p>The input arrays <em>f</em> and <em>g</em> can be 1D vectors or one of them can be
+a multidimensional array. In either case, the convolution is performed
+along columns with row vectors transformed to columns.</p>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

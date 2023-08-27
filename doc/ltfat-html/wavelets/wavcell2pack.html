@@ -1,0 +1,110 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>WAVCELL2PACK - Changes wavelet coefficients storing format</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="wavcell2pack_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/wavelets/wavpack2cell.html">wavpack2cell</a></li>
+<li><a href="#BASEURL#/doc/wavelets/fwt.html">fwt</a></li>
+<li><a href="#BASEURL#/doc/wavelets/wfbt.html">wfbt</a></li>
+<li><a href="#BASEURL#/doc/wavelets/wpfbt.html">wpfbt</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">WAVCELL2PACK - Changes wavelet coefficients storing format</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+[cvec,Lc] = wavcell2pack(ccell);
+[cvec,Lc] = wavcell2pack(ccell,dim);
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>ccell</var></span></kbd></td>
+<td>Coefficients stored in a collumn cell-array.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>dim</var></span></kbd></td>
+<td>Dimension along which the data were transformed.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>cvec</var></span></kbd></td>
+<td>Coefficients in packed format.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>Lc</var></span></kbd></td>
+<td>Vector containing coefficients lengths.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">[cvec,Lc] = wavcell2pack(ccell)</tt> assembles a column vector or a matrix
+<em>cvec</em> using elements of the cell-array <em>ccell</em> in the following
+manner:</p>
+<pre class="literal-block">
+cvec(1+sum(Lc(1:j-1)):sum(Lc(1:j),:)=ccell{j};
+</pre>
+<p>where <em>Lc</em> is a vector of length <tt class="docutils literal">numel(ccell)</tt> containing number of
+rows of each element of <em>ccell</em>.</p>
+<p><tt class="docutils literal">[cvec,Lc] = wavcell2pack(ccell,dim)</tt> with <em>dim==2</em> returns a
+transposition of the previous.</p>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

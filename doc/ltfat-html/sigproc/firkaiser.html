@@ -1,0 +1,108 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FIRKAISER - Kaiser-Bessel window</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="firkaiser_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/sigproc/firwin.html">firwin</a></li>
+<li><a href="#BASEURL#/doc/sigproc/setnorm.html">setnorm</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FIRKAISER - Kaiser-Bessel window</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+g=firkaiser(L,beta);
+g=firkaiser(L,beta,...);
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">firkaiser(L,beta)</tt> computes the Kaiser-Bessel window of length <em>L</em> with
+parameter <em>beta</em>. The smallest element of the window is set to zero when
+the window has an even length. This gives the window perfect whole-point
+even symmetry, and makes it possible to use the window for a Wilson
+basis.</p>
+<p><tt class="docutils literal">firkaiser</tt> takes the following flags at the end of the input arguments:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'normal'</span></kbd></td>
+<td>Normal Kaiser-Bessel window. This is the default.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'derived'</span></kbd></td>
+<td>Derived Kaiser-Bessel window.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'wp'</span></kbd></td>
+<td>Generate a whole point even window. This is the default.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'hp'</span></kbd></td>
+<td>Generate half point even window.</td></tr>
+</tbody>
+</table>
+<p>Additionally, <tt class="docutils literal">firkaiser</tt> accepts flags to normalize the output. Please
+see the help of <span class="linkrole"><a href="#BASEURL#/doc/sigproc/setnorm.html">setnorm</a></span>. Default is to use <tt class="docutils literal">'null'</tt> normalization.</p>
+<p>Note that odd-length Derived Kaiser-Bessel windows are not
+mathematically defined, yet they are supported by this code.</p>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="opsc89"></a>
+
+A.&nbsp;V. Oppenheim and R.&nbsp;W. Schafer.
+ <em>Discrete-time signal processing.</em>
+ Prentice Hall, Englewood Cliffs, NJ, 1989.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

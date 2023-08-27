@@ -1,0 +1,155 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>WAVFUN - Wavelet Function</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="wavfun_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">WAVFUN - Wavelet Function</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+[w,s,xvals] = wavfun(g)
+[w,s,xvals] = wavfun(g,N)
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>w</var></span></kbd></td>
+<td>Wavelet filterbank</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>N</var></span></kbd></td>
+<td>Number of iterations</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>wfunc</var></span></kbd></td>
+<td>Approximation of wavelet function(s)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>sfunc</var></span></kbd></td>
+<td>Approximation of the scaling function</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>xvals</var></span></kbd></td>
+<td>Correct x-axis values</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p>Iteratively generate (<em>N</em> iterations) a discrete approximation of wavelet
+and scaling functions using filters obtained from <em>w</em>. The possible formats of <em>w</em>
+are the same as for the <span class="linkrole"><a href="#BASEURL#/doc/wavelets/fwt.html">fwt</a></span> function. The algorithm is equal to the
+DWT reconstruction of a single coefficient at level <span class="math">\(N+1\)</span> set to 1. <em>xvals</em>
+contains correct x-axis values. All but last columns belong to the
+<em>wfunc</em>, last one to the <em>sfunc</em>.</p>
+<p>The following flags are supported (first is default):</p>
+<dl class="docutils">
+<dt><tt class="docutils literal">'fft'</tt>, <tt class="docutils literal">'conv'</tt></dt>
+<dd>How to do the computations. Whatever is faster depends on
+the speed of the <tt class="docutils literal">conv2</tt> function.</dd>
+</dl>
+<p><strong>WARNING</strong>: The output array lengths <em>L</em> depend on <em>N</em> exponentially like:</p>
+<!-- L=(m-1)*(a^N-1)/(a-1) + 1 -->
+<div class="math">
+\begin{equation*}
+L=\frac{a^N-1}{a-1}(m-1)+1
+\end{equation*}
+</div>
+<p>where <em>a</em> is subsamling factor after the lowpass filter in the wavelet
+filterbank and <em>m</em> is length of the filters. Expect issues for
+high <em>N</em> e.g. <tt class="docutils literal">'db10'</tt> (<span class="math">\(m=20\)</span>) and <span class="math">\(N=20\)</span> yields a ~150MB array.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples:</h2>
+<p>Approximation of a Daubechies wavelet and scaling functions from the
+12 tap filters:</p>
+<pre class="literal-block">
+[wfn,sfn,xvals] = wavfun('db6');
+plot(xvals,[wfn,sfn]);
+legend('wavelet function','scaling function');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-------------------------------------------------------------------|
+   0.2 +|+              +                +                +              +-+|
+       +|               +                +        +-----------------------++|
+  0.15 +|+                                        |***?***wavelet function|+|
+        |                                         +###?###scaling function+ |
+        |          ###                                **                    |
+   0.1 +|+        #  #                                **                 +-+|
+        |         #  #                                **                    |
+  0.05 +|+       ##  #                           **   **                 +-+|
+        |        #   ##                         ****  **                    |
+        |       #     #   ###                   *  *  ** ***                |
+     0 +|+    ###     #  ## ########################  ** * **************+-+|
+        |             ## #                   ***   * *  **                  |
+ -0.05 +|+             ###                         ***  **               +-+|
+        |               #                           **  **                  |
+        |                                           **  **                  |
+  -0.1 +|+                                          **                   +-+|
+        |                                           **                      |
+ -0.15 +|+                                          **                   +-+|
+        |                                                                   |
+       +|-------------------------------------------------------------------|
+  -0.2 +-+              +                +                +              +-+
+      -10              -5                0                5               10
+</pre>
+<img alt="wavfun_1_1.png" class="align-center" src="wavfun_1_1.png" />
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

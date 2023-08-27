@@ -1,0 +1,150 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>PFILT - Apply filter with periodic boundary conditions</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="pfilt.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/fourier/pconv.html">pconv</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">PFILT - Apply filter with periodic boundary conditions</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>c<span class="p">=</span><span class="nf">pfilt</span><span class="p">(</span>f,g,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%PFILT  Apply filter with periodic boundary conditions</span><span class="w"></span>
+<span class="c">%   Usage:  h=pfilt(f,g);</span><span class="w"></span>
+<span class="c">%           h=pfilt(f,g,a,dim);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PFILT(f,g) applies the filter g to the input f. If f is a</span><span class="w"></span>
+<span class="c">%   matrix, the filter is applied along each column.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PFILT(f,g,a) does the same, but downsamples the output keeping only</span><span class="w"></span>
+<span class="c">%   every a&#39;th sample (starting with the first one).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   PFILT(f,g,a,dim) filters along dimension dim. The default value of</span><span class="w"></span>
+<span class="c">%   [] means to filter along the first non-singleton dimension.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The filter g can be a vector, in which case the vector is treated</span><span class="w"></span>
+<span class="c">%   as a zero-delay FIR filter.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The filter g can be a cell array. The following options are</span><span class="w"></span>
+<span class="c">%   possible:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      If the first element of the cell array is the name of one of the</span><span class="w"></span>
+<span class="c">%       windows from FIRWIN, the whole cell array is passed onto</span><span class="w"></span>
+<span class="c">%       FIRFILTER.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      If the first element of the cell array is &#39;bl&#39;, the rest of the</span><span class="w"></span>
+<span class="c">%       cell array is passed onto BLFILTER.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      If the first element of the cell array is &#39;pgauss&#39;, &#39;psech&#39;,</span><span class="w"></span>
+<span class="c">%       the rest of the parameters is passed onto the respective</span><span class="w"></span>
+<span class="c">%       function. Note that you do not need to specify the length L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The coefficients obtained from filtering a signal f by a filter g are</span><span class="w"></span>
+<span class="c">%   defined by</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%               L-1</span><span class="w"></span>
+<span class="c">%      c(n+1) = sum f(l+1) * g(an-l+1)</span><span class="w"></span>
+<span class="c">%               l=0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   where an-l is computed modulo L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: pconv</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/sigproc/pfilt.html</span><span class="w"></span>
+
+<span class="c">% Copyright (C) 2005-2018 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+
+<span class="w">  </span>
+<span class="c">% Assert correct input.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too few input parameters.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;pfilt&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">a</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">dim</span><span class="p">=[];</span><span class="w"></span>
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">dim</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;dim&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">[</span><span class="n">f</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">Ls</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">]=</span><span class="n">assert_sigreshape_pre</span><span class="p">(</span><span class="n">f</span><span class="p">,[],</span><span class="n">dim</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+
+<span class="p">[</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_fourierwindow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+
+<span class="n">outIsReal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="k">...</span><span class="w"></span>
+<span class="w">              </span><span class="p">(</span><span class="nb">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;h&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;fc&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">fc</span><span class="o">~=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s">&#39;H&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">realonly</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">asan</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_filterbank_a</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">g</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_filterbank_pre</span><span class="p">({</span><span class="n">g</span><span class="p">},</span><span class="n">a</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">crossover</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_filterbank</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+
+<span class="n">permutedsize</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="nb">size</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="n">c</span><span class="p">=</span><span class="n">assert_sigreshape_post</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">permutedsize</span><span class="p">,</span><span class="n">order</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">outIsReal</span><span class="w"></span>
+<span class="w">   </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">real</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

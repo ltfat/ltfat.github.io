@@ -1,0 +1,316 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FIRWIN - FIR window</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="firwin_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/sigproc/freqwin.html">freqwin</a></li>
+<li><a href="#BASEURL#/doc/fourier/pgauss.html">pgauss</a></li>
+<li><a href="#BASEURL#/doc/fourier/pbspline.html">pbspline</a></li>
+<li><a href="#BASEURL#/doc/sigproc/firkaiser.html">firkaiser</a></li>
+<li><a href="#BASEURL#/doc/sigproc/setnorm.html">setnorm</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FIRWIN - FIR window</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+g=firwin(name,M);
+g=firwin(name,M,...);
+g=firwin(name,x);
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">firwin(name,M)</tt> will return an FIR window of length <em>M</em> of type <em>name</em>.</p>
+<p>All windows are symmetric and generate zero delay and zero phase
+filters. They can be used for the Wilson and WMDCT transform, except
+when noted otherwise.</p>
+<p><tt class="docutils literal">firwin(name,x)</tt> where <em>x</em> is a vector will sample the window
+definition as the specified points. The normal sampling interval for
+the windows is <span class="math">\(-.5&lt; x &lt;.5\)</span>.</p>
+<p>In the following PSL means &quot;Peak Sidelobe level&quot;, and the main lobe
+width is measured in normalized frequencies.</p>
+<p>If a window <em>g</em> forms a &quot;partition of unity&quot; (PU) it means specifically
+that:</p>
+<pre class="literal-block">
+g+fftshift(g)==ones(L,1);
+</pre>
+<p>A PU can only be formed if the window length is even, but some windows
+may work for odd lengths anyway.</p>
+<p>If a window is the square root of a window that forms a PU, the window
+will generate a tight Gabor frame / orthonormal Wilson/WMDCT basis if
+the number of channels is less than <em>M</em>.</p>
+<p>The windows available are:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'hann'</span></kbd></td>
+<td>von Hann window. Forms a PU. The Hann window has a
+mainlobe with of 8/M, a PSL of -31.5 dB and decay rate
+of 18 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'sine'</span></kbd></td>
+<td>Sine window. This is the square root of the Hanning
+window. The sine window has a mainlobe width of 8/M,
+a  PSL of -22.3 dB and decay rate of 12 dB/Octave.
+Aliases: <tt class="docutils literal">'cosine'</tt>, <tt class="docutils literal">'sqrthann'</tt></td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'rect'</span></kbd></td>
+<td>(Almost) rectangular window. The rectangular window has a
+mainlobe width of 4/M, a PSL of -13.3 dB and decay
+rate of 6 dB/Octave. Forms a PU if the order is odd.
+Alias: <tt class="docutils literal">'square'</tt></td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'tria'</span></kbd></td>
+<td>(Almost) triangular window. Forms a PU. Alias: <tt class="docutils literal">'bartlett'</tt></td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'sqrttria'</span></kbd></td>
+<td>Square root of the triangular window.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'hamming'</span></kbd></td>
+<td>Hamming window. Forms a PU that sums to 1.08 instead
+of 1.0 as usual. The Hamming window has a
+mainlobe width of 8/M, a  PSL of -42.7 dB and decay
+rate of 6 dB/Octave. This window should not be used for
+a Wilson basis, as a reconstruction window cannot be
+found by <span class="linkrole"><a href="#BASEURL#/doc/gabor/wildual.html">wildual</a></span>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'blackman'</span></kbd></td>
+<td>Blackman window. The Blackman window has a
+mainlobe width of 12/M, a PSL of -58.1 dB and decay
+rate of 18 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'blackman2'</span></kbd></td>
+<td>Alternate Blackman window. This window has a
+mainlobe width of 12/M, a PSL of -68.24 dB and decay
+rate of 6 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'itersine'</span></kbd></td>
+<td>Iterated sine window. Generates an orthonormal
+Wilson/WMDCT basis. This window is described in
+Wesfreid and Wickerhauser (1993) and is used in  the
+ogg sound codec. Alias: <tt class="docutils literal">'ogg'</tt></td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall'</span></kbd></td>
+<td>Nuttall window. The Nuttall window has a
+mainlobe width of 16/M, a PSL of -93.32 dB and decay
+rate of 18 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall10'</span></kbd></td>
+<td>2-term Nuttall window with 1 continuous derivative.
+Alias: <tt class="docutils literal">'hann'</tt>, <tt class="docutils literal">'hanning'</tt>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall01'</span></kbd></td>
+<td>2-term Nuttall window with 0 continuous derivatives.
+This is a slightly improved Hamming window. It has a
+mainlobe width of 8/M, a  PSL of -43.19 dB and decay
+rate of 6 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall20'</span></kbd></td>
+<td>3-term Nuttall window with 3 continuous derivatives.
+The window has a mainlobe width of 12/M, a PSL of
+-46.74 dB and decay rate of 30 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall11'</span></kbd></td>
+<td>3-term Nuttall window with 1 continuous derivative.
+The window has a mainlobe width of 12/M, a PSL of
+-64.19 dB and decay rate of 18 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall02'</span></kbd></td>
+<td>3-term Nuttall window with 0 continuous derivatives.
+The window has a mainlobe width of 12/M, a PSL of
+-71.48 dB and decay rate of 6 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall30'</span></kbd></td>
+<td>4-term Nuttall window with 5 continuous derivatives.
+The window has a mainlobe width of 16/M, a PSL of
+-60.95 dB and decay rate of 42 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall21'</span></kbd></td>
+<td>4-term Nuttall window with 3 continuous derivatives.
+The window has a mainlobe width of 16/M, a PSL of
+-82.60 dB and decay rate of 30 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall12'</span></kbd></td>
+<td>4-term Nuttall window with 1 continuous derivatives.
+Alias: <tt class="docutils literal">'nuttall'</tt>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'nuttall03'</span></kbd></td>
+<td>4-term Nuttall window with 0 continuous derivatives.
+The window has a mainlobe width of 16/M, a PSL of
+-98.17 dB and decay rate of 6 dB/Octave.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'truncgauss'</span></kbd></td>
+<td>Gaussian window truncated at 1% of its height.
+Alternatively, a custom percentage can be appended to
+'truncgauss' e.g. 'truncgauss0.1' will create Gaussian
+window truncated at 0.1% of its height.</td></tr>
+</tbody>
+</table>
+<p><tt class="docutils literal">firwin</tt> understands the following flags at the end of the list of input
+parameters:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'shift',<var>s</var></span></kbd></td>
+<td>Shift the window by <span class="math">\(s\)</span> samples. The value can be a
+fractional number.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'wp'</span></kbd></td>
+<td>Output is whole point even. This is the default. It
+corresponds to a shift of <span class="math">\(s=0\)</span>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'hp'</span></kbd></td>
+<td>Output is half point even, as most Matlab filter
+routines. This corresponds to a shift of <span class="math">\(s=-.5\)</span></td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'taper',<var>t</var></span></kbd></td>
+<td>Extend the window by a flat section in the middle. The
+argument t is the ratio of the rising and falling
+parts as compared to the total length of the
+window. The default value of 1 means no
+tapering. Accepted values lie in the range from 0 to 1.</td></tr>
+</tbody>
+</table>
+<p>Additionally, <tt class="docutils literal">firwin</tt> accepts flags to normalize the output. Please see
+the help of <span class="linkrole"><a href="#BASEURL#/doc/sigproc/setnorm.html">setnorm</a></span>. Default is to use <tt class="docutils literal">'peak'</tt> normalization,
+which is useful for using the output from <tt class="docutils literal">firwin</tt> for windowing in the
+time-domain. For filtering in the time-domain, a normalization of <tt class="docutils literal">'1'</tt>
+or <tt class="docutils literal">'area'</tt> is preferable.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples:</h2>
+<p>The following plot shows the magnitude response for some common
+windows:</p>
+<pre class="literal-block">
+hold all;
+L=30;
+dr=110;
+
+magresp(firwin('hanning',L,'1'),'fir','dynrange',dr);
+magresp(firwin('hamming',L,'1'),'fir','dynrange',dr);
+magresp(firwin('blackman',L,'1'),'fir','dynrange',dr);
+magresp(firwin('nuttall',L,'1'),'fir','dynrange',dr);
+magresp(firwin('itersine',L,'1'),'fir','dynrange',dr);
+
+legend('Hann','Hamming','Blackman','Nuttall','Itersine');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|
+       0 &#64;|&#64;&#64;%
+          | &#64;&#64;&#64;%%                                         +---------------+
+          |   &#64;
+     -20 +|+   &#64;#
+          |     &#64;&#64;&#64;&#64;&#64;&#64;                                    |:math:``:math:`?`:math:``Blackman|
+          |     &#64;&#64;
+          |     &#64;&#64;**
+     -40 +|+    &#64;&#64;##:math:``&#64;%&#64;&#64;#  ##   ##  ##
+          |     &#64;&#64;# #
+          |     &#64;#* #
+     -60 +|+    &#64; * #:math:`*&#64;`%*&#64;:math:``&#64; &#64; &#64;&#64;&#64;&#64;&#64;&#64; &#64;&#64;  ##   #   ##   ##  ##   ##   #
+          |     &#64;   # :math:`&#64;`%:math:`&#64;` :math:`&#64;`:math:``&#64;&#64;# &#64;&#64;&#64;*&#64; &#64;&#64;&#64;  #   ##   ##  ##   ##   #
+          |     &#64;     :math:`&#64;  %&#64;  `&#64;:math:` `&#64;&#64;:math:``:math:`&#64;`:math:``&#64;&#64;#&#64;&#64; &#64;&#64;&#64; &#64;&#64;&#64;  #    #   ##   #
+          |           :math:`&#64;  %&#64;   &#64;#  &#64;`# :math:`&#64;` :math:`&#64;&#64;`:math:`&#64;&#64;`
+     -80 +|+          :math:``  %&#64;   :math:`#  `:math:`   &#64;   &#64;`  &#64;&#64;:math:``:math:`&#64;&#64;`:math:`&#64;&#64;`
+          |           :math:``  %    :math:`#  `    &#64;   :math:``  :math:`&#64;   &#64;&#64;  &#64;&#64;`:math:``&#64;:math:``
+          |           :math:``   % %%:math:`     %% &#64;%%%` %%:math:`&#64;   &#64;`  &#64;&#64;  :math:`&#64;` :math:`&#64;&#64;`
+    -100 +|+          :math:`    %% %      % %&#64;% %%%%%%&#64;%%%`%%%&#64;:math:`   &#64;   &#64;&#64;  &#64;&#64;`
+         +|------------------------------------------------------------------
+         +            +     %  %%%%%%   %   %   %%   %%  %%  %:math:`% %`%%%&#64;&#64;  &#64;+
+         0           0.2          0.4           0.6          0.8           1
+                               Frequency (normalized)
+</pre>
+<img alt="firwin_1_1.png" class="align-center" src="firwin_1_1.png" />
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="opsc89"></a>
+
+A.&nbsp;V. Oppenheim and R.&nbsp;W. Schafer.
+ <em>Discrete-time signal processing.</em>
+ Prentice Hall, Englewood Cliffs, NJ, 1989.
+
+</p>
+
+<p><a name="nuttall1981"></a>
+
+A.&nbsp;Nuttall.
+ Some windows with very good sidelobe behavior.
+ <em>IEEE Trans. Acoust. Speech Signal Process.</em>, 29(1):84--91,
+  1981.
+
+</p>
+
+<p><a name="harris1978"></a>
+
+F.&nbsp;Harris.
+ On the use of windows for harmonic analysis with the discrete
+  Fourier transform.
+ <em>Proceedings of the IEEE</em>, 66(1):51 -- 83, jan 1978.
+[&nbsp;<a href="http://dx.doi.org/10.1109/PROC.1978.10837">DOI</a>&nbsp;]
+
+</p>
+
+<p><a name="wesfreid1993"></a>
+
+E.&nbsp;Wesfreid and M.&nbsp;Wickerhauser.
+ Adapted local trigonometric transforms and speech processing.
+ <em>IEEE Trans. Signal Process.</em>, 41(12):3596--3600, 1993.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

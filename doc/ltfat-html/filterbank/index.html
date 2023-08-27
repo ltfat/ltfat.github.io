@@ -1,0 +1,120 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>LTFAT - Filterbanks</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"></div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LTFAT - Filterbanks</h1>
+
+<p>Peter L. Søndergaard, 2011 - 2018</p>
+<div class="section" id="transforms-and-basic-routines">
+<h2>Transforms and basic routines</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span> - Filter bank</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/ufilterbank.html">ufilterbank</a></span> - Uniform Filter bank</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/ifilterbank.html">ifilterbank</a></span> - Inverse normal/uniform filter bank</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/ifilterbankiter.html">ifilterbankiter</a></span> - Iteratively inverse filter bank</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankwin.html">filterbankwin</a></span> - Evaluate filter bank window</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklength.html">filterbanklength</a></span> - Length of filter bank to expand signal</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanklengthcoef.html">filterbanklengthcoef</a></span> - Length of filter bank to expand coefficients</li>
+</ul>
+</div>
+<div class="section" id="filter-generators">
+<h2>Filter generators</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/cqtfilters.html">cqtfilters</a></span> - Logarithmically spaced filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/erbfilters.html">erbfilters</a></span> - ERB-spaced filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/warpedfilters.html">warpedfilters</a></span> - Frequency-warped filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/audfilters.html">audfilters</a></span> - Filters based on auditory scales</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/gabfilters.html">gabfilters</a></span> - Linearly spaced Gabor filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/waveletfilters.html">waveletfilters</a></span> - Waveletfilters</li>
+</ul>
+</div>
+<div class="section" id="window-construction-and-bounds">
+<h2>Window construction and bounds</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankdual.html">filterbankdual</a></span> - Canonical dual filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanktight.html">filterbanktight</a></span> - Canonical tight filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankrealdual.html">filterbankrealdual</a></span> - Canonical dual filters for real-valued signals</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankrealtight.html">filterbankrealtight</a></span> - Canonical tight filters for real-valued signals</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankbounds.html">filterbankbounds</a></span> - Frame bounds of filter bank</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankrealbounds.html">filterbankrealbounds</a></span> - Frame bounds of filter bank for real-valued signals</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankresponse.html">filterbankresponse</a></span> - Total frequency response (a frame property)</li>
+</ul>
+</div>
+<div class="section" id="auxilary">
+<h2>Auxilary</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankfreqz.html">filterbankfreqz</a></span> - Frequency responses of filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankscale.html">filterbankscale</a></span> - Scaling and normalization of filters</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/nonu2ufilterbank.html">nonu2ufilterbank</a></span> - Non-uni. to uniform filter bank transformation</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/u2nonucfmt.html">u2nonucfmt</a></span> - Change format of coefficients</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/nonu2ucfmt.html">nonu2ucfmt</a></span> - Change format of coefficients back</li>
+</ul>
+</div>
+<div class="section" id="plots">
+<h2>Plots</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/plotfilterbank.html">plotfilterbank</a></span> - Plot normal/uniform filter bank coefficients</li>
+</ul>
+</div>
+<div class="section" id="reassignment-and-phase-gradient">
+<h2>Reassignment and phase gradient</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankphasegrad.html">filterbankphasegrad</a></span> - Instantaneous time/frequency from signal</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankreassign.html">filterbankreassign</a></span> - Reassign filterbank spectrogram</li>
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbanksynchrosqueeze.html">filterbanksynchrosqueeze</a></span> - Synchrosqueeze filterbank spectrogram</li>
+</ul>
+</div>
+<div class="section" id="phase-reconstruction">
+<h2>Phase reconstruction</h2>
+<ul class="simple">
+<li><span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankconstphase.html">filterbankconstphase</a></span> - Construct suitable phase from the coefficient magnitude</li>
+</ul>
+<p>For help, bug reports, suggestions etc. please visit
+<a class="reference external" href="http://github.com/ltfat/ltfat/issues">http://github.com/ltfat/ltfat/issues</a></p>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

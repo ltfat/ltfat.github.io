@@ -1,0 +1,155 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>GAMMATONEFIR - Gammatone filter coefficients</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="gammatonefir_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/auditory/erbspace.html">erbspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/audspace.html">audspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">GAMMATONEFIR - Gammatone filter coefficients</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+b = gammatonefir(fc,fs,n,betamul);
+b = gammatonefir(fc,fs,n);
+b = gammatonefir(fc,fs);
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>fc</var></span></kbd></td>
+<td>center frequency in Hz.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>fs</var></span></kbd></td>
+<td>sampling rate in Hz.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>n</var></span></kbd></td>
+<td>max. filter length.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>beta</var></span></kbd></td>
+<td>bandwidth of the filter.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>b</var></span></kbd></td>
+<td>FIR filters as an cell-array of structs.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">gammatonefir(fc,fs,n,betamul)</tt> computes the filter coefficients of a
+digital FIR gammatone filter with length at most <em>n</em>, center
+frequency <em>fc</em>, 4th order rising slope, sampling rate <em>fs</em> and
+bandwith determined by <em>betamul</em>. The bandwidth <em>beta</em> of each filter
+is determined as <em>betamul</em> times <span class="linkrole"><a href="#BASEURL#/doc/auditory/audfiltbw.html">audfiltbw</a></span> of the center frequency
+of corresponding filter. The actual length of the inpulse response
+depends on <em>fc</em> (the filter is longer for low center frequencies),
+<em>fs</em> and <em>betamul</em> but it is never bigger than <em>n</em>.</p>
+<p><tt class="docutils literal">gammatonefir(fc,fs,n)</tt> will do the same but choose a filter bandwidth
+according to Glasberg and Moore (1990).  <em>betamul</em> is choosen to be 1.0183.</p>
+<p><tt class="docutils literal">gammatonefir(fc,fs)</tt> will do as above and choose a sufficiently long
+filter to accurately represent the lowest subband channel.</p>
+<p>If <em>fc</em> is a vector, each entry of <em>fc</em> is considered as one center
+frequency, and the corresponding coefficients are returned as column
+vectors in the output.</p>
+<p>The inpulse response of the gammatone filter is given by</p>
+<!-- g(t) = a*t^(4-1)*cos(2*pi*fc*t)*exp(-2*pi*beta*t) -->
+<div class="math">
+\begin{equation*}
+g(t) = at^{4-1}cos(2\pi\cdot fc\cdot t)e^{-2\pi \beta \cdot t}
+\end{equation*}
+</div>
+<p>The gammatone filters as implemented by this function generate
+complex valued output, because the filters are modulated by the
+exponential function. Using <tt class="docutils literal">real</tt> on the output will give the
+coefficients of the corresponding cosine modulated filters.</p>
+<p>To create the filter coefficients of a 1-erb spaced filter bank using
+gammatone filters use the following construction:</p>
+<pre class="literal-block">
+g = gammatonefir(erbspacebw(flow,fhigh),fs);
+</pre>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="aertsen1980strI"></a>
+
+A.&nbsp;Aertsen and P.&nbsp;Johannesma.
+ Spectro-temporal receptive fields of auditory neurons in the
+  grassfrog. I. Characterization of tonal and natural stimuli.
+ <em>Biol. Cybern</em>, 38:223--234, 1980.
+
+</p>
+
+<p><a name="glasberg1990daf"></a>
+
+B.&nbsp;R. Glasberg and B.&nbsp;Moore.
+ Derivation of auditory filter shapes from notched-noise data.
+ <em>Hearing Research</em>, 47(1-2):103, 1990.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

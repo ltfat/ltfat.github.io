@@ -1,0 +1,124 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>AUDFILTBW - Bandwidth of auditory filter</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="audfiltbw_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/auditory/freqtoerb.html">freqtoerb</a></li>
+<li><a href="#BASEURL#/doc/auditory/erbspace.html">erbspace</a></li>
+<li><a href="#BASEURL#/doc/auditory/freqtoaud.html">freqtoaud</a></li>
+<li><a href="#BASEURL#/doc/auditory/audtofreq.html">audtofreq</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">AUDFILTBW - Bandwidth of auditory filter</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+bw = audfiltbw(fc)
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal">audfiltbw(fc)</tt> returns the critical bandwidth of the auditory filter
+at center frequency <em>fc</em> defined in equivalent rectangular bandwidth.
+The function uses the relation:</p>
+<!-- bw = 24.7 + fc/9.265 -->
+<div class="math">
+\begin{equation*}
+bw = 24.7 + \frac{fc}{9.265}
+\end{equation*}
+</div>
+<p>as estimated in Glasberg and Moore (1990). This function is also used
+when the original ERB scale ('erb83') is chosen.</p>
+<p><tt class="docutils literal"><span class="pre">audfiltbw(fc,'bark')</span></tt> returns the critical bandwidth at <em>fc</em> according
+to the Bark scale using the relation:</p>
+<!-- bw = 25 + 75 ( 1+1.4*10^{-6} fc^2 )^0.69 -->
+<div class="math">
+\begin{equation*}
+bw = 25 + 75 ( 1+1.4\times10^{-6} fc^2 )^{0.69}
+\end{equation*}
+</div>
+<p>as estimated by Zwicker and Terhardt (1980).</p>
+<p>For the scales 'mel', 'mel1000', 'log10' and 'semitone', no critical
+bandwidth function is usually given. Following the example of the
+equivalent rectangular bandwidth (associated with the ERB scale), we
+use the derivative of the inverse of the scale function F_{Scale},
+evaluated at F_{Scale}(fc), i.e.</p>
+<!-- bw = (F_{scale}^{-1})'(F_{scale}(fc)) -->
+<div class="math">
+\begin{equation*}
+bw = (F_{scale}^{-1})'(F_{scale}(fc))
+\end{equation*}
+</div>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="zwickerterhardt80"></a>
+
+E.&nbsp;Zwicker and E.&nbsp;Terhardt.
+ Analytical expressions for criticalband rate and critical bandwidth
+  as a function of frequency.
+ <em>The Journal of the Acoustical Society of America</em>,
+  68(5):1523--1525, 1980.
+[&nbsp;<a href="http://dx.doi.org/10.1121/1.385079">DOI</a>&nbsp;| 
+<a href="http://scitation.aip.org/content/asa/journal/jasa/68/5/10.1121/1.385079">http</a>&nbsp;]
+
+</p>
+
+<p><a name="glasberg1990daf"></a>
+
+B.&nbsp;R. Glasberg and B.&nbsp;Moore.
+ Derivation of auditory filter shapes from notched-noise data.
+ <em>Hearing Research</em>, 47(1-2):103, 1990.
+
+</p>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
