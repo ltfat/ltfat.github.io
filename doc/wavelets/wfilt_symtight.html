@@ -53,9 +53,59 @@ symmetric nearly shift-invariant tight framelets.</p>
 <pre class="literal-block">
 wfiltinfo('symtight1');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. Wavelet imp. respWavelet imp. respWavelet imp. response no: 3
+      0.5 +|+  FF     0.3 +|+  FF      0.3 +|+   F      0.4 +|+  F
+      0.4 +|+  **     0.2 +|+  **      0.2 :math:`|`:math:``:math:``:math:``:math:``:math:` 0.2 `|:math:``:math:``:math:``:math:``
+      0.2 +|----------0.0
+        0 :math:``:math:``:math:``:math:``:math:``
+       Scaling functioWavelet function:Wavelet function:Wavelet function: 3
+     0.08 +|++ **+ +-0.06 +|++ **+ +-+0.04 +|++ * + +-+0.04 +|++ *+ +-+|
+     0.06 +|++ **+ +-0.04 +|++ **+ +-+0.02 *|**********0.02 *|*********|
+     0.04 +|----------| 0 *|----------0.02 *|----------0.02 *|---------|
+        0 *****+ ***-0.02 ++++**** +--0.04 ++++ +*+ +--0.04 ++++ *+ +-+
+          -4-2 0 2 4      -4-2 0 2 4       -4-2 0 2 4       -4-2 02 4
+           |              Magnitude frequency response
+       -0 *|****######:math:``:math:``:math:`%%%%%%%%%%%%%%%%%%%%%%%%%%%`:math:``:math:``######******
+ |H|[dB]0 +|------------------------------------------------------------
+      -25 +##  :math:``:math:`%%%%%     *****###  `:math:` `:math:`  ###*****     +%%%%`:math:``  ##+
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+      0.4 %|+                 ###########                   %%%%%%%%%%%
+      0.2 %|###################         %%%%%%%%%%%%%%%%%%%%%         %
+     -0.2 %|------------------------------------------------------------
+     -0.4 %%%%%%%%%%% +           +     ###########       +           %
+          0          0.2         0.4         0.6         0.8          1
+</pre>
 <img alt="wfilt_symtight_1_1.png" class="align-center" src="wfilt_symtight_1_1.png" />
 <pre class="literal-block">
 wfiltinfo('symtight2');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. Wavelet imp. respWavelet imp. respWavelet imp. response no: 3
+      0.5 +|+  FF          |   FF      0.2 +|+  F F     0.4 +|+  F
+      0.4 +|+  FF     0.2 +|+F ** F    0.1 :math:`|`:math:``:math:``:math:``:math:``:math:` 0.2 `|:math:``:math:``:math:``:math:``
+      0.2 +|----------0.0
+        0 :math:``:math:``:math:``:math:``:math:``
+       Scaling functioWavelet function:Wavelet function:Wavelet function: 3
+           | + ** + +0.06 +|++ ** ++++0.04 +|++ +* ++++0.04 +|+  * ++-+|
+     0.08 +|++ ** +++0.04 +|++****++++0.02 *|**********0.02 *|*********|
+     0.04 +|---------0.00 *|----------0.02 *|----------0.02 *|---------|
+        0 **********-0.04 +-++ ** +++-0.04 +-++ *  +++-0.04 +-+  * ++-+
+            -5 0  510       -5 0  510        -5 0  510       -5  0 5 10
+           |              Magnitude frequency response
+       -0 *|******####:math:``:math:``:math:`%%%%%%%%%%%%%%%%%%%%%%%%%%%`:math:``:math:``####********
+ |H|[dB]0 +|------------------------------------------------------------
+      -25 +-+#:math:``:math:``   %%%% ****   ###:math:``     :math:``###   ****  %%%   :math:``:math:``#  +
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+           |                              *****************************
+        3 +|+                           ***                         %%%
+        1 %|------------------------------------------------------------
+          %%%         +           +     :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+          0          0.2         0.4         0.6         0.8          1
 </pre>
 <img alt="wfilt_symtight_2_1.png" class="align-center" src="wfilt_symtight_2_1.png" />
 </div>

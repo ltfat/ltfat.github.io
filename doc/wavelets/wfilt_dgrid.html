@@ -53,29 +53,44 @@ equal to 2.</p>
 <pre class="literal-block">
 wfiltinfo('dgrid3');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. Wavelet imp. respWavelet imp. respWavelet imp. response no: 3
+      0.5 +|+  FF          |   F       0.6 +|+      F   0.6 +|+      F
+      0.4 +|+  %%     0.1 :math:`|`:math:``:math:``:math:``:math:``
+      0.2 +|----------0.1 F|-----------0.0 &amp;|-----------0.0 &amp;|----------
+        0 &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;     +  + F  + +-0.4 +++ + +  +F+-0.4 ++++  + + F
+       Scaling functioWavelet function:Wavelet function:Wavelet function: 3
+           |+  **+  +0.02 +|+  +*+ +++0.08 +|+ *+ + +++0.08 +|+*+  ++++|
+     0.08 +|+  **+ ++0.01 *|***+*+****0.04 +|+ ** + +++0.04 +|+**  ++++|
+     0.04 +|---------0.01 *|----------0.00 *|----------0.00 *|---------|
+        0 *****+ ***-0.02 +-+  * + ++-0.04 +-+* + + ++-0.04 +-**+  ++++
+           -2  0 2  4      -2  0 2  4       -4 -2 0  2       -4-2  0 2
+           |              Magnitude frequency response
+       -0 *|******%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%********
+ |H|[dB]0 +|------------------------------------------------------------
+      -25 +%%%   #####+      **** +   ## ##   + ****      + ####   %%%+
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+      1.5 %|%%%%%%%%%%%%%%%%%%%%
+        1 %|###################%%%%%%%%%%%%%%%%%%%
+      0.5
+     -0.5 +-+         +           +     ###############################
+          0          0.2         0.4         0.6         0.8          1
+</pre>
 <img alt="wfilt_dgrid_1_1.png" class="align-center" src="wfilt_dgrid_1_1.png" />
 </div>
 <H2>References:</H2>
 
 
 
-<p><a name="bopachupeec11"></a>
+<p><a name="abdelnour2007dense"></a>
 
-S.&nbsp;Boyd, N.&nbsp;Parikh, E.&nbsp;Chu, B.&nbsp;Peleato, and J.&nbsp;Eckstein.
- Distributed optimization and statistical learning via the alternating
-  direction method of multipliers.
- <em>Found. Trends Mach. Learn.</em>, 3(1):1--122, Jan. 2011.
-[&nbsp;<a href="http://dx.doi.org/10.1561/2200000016">DOI</a>&nbsp;| 
-<a href="http://dx.doi.org/10.1561/2200000016">http</a>&nbsp;]
-
-</p>
-
-<p><a name="se14"></a>
-
-I.&nbsp;Selesnick.
- L1-Norm Penalized Least Squares with SALSA.
- <em>OpenStax_CNX</em>, Jan. 2014.
-[&nbsp;<a href="http://cnx.org/content/m48933/1.2/">http</a>&nbsp;]
+A.&nbsp;Abdelnour.
+ Dense grid framelets with symmetric lowpass and bandpass filters.
+ In <em>Signal Processing and Its Applications, 2007. ISSPA 2007. 9th
+  International Symposium on</em>, volume 172, pages 1--4, 2007.
+[&nbsp;<a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=04555520">http</a>&nbsp;]
 
 </p>
 

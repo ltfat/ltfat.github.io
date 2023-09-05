@@ -53,6 +53,31 @@ for dual-tree double density complex wavelet transform tree A.</p>
 <pre class="literal-block">
 wfiltinfo('ddena1');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. responsWavelet imp. response Wavelet imp. response no: 2
+      0.6 +|+F              0.2 +|+         F   F       |      F F
+      0.4 +|F* F              0 :math:`|`:math:``:math:``:math:``:math:``:math:``:math:``:math:``  0.2 &amp;|&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+      0.2
+            +  + FF F +  +        +  +   +  + F + -0.6 +-+  +  +   F  +
+         Scaling function-|    Wavelet function: 1   Wavelet function: 2
+      0.1 +|++   +  +**+-+|0.04 +|+ + *+** +  +-+|0.05 +|++  ****+  +-+|
+     0.08 +|++   +  +***-+-0.02 *|*****+*********|   0 *|**************|
+     0.04 *|---------------0.04 +|----------------0.05 +|--------------|
+    -0.02 +-++   + **  +-+-0.08 +-+ +  *   +  +-+ -0.1 +-++   ** +  +-+
+             0   2  4  6           -4 -2   0  2          -4  -2  0  2
+           |              Magnitude frequency response
+       -0 *|********:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+ |H|[dB]0 +|------------------------------------------------------------
+      -25 +-:math:``:math:`       +         ****         ****         +       `:math:`` +
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+           |                            *************************:math:``:math:``:math:``
+      1.5 #|+        :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+      0.5
+          +           +           +       ############################+
+          0          0.2         0.4         0.6         0.8          1
+</pre>
 <img alt="wfilt_ddenb_1_1.png" class="align-center" src="wfilt_ddenb_1_1.png" />
 </div>
 <H2>References:</H2>

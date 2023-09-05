@@ -53,9 +53,59 @@ for dual-tree double density complex wavelet transform.</p>
 <pre class="literal-block">
 wfiltdtinfo('dden1');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. responsWavelet imp. responseWavelet imp. response no: 2, tree 1
+      0.6 +|+F F            0.2 +|+        FF   F  0.2 +|+     F F  F
+      0.4 F|----------------0.0
+        0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:`` -0.4 +-+  +   +  + F + -0.4 +-+  +  +   F  +
+   Scaling imp. responsWavelet imp. responseWavelet imp. response no: 2, tree 2
+      0.6 +|+F F            0.4 +|+         F      0.6 +|+       F
+      0.4 +|--------------- 0.2
+        0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:`` -0.2 +-+  +   +  + F + -0.2 +-+  + F+   F  +
+         Scaling function-|    Wavelet function: 1   Wavelet function: 2
+     0.06 +|+  + +##+  +-+|0.04 +|+  + :math:``# +  +-+|0.04 +|+  + :math:``#+  +-+|
+    -0.04 :math:`|---------------0.02 `|----------------0.02
+    -0.04 +-+  + :math:``:math:`+  +-+-0.04 +-+  +  `:math:` +  +-+-0.04 +-+  + +`
+          -|0-2000 200400 Magnitude frequency response -40-2000 200400
+        0 %|%%%%%%%%%%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%%%%
+      --5 +|+   &amp;&amp;&amp;&amp;&amp;&amp;&amp;&#64;&#64;&#64;%%%%                     %%%%&#64;&#64;&#64;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+ |H|[dB]5 +|------------------------------------------------------------
+      -25 +|&amp;&amp;        +     Phase frequency response      +        &amp;&amp; +
+          0|         0.2         0.4    ********************&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+      1.5 #|+        :math:``:math:``:math:``&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;:math:``:math:``
+      0.5 &amp;|------------------------------------------------------------
+          +           +           +       #&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;%%%%#+
+          0          0.2         0.4         0.6         0.8          1
+</pre>
 <img alt="wfiltdt_dden_1_1.png" class="align-center" src="wfiltdt_dden_1_1.png" />
 <pre class="literal-block">
 wfiltdtinfo('dden2');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. responsWavelet imp. responseWavelet imp. response no: 2, tree 1
+      0.6 +|+FF             0.6 +|+           F    0.4 +|+         F
+      0.4 +|--------------- 0.2
+        0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:`` -0.2 +-+  + + + F  +F+ -0.2 +-+ + +  +F+ F +
+   Scaling imp. responsWavelet imp. responseWavelet imp. response no: 2, tree 2
+      0.6 +|+FF             0.4 +|+           F    0.4 +|+         F
+      0.4 +|--------------- 0.2
+        0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:`` -0.2 +-+  + + + + F+F+ -0.2 +-+ + +  +FF F +
+         Scaling function-|    Wavelet function: 1   Wavelet function: 2
+     0.06 +|+  + +##+  +-+|0.04 +|+  + *:math:`` +  +-+|0.04 +|+  + *:math:``+  +-+|
+    -0.02 :math:`|---------------0.02 `|----------------0.02
+    -0.04 +-+  + :math:``:math:`+  +-+-0.04 +-+  +  `  +  +-+-0.04 +-+  + +
+          -|0-2000 200400 Magnitude frequency response -40-2000 200400
+        0 %|%%%%%%%%%%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%%%%
+      --5 +|+    &amp;&amp;&amp;&amp;&amp;&amp;&#64;%%%%%                       %%%%%&#64;&amp;&amp;&amp;&amp;&amp;&amp;
+ |H|[dB]5 +|------------------------------------------------------------
+      -25 +|+&amp;&amp;&amp;      +     Phase frequency response      +      &amp;&amp;&amp;  +
+        5 +|+        0.2         0.4         0.6         0.8   &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+        4 +|+          &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&#64;&#64;&#64;&#64;&#64;&#64;&#64;
+        2 &amp;|------------------------------------------------------------
+        0 &amp;%%%%:math:``:math:``####%%%%%%%%%%%%%%%%%%##########%%%%%%%%%%%%%%%%%%%%
+          0          0.2         0.4         0.6         0.8          1
 </pre>
 <img alt="wfiltdt_dden_2_1.png" class="align-center" src="wfiltdt_dden_2_1.png" />
 </div>

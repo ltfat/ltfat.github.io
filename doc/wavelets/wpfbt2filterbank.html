@@ -106,12 +106,64 @@ identical to the DWT tree:</p>
 [g,a] = wpfbt2filterbank({'db10',3,'dwt'});
 filterbankfreqz(g,a,1024,'plot','linabs','posfreq');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|------------------------------------------------------------------|
+      2 +|+          +             +            +             +          +-+|
+        +|           +             +            +             +            +|
+         |                                                                  |
+         |                                                                  |
+         |                                                                  |
+    1.5 +|+                                                              +-+|
+        &#64;|&#64;&#64;&#64;&#64;&#64;&#64;  &amp;&amp;&amp;&amp;&amp;    %%%%%%%%%%          #############################|
+         |     &#64;&#64;&amp;&amp;   &amp;&amp;  %%        %%%      ###                            |
+         |      &#64;&amp;     &amp;&amp; %            %%  ##                               |
+      1 *|***   &#64;&amp;      &amp;&amp;              %%##                             +-+|
+        :math:`|`:math:``:math:``:math:`&amp;&#64;`:math:``:math:``
+         |      &amp;&#64;
+         |      &amp;&#64;     %:math:``&amp;           ##*** %%                              |
+         |     &amp; &#64;     % :math:``&amp;         ##   ** %%                             |
+    0.5 +|+    &amp;  &#64;   %
+         |     &amp;  &#64;  %%
+         |    &amp;&amp;  &#64; %%
+         |    &amp;    &#64;%
+        +|------------------------------------------------------------------|
+      0 &amp;&amp;&amp;&amp;&amp;&amp;%%%%%#&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&#64;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+        0           0.2           0.4          0.6           0.8           1
+                              Frequency (normalized)
+</pre>
 <img alt="wpfbt2filterbank_1_1.png" class="align-center" src="wpfbt2filterbank_1_1.png" />
 <p>In the second example, the filterbank is identical to the full
 wavelet tree:</p>
 <pre class="literal-block">
 [g,a] = wpfbt2filterbank({'db10',3,'full'});
 filterbankfreqz(g,a,1024,'plot','linabs','posfreq');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|------------------------------------------------------------------|
+      2 +|+          +             +            +             +          +-+|
+        +|           +             +            +             +            +|
+         |                                                                  |
+         |                                                                  |
+         |                                                                  |
+    1.5 +|+                                                              +-+|
+        =|======  *****    ######  :math:``          %%  &#64;&#64;&#64;&#64;&#64;&#64;    &amp;&amp;&amp;&amp;&amp;  ========|
+         |     ==**   **  ##    # :math:``:math:``
+         |      =*     ** #     ##:math:`    `
+      1 *|***   =*      *#       :math:``     :math:``%%     %&#64;       &amp;&amp;      &amp;=   #####|
+        :math:`|`:math:``:math:``:math:`*=`:math:``:math:``:math:`##*%%%%%%`%%%%  %%%
+         |      *=     :math:`#**%     `#  %%%%  :math:``&#64;&#64;  &#64;&#64;     &#64;&amp;&amp;&#64;&amp;     =&amp;        |
+         |      *=     #:math:`%*     ` #   %%%&#64;&#64;&#64;:math:``   &#64; %     &amp;&amp;&amp;&#64;     =&amp;        |
+         |     * =     #%:math:``*    :math:` #  %% &#64;&#64;%% `
+    0.5 +|+    *  =   #%% :math:`**   ` # %%&#64;&#64;    %%:math:`` &#64; %   &amp;&amp;&amp; &#64;&#64;&#64;   =  &amp;    +-+|
+         |     *  =  ##%   :math:`*  `:math:`  %%&#64;&#64;      %%`&#64;  %%  &amp;&amp;   &#64;&#64;&#64;  =  &amp;       |
+         |    **  = ##%    :math:`** `  %%&#64;          %&#64;
+         |    *    =#%      :math:`**&#64;&#64;&#64;&#64;##          &#64;&#64;`
+        +|------------------------------------------------------------------|
+      0 ========================================================%&#64;&#64;&#64;&#64;&#64;&amp;&amp;&amp;&amp;&amp;&amp;
+        0           0.2           0.4          0.6           0.8           1
+                              Frequency (normalized)
 </pre>
 <img alt="wpfbt2filterbank_2_1.png" class="align-center" src="wpfbt2filterbank_2_1.png" />
 </div>

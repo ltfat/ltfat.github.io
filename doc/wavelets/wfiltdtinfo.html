@@ -80,6 +80,31 @@ frequency seponses. Supported are:</p>
 <pre class="literal-block">
 wfiltdtinfo('qshift4');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. response, tree 1   Wavelet imp. response no: 1, tree 1
+      0.6 +|+         FF                 0.6 +|+          F
+      0.4 +|-------------------------   -0.4
+        0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``    -0.4 +-++   +  + F+ F +  +  +
+        Scaling imp. response, tree 2   Wavelet imp. response no: 1, tree 2
+      0.6 +|+         FF                 0.4 +|+       F  F
+      0.4 +|-------------------------   -0.2
+        0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``    -0.6 +-++   +  + F+   +  +  +
+         -8|--Scaling function------|       -8|-Wavelet function: 1----|
+     0.08 +|++    +   *##  +    ++-+|   0.08 +|++    +   *:math:``  +    ++-+|
+    -0.04 :math:`|------------------------|  -0.04 `|------------------------|
+    -0.04 +-++    +   :math:``:math:`  +    ++-+   -0.04 +-++    +   `:math:``
+           |400 -200  0   Magnitude frequency response0  0   200  400
+        0 :math:`|`:math:``:math:``:math:``:math:``:math:``%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%:math:``:math:``:math:``:math:``:math:``:math:``
+      --5 +|+       %%%%   :math:``:math:``                   :math:``:math:``   %%%%
+ |H|[dB]5 +|------------------------------------------------------------
+      -25 +|%%%%%%%   +     Phase frequency response      +   %%%%%%% +
+        3 +|+        0.2         0.4         0.****************%%%%%%%%
+        2 #|#    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       -0 %|------------------------------------------------------------
+       -2 +-+         +           +         :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+          0          0.2         0.4         0.6         0.8          1
+</pre>
 <img alt="wfiltdtinfo_1_1.png" class="align-center" src="wfiltdtinfo_1_1.png" />
 </div>
 

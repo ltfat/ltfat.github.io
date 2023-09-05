@@ -114,13 +114,39 @@ norm(g-dft(g))
 </pre>
 <p><em>This code produces the following output</em>:</p>
 <pre class="literal-block">
-ans =    2.3972e-15
+ans = 2.4133e-15
 </pre>
 <p>The next plot shows the <tt class="docutils literal">psech</tt> in the time domain compared to the Gaussian:</p>
 <pre class="literal-block">
 plot((1:128)',fftshift(pgauss(128)),...
      (1:128)',fftshift(psech(128)));
 legend('pgauss','psech');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|---------------------------------------------------------------------|
+ 0.4 +|+       +         +         +         +         +         +       +-+|
+     +|        +         +         +  #      +         +    +-------------++|
+      |                              ##                     |***?***pgauss| |
+      |                              #*#                    +###?###psech-+ |
+      |                              # #                                    |
+ 0.3 +|+                             # #                                 +-+|
+      |                             #  #                                    |
+      |                             #  #*                                   |
+      |                             #   #                                   |
+      |                             #   #                                   |
+ 0.2 +|+                           *#   #                                +-+|
+      |                            #    #                                   |
+      |                            #     #                                  |
+      |                            #     #                                  |
+      |                            #     #                                  |
+ 0.1 +|+                          #      #                               +-+|
+      |                           #       #                                 |
+      |                          #*       #                                 |
+      |                         ##        *#                                |
+     +|---------------------------------------------------------------------|
+   0 +#########################*   +        **########################   +-+
+     0        20        40        60        80        100       120       140
 </pre>
 <img alt="psech_2_1.png" class="align-center" src="psech_2_1.png" />
 <p>The next plot shows the <tt class="docutils literal">psech</tt> in the frequency domain on a log
@@ -131,10 +157,61 @@ magresp(pgauss(128),'dynrange',100);
 magresp(psech(128),'dynrange',100);
 legend('pgauss','psech');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|
+        #|##
+         | ####                                             +-------------+
+      0 +|+   ###                                           |***?***pgauss|
+         |      ####                                        +###?###psech-+
+         |        *###
+         |         **###
+    -20 +|+         ** ###
+         |           **  ####
+         |            **    ###
+         |             **     ###
+    -40 +|+             **      ####
+         |               **        ###
+         |                *          ###
+         |                **           ###
+    -60 +|+                **             ###
+         |                  *               ###
+         |                  **                ###
+         |                   **                 ####
+    -80 +|-------------------------------------------------------------------
+        +            +        **   +            +    ###      +            +
+        0           0.2           0.4          0.6           0.8           1
+                              Frequency (normalized)
+</pre>
 <img alt="psech_3_1.png" class="align-center" src="psech_3_1.png" />
 <p>The next plot shows <tt class="docutils literal">psech</tt> in the time-frequency plane:</p>
 <pre class="literal-block">
 sgram(psech(128),'tc','nf','lin');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-----------------------------------------------|      |--|
+        1 +|+      +       +      +       +      +      +++|      |  |
+           |+      +       +      +       +      +       + |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |     +|++|.8
+      0.5 +|+                                           +-+|      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |     +|++|.6
+           |                                               |      |  |
+        0 +|+                                           +-+|      |  |
+           |                                               |     +|++|.4
+           |                                               |      |  |
+           |                                               |      |  |
+     -0.5 +|+                                           +-+|      |  |
+           |                                               |     +|++|.2
+           |                                               |      |  |
+           |                                               |      |  |
+           |-----------------------------------------------|      |--|
+            +      +       +      +       +      +       +       +-++0
+           -60    -40     -20     0      20     40      60
 </pre>
 <img alt="psech_4_1.png" class="align-center" src="psech_4_1.png" />
 </div>

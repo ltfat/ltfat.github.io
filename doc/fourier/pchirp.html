@@ -74,16 +74,91 @@ g\left(l+1\right)=e^{\pi in(l-\lceil L/2\rceil)^{2}(L+1)/L},\quad l=0,\ldots,L-1
 <pre class="literal-block">
 sgram(pchirp(40,2),'lin');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-----------------------------------------------|      |--|
+        1 +|+          +           +           +        +-+|     +|++|
+           |           +           +           +           |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+      0.5 +|+                                           +-+|     +|++|.5
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+        0 +|+                                           +-+|     +|++|
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+     -0.5 +|+                                           +-+|     +|++|.5
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |-----------------------------------------------|      |--|
+           +           +           +           +
+           0          10          20          30
+</pre>
 <img alt="pchirp_1_1.png" class="align-center" src="pchirp_1_1.png" />
 <p>The DFT of the same chirp, now revolving around in time:</p>
 <pre class="literal-block">
 sgram(dft(pchirp(40,2)),'lin');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-----------------------------------------------|      |--|
+        1 +|+          +           +           +        +-+|     +|++|
+           |           +           +           +           |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+      0.5 +|+                                           +-+|     +|++|.5
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+        0 +|+                                           +-+|     +|++|
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+     -0.5 +|+                                           +-+|     +|++|.5
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |-----------------------------------------------|      |--|
+           +           +           +           +
+           0          10          20          30
 </pre>
 <img alt="pchirp_2_1.png" class="align-center" src="pchirp_2_1.png" />
 <p>An odd-length chirp. Notice that the chirp starts at a frequency between
 two sampling points:</p>
 <pre class="literal-block">
 sgram(pchirp(41,2),'lin');
+</pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-----------------------------------------------|      |--|
+           |          +           +           +          + |     +|++|
+           |          +           +           +          + |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+      0.5 +|+                                           +-+|     +|++|.5
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+        0 +|+                                           +-+|      |  |
+           |                                               |     +|++|
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+     -0.5 +|+                                           +-+|     +|++|.5
+           |                                               |      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+           |-----------------------------------------------|      |--|
+           +          +           +           +          +
+           0         10          20          30         40
 </pre>
 <img alt="pchirp_3_1.png" class="align-center" src="pchirp_3_1.png" />
 </div>
