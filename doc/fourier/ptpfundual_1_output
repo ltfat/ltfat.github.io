@@ -1,4 +1,4 @@
-PTPFUNDUAL elapsed time 0.051576 s
-GABDUAL elapsed time    41.858030 s
-Reconstruction error PTPFUNDUAL: 5.289574e-12
-Reconstruction error GABDUAL:    1.051898e-14
+PTPFUNDUAL elapsed time 0.051150 s
+GABDUAL elapsed time    42.446259 s
+Reconstruction error PTPFUNDUAL: 5.287812e-12
+Reconstruction error GABDUAL:    1.050870e-14
