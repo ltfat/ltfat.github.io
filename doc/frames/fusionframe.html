@@ -1,0 +1,128 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>FUSIONFRAME - Construct a new fusion frame</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="fusionframe_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/frames/frame.html">frame</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">FUSIONFRAME - Construct a new fusion frame</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+[F,L] = fusionframe(frametypes)
+[F,L] = fusionframe(frametypes, 'weights',weights)
+[F,L] = fusionframe(frametypes, 'ftype',params)
+</pre>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p><tt class="docutils literal"><span class="pre">F=fusionframe(ftype,...)</span></tt> constructs a new fusion frame object <em>F</em> of type
+<em>ftype</em>.</p>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'',<var>frametypes</var></span></kbd></td>
+<td>Cell array with the desired frame types. For
+supported frames, see below.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-parameters">
+<h2>Output parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'',<var>F</var></span></kbd></td>
+<td>fusion frame structure</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">'',<var>L</var></span></kbd></td>
+<td>common frame length</td></tr>
+</tbody>
+</table>
+<p><tt class="docutils literal">fusionframe</tt> facilitates the construction of fusion frames by allowing
+for their programmatic instantiation via the frame type of the local frames.
+Further specification of the frames is optionally ppossible. For a
+list of supported frames as well as their defaults, see <a href="#system-message-1"><span class="problematic" id="problematic-1">|arg_fusionframe|</span></a>.
+Currently, only one set of optional parameters per fusion frame type is
+possible.
+The common frame length is calculated as the lowest common multiple of
+the frame lengths of the local frames.</p>
+<p>Optional parameters:
+'weights=weights      the fusion frame weights; per default set to one'</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'frametype',<var>ftype</var></span></kbd></td>
+<td>further parameters for one or more specific
+local frames</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="examples">
+<h2>Examples:</h2>
+<p>[F, L] = fusionframe({'dgt', 'fwt'}, 'dgt',{'gauss', 20, 30});</p>
+</div>
+<div class="system-messages section">
+<h2>Docutils System Messages</h2>
+<div class="system-message" id="system-message-1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">&lt;string&gt;</tt>, line 38); <em><a href="#problematic-1">backlink</a></em></p>
+Undefined substitution referenced: &quot;arg_fusionframe&quot;.</div>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
