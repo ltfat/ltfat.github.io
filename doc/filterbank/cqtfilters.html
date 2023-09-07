@@ -182,7 +182,6 @@ filter bank and visualize the result:</p>
 c=filterbank(f,g,a);
 plotfilterbank(c,a,fc,fs,90,'audtick');
 </pre>
-<img alt="cqtfilters_1_1.png" class="align-center" src="cqtfilters_1_1.png" />
 <p>In the second example, we construct a non-uniform filter bank with
 fractional sampling that works for this particular signal length, and
 test the reconstruction. The plot displays the response of the
@@ -215,12 +214,6 @@ filterbankfreqz(gd,a,L,fs,'plot','linabs','posfreq');
 subplot(2,1,2);
 filterbankfreqz(g,a,L,fs,'plot','linabs','posfreq');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =    8.3530e-15
-</pre>
-<img alt="cqtfilters_2_1.png" class="align-center" src="cqtfilters_2_1.png" />
-<img alt="cqtfilters_2_2.png" class="align-center" src="cqtfilters_2_2.png" />
 </div>
 <H2>References:</H2>
 

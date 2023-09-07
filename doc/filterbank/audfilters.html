@@ -163,8 +163,7 @@ the scales 'erb', 'erb83' and 'bark'; the default is
 <kbd><span class="option">'redmul',<var>redmul</var></span></kbd></td>
 <td>Redundancy multiplier. Increasing the value of this
 will make the system more redundant by lowering the
-channel downsampling rates. It is only used if the
-filterbank is a non-uniform filterbank. Default
+channel downsampling rates. Default
 value is <em>1</em>. If the value is less than one, the
 system may no longer be painless.</td></tr>
 <tr><td class="option-group">
@@ -221,7 +220,6 @@ filterbank on the ERB scale and visualize the result:</p>
 c=filterbank(f,g,a);
 plotfilterbank(c,a,fc,fs,90,'audtick');
 </pre>
-<img alt="audfilters_1_1.png" class="align-center" src="audfilters_1_1.png" />
 <p>In the second example, we construct a non-uniform filterbank with
 fractional sampling that works for this particular signal length, and
 test the reconstruction. The plot displays the response of the
@@ -254,12 +252,6 @@ filterbankfreqz(gd,a,L,fs,'plot','linabs','posfreq');
 subplot(2,1,2);
 filterbankfreqz(g,a,L,fs,'plot','linabs','posfreq');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =    8.2835e-15
-</pre>
-<img alt="audfilters_2_1.png" class="align-center" src="audfilters_2_1.png" />
-<img alt="audfilters_2_2.png" class="align-center" src="audfilters_2_2.png" />
 </div>
 <H2>References:</H2>
 

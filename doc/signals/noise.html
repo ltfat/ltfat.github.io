@@ -111,92 +111,14 @@ be changed by passing a flag to <span class="linkrole"><a href="#BASEURL#/doc/si
 <pre class="literal-block">
 sgram(noise(5000,'white'),'dynrange',70);
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|-----------------------------------------------|      |--|
-        1 +|+       +        +         +        +       +-+|      |  |
-          +|        +        +         +        +          |     +|++|30
-           |                                               |      |  |
-           |                                               |      |  |
-      0.8 +|+                                           +-+|     +|++|40
-           |                                               |      |  |
-           |                                               |     +|++|50
-           |                                               |      |  |
-      0.6 +|+                                           +-+|      |  |
-           |                                               |     +|++|60
-           |                                               |      |  |
-      0.4 +|+                                           +-+|      |  |
-           |                                               |     +|++|70
-           |                                               |      |  |
-           |                                               |      |  |
-      0.2 +|+                                           +-+|     +|++|80
-           |                                               |      |  |
-           |                                               |     +|++|90
-          +|-----------------------------------------------|      |--|
-        0 +-+       +        +         +        +       +-+
-          0       1000     2000      3000     4000
-</pre>
-<img alt="noise_1_1.png" class="align-center" src="noise_1_1.png" />
 <p>Pink noise in the time-frequency domain:</p>
 <pre class="literal-block">
 sgram(noise(5000,'pink'),'dynrange',70);
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|-----------------------------------------------|      |--|
-        1 +|+       +        +         +        +       +-+|      |  |
-          +|        +        +         +        +          |      |  |
-           |                                               |     +|++|20
-           |                                               |      |  |
-      0.8 +|+                                           +-+|      |  |
-           |                                               |     +|++|30
-           |                                               |      |  |
-           |                                               |     +|++|40
-      0.6 +|+                                           +-+|      |  |
-           |                                               |      |  |
-           |                                               |     +|++|50
-      0.4 +|+                                           +-+|      |  |
-           |                                               |      |  |
-           |                                               |     +|++|60
-           |                                               |      |  |
-      0.2 +|+                                           +-+|      |  |
-           |                                               |     +|++|70
-           |                                               |      |  |
-          +|-----------------------------------------------|     +|--|80
-        0 +-+       +        +         +        +       +-+
-          0       1000     2000      3000     4000
-</pre>
-<img alt="noise_2_1.png" class="align-center" src="noise_2_1.png" />
 <p>Brown/red noise in the time-frequency domain:</p>
 <pre class="literal-block">
 sgram(noise(5000,'brown'),'dynrange',70);
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|-----------------------------------------------|      |--|
-        1 +|+       +        +         +        +       +-+|      |  |
-          +|        +        +         +        +          |      |  |
-           |                                               |      |  |
-           |                                               |     +|++|20
-      0.8 +|+                                           +-+|      |  |
-           |                                               |     +|++|30
-           |                                               |      |  |
-           |                                               |      |  |
-      0.6 +|+                                           +-+|     +|++|40
-           |                                               |      |  |
-           |                                               |      |  |
-      0.4 +|+                                           +-+|     +|++|50
-           |                                               |      |  |
-           |                                               |     +|++|60
-           |                                               |      |  |
-      0.2 +|+                                           +-+|      |  |
-           |                                               |     +|++|70
-           |                                               |      |  |
-          +|-----------------------------------------------|      |--|
-        0 +-+       +        +         +        +       +-+      +-++-80
-          0       1000     2000      3000     4000
-</pre>
-<img alt="noise_3_1.png" class="align-center" src="noise_3_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

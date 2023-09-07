@@ -1,0 +1,368 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>LTFATSTART - Start the LTFAT toolbox</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfatstart.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/base/ltfatsetdefaults.html">ltfatsetdefaults</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatmex.html">ltfatmex</a></li>
+<li><a href="#BASEURL#/doc/base/ltfathelp.html">ltfathelp</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatstop.html">ltfatstop</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LTFATSTART - Start the LTFAT toolbox</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">ltfatstart</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%LTFATSTART   Start the LTFAT toolbox</span><span class="w"></span>
+<span class="c">%   Usage:  ltfatstart;</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   LTFATSTART starts the LTFAT toolbox. This command must be run</span><span class="w"></span>
+<span class="c">%   before using any of the functions in the toolbox.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   To configure default options for functions, you can use the</span><span class="w"></span>
+<span class="c">%   LTFATSETDEFAULTS function in your startup script. A typical startup</span><span class="w"></span>
+<span class="c">%   file could look like:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     addpath(&#39;/path/to/my/work/ltfat&#39;);</span><span class="w"></span>
+<span class="c">%     ltfatstart;</span><span class="w"></span>
+<span class="c">%     ltfatsetdefaults(&#39;sgram&#39;,&#39;nocolorbar&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This will add the main LTFAT directory to you path, start the</span><span class="w"></span>
+<span class="c">%   toolbox, and configure SGRAM to not display the colorbar.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function walks the directory tree and adds a subdirectory </span><span class="w"></span>
+<span class="c">%   to path if the directory contain a [subdirectory,init.m] </span><span class="w"></span>
+<span class="c">%   script setting a status variable to some value greater than 0.   </span><span class="w"></span>
+<span class="c">%   status==1 identifies a toolbox module any other value just a</span><span class="w"></span>
+<span class="c">%   directory to be added to path.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   LTFATSTART(0) supresses any status messages.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   !!WARNING for MATLAB users!!</span><span class="w"></span>
+<span class="c">%   ----------------------------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The function indirectly calls clear all, which clears all your global</span><span class="w"></span>
+<span class="c">%   and persistent variables. It comes with calling javaaddpath in</span><span class="w"></span>
+<span class="c">%   blockproc/blockprocinit.m. You can avoid calling it by passing </span><span class="w"></span>
+<span class="c">%   additional &#39;nojava&#39; flag.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  ltfatsetdefaults, ltfatmex, ltfathelp, ltfatstop</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/ltfatstart.html</span><span class="w"></span>
+
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+
+<span class="c">%   AUTHOR : Peter L. Søndergaard, Zdenek Prusa</span><span class="w"></span>
+<span class="c">%   TESTING: NA</span><span class="w"></span>
+
+<span class="c">%% PKG_ADD: ltfatstart(0); </span><span class="w"></span>
+
+<span class="n">do_java</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="n">ltfatstartprint</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&gt;</span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">scalarIds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@</span><span class="nb">isscalar</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">nojavaIds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcmpi</span><span class="p">(</span><span class="s">&#39;nojava&#39;</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">all</span><span class="p">(</span><span class="n">scalarIds</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">nojavaIds</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;LTFATSTART: Only a single scalar and flag, &#39;</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;&#39;&#39;nojava&#39;&#39; are recognized&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">nojavaIds</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">do_java</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">scalars</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">varargin</span><span class="p">(</span><span class="n">scalarIds</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">scalars</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;LTFATSTART: Only a single scalar can be passed.&#39;</span><span class="p">);</span><span class="w">  </span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">scalars</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="n">ltfatstartprint</span><span class="p">=</span><span class="n">scalars</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Sometimes the run command used further does not return back to the </span><span class="w"></span>
+<span class="c">% current directory, here we explicitly store the current directory and </span><span class="w"></span>
+<span class="c">% cd to it at the end or is something goes wrong.</span><span class="w"></span>
+<span class="n">currdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">pwd</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Get the basepath as the directory this function resides in.</span><span class="w"></span>
+<span class="c">% The &#39;which&#39; solution below is more portable than &#39;mfilename&#39;</span><span class="w"></span>
+<span class="c">% becase old versions of Matlab does not have &quot;mfilename(&#39;fullpath&#39;)&quot;</span><span class="w"></span>
+<span class="n">basepath</span><span class="p">=</span><span class="nb">which</span><span class="p">(</span><span class="s">&#39;ltfatstart&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="c">% Kill the function name from the path.</span><span class="w"></span>
+<span class="n">basepath</span><span class="p">=</span><span class="n">basepath</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">13</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">pathCell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">regexp</span><span class="p">(</span><span class="nb">path</span><span class="p">,</span><span class="w"> </span><span class="nb">pathsep</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;split&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">ispc</span><span class="w">  </span><span class="c">% Windows is not case-sensitive</span><span class="w"></span>
+<span class="w">   </span><span class="n">bponPath</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">basepath</span><span class="p">,</span><span class="w"> </span><span class="n">pathCell</span><span class="p">));</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="n">bponPath</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">strcmp</span><span class="p">(</span><span class="n">basepath</span><span class="p">,</span><span class="w"> </span><span class="n">pathCell</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">bponPath</span><span class="w"> </span><span class="c">% To avoid recursion during pkg load</span><span class="w"></span>
+<span class="w">    </span><span class="nb">addpath</span><span class="p">(</span><span class="n">basepath</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="n">bp</span><span class="p">=</span><span class="n">basepath</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span>
+<span class="c">% Load the version number</span><span class="w"></span>
+<span class="p">[</span><span class="n">FID</span><span class="p">,</span><span class="w"> </span><span class="n">MSG</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="w"> </span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;ltfat_version&#39;</span><span class="p">],</span><span class="s">&#39;r&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">FID</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="n">MSG</span><span class="p">);</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">ltfat_version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fgetl</span><span class="w"> </span><span class="p">(</span><span class="n">FID</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">fclose</span><span class="p">(</span><span class="n">FID</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="n">ignored_dirs_common</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{[</span><span class="nb">filesep</span><span class="p">(),</span><span class="s">&#39;mat2doc&#39;</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">                       </span><span class="p">[</span><span class="nb">filesep</span><span class="p">(),</span><span class="s">&#39;src&#39;</span><span class="p">]};</span><span class="w"></span>
+
+<span class="n">ignored_inits</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">do_java</span><span class="w"></span>
+<span class="w">    </span><span class="n">ignored_inits</span><span class="p">{</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;blockprocinit.m&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">%% --- Check for old versions of Octave and Matlab</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">   </span><span class="n">major_rq</span><span class="p">=</span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">minor_rq</span><span class="p">=</span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">intp</span><span class="p">=</span><span class="s">&#39;Octave&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">req_versionname</span><span class="p">=</span><span class="s">&#39;3.6.0&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">ignore_dirs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[{[</span><span class="nb">filesep</span><span class="p">(),</span><span class="s">&#39;mex&#39;</span><span class="p">]},</span><span class="k">...</span><span class="w"></span>
+<span class="w">                  </span><span class="n">ignored_dirs_common</span><span class="p">];</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="n">major_rq</span><span class="p">=</span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">minor_rq</span><span class="p">=</span><span class="mi">9</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">intp</span><span class="p">=</span><span class="s">&#39;Matlab&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">req_versionname</span><span class="p">=</span><span class="s">&#39;2009b&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">ignore_dirs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[{[</span><span class="nb">filesep</span><span class="p">(),</span><span class="s">&#39;oct&#39;</span><span class="p">]},</span><span class="k">...</span><span class="w"></span>
+<span class="w">                  </span><span class="n">ignored_dirs_common</span><span class="p">];</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Split into major and minor version</span><span class="w"></span>
+<span class="n">s</span><span class="p">=</span><span class="nb">version</span><span class="p">;</span><span class="w"></span>
+<span class="n">stops</span><span class="p">=</span><span class="nb">find</span><span class="p">(</span><span class="n">s</span><span class="o">==</span><span class="s">&#39;.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">major_no</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nb">str2num</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">stops</span><span class="p">(</span><span class="mi">1</span><span class="p">)));</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">stops</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="n">minor_no</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nb">str2num</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">stops</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="n">bugfix_no</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">minor_no</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nb">str2num</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">stops</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">stops</span><span class="p">(</span><span class="mi">2</span><span class="p">)));</span><span class="w"></span>
+<span class="w">  </span><span class="n">bugfix_no</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">str2num</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">stops</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Do the check, multiply by some big number to make the check easy</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">major_rq</span><span class="o">*</span><span class="mi">1000</span><span class="o">+</span><span class="n">minor_rq</span><span class="o">&gt;</span><span class="n">major_no</span><span class="o">*</span><span class="mi">1000</span><span class="o">+</span><span class="n">minor_no</span><span class="w"></span>
+<span class="w">  </span><span class="nb">warning</span><span class="p">([</span><span class="s">&#39;Your version of %s is too old for this version of LTFAT &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">         </span><span class="s">&#39;to function proberly. Your need at least version %s of %s.&#39;</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">	  </span><span class="n">intp</span><span class="p">,</span><span class="n">req_versionname</span><span class="p">,</span><span class="n">intp</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+
+<span class="c">%% -----------  install the modules -----------------</span><span class="w"></span>
+
+<span class="n">modules</span><span class="p">={};</span><span class="w"></span>
+<span class="n">nplug</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% List all files in base directory</span><span class="w"></span>
+<span class="n">d</span><span class="p">=</span><span class="nb">dir</span><span class="p">(</span><span class="n">basepath</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Pick only valid directories and wrap it in a cell array</span><span class="w"></span>
+<span class="n">d</span><span class="p">={</span><span class="n">d</span><span class="p">(</span><span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">dEl</span><span class="p">)</span><span class="w"> </span><span class="n">dEl</span><span class="p">.</span><span class="n">isdir</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="n">dEl</span><span class="p">.</span><span class="n">name</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="s">&#39;.&#39;</span><span class="p">),</span><span class="n">d</span><span class="p">))};</span><span class="w"></span>
+<span class="n">basedir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">filesep</span><span class="p">};</span><span class="w"></span>
+
+<span class="k">while</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">d</span><span class="p">{</span><span class="mi">1</span><span class="p">})</span><span class="w"></span>
+<span class="w">    </span><span class="n">name</span><span class="p">=</span><span class="n">d</span><span class="p">{</span><span class="mi">1</span><span class="p">}(</span><span class="n">ii</span><span class="p">).</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">    </span><span class="c">% Skip ignored directories</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">iEl</span><span class="p">)</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">([</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">],</span><span class="n">iEl</span><span class="p">),</span><span class="n">ignore_dirs</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Store only valid subdirectories, we will go trough them later</span><span class="w"></span>
+<span class="w">    </span><span class="n">dtmp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dir</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">dtmp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dtmp</span><span class="p">(</span><span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">dEl</span><span class="p">)</span><span class="w"> </span><span class="n">dEl</span><span class="p">.</span><span class="n">isdir</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="n">dEl</span><span class="p">.</span><span class="n">name</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="s">&#39;.&#39;</span><span class="p">),</span><span class="n">dtmp</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">dtmp</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">d</span><span class="p">{</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dtmp</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="c">% Store base directory too</span><span class="w"></span>
+<span class="w">      </span><span class="n">basedir</span><span class="p">{</span><span class="k">end</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">,</span><span class="nb">filesep</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">    </span><span class="c">% The file is a directory and it does not start with &#39;.&#39; This could</span><span class="w"></span>
+<span class="w">    </span><span class="c">% be a module</span><span class="w"></span>
+<span class="w">    </span><span class="n">initfilename</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">lower</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="s">&#39;init.m&#39;</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">initfilefullpath</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="n">initfilename</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">exist</span><span class="p">(</span><span class="n">initfilefullpath</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">continue</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Now we know that we have found a module</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">    </span><span class="c">% Set &#39;status&#39; to zero if the module forgets to define it.</span><span class="w"></span>
+<span class="w">    </span><span class="n">status</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">    </span><span class="n">module_version</span><span class="p">=</span><span class="n">ltfat_version</span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span>
+<span class="w">    </span><span class="c">% Add the module dir to the path</span><span class="w"></span>
+<span class="w">    </span><span class="nb">addpath</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">iffound</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">iEl</span><span class="p">)</span><span class="w"> </span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">initfilename</span><span class="p">,</span><span class="n">iEl</span><span class="p">{</span><span class="mi">1</span><span class="p">}),</span><span class="n">ignored_inits</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">iffound</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ignored_inits</span><span class="p">{</span><span class="n">iffound</span><span class="p">}{</span><span class="mi">2</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="c">% Execute the init file to see if the status is set.</span><span class="w"></span>
+<span class="w">        </span><span class="c">% We are super paranoid co we wrap the call to a try block</span><span class="w"></span>
+<span class="w">        </span><span class="k">try</span><span class="w"></span>
+<span class="w">            </span><span class="nb">run</span><span class="p">(</span><span class="n">initfilefullpath</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">catch</span><span class="w"></span>
+<span class="w">            </span><span class="c">% If the run command breaks, it might not cd back to the</span><span class="w"></span>
+<span class="w">            </span><span class="c">% original directory. We do it manually here:</span><span class="w"></span>
+<span class="w">            </span><span class="nb">cd</span><span class="p">(</span><span class="n">currdir</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">status</span><span class="o">&gt;</span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="c">% Only store top-level modules</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">status</span><span class="o">==</span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="nb">filesep</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">nplug</span><span class="p">=</span><span class="n">nplug</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">modules</span><span class="p">{</span><span class="n">nplug</span><span class="p">}.</span><span class="n">name</span><span class="p">=</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">modules</span><span class="p">{</span><span class="n">nplug</span><span class="p">}.</span><span class="n">version</span><span class="p">=</span><span class="n">module_version</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="c">% Something failed, restore the path</span><span class="w"></span>
+<span class="w">      </span><span class="nb">rmpath</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">basedir</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="n">name</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Remove the just processed dir from the list</span><span class="w"></span>
+<span class="w">  </span><span class="n">basedir</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"> </span>
+<span class="k">end</span><span class="w"></span>
+
+
+<span class="c">% Check if Octave was called using &#39;silent&#39;</span><span class="w"></span>
+<span class="c">%if isoctave</span><span class="w"></span>
+<span class="c">%  args=argv;</span><span class="w"></span>
+<span class="c">%  for ii=1:numel(args)</span><span class="w"></span>
+<span class="c">%    s=lower(args{ii});</span><span class="w"></span>
+<span class="c">%    if strcmp(s,&#39;--silent&#39;) || strcmp(s,&#39;-q&#39;)</span><span class="w"></span>
+<span class="c">%      printbanner=0;</span><span class="w"></span>
+<span class="c">%    end;</span><span class="w"></span>
+<span class="c">%  end;</span><span class="w"></span>
+<span class="c">%end;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">ltfatstartprint</span><span class="w"></span>
+<span class="w">  </span><span class="k">try</span><span class="w"></span>
+<span class="w">    </span><span class="n">s</span><span class="p">=</span><span class="nb">which</span><span class="p">(</span><span class="s">&#39;comp_pgauss&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;comp_pgauss not found, something is wrong.&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="s">&#39;.m&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">backend</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;LTFAT is using the script language backend.&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">        </span><span class="n">backend</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;LTFAT is using the C++ Octave backend.&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="n">backend</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;LTFAT is using the MEX backend.&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">catch</span><span class="w"></span>
+<span class="w">    </span><span class="n">backend</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Error with backend, consider running &quot;ltfatmex clean&quot; immediately.&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"> </span>
+<span class="w">  </span>
+<span class="w">  </span><span class="n">banner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;LTFAT version %s. Copyright 2005-2023 Peter L. Søndergaard. &#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">                    </span><span class="s">&#39;For help, please type &quot;ltfathelp&quot;. %s&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">                   </span><span class="n">ltfat_version</span><span class="p">,</span><span class="n">backend</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="n">banner</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">isoctave</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">do_java</span><span class="w"></span>
+<span class="w">      </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;(Your global and persistent variables have just been cleared. Sorry.)&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="s">&#39;ltfat_binary_notes.m&#39;</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">ltfat_binary_notes</span><span class="p">;</span><span class="w">    </span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="c">% On Windows the run command might not change back to the original path</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">(</span><span class="n">currdir</span><span class="p">);</span><span class="w"> </span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">%% ---------- load information into ltfathelp ------------</span><span class="w"></span>
+<span class="nb">clear</span><span class="w"> </span><span class="n">ltfatarghelper</span><span class="p">;</span><span class="w"></span>
+<span class="c">% As comp is now in the path, we can call ltfatarghelper</span><span class="w"></span>
+<span class="n">ltfatsetdefaults</span><span class="p">(</span><span class="s">&#39;ltfathelp&#39;</span><span class="p">,</span><span class="s">&#39;versiondata&#39;</span><span class="p">,</span><span class="n">ltfat_version</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;modulesdata&#39;</span><span class="p">,</span><span class="n">modules</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">%% ---------- other initializations ---------------------</span><span class="w"></span>
+
+<span class="c">% Force the loading of FFTW, necessary for Matlab 64 bit on Linux. Thanks</span><span class="w"></span>
+<span class="c">% to NFFT for this trick.</span><span class="w"></span>
+<span class="nb">fft</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]);</span><span class="w"></span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

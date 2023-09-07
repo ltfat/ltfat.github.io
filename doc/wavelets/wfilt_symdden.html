@@ -54,61 +54,9 @@ The redundancy of the basic filterbank is equal to 1.5.</p>
 <pre class="literal-block">
 wfiltinfo('symdden1');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-Scaling imp. responsWavelet imp. response Wavelet imp. response no: 2
-      0.5 +|+    FF         0.6 +|+    F           0.6 +|+     F
-      0.4 +|+    **         0.4 +|+    *           0.4 +|+     *
-      0.2 +|--------------- 0.2 :math:`|---------------- 0.2 `|---------------
-        0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:`` -0.2 +-+  F   F F+   + -0.2 +-+  F F+ F +  +
-         Scaling function-|    Wavelet function: 1   Wavelet function: 2
-      0.1 +|++   ** +  +-+|00.1 +|+ +  +** +  +-+|00.1 +|++   *  +  +-+|
-     0.08 +|++  ****+  +-+|0.06 +|+ +  +** +  +-+|0.06 +|++   ** +  +-+|
-     0.04 +|---------------0.02 *|----------------0.02 *|--------------|
-        0 *******+ *******-0.04 +-+ +  ****+  +-+-0.04 +-++  *+**+  +-+
-            -2   0  2  4           -2  0   2  4          -2   0  2  4
-           |              Magnitude frequency response
-       -0 *|*******:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
- |H|[dB]0 +|------------------------------------------------------------
-      -25 +:math:``:math:`        +        ****           ****        +        `:math:``+
-          0          0.2         0.4         0.6         0.8          1
-           |                Phase frequency response
-           |                                               ############
-      1.5 +|+                     ##########################
-      0.5
-          +           +           +     **************************    +
-          0          0.2         0.4         0.6         0.8          1
-</pre>
-<img alt="wfilt_symdden_1_1.png" class="align-center" src="wfilt_symdden_1_1.png" />
 <pre class="literal-block">
 wfiltinfo('symdden2');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-Scaling imp. responsWavelet imp. response Wavelet imp. response no: 2
-      0.5 +|+  F F          0.3 +|+    F F         0.6 +|+     F
-      0.4 +|+  % %          0.2 +|+    * *         0.4 :math:`|`:math:``:math:``:math:``:math:``:math:``:math:``
-      0.2 +|----------------0.0
-        0 &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp; -0.2 +++ F F+  F F+  + -0.6 +++ +  F  + +  +
-         Scaling function-|    Wavelet function: 1   Wavelet function: 2
-      0.1 +|++ +  ** + +++|0.06 +|++  + **  + +++|      | + +  *  +  + |
-     0.08 +|++ +  ***+ +++|0.04 +|++  + **  + +++|0.05 *|*********+****|
-     0.04 +|---------------0.00 *|----------------0.05 +|--------------|
-        0 ********* ******-0.04 +-++  +**+**+ +++         + +  ** +  +
-            -2 0  2  4  6         -2  0  2  4  6         -2 0  2  4  6
-           |              Magnitude frequency response
-       -0 *|******#####:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
- |H|[dB]0 +|------------------------------------------------------------
-      -25 +###:math:``:math:``    +        ****   ######  ****        +    :math:``:math:``###+
-          0          0.2         0.4         0.6         0.8          1
-           |                Phase frequency response
-           |        ********************#####################
-        0
-     -0.5
-          +           +           +           +   :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
-          0          0.2         0.4         0.6         0.8          1
-</pre>
-<img alt="wfilt_symdden_2_1.png" class="align-center" src="wfilt_symdden_2_1.png" />
 </div>
 <H2>References:</H2>
 

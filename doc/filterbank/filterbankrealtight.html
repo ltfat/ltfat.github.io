@@ -62,6 +62,9 @@ in <em>g</em> only covers the positive frequencies.</p>
 filters, as the transform length is unspecified. <em>L</em> will be set to
 next suitable length equal or bigger than the longest impulse response.</p>
 <p>The format of the filters <em>g</em> are described in the help of <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></span>.</p>
+<p>In addition, the function recognizes a 'forcepainless' flag which
+forces treating the filterbank <em>g</em> and <em>a</em> as a painless case
+filterbank.</p>
 <p>REMARK: The resulting system is tight for length <em>L</em>. In some cases,
 using tight system calculated for shorter <em>L</em> might work but check the
 reconstruction error.</p>

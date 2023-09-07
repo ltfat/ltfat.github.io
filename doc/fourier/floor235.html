@@ -66,10 +66,6 @@ solely as products of powers of <em>2</em>, <em>3</em> and <em>5</em>:</p>
 <pre class="literal-block">
 floor235(26)
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans = 25
-</pre>
 <p>This plot shows the behaviour of <span class="linkrole"><a href="#BASEURL#/doc/fourier/floor235.html">floor235</a></span> and <span class="linkrole"><a href="#BASEURL#/doc/fourier/ceil235.html">ceil235</a></span> for numbers
 up to 100:</p>
 <pre class="literal-block">
@@ -77,33 +73,6 @@ x=1:100;
 plot(x,floor235(x),x,ceil235(x));
 legend('floor235','ceil235','Location','Northwest');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|---------------------------------------------------------------------|
- 100 +|+           +             +             +             +           ###|
-     +|---------------+          +             +             +       ####**+|
-      |***?***floor235|                                       #######****   |
-      |###?###ceil235-+                                       #     *       |
-  80 +|+                                                  #####*****     +-+|
-      |                                                 ###**               |
-      |                                            #####**                  |
-      |                                         ###*****                    |
-  60 +|+                                    ####**                       +-+|
-      |                                  ###***                             |
-      |                              ####**                                 |
-      |                           ####*                                     |
-  40 +|+                       ###***                                    +-+|
-      |                     ###**                                           |
-      |                  ###***                                             |
-      |             #####*                                                  |
-  20 +|+         ###**                                                   +-+|
-      |       ###*                                                          |
-      |   ####**                                                            |
-     +|---------------------------------------------------------------------|
-   0 +#+           +             +             +             +           +-+
-     0            20            40            60            80            100
-</pre>
-<img alt="floor235_2_1.png" class="align-center" src="floor235_2_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>
