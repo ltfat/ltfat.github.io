@@ -105,66 +105,12 @@ identical to the DWT tree:</p>
 [g,a] = wfbt2filterbank({'db10',3,'dwt'});
 filterbankfreqz(g,a,1024,'plot','linabs','posfreq');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|------------------------------------------------------------------|
-      3 +|+          +             +            +             +          +-+|
-        *|*****   ####             +            +             +            +|
-         |    **  #  ##                                                     |
-    2.5 +|+    * ##   ##                                                 +-+|
-         |      *#     ##                                                   |
-         |      *#      #                                                   |
-      2 +|+     ##      ##    :math:``
-         |      #*       # :math:``:math:`  `:math:``:math:``
-         |      #*       #:math:``         :math:``
-    1.5 +|+     #*       :math:``            :math:``
-         |      #*      :math:``#              :math:``     %%%%%%%%%%%%%%%%%%%%%%%%%%%%|
-         |     # *      :math:`  #              `
-         |     #  *    :math:``  #              %%%
-      1 +|+    #  *    :math:`   ##           %%%  `
-         |     #  *   :math:``    #         %%%     :math:``                            |
-         |    ##  *  :math:``     ##       %%        :math:``                           |
-    0.5 +|+   #    * :math:`       ##    %%%          `:math:``                      +-+|
-         |   ##    *:math:`         ##%%%%              `:math:``                       |
-        +|------------------------------------------------------------------|
-      0 %%%%%%%%%%%%%%%%%%%%%%**#######################:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
-        0           0.2           0.4          0.6           0.8           1
-                              Frequency (normalized)
-</pre>
-<img alt="wfbt2filterbank_1_1.png" class="align-center" src="wfbt2filterbank_1_1.png" />
 <p>In the second example, the filterbank is identical to the full
 wavelet tree:</p>
 <pre class="literal-block">
 [g,a] = wfbt2filterbank({'db10',3,'full'});
 filterbankfreqz(g,a,1024,'plot','linabs','posfreq');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|------------------------------------------------------------------|
-      3 +|+          +             +            +             +          +-+|
-        *|*****   ####       :math:``
-         |    **  #  ##    :math:``:math:` `
-    2.5 +|+    * ##   ##  :math:``
-         |      *#     ## :math:`     ` %   %%%  &#64;&#64;&#64;   &#64; &amp;     &amp; ==     =*        |
-         |      *#      #:math:``
-      2 +|+     ##      #
-         |      #*      :math:``       %      &#64;&#64;%%      &amp;       =&amp;      *=        |
-         |      #*      :math:`##      %`     &#64;  %     &amp;&amp;      ==&amp;      *=        |
-    1.5 +|+     #*     :math:`` #     %%
-         |      #*     :math:`  #     % `   &#64;&#64;    %%   &amp; &#64;     =  &amp;     *=        |
-         |     # *     :math:`   #    % `  &#64;&#64;      %%  &amp; &#64;    =   &amp;     * =       |
-         |     #  *   :math:`    #    % ` &#64;&#64;        %% &amp; &#64;    =    &amp;   *  =       |
-      1 +|+    #  *   :math:`    ##   % `&#64;&#64;          %&amp;&amp; &#64;   ==    &amp;   *  =    +-+|
-         |     #  *
-         |    ##  *  :math:`      ## %  &#64;`            &amp;%  &#64; ==      &amp;  *  ==      |
-    0.5 +|+   #    *:math:`        ##%&amp;&amp;&#64;`            &amp;%%
-         |   ##    :math:``         &amp;&amp;&amp;&amp;&amp;&amp;:math:`          &amp;`
-        +|------------------------------------------------------------------|
-      0 ********************************************************&#64;&#64;&amp;&amp;&amp;&amp;======
-        0           0.2           0.4          0.6           0.8           1
-                              Frequency (normalized)
-</pre>
-<img alt="wfbt2filterbank_2_1.png" class="align-center" src="wfbt2filterbank_2_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>
