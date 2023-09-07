@@ -41,110 +41,111 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
         <h1 class="title">FUSIONFRAME - Construct a new fusion frame</h1>
 <h2>Program code:</h2>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[F,L]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">fusionframe</span><span class="p">(</span>frametypes, varargin<span class="p">)</span>
-<span class="c">%FUSIONFRAME  Construct a new fusion frame</span>
-<span class="c">%   Usage: [F,L] = fusionframe(frametypes)</span>
-<span class="c">%          [F,L] = fusionframe(frametypes, &#39;weights&#39;,weights)</span>
-<span class="c">%          [F,L] = fusionframe(frametypes, &#39;ftype&#39;,params)</span>
-<span class="c">%</span>
-<span class="c">%   F=FUSIONFRAME(ftype,...) constructs a new fusion frame object F of type</span>
-<span class="c">%   ftype.</span>
-<span class="c">%</span>
-<span class="c">%   Input parameters:</span>
-<span class="c">%         frametypes     : Cell array with the desired frame types. For</span>
-<span class="c">%                          supported frames, see below.</span>
-<span class="c">%</span>
-<span class="c">%   Output parameters:</span>
-<span class="c">%         F              : fusion frame structure</span>
-<span class="c">%         L              : common frame length</span>
-<span class="c">%</span>
-<span class="c">%   FUSIONFRAME facilitates the construction of fusion frames by allowing</span>
-<span class="c">%   for their programmatic instantiation via the frame type of the local frames. </span>
-<span class="c">%   Further specification of the frames is optionally ppossible. For a</span>
-<span class="c">%   list of supported frames as well as their defaults, see ARG_FUSIONFRAME. </span>
-<span class="c">%   Currently, only one set of optional parameters per fusion frame type is</span>
-<span class="c">%   possible.</span>
-<span class="c">%   The common frame length is calculated as the lowest common multiple of</span>
-<span class="c">%   the frame lengths of the local frames.</span>
-<span class="c">%</span>
-<span class="c">%   Optional parameters:</span>
-<span class="c">%     &#39;weights&#39;,weights     the fusion frame weights; per default set to one</span>
-<span class="c">%</span>
-<span class="c">%     &#39;frametype&#39;,ftype     further parameters for one or more specific</span>
-<span class="c">%                           local frames</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   Examples:</span>
-<span class="c">%   ---------</span>
-<span class="c">%</span>
-<span class="c">%   [F, L] = fusionframe({&#39;dgt&#39;, &#39;fwt&#39;}, &#39;dgt&#39;,{&#39;gauss&#39;, 20, 30});</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">%   See also: frame</span>
-<span class="c">%</span>
-<span class="c">%   Url: http://ltfat.github.io/doc/frames/fusionframe.html</span>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[F,L]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">fusionframe</span><span class="p">(</span>frametypes, varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%FUSIONFRAME  Construct a new fusion frame</span><span class="w"></span>
+<span class="c">%   Usage: [F,L] = fusionframe(frametypes)</span><span class="w"></span>
+<span class="c">%          [F,L] = fusionframe(frametypes, &#39;weights&#39;,weights)</span><span class="w"></span>
+<span class="c">%          [F,L] = fusionframe(frametypes, &#39;ftype&#39;,params)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   F=FUSIONFRAME(ftype,...) constructs a new fusion frame object F of type</span><span class="w"></span>
+<span class="c">%   ftype.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%         frametypes       Cell array with the desired frame types. For</span><span class="w"></span>
+<span class="c">%                          supported frames, see below.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%         F                fusion frame structure</span><span class="w"></span>
+<span class="c">%         L                common frame length</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   FUSIONFRAME facilitates the construction of fusion frames by allowing</span><span class="w"></span>
+<span class="c">%   for their programmatic instantiation via the frame type of the local frames. </span><span class="w"></span>
+<span class="c">%   Further specification of the frames is optionally ppossible. For a</span><span class="w"></span>
+<span class="c">%   list of supported frames as well as their defaults, see ARG_FUSIONFRAME. </span><span class="w"></span>
+<span class="c">%   Currently, only one set of optional parameters per fusion frame type is</span><span class="w"></span>
+<span class="c">%   possible.</span><span class="w"></span>
+<span class="c">%   The common frame length is calculated as the lowest common multiple of</span><span class="w"></span>
+<span class="c">%   the frame lengths of the local frames.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Optional parameters:</span><span class="w"></span>
+<span class="c">%     &#39;weights&#39;,weights     the fusion frame weights; per default set to one</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;frametype&#39;,ftype     further parameters for one or more specific</span><span class="w"></span>
+<span class="c">%                           local frames</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Examples:</span><span class="w"></span>
+<span class="c">%   ---------</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [F, L] = fusionframe({&#39;dgt&#39;, &#39;fwt&#39;}, &#39;dgt&#39;,{&#39;gauss&#39;, 20, 30});</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also: frame</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/frames/fusionframe.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span>
-<span class="c">% This file is part of LTFAT version 2.6.0</span>
-<span class="c">%</span>
-<span class="c">% This program is free software: you can redistribute it and/or modify</span>
-<span class="c">% it under the terms of the GNU General Public License as published by</span>
-<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">% (at your option) any later version.</span>
-<span class="c">%</span>
-<span class="c">% This program is distributed in the hope that it will be useful,</span>
-<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c">% GNU General Public License for more details.</span>
-<span class="c">%</span>
-<span class="c">% You should have received a copy of the GNU General Public License</span>
-<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-
-<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">iscell</span><span class="p">(</span><span class="n">frametypes</span><span class="p">)</span>
-<span class="w">   </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: The frame types need to be passed as a cell array.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span>
-<span class="k">end</span>
-
-<span class="n">framenumber</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">frametypes</span><span class="p">);</span>
-
-<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">weights</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="n">framenumber</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;fusionframe&#39;</span><span class="p">};</span>
-
-<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;framenumber&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">,</span><span class="s">&#39;fusionframe&#39;</span><span class="p">);</span>
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
 
 
-<span class="n">supported_frames</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">kv</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">iscell</span><span class="p">(</span><span class="n">frametypes</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: The frame types need to be passed as a cell array.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">fusionframe_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span>
-<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">framenumber</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">jj</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">supported_frames</span><span class="p">)</span>
-<span class="w">        </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">frametypes</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="w"> </span><span class="n">supported_frames</span><span class="p">{</span><span class="n">jj</span><span class="p">})</span>
-<span class="w">            </span><span class="n">input_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.(</span><span class="n">supported_frames</span><span class="p">{</span><span class="n">jj</span><span class="p">});</span>
-<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">input_args</span><span class="p">)</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">input_args</span><span class="p">{</span><span class="n">kk</span><span class="p">})</span>
-<span class="w">                    </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcat</span><span class="p">(</span><span class="n">frstr</span><span class="p">,</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;,&#39;&#39;%s&#39;&#39;&#39;</span><span class="p">,</span><span class="n">input_args</span><span class="p">{</span><span class="n">kk</span><span class="p">}));</span>
-<span class="w">                </span><span class="k">else</span>
-<span class="w">                    </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcat</span><span class="p">(</span><span class="n">frstr</span><span class="p">,</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;,%i&#39;</span><span class="p">,</span><span class="n">input_args</span><span class="p">{</span><span class="n">kk</span><span class="p">}));</span>
-<span class="w">                </span><span class="k">end</span>
-<span class="w">            </span><span class="k">end</span>
-<span class="w">            </span><span class="c">%remove spurious first comma</span>
-<span class="w">            </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frstr</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
-<span class="w">            </span><span class="nb">eval</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;F_%i = frame(&#39;&#39;%s&#39;&#39;, %s);&#39;</span><span class="p">,</span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">frametypes</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">frstr</span><span class="p">));</span>
-<span class="w">            </span><span class="n">fusionframe_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcat</span><span class="p">(</span><span class="n">fusionframe_args</span><span class="p">,</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&quot;, F_%i&quot;</span><span class="p">,</span><span class="n">ii</span><span class="p">));</span>
-<span class="w">            </span><span class="nb">eval</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;L(%i) = framelength(F_%i, 1);&#39;</span><span class="p">,</span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">));</span>
-<span class="w">        </span><span class="k">end</span>
-<span class="w">    </span><span class="k">end</span>
-<span class="k">end</span>
+<span class="n">framenumber</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">frametypes</span><span class="p">);</span><span class="w"></span>
 
-<span class="c">% calculate the common frame length</span>
-<span class="n">L_temp</span><span class="w"> </span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">framenumber</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-<span class="n">L_temp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="k">for</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">    </span><span class="n">L_temp</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">lcm</span><span class="p">(</span><span class="n">L_temp</span><span class="p">(</span><span class="n">ll</span><span class="p">),</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="mi">1</span><span class="p">));</span>
-<span class="k">end</span>
-<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L_temp</span><span class="p">(</span><span class="k">end</span><span class="p">);</span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">weights</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="n">framenumber</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;fusionframe&#39;</span><span class="p">};</span><span class="w"></span>
 
-<span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">eval</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&quot;frame(&#39;fusion&#39;, kv.weights %s);&quot;</span><span class="p">,</span><span class="n">fusionframe_args</span><span class="p">));</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({</span><span class="s">&#39;framenumber&#39;</span><span class="p">},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">,</span><span class="s">&#39;fusionframe&#39;</span><span class="p">);</span><span class="w"></span>
+
+
+<span class="n">supported_frames</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">kv</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">fusionframe_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">framenumber</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">jj</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">supported_frames</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">frametypes</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="w"> </span><span class="n">supported_frames</span><span class="p">{</span><span class="n">jj</span><span class="p">})</span><span class="w"></span>
+<span class="w">            </span><span class="n">input_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.(</span><span class="n">supported_frames</span><span class="p">{</span><span class="n">jj</span><span class="p">});</span><span class="w"></span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">input_args</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">input_args</span><span class="p">{</span><span class="n">kk</span><span class="p">})</span><span class="w"></span>
+<span class="w">                    </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcat</span><span class="p">(</span><span class="n">frstr</span><span class="p">,</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;,&#39;&#39;%s&#39;&#39;&#39;</span><span class="p">,</span><span class="n">input_args</span><span class="p">{</span><span class="n">kk</span><span class="p">}));</span><span class="w"></span>
+<span class="w">                </span><span class="k">else</span><span class="w"></span>
+<span class="w">                    </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcat</span><span class="p">(</span><span class="n">frstr</span><span class="p">,</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;,%i&#39;</span><span class="p">,</span><span class="n">input_args</span><span class="p">{</span><span class="n">kk</span><span class="p">}));</span><span class="w"></span>
+<span class="w">                </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="c">%remove spurious first comma</span><span class="w"></span>
+<span class="w">            </span><span class="n">frstr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">frstr</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="nb">eval</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;F_%i = frame(&#39;&#39;%s&#39;&#39;, %s);&#39;</span><span class="p">,</span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">frametypes</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="n">frstr</span><span class="p">));</span><span class="w"></span>
+<span class="w">            </span><span class="n">fusionframe_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcat</span><span class="p">(</span><span class="n">fusionframe_args</span><span class="p">,</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&quot;, F_%i&quot;</span><span class="p">,</span><span class="n">ii</span><span class="p">));</span><span class="w"></span>
+<span class="w">            </span><span class="nb">eval</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;L(%i) = framelength(F_%i, 1);&#39;</span><span class="p">,</span><span class="n">ii</span><span class="p">,</span><span class="w"> </span><span class="n">ii</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">% calculate the common frame length</span><span class="w"></span>
+<span class="n">L_temp</span><span class="w"> </span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">framenumber</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">L_temp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">L_temp</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">lcm</span><span class="p">(</span><span class="n">L_temp</span><span class="p">(</span><span class="n">ll</span><span class="p">),</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L_temp</span><span class="p">(</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">eval</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&quot;frame(&#39;fusion&#39;, kv.weights %s);&quot;</span><span class="p">,</span><span class="n">fusionframe_args</span><span class="p">));</span><span class="w"></span>
 </pre></div>
 
 

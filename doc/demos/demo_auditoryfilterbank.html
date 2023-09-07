@@ -48,10 +48,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <p>In this file we construct a uniform filterbank using a the impulse
 response of a 4th order gammatone for each channel. The center frequencies
-are equidistantly spaced on an ERB-scale, and the width of the filter are
-choosen to match the auditory filter bandwidth as determined by Moore.</p>
+are equidistantly spaced on an ERB-scale, and the width of the filters are
+chosen to match the auditory filter bandwidth as determined by Moore.</p>
 <p>Each channel is subsampled by a factor of 8 (a=8), and to generate a
-nice plot, 4 channels per Erb has been used.</p>
+nice plot, 4 channels per Erb have been used.</p>
 <p>The filterbank covers only the positive frequencies, so we must use
 <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankrealdual.html">filterbankrealdual</a></span> and <span class="linkrole"><a href="#BASEURL#/doc/filterbank/filterbankrealbounds.html">filterbankrealbounds</a></span>.</p>
 <div class="figure align-center">
@@ -69,15 +69,6 @@ Auditory filterbank representation of the spoken sentense using
 gammatone filters on an Erb scale.  The dynamic range has been set to
 50 dB, to highlight the most important features.</div>
 </div>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-Frame bound ratio for gammatone filterbank, should be close to 1 if the filters are choosen correctly.
-ans =  1.6238
-Relative error in reconstruction, should be close to zero.
-ans =  0.000063517
-Relative error in interative reconstruction, should be close to zero.
-ans =  0.00000000018834
-</pre>
 <H2>References:</H2>
 
 
