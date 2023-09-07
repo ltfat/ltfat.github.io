@@ -159,102 +159,18 @@ g=pgauss(128);
 % Test of DFT invariance: Should be close to zero.
 norm(g-dft(g))
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans = 2.5103e-15
-</pre>
 <p>The next plot shows the Gaussian in the time domain:</p>
 <pre class="literal-block">
 plot(fftshift(pgauss(128)));
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|---------------------------------------------------------------------|
- 0.4 +|+       +         +         +         +         +         +       +-+|
-     +|        +         +         +         +         +         +         +|
-      |                               *                                     |
-      |                              **                                     |
-      |                              * *                                    |
- 0.3 +|+                             * *                                 +-+|
-      |                             *  *                                    |
-      |                             *   *                                   |
-      |                             *   *                                   |
-      |                             *   *                                   |
- 0.2 +|+                           *    *                                +-+|
-      |                            *    *                                   |
-      |                            *     *                                  |
-      |                            *     *                                  |
-      |                            *     *                                  |
- 0.1 +|+                          *      *                               +-+|
-      |                           *       *                                 |
-      |                           *       *                                 |
-      |                          *        **                                |
-     +|---------------------------------------------------------------------|
-   0 +**************************   +        **************************   +-+
-     0        20        40        60        80        100       120       140
-</pre>
-<img alt="pgauss_2_1.png" class="align-center" src="pgauss_2_1.png" />
 <p>The next plot shows the Gaussian in the frequency domain on a log scale:</p>
 <pre class="literal-block">
 magresp(pgauss(128),'dynrange',100);
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|------------------------------------------------------------------|
-        *|***        +             +            +             +            +|
-        +|  ***      +             +            +             +            +|
-      0 +|+   ***                                                        +-+|
-         |      ***                                                         |
-         |        **                                                        |
-         |         **                                                       |
-    -20 +|+         **                                                   +-+|
-         |           **                                                     |
-         |            **                                                    |
-         |             **                                                   |
-    -40 +|+             **                                               +-+|
-         |               **                                                 |
-         |                *                                                 |
-         |                **                                                |
-    -60 +|+                **                                            +-+|
-         |                  *                                               |
-         |                   *                                              |
-    -80 +|+                  **                                          +-+|
-        +|------------------------------------------------------------------|
-        +            +        **   +            +             +            +
-        0           0.2           0.4          0.6           0.8           1
-                              Frequency (normalized)
-</pre>
-<img alt="pgauss_3_1.png" class="align-center" src="pgauss_3_1.png" />
 <p>The next plot shows the Gaussian in the time-frequency plane:</p>
 <pre class="literal-block">
 sgram(pgauss(128),'tc','nf','lin');
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-|-----------------------------------------------|      |--|
-        1 +|+      +       +      +       +      +      +++|     +|++|
-           |+      +       +      +       +      +       + |      |  |
-           |                                               |      |  |
-           |                                               |      |  |
-           |                                               |     +|++|.8
-      0.5 +|+                                           +-+|      |  |
-           |                                               |      |  |
-           |                                               |      |  |
-           |                                               |     +|++|.6
-           |                                               |      |  |
-        0 +|+                                           +-+|      |  |
-           |                                               |     +|++|.4
-           |                                               |      |  |
-           |                                               |      |  |
-     -0.5 +|+                                           +-+|      |  |
-           |                                               |     +|++|.2
-           |                                               |      |  |
-           |                                               |      |  |
-           |-----------------------------------------------|      |--|
-            +      +       +      +       +      +       +       +-++0
-           -60    -40     -20     0      20     40      60
-</pre>
-<img alt="pgauss_4_1.png" class="align-center" src="pgauss_4_1.png" />
 </div>
 <H2>References:</H2>
 
