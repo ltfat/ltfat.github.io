@@ -148,6 +148,32 @@ J = 6;
 [c,info] = uwpfbt(f,{'db10',J,'full'});
 plotwavelets(c,info,fs,'dynrange',90);
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-----------------------------------------------|      |--|
+          +|           +            +            +         |      |  |
+      120 +|+          +            +            +      +-+|      |  |
+           |                                               |      |  |
+           |                                               |     +|++|20
+      100 +|+                                           +-+|      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+       80 +|+                                           +-+|     +|++|40
+           |                                               |      |  |
+           |                                               |      |  |
+       60 +|+                                           +-+|      |  |
+           |                                               |      |  |
+           |                                               |     +|++|60
+       40 +|+                                           +-+|      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+       20 +|+                                           +-+|     +|++|80
+           |                                               |      |  |
+          +|-----------------------------------------------|      |--|
+          +            +            +            +
+          0           0.1          0.2          0.3
+</pre>
+<img alt="uwpfbt_1_1.png" class="align-center" src="uwpfbt_1_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

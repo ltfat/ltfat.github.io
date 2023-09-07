@@ -134,6 +134,32 @@ J = 6;
 [c,info] = wpfbt(f,{'sym10',J,'full'});
 plotwavelets(c,info,44100,'dynrange',90);
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-----------------------------------------------|      |--|
+          +|      +       +       +       +       +        |      |  |
+      120 +|+     +       +       +       +       +     +-+|      |  |
+           |                                               |      |  |
+           |                                               |     +|++|20
+      100 +|+                                           +-+|      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+       80 +|+                                           +-+|     +|++|40
+           |                                               |      |  |
+           |                                               |      |  |
+       60 +|+                                           +-+|      |  |
+           |                                               |      |  |
+           |                                               |     +|++|60
+       40 +|+                                           +-+|      |  |
+           |                                               |      |  |
+           |                                               |      |  |
+       20 +|+                                           +-+|     +|++|80
+           |                                               |      |  |
+          +|-----------------------------------------------|      |--|
+          +       +       +       +       +       +
+          0       1       2       3       4       5
+</pre>
+<img alt="wpfbt_1_1.png" class="align-center" src="wpfbt_1_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

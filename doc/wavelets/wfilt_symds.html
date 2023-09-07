@@ -55,9 +55,61 @@ a tight frame.</p>
 <pre class="literal-block">
 wfiltinfo('ana:symds3');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. Wavelet imp. respWavelet imp. respWavelet imp. response no: 3
+      0.6 +|+   F     0.2 +|+   F      0.6 +|+   F      0.6 +|+ F
+      0.4 +|+   %     0.1 &amp;|&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp; 0.4 &amp;|&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp; 0.4 &amp;|&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+      0.2 +|----------0.1 +|-----------0.2 +|-----------0.2 F|----------
+        0 &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;-0.2 ++++ ++%F + -0.6 ++++ +F + + -0.6 +++++F+ ++
+       Scaling functioWavelet function:Wavelet function:Wavelet function: 3
+     0.12 +|+ +*++ +-0.04 +|+ +*++ +-+|0.1 +|+ +**+ +-+|0.1 +|++ * ++-+|
+     00.1 +|+ +**+ +-0.02 *|**********0.05 *|*****+****0.05 *|*****+***|
+     0.04 +|---------0.02 *|----------0.05 *|----------0.05 +|---------|
+        0 ***** ****-0.04 +-+ * ++ +-+-0.1 +-+ +*++ +-+-0.1 +-++ * ++-+
+           -4-2 02 4       -4-2 02 4        -4-2 02 4        -20 2 46
+           |              Magnitude frequency response
+       -0 *|******%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%********
+ |H|[dB]0 +|------------------------------------------------------------
+      -25 +-%%%       +         ****###   ####***         +       %%% +
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+           |                                      :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+      0.1 :math:`|`:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+        0 %|------------------------------------------------------------
+          +           +           +     **********%%%%%%%%%%%%%%%%%%%%%
+          0          0.2         0.4         0.6         0.8          1
+</pre>
+<img alt="wfilt_symds_1_1.png" class="align-center" src="wfilt_symds_1_1.png" />
 <pre class="literal-block">
 wfiltinfo('syn:symds3');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Scaling imp. Wavelet imp. respWavelet imp. respWavelet imp. response no: 3
+      0.6 +|+   F     0.2 +|+    %F    0.4 +|+   F      0.4 +|+ F
+      0.4 +|+   %     0.1 &amp;|&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp; 0.2 &amp;|&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp; 0.2 &amp;|&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;
+      0.2 +|----------0.1 +|-----------0.2 +|-----------0.2 +|----------
+        0 &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;-0.2 ++++ +F + + -0.4 ++++ +F + + -0.4 +++++F+ ++
+       Scaling functioWavelet function:Wavelet function:Wavelet function: 3
+     0.12 +|+ +*++ +-0.04 +|+ * ++ +-+|     |+ +*++ +  |     |++ * ++  |
+     00.1 +|+ +**+ +-0.02 *|* ********0.05 *|**********0.05 *|*********|
+     0.04 +|---------0.02 *|----------0.05 +|----------0.05 +|---------|
+        0 ***** ****-0.04 +-+ +*++ +-+       + +*++ +         ++ * ++
+           -4-2 02 4       -4-2 02 4        -4-2 02 4        -20 2 46
+           |              Magnitude frequency response
+       -0 *|*******##%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##*********
+ |H|[dB]0 +|------------------------------------------------------------
+      -25 +-#%%%      +         ****###   ###****         +      %%%% +
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+        1 +|+                           :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+      0.5 %|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     -0.0 %|------------------------------------------------------------
+       -1 +-+         +           +     ###############################
+          0          0.2         0.4         0.6         0.8          1
+</pre>
+<img alt="wfilt_symds_2_1.png" class="align-center" src="wfilt_symds_2_1.png" />
 </div>
 <H2>References:</H2>
 

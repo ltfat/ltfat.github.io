@@ -78,10 +78,62 @@ frequency seponses. Supported are:</p>
 <pre class="literal-block">
 wfiltinfo('syn:spline8:8');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|Scaling imp. response           Wavelet imp. response no: 1
+           |          F                    4 +|+          F
+      0.3 +|+        F%F                   3 +|+      F   %   F
+      0.1 +|-------------------------     -0 &amp;|-------------------------
+        0 &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;      -2 +-++     + %  +%    +    +
+          -|--Scaling function------|         |-Wavelet function: 1----|
+     0.05 +|+  +     +*** +     ++-+|    0.3 +|+     +   **    +    +++|
+     0.04 +|+  +     +* * +     ++-+|    0.2 +|+     + * ** *  +    +++|
+     0.02 +|------------------------|   -0.0 *|------------------------|
+        0 ************   ***********    -0.2 +-+     +  ****   +    +++
+              -5     0    5    10             -10   -5    0    5    10
+           |              Magnitude frequency response
+       20 +|+     ###############               ###############
+ |H|[dB]0 *|------------------------------------------------------------
+      -20 +-+###      + *******   +           +   ******* +      ###  +
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+           |                                      #####################
+        1 #|#######################################
+       -1 +|------------------------------------------------------------
+       -2 +-+         +           +     *******************************
+          0          0.2         0.4         0.6         0.8          1
+</pre>
+<img alt="wfiltinfo_1_1.png" class="align-center" src="wfiltinfo_1_1.png" />
 <p>Details of the 'ana:spline8:8' wavelet filters:</p>
 <pre class="literal-block">
 wfiltinfo('ana:spline8:8');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|Scaling imp. response           Wavelet imp. response no: 1
+        4 +|+         F                  0.3 +|+          F
+        3 +|+     F   %   F              0.2 +|+        F % F
+       -0 &amp;|-------------------------   -0.0 &amp;|-------------------------
+       -2 +++    +  % + %  +     +      -0.2 +-++     +  % %     +    +
+          -|--Scaling function------|         |-Wavelet function: 1----|
+     1000 +|+  +     +*** +     ++-+|    200 +|+     +   **    +    +++|
+      500 +|+  +    *******     ++-+|    100 +|+     + ******  +    +++|
+        0 *|------------------------|   -100 *|------------------------|
+     -500 +-+  +     *****+     ++-+    -200 +-+     +  ****   +    +++
+              -5     0    5    10             -10   -5    0    5    10
+           |              Magnitude frequency response
+       20 +|+     ***************               ***************
+ |H|[dB]0 *|------------------------------------------------------------
+      -20 +-+       #######       +***     ***+       #######         +
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+      2.5 +|+                                                       ###
+      1.5 #|+                     ################################### #
+      0.5 #|------------------------------------------------------------
+     -0.5 #-+         +           +     *     +           +           +
+          0          0.2         0.4         0.6         0.8          1
+</pre>
+<img alt="wfiltinfo_2_1.png" class="align-center" src="wfiltinfo_2_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

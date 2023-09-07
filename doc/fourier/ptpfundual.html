@@ -156,6 +156,13 @@ fprintf('Reconstruction error PTPFUNDUAL: %e\n',norm(f-fr)/norm(f));
 fr = idgt(dgt(f,g,a,M),gdLTFAT,a,numel(f));
 fprintf('Reconstruction error GABDUAL:    %e\n',norm(f-fr)/norm(f));
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+PTPFUNDUAL elapsed time 0.046800 s
+GABDUAL elapsed time    33.498519 s
+Reconstruction error PTPFUNDUAL: 5.291779e-12
+Reconstruction error GABDUAL:    9.011672e-15
+</pre>
 </div>
 <H2>References:</H2>
 

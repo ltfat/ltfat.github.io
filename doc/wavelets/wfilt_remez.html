@@ -74,6 +74,32 @@ factorization of the complex cepstrum of the polynomial.</p>
 <pre class="literal-block">
 wfiltinfo('remez50:2:0.1');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|Scaling imp. response           Wavelet imp. response no: 1
+      0.6 +|+                    F       0.4 +|F
+      0.4 +|+                  F FF      0.2 :math:`|`:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:``
+        0
+     -0.2 +-++    +    +    +   F+      -0.6 +-F+    +    +    +    +
+           |--Scaling function------|         |-Wavelet function: 1----|
+      0.1 +|*    +    +    +    ++-+|         |+    +    ***  +    +   |
+     0.05 +|**   +    +    +    ++-+|   0.05 +|+    **********+    ++-+|
+        0 *|------------------------|  -0.00 *|------------------------|
+    -0.05 +-**   +    +    +    ++-+           +    +    +*   +    +
+           -40  -30  -20  -10   0              0   10   20   30   40
+           |              Magnitude frequency response
+       -0 *|************#################################**************
+ |H|[dB]0 +|------------------------------------------------------------
+      -25 +-+         ##   **     +           +      *   ##           +
+          0          0.2         0.4         0.6         0.8          1
+           |                Phase frequency response
+           |                                                ###########
+        5 #|#################################################
+       -0 #|------------------------------------------------------------
+          +           +           +           +************************
+          0          0.2         0.4         0.6         0.8          1
+</pre>
+<img alt="wfilt_remez_1_1.png" class="align-center" src="wfilt_remez_1_1.png" />
 </div>
 <H2>References:</H2>
 

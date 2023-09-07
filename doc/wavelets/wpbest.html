@@ -225,6 +225,32 @@ view(90,-90);
 xlabel('Channel no.');
 ylabel('Subsampling rate / samples');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|-----------------------------|   |-|        |--------------|
+          +|   +    +    +    +    +     |   | |   300 +|+  +   +   +++|
+          +|   +    +    +    +    +     |   | |        |   +   +    + |
+      150 +|+                         +-+|   | |        |              |
+           |                             |  +|+|   250 F|FFFFFFFFFFFFFF|
+           |                             |   | |        |              |
+           |                             |   | |        |              |
+           |                             |   | |   200 +|+          +-+|
+      100 +|+                         +-+|  +|+|20      |              |
+           |                             |   | |        |              |
+           |                             |   | |   150 +|+          +-+|
+           |                        Subsampling rate / s|mples         |
+           |                             |  +|+|40      | FFFFFFFF F FF|
+           |                             |   | |        |              |
+       50 +|+                         +-+|   | |   100 +|+          +-+|
+           |                             |   | |        |              |
+           |                             |   | |        |    FFF FF F  |
+           |                             |  +|+|60  50 +|+          +-+|
+           |                             |   | |        |       FFFF   |
+          +|-----------------------------|   |-|        |--------------|
+          +    +    +    +    +    +                 0 +-+  +   +   +++
+          0    1    2    3    4    5                       50  100  150
+</pre>
+<img alt="wpbest_1_1.png" class="align-center" src="wpbest_1_1.png" />
 </div>
 <H2>References:</H2>
 

@@ -112,12 +112,66 @@ using a duel-tree of depth 3:</p>
 [g,a] = dtwfb2filterbank({'qshift3',3},'real');
 filterbankfreqz(g,a,1024,'plot','linabs');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|------------------------------------------------------------------|
+      3 +|+              +               +                +              +-+|
+         |               +               +                +                +|
+         |                                  ** ##                           |
+    2.5 +|+                                ***# ##                       +-+|
+         |                                ** *#  #                          |
+         |                                *  *#  ##                         |
+      2 +|+                              **   #   #                      +-+|
+         |                               *    #   # :math:``
+         |                               *   #*   #:math:`` :math:``
+    1.5 +|+                             **   #*   :math:``    :math:``
+         |                              *    #*   :math:`#      `
+         |                              *    #*  :math:``#       :math:``%%%%%%%%%%%    |
+         |                             **    #*
+      1 %|%%                           *     # * :math:`  #    %%  `
+         | %%%                         *     # *:math:`   #  %%%    `
+         |    %%%                     **    #  *:math:`   # %%       `
+    0.5 +|+     %%%                   *     #  :math:``   #%%         :math:``       +-+|
+         |        %%%%                *     #  :math:`   %%#           `
+         |------------------------------------------------------------------|
+      0 :math:``:math:``:math:``:math:``:math:``:math:``:math:``:math:`%%%%%`:math:``:math:``%%%%%%%%%%%%%%%%*****##########****:math:``:math:``:math:``:math:``
+                       -0.5              0               0.5               1
+                              Frequency (normalized)
+</pre>
+<img alt="dtwfb2filterbank_1_1.png" class="align-center" src="dtwfb2filterbank_1_1.png" />
 <p>In the second example, the filterbank is identical to the full
 wavelet tree:</p>
 <pre class="literal-block">
 [g,a] = dtwfb2filterbank({'qshift3',3,'full'},'real');
 filterbankfreqz(g,a,1024,'plot','linabs');
 </pre>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+|------------------------------------------------------------------|
+      3 +|+              +               +                +              +-+|
+         |               +               +                +                +|
+         |                                  ** ##                   === **  |
+    2.5 +|+                                ***# ## :math:``
+         |                                ** *#  # :math:` ` %%   &#64;&#64; &amp; &amp;&amp;== =*  * |
+         |                                *  *#  #:math:`` :math:``% % &#64;&#64;&#64;&#64;&amp;  &amp;=   *  **|
+      2 *|+                              **   #
+        *|                               *    #
+        *|                               *   #*  :math:``   %  &#64; %% &amp;&#64;  =&amp;   *    |
+    1.5 +|+                             **   #*
+         |*                             *    #*
+         |*                             *    #* :math:`` # % &#64;     %&amp;&#64; =  &amp; *=    |
+         |*                            **    #*
+      1 +|*                            *     # *
+         |**                           *     # *:math:`   &amp;&amp;&amp;`     &amp;%%==   &amp;* =   |
+         | *                          **    #  :math:``  &amp;&amp; &#64;&amp;:math:`    &amp;`%=
+    0.5 +|+*                          *     #  :math:`   &amp;%&#64; &amp;`    &amp; %=:math:``  *  =+-+|
+         | **                         *     #  :math:` ====&#64;  &amp;   &amp;` ==&#64;:math:``#*&amp; =   |
+         |------------------------------------------------------------------|
+      0 ====*=********************************************************&amp;&amp;&amp;===
+                       -0.5              0               0.5               1
+                              Frequency (normalized)
+</pre>
+<img alt="dtwfb2filterbank_2_1.png" class="align-center" src="dtwfb2filterbank_2_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>
