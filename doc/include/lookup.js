@@ -72,6 +72,7 @@ var globalfunlist = {
    demo_phaseplot:'demos/demo_phaseplot',
    demo_phaseret:'demos/demo_phaseret',
    demo_tfjigsawsep:'demos/demo_tfjigsawsep',
+   demo_waveletfilters:'demos/demo_waveletfilters',
    demo_wavelets:'demos/demo_wavelets',
    demo_wfbt:'demos/demo_wfbt',
    dfracft:'fourier/dfracft',
@@ -171,6 +172,7 @@ var globalfunlist = {
    frsynabs:'frames/frsynabs',
    frsyniter:'frames/frsyniter',
    frsynmatrix:'frames/frsynmatrix',
+   fusionframe:'frames/fusionframe',
    fwt:'wavelets/fwt',
    fwt2:'wavelets/fwt2',
    fwtclength:'wavelets/fwtclength',
@@ -195,10 +197,12 @@ var globalfunlist = {
    gaboptdual:'gabor/gaboptdual',
    gabopttight:'gabor/gabopttight',
    gabphasederiv:'gabor/gabphasederiv',
+   gabphasederivreal:'gabor/gabphasederivreal',
    gabphasegrad:'gabor/gabphasegrad',
    gabprojdual:'gabor/gabprojdual',
    gabreassign:'gabor/gabreassign',
    gabreassignadjust:'gabor/gabreassignadjust',
+   gabreassignreal:'gabor/gabreassignreal',
    gabrieszbounds:'gabor/gabrieszbounds',
    gabtight:'gabor/gabtight',
    gabwin:'gabor/gabwin',
@@ -254,6 +258,7 @@ var globalfunlist = {
    lichtenstein:'signals/lichtenstein',
    linus:'signals/linus',
    long2fir:'sigproc/long2fir',
+   lowdiscrepancy:'sigproc/lowdiscrepancy',
    ltfatarghelper:'base/ltfatarghelper',
    ltfatbasepath:'base/ltfatbasepath',
    ltfatgetdefaults:'base/ltfatgetdefaults',
@@ -433,4 +438,4 @@ var globalfunlist = {
    zak:'gabor/zak',
 };
 
- var toolboxversion='2.5.0'; 
+ var toolboxversion='2.6.0'; 

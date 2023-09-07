@@ -1,0 +1,130 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>MULACLAB - Graphical interface for audio processing using frame multipliers</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="mulaclab_code.html">View the code</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">MULACLAB - Graphical interface for audio processing using frame multipliers</h1>
+
+<div class="section" id="usage">
+<h2>Usage</h2>
+<pre class="literal-block">
+mulaclab;
+mulaclab(filename);
+mulaclab(signal, fs);
+</pre>
+</div>
+<div class="section" id="input-parameters">
+<h2>Input parameters</h2>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option"><var>filename</var></span></kbd></td>
+<td>File name of the signal to process.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>signal</var></span></kbd></td>
+<td>Signal to process, which must be a vector.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option"><var>fs</var></span></kbd></td>
+<td>Sampling frequency of the signal.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p>When starting <tt class="docutils literal">mulaclab</tt> without any input parameter, the user is asked to
+choose the processed signal, named original signal in the interface.</p>
+<p>Possible signals are <tt class="docutils literal">.wav</tt> files and <tt class="docutils literal">.mat</tt> files containing decompositions
+preliminarily saved using the <tt class="docutils literal">mulaclab</tt> interface. The interface only
+handles monochannel signals. So for multichannel <tt class="docutils literal">.wav</tt> files, the first
+channel is used as the original signal.</p>
+<p>Optionnaly, the file name of the original signal can be directly passed as
+an input parameter. The original signal can also be directly passed as a
+vector along its sampling frequency.</p>
+<p>After choosing the original signal, the user is presented with the main
+interface. This interface is divided in two areas:</p>
+<ul>
+<li><p class="first">The right part of the figure contains the visualizations, which
+represent the spectrograms of the original and modified signals.</p>
+<p>The 'Original signal' visualization is used to display the original
+signal spectrogram and to graphically define the symbol of the frame
+multiplier that will be applied on this signal.</p>
+<p>The 'Overview of original signal' visualization also represents the
+original signal spectrogram and can be used for fast zooming and moving
+of the other visualizations. Zooming and moving is controlled by mouse
+interaction with the white rectangle displayed on this visualization.</p>
+<p>The 'Modified signal' visualization is used to display the spectrogram
+of the modified signal after application of the multiplier.</p>
+<p>It is possible to hide the 'Overview of original signal' and 'Modified
+signal' visulizations using the 'Visualization' menu.</p>
+</li>
+<li><p class="first">The left part of the figure contains panels with tools for user
+interaction.</p>
+<p>The 'Audioplayer' panel contains the controls for audio playback of the
+original and modified signal.</p>
+<p>The 'Visualization' panel contains tools used to adapt the display
+of the visualizations.</p>
+<p>The 'Selection' panel contains tools and information concerning the
+multilayered selection used to graphically specify the symbol of the
+multiplier.</p>
+</li>
+</ul>
+<p>Known MATLAB limitations:</p>
+<ul class="simple">
+<li>When using MATLAB on Linux with multiple screens, there might be a
+MATLAB bug preventing the display of the multiplier symbol. This can be
+solved by docking the figure.</li>
+<li>When using a MATLAB version prior to 7.3 (R2006b), the rectangle
+displayed on the 'Overview of original signal' visualization is not
+automatically updated when using the zoom and pan tools of the 'Zoom'
+panel. It can be manually updated by re-clicking on the currently
+selected tool or by changing the current tool.</li>
+</ul>
+</div>
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

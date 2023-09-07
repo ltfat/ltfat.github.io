@@ -1,0 +1,366 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>LTFATARGHELPER - Parse arguments for LTFAT</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfatarghelper.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/base/ltfatgetdefaults.html">ltfatgetdefaults</a></li>
+<li><a href="#BASEURL#/doc/base/ltfatsetdefaults.html">ltfatsetdefaults</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LTFATARGHELPER - Parse arguments for LTFAT</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[flags,keyvals,varargout]<span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nf">ltfatarghelper</span><span class="p">(</span>posdepnames,definput,arglist,callfun<span class="p">)</span><span class="w"></span>
+<span class="c">%LTFATARGHELPER  Parse arguments for LTFAT</span><span class="w"></span>
+<span class="c">%   Usage: [flags,varargout]  = ltfatarghelper(posdepnames,definput,arglist,callfun);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Input parameters:</span><span class="w"></span>
+<span class="c">%      posdepnames : Names of the position dependant parameters.</span><span class="w"></span>
+<span class="c">%      definput    : Struct to define the allowed input</span><span class="w"></span>
+<span class="c">%      arglist     : Commandline of the calling function (varargin)</span><span class="w"></span>
+<span class="c">%      callfun     : Name of calling function (optional)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Output parameters:</span><span class="w"></span>
+<span class="c">%      flags       : Struct with information about flags.</span><span class="w"></span>
+<span class="c">%      keyvals     : Struct with key / values.</span><span class="w"></span>
+<span class="c">%      varargout   : The position dependant pars. properly initialized</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   [flags,keyvals]=LTFATARGHELPER(posdepnames,definput,arglist) assists in</span><span class="w"></span>
+<span class="c">%   parsing input parameters for a function in LTFAT. Parameters come in</span><span class="w"></span>
+<span class="c">%   four categories:</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%    Position dependant parameters. These must not be strings. These are</span><span class="w"></span>
+<span class="c">%     the first parameters passed to a function, and they are really just a</span><span class="w"></span>
+<span class="c">%     short way of specifying key/value pairs. See below.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%    Flags. These are single string appearing after the position dependant</span><span class="w"></span>
+<span class="c">%     parameters.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%    Key/value pairs. The key is always a string followed by the value,</span><span class="w"></span>
+<span class="c">%     which can be anything.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%    Expansions. These appear as flags, that expand into a pre-defined list</span><span class="w"></span>
+<span class="c">%     of parameters.  This is a short-hand way of specifying standard sets of</span><span class="w"></span>
+<span class="c">%     flags and key/value pairs.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The parameters are parsed in order, so parameters appearing later in</span><span class="w"></span>
+<span class="c">%   varargin will override previously set values.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The following example for calling LTFATARGHELPER is taken from DGT:</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%     definput.keyvals.L=[];</span><span class="w"></span>
+<span class="c">%     definput.flags.phase={&#39;freqinv&#39;,&#39;timeinv&#39;};</span><span class="w"></span>
+<span class="c">%     [flags,kv]=ltfatarghelper({&#39;L&#39;},definput,varargin);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The first line defines a key/value pair with the key &#39;L&#39; having an</span><span class="w"></span>
+<span class="c">%   initial value of [] (the empty matrix).</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The second line defines a group of flags by the name of phase.  The</span><span class="w"></span>
+<span class="c">%   group phase contains the flags &#39;freqinv&#39; and &#39;timeinv&#39;, which can</span><span class="w"></span>
+<span class="c">%   both be specified on the command line by the user. The group-name</span><span class="w"></span>
+<span class="c">%   phase is just for internal use, and does not appear to the user. The</span><span class="w"></span>
+<span class="c">%   flag mentioned first in the list will be selected by default, and only</span><span class="w"></span>
+<span class="c">%   one flag in a group can be selected at any time. A group can contain as</span><span class="w"></span>
+<span class="c">%   many flags as desired.</span><span class="w"></span>
+<span class="c">%  </span><span class="w"></span>
+<span class="c">%   The third line is the actual call to LTFATARGHELPER which defines the</span><span class="w"></span>
+<span class="c">%   output flags and kv.  The input {&#39;L&#39;} indicates that the value of</span><span class="w"></span>
+<span class="c">%   the parameter &#39;L&#39; can also be given as the very first value in</span><span class="w"></span>
+<span class="c">%   varargin.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The output struct kv contains the key/value pairs, so the value</span><span class="w"></span>
+<span class="c">%   associated to &#39;L&#39; is stored in kv.L.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The output struct flags contains information about the flags choosen</span><span class="w"></span>
+<span class="c">%   by the user. The value of flags.phase will be set to the selected flag</span><span class="w"></span>
+<span class="c">%   in the group phase and additionally, the value of flags.do_timeinv</span><span class="w"></span>
+<span class="c">%   will be 1 if &#39;timeinv&#39; was selected and 0 otherwise, and similarly for</span><span class="w"></span>
+<span class="c">%   &#39;freqinv&#39;. This allows for easy checking of selected flags.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Advanced usage</span><span class="w"></span>
+<span class="c">%   --------------</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   Expansion import was introduced in order to allow sharing common</span><span class="w"></span>
+<span class="c">%   flags and key/value pairs between functions. </span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   The following example is taken from PLOTDGT and TFPLOT:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       definput.import={&#39;ltfattranslate&#39;,&#39;tfplot&#39;};</span><span class="w"></span>
+<span class="c">%       [flags,kv,fs]=ltfatarghelper({&#39;fs&#39;,&#39;dynrange&#39;},definput,varargin);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   This code instructs LTFATARGHELPER to run functions </span><span class="w"></span>
+<span class="c">%   arg_ltfattranslate and arg_tfplot which define the flags and </span><span class="w"></span>
+<span class="c">%   the key/value pairs. The arg_ functions must have the following signature:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       function definput=arg_name(definput)</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Moreover, a special flag &#39;argimport&#39; is used to pass the flags </span><span class="w"></span>
+<span class="c">%   and the key/value pairs from PLOTDGT to TFPLOT:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       coef=tfplot(...,&#39;argimport&#39;,flags,kv);</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   See also: ltfatgetdefaults, ltfatsetdefaults</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/ltfatarghelper.html</span><span class="w"></span>
+
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+
+<span class="k">persistent</span><span class="w"> </span><span class="n">TF_CONF</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">TF_CONF</span><span class="p">)</span><span class="w"></span>
+
+<span class="c">%  basepath=which(&#39;ltfatarghelper&#39;);</span><span class="w"></span>
+<span class="c">%  % Kill the function name and comp from the path.</span><span class="w"></span>
+<span class="c">%  basepath=basepath(1:end-22);</span><span class="w"></span>
+<span class="c">%  % add the base path</span><span class="w"></span>
+<span class="c">%  addpath(basepath);</span><span class="w"></span>
+<span class="c">%  ltfatstart;</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">posdepnames</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Special interface needed for ltfatsetdefaults and ltfatgetdefaults,</span><span class="w"></span>
+<span class="w">  </span><span class="c">% activated when first argument is a string.</span><span class="w"></span>
+
+<span class="w">  </span><span class="c">% First input  argument, posdepnames, is a string, one of the options</span><span class="w"></span>
+<span class="w">  </span><span class="c">% in the &quot;switch&quot; section below</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Second input argument, definput,    is a function name to get or set</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Third  input argument, arglist ,    is a cell-array with options to set.</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">switch</span><span class="p">(</span><span class="nb">lower</span><span class="p">(</span><span class="n">posdepnames</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;get&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="p">,</span><span class="n">definput</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">flags</span><span class="p">=</span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="p">.(</span><span class="n">definput</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="n">flags</span><span class="p">={};</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;set&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="p">.(</span><span class="n">definput</span><span class="p">)=</span><span class="n">arglist</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;all&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="n">flags</span><span class="p">=</span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;clearall&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="p">=</span><span class="nb">struct</span><span class="p">;</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="o">&lt;</span><span class="mi">4</span><span class="w"></span>
+<span class="w">  </span><span class="n">f</span><span class="p">=</span><span class="nb">dbstack</span><span class="p">;</span><span class="w">  </span>
+<span class="w">  </span><span class="n">callfun</span><span class="p">=</span><span class="n">f</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">nposdep</span><span class="p">=</span><span class="nb">numel</span><span class="p">(</span><span class="n">posdepnames</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Resolve import specifications BEFORE adding our own specifications.</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">definput</span><span class="p">,</span><span class="s">&#39;import&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">imp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">definput</span><span class="p">=</span><span class="nb">feval</span><span class="p">([</span><span class="s">&#39;arg_&#39;</span><span class="p">,</span><span class="n">imp</span><span class="p">{</span><span class="mi">1</span><span class="p">}],</span><span class="n">definput</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">definput</span><span class="p">,</span><span class="s">&#39;flags&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">defflags</span><span class="p">=</span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">defflags</span><span class="p">=</span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">definput</span><span class="p">,</span><span class="s">&#39;keyvals&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">defkeyvals</span><span class="p">=</span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">defkeyvals</span><span class="p">=</span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">definput</span><span class="p">,</span><span class="s">&#39;groups&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">groups</span><span class="p">=</span><span class="n">definput</span><span class="p">.</span><span class="n">groups</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">  </span><span class="n">groups</span><span class="p">=</span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">total_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">arglist</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Determine the position of the first optional argument.</span><span class="w"></span>
+<span class="c">% If no optional argument is given, return nposdep+1</span><span class="w"></span>
+<span class="n">first_str_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">while</span><span class="w"> </span><span class="n">first_str_pos</span><span class="o">&lt;=</span><span class="n">total_args</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">ischar</span><span class="p">(</span><span class="n">arglist</span><span class="p">{</span><span class="n">first_str_pos</span><span class="p">})</span><span class="w"> </span>
+<span class="w">  </span><span class="n">first_str_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">first_str_pos</span><span class="w"> </span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w">    </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% If more than nposdep arguments are given, the first additional one must</span><span class="w"></span>
+<span class="c">% be a string</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">first_str_pos</span><span class="o">&gt;</span><span class="n">nposdep</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Too many input arguments&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="n">callfun</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">n_first_args</span><span class="p">=</span><span class="nb">min</span><span class="p">(</span><span class="n">nposdep</span><span class="p">,</span><span class="n">first_str_pos</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">keyvals</span><span class="p">=</span><span class="n">defkeyvals</span><span class="p">;</span><span class="w">      </span>
+
+<span class="c">% Copy the given first arguments</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">n_first_args</span><span class="w"></span>
+<span class="w">  </span><span class="n">keyvals</span><span class="p">.(</span><span class="n">posdepnames</span><span class="p">{</span><span class="n">ii</span><span class="p">})=</span><span class="n">arglist</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Initialize the position independent parameters.</span><span class="w"></span>
+<span class="c">% and create reverse mapping of flag -&gt; group</span><span class="w"></span>
+<span class="n">flagnames</span><span class="p">=</span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">defflags</span><span class="p">);</span><span class="w"></span>
+<span class="n">flags</span><span class="p">=</span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="c">% In order for flags to start with a number, it is necessary to add</span><span class="w"></span>
+<span class="c">% &#39;x_&#39; before the flag when the flags are used a field names in</span><span class="w"></span>
+<span class="c">% flagreverse. Externally, flags are never used a field names in</span><span class="w"></span>
+<span class="c">% structs, so this is an internal problem in ltfatarghelper that is</span><span class="w"></span>
+<span class="c">% fixed this way.</span><span class="w"></span>
+<span class="n">flagsreverse</span><span class="p">=</span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">flagnames</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">name</span><span class="p">=</span><span class="n">flagnames</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">flaggroup</span><span class="p">=</span><span class="n">defflags</span><span class="p">.(</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">flags</span><span class="p">.(</span><span class="n">name</span><span class="p">)=</span><span class="n">flaggroup</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">jj</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">flaggroup</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">flagsreverse</span><span class="p">.([</span><span class="s">&#39;x_&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">flaggroup</span><span class="p">{</span><span class="n">jj</span><span class="p">}])=</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">flags</span><span class="p">.([</span><span class="s">&#39;do_&#39;</span><span class="p">,</span><span class="n">flaggroup</span><span class="p">{</span><span class="n">jj</span><span class="p">}])=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">flags</span><span class="p">.([</span><span class="s">&#39;do_&#39;</span><span class="p">,</span><span class="n">flaggroup</span><span class="p">{</span><span class="mi">1</span><span class="p">}])=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">%Get the rest of the arguments</span><span class="w"></span>
+<span class="n">restlist</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">arglist</span><span class="p">(</span><span class="n">first_str_pos</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">%Check for default arguments</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="p">,</span><span class="n">callfun</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">s</span><span class="p">=</span><span class="n">TF_CONF</span><span class="p">.</span><span class="n">fundefs</span><span class="p">.(</span><span class="n">callfun</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">restlist</span><span class="p">=[</span><span class="n">s</span><span class="p">,</span><span class="n">restlist</span><span class="p">];</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Check for import defaults</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">definput</span><span class="p">,</span><span class="s">&#39;importdefaults&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="c">% Add the importdefaults before the user specified arguments.</span><span class="w"></span>
+<span class="w">  </span><span class="n">restlist</span><span class="p">=[</span><span class="n">definput</span><span class="p">.</span><span class="n">importdefaults</span><span class="p">,</span><span class="n">restlist</span><span class="p">];</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">while</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">restlist</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">argname</span><span class="p">=</span><span class="n">restlist</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">restlist</span><span class="p">=</span><span class="n">restlist</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w">  </span><span class="c">% pop</span><span class="w"></span>
+<span class="w">  </span><span class="n">found</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Is this name a flag? If so, set it</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">flagsreverse</span><span class="p">,[</span><span class="s">&#39;x_&#39;</span><span class="p">,</span><span class="n">argname</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Unset all other flags in this group</span><span class="w"></span>
+<span class="w">    </span><span class="n">flaggroup</span><span class="p">=</span><span class="n">defflags</span><span class="p">.(</span><span class="n">flagsreverse</span><span class="p">.([</span><span class="s">&#39;x_&#39;</span><span class="p">,</span><span class="n">argname</span><span class="p">]));</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">jj</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">flaggroup</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">flags</span><span class="p">.([</span><span class="s">&#39;do_&#39;</span><span class="p">,</span><span class="n">flaggroup</span><span class="p">{</span><span class="n">jj</span><span class="p">}])=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">flags</span><span class="p">.(</span><span class="n">flagsreverse</span><span class="p">.([</span><span class="s">&#39;x_&#39;</span><span class="p">,</span><span class="n">argname</span><span class="p">]))=</span><span class="n">argname</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">flags</span><span class="p">.([</span><span class="s">&#39;do_&#39;</span><span class="p">,</span><span class="n">argname</span><span class="p">])=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">found</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Is this name the key of a key/value pair? If so, set the value.</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">defkeyvals</span><span class="p">,</span><span class="n">argname</span><span class="p">)</span><span class="w">      </span>
+<span class="w">    </span><span class="n">keyvals</span><span class="p">.(</span><span class="n">argname</span><span class="p">)=</span><span class="n">restlist</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="n">restlist</span><span class="p">=</span><span class="n">restlist</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">found</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Is this name a group definition? If so, put the group in front of the parameters</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span><span class="n">argname</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">s</span><span class="p">=</span><span class="n">groups</span><span class="p">.(</span><span class="n">argname</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">restlist</span><span class="p">=[</span><span class="n">s</span><span class="p">,</span><span class="n">restlist</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">found</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">% Is the name == &#39;argimport&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="s">&#39;argimport&#39;</span><span class="p">,</span><span class="n">argname</span><span class="p">)</span><span class="w">   </span>
+<span class="w">    </span><span class="n">fieldnames_flags</span><span class="p">=</span><span class="w"> </span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">restlist</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span><span class="w">  </span>
+<span class="w">    </span><span class="n">fieldnames_kvs</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">restlist</span><span class="p">{</span><span class="mi">2</span><span class="p">});</span><span class="w">        </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">fieldnames_flags</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">importname</span><span class="p">=</span><span class="n">fieldnames_flags</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span><span class="w"></span>
+<span class="w">      </span><span class="n">flags</span><span class="p">.(</span><span class="n">importname</span><span class="p">)=</span><span class="n">restlist</span><span class="p">{</span><span class="mi">1</span><span class="p">}.(</span><span class="n">importname</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">fieldnames_kvs</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">importname</span><span class="p">=</span><span class="n">fieldnames_kvs</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span><span class="w"></span>
+<span class="w">      </span><span class="n">keyvals</span><span class="p">.(</span><span class="n">importname</span><span class="p">)=</span><span class="n">restlist</span><span class="p">{</span><span class="mi">2</span><span class="p">}.(</span><span class="n">importname</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w">      </span>
+<span class="w">    </span><span class="n">restlist</span><span class="p">=</span><span class="n">restlist</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">found</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">found</span><span class="o">==</span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">argname</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Unknown parameter: %s&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="n">callfun</span><span class="p">),</span><span class="n">argname</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Parameter is not a string, it is of class %s&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="n">callfun</span><span class="p">),</span><span class="nb">class</span><span class="p">(</span><span class="n">argname</span><span class="p">));</span><span class="w">          </span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w">      </span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c">%ii=ii+1;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Fill varargout</span><span class="w"></span>
+
+<span class="nb">varargout</span><span class="p">=</span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nposdep</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">nposdep</span><span class="w"></span>
+<span class="w">    </span><span class="nb">varargout</span><span class="p">(</span><span class="n">ii</span><span class="p">)={</span><span class="n">keyvals</span><span class="p">.(</span><span class="n">posdepnames</span><span class="p">{</span><span class="n">ii</span><span class="p">})};</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+
