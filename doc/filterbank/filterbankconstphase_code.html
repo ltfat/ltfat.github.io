@@ -124,9 +124,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%           to have peaks of equal height.</span><span class="w"></span>
 <span class="c">%           &#39;custscaling&#39;,scal allows passing a custom scaling vector scal. </span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%   &#39;filterbank&#39; (default) or &#39;wavelet&#39;</span><span class="w"></span>
+<span class="c">%   &#39;gabor&#39; (default) or &#39;wavelet&#39;</span><span class="w"></span>
 <span class="c">%           Version of the phase-magnitude relationship to be used. In</span><span class="w"></span>
-<span class="c">%           contrast to &#39;filterbank&#39;, the &#39;wavelet&#39; option does not contain the</span><span class="w"></span>
+<span class="c">%           contrast to &#39;gabor&#39;, the &#39;wavelet&#39; option does not contain the</span><span class="w"></span>
 <span class="c">%           term involving the derivative of sqrt(tfr). </span><span class="w"></span>
 <span class="c">%           See the references for more details.</span><span class="w"></span>
 <span class="c">%           </span><span class="w"></span>
@@ -136,7 +136,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   Example</span><span class="w"></span>
 <span class="c">%   -------</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%   The following example shows basic usage</span><span class="w"></span>
+<span class="c">%   We construct a constant-Q filterbank with fractional downsampling and a reasonably high redundancy.</span><span class="w"></span>
+<span class="c">%   Then, we apply filterbankconstphase on the absolute values of the resulting coefficients to test the</span><span class="w"></span>
+<span class="c">%   reconstruction accuracy of filterbankconstphase.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%    [f,fs] = gspi;</span><span class="w"></span>
+<span class="c">%    [g,a,fc,L,info]=cqtfilters(fs,100,fs/2 - 100,48,numel(f),&#39;fractional&#39;, &#39;redmul&#39;, 8, &#39;Qvar&#39;,4,&#39;subprec&#39;);</span><span class="w"></span>
+<span class="c">%    corig = filterbank(f,g,a);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%    c=filterbankconstphase(cellfun(@abs,corig,&#39;UniformOutput&#39;,0),a,info.fc,info.tfr,&#39;tol&#39;,1e-10);</span><span class="w"></span>
+<span class="c">%    cproj = filterbank(ifilterbankiter(c,g,a,&#39;pcg&#39;,&#39;tol&#39;,1e-6),g,a);</span><span class="w"></span>
+<span class="c">%    Cdb = 20*log10( norm(abs(cell2mat(corig)) - abs(cell2mat(cproj)) )/norm( abs(cell2mat(corig))) );</span><span class="w"></span>
+<span class="c">%      </span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">%       </span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
@@ -156,8 +167,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/filterbankconstphase.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2022 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>

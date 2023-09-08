@@ -192,8 +192,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   Url: http://ltfat.github.io/doc/gabor/multidgtrealmp.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2022 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
@@ -326,7 +326,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">% Determine reset/no reset mode and run MP decomposition </span><span class="w"></span>
 <span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_noreset</span><span class="w"></span>
-<span class="w">    </span><span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">atoms</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">iter</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">        </span><span class="n">comp_multidgtrealmp</span><span class="p">(</span><span class="n">fpad</span><span class="p">,</span><span class="n">info</span><span class="p">.</span><span class="n">g</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">do_timeinv</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
 <span class="w">                            </span><span class="n">kv</span><span class="p">.</span><span class="n">kernthr</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">errdb</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">maxit</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
 <span class="w">                            </span><span class="n">flags</span><span class="p">.</span><span class="n">do_pedanticsearch</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">algorithm</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
 <span class="k">else</span><span class="w"></span>
@@ -419,7 +420,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">  </span><span class="s">&#39;All zeros&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
 <span class="w">  </span><span class="s">&#39;Stalled (Residual has increased since last reset. Try to reduce resetit.)&#39;</span><span class="k">...</span><span class="w"></span>
 <span class="w">  </span><span class="p">};</span><span class="w"></span>
-<span class="w">  </span><span class="c">%info.message = status_str{1 + info.status};</span><span class="w"></span>
+<span class="w">  </span><span class="n">info</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">status_str</span><span class="p">{</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">status</span><span class="p">};</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 </pre></div>
 

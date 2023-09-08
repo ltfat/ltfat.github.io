@@ -1,0 +1,166 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>LTFATHELP - Help on the LTFAT toolbox</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfathelp.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p><div id="menutitle">See also:</div>
+<ul>
+<li><a href="#BASEURL#/doc/base/ltfatstart.html">ltfatstart</a></li>
+</ul>
+</p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LTFATHELP - Help on the LTFAT toolbox</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>op1<span class="p">=</span><span class="nf">ltfathelp</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%LTFATHELP Help on the LTFAT toolbox</span><span class="w"></span>
+<span class="c">%   Usage:  ltfathelp;</span><span class="w"></span>
+<span class="c">%           v=ltfathelp(&#39;version&#39;);</span><span class="w"></span>
+<span class="c">%           mlist=ltfathelp(&#39;modules&#39;);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   LTFATHELP displays some general help on the LTFAT toolbox.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   LTFATHELP(&#39;version&#39;) returns the version number.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   LTFATHELP(&#39;modules&#39;) returns a cell array of installed modules and</span><span class="w"></span>
+<span class="c">%   corresponding version numbers.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   See also:  ltfatstart</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/ltfathelp.html</span><span class="w"></span>
+
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+
+<span class="c">%   AUTHOR : Peter L. Søndergaard.  </span><span class="w"></span>
+<span class="c">%   TESTING: NA</span><span class="w"></span>
+<span class="c">%   REFERENCE: NA</span><span class="w"></span>
+
+
+<span class="w">  </span>
+<span class="c">% Verify that comp_pgauss is in path</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">exist</span><span class="p">(</span><span class="s">&#39;comp_pgauss&#39;</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;--- LTFAT - The Linear Time Frequency Analysis toolbox. ---&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To start the toolbox, call LTFATSTART as the first command.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">bp</span><span class="p">=</span><span class="n">ltfatbasepath</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">versiondata</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">modulesdata</span><span class="p">=[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">mode</span><span class="p">={</span><span class="s">&#39;general&#39;</span><span class="p">,</span><span class="s">&#39;version&#39;</span><span class="p">,</span><span class="s">&#39;modules&#39;</span><span class="p">};</span><span class="w"></span>
+
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_general</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;--- LTFAT - The Linear Time Frequency Analysis toolbox. ---&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">  </span><span class="nb">disp</span><span class="p">([</span><span class="s">&#39;Version &#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">versiondata</span><span class="p">]);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Installed modules:&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Name:            Version:  Description&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">modinfo</span><span class="p">=</span><span class="n">ltfathelp</span><span class="p">(</span><span class="s">&#39;modules&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">modinfo</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">s</span><span class="p">=</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39; %-15s %7s  %s&#39;</span><span class="p">,</span><span class="n">modinfo</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">name</span><span class="p">,</span><span class="n">modinfo</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">version</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+<span class="w">	      </span><span class="n">modinfo</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">description</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Type &quot;help modulename&quot; where &quot;modulename&quot; is the name of one&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;of the modules to see help on that module.&#39;</span><span class="p">)</span><span class="w"> </span>
+
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;For other questions, please don&#39;&#39;t hesitate to send an email to ltfat-help@lists.sourceforge.net.&#39;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_version</span><span class="w"></span>
+<span class="w">  </span><span class="n">op1</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">versiondata</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_modules</span><span class="w"></span>
+<span class="w">  </span><span class="n">op1</span><span class="p">={};</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">modulesdata</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">p</span><span class="p">=</span><span class="n">kv</span><span class="p">.</span><span class="n">modulesdata</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Get the first line of the help file</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">FID</span><span class="p">,</span><span class="w"> </span><span class="n">MSG</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="w"> </span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;Contents.m&#39;</span><span class="p">],</span><span class="s">&#39;r&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">FID</span><span class="o">==-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Module %s does not contain a Contents.m file.&#39;</span><span class="p">,</span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">firstline</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fgetl</span><span class="w"> </span><span class="p">(</span><span class="n">FID</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">fclose</span><span class="p">(</span><span class="n">FID</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c">% Load the information into the cell array.	</span><span class="w"></span>
+<span class="w">    </span><span class="n">op1</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">name</span><span class="p">=</span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">op1</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">version</span><span class="p">=</span><span class="n">p</span><span class="p">.</span><span class="n">version</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">op1</span><span class="p">{</span><span class="n">ii</span><span class="p">}.</span><span class="n">description</span><span class="p">=</span><span class="n">firstline</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

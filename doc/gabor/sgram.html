@@ -162,14 +162,12 @@ display a spectrogram of <span class="linkrole"><a href="#BASEURL#/doc/signals/g
 <pre class="literal-block">
 sgram(greasy,16000,90);
 </pre>
-<img alt="sgram_1_1.png" class="align-center" src="sgram_1_1.png" />
 <p>To create a spectrogram with a window length of 20ms (which is
 typically used in speech analysis) use</p>
 <pre class="literal-block">
 fs=16000;
 sgram(greasy,fs,90,'wlen',round(20/1000*fs));
 </pre>
-<img alt="sgram_2_1.png" class="align-center" src="sgram_2_1.png" />
 </div>
 
         <div class="include" file="../../include/footer.html"></div>

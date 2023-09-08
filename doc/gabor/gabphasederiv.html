@@ -50,8 +50,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <pre class="literal-block">
 [phased,c] = gabphasederiv(dflag,'dgt',f,g,a,M);
 phased    = gabphasederiv(dflag,'cross',f,g,a,M)
-phased    = gabphasederiv(dflag,'phase',cphase,a,difforder);
-phased    = gabphasederiv(dflag,'abs',s,g,a);
+phased    = gabphasederiv(dflag,'phase',cphase,a);
+phased    = gabphasederiv(dflag,'abs',s,g,a,difforder);
 [{phased1,phased2,...}] = gabphasederiv({dflag1,dflag2,...},...);
 [{phased1,phased2,...},c] = gabphasederiv({dflag1,dflag2,...},'dgt',...);
 </pre>

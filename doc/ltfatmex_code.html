@@ -1,0 +1,661 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../../include/header.html">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="gabor, wavelets, filterbank, signal processing, matlab,
+octave"/>
+<title>LTFATMEX - Compile Mex/Oct interfaces</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../../include/style.css" type="text/css">
+<link rel="stylesheet" href="../../include/highlight.css" type="text/css">
+</head>
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container --!>
+<div class="container">
+<!-- Include main navigation -->
+<div class="masthead include" file="../../include/mainnav.html">
+</div>
+<div class="row">
+    <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="ltfatmex.html">View the help</a></div>
+</div>
+    <div class="col-md-offset-5 col-md-5" id="jumplist">This is where navigation should be.</div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="include" file='../include/docnav.html'></div>
+        <div id="seealso"><p></p></div>
+    </div>
+    <div class="col-md-10">
+
+        <h1 class="title">LTFATMEX - Compile Mex/Oct interfaces</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">ltfatmex</span><span class="p">(</span>varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%LTFATMEX   Compile Mex/Oct interfaces</span><span class="w"></span>
+<span class="c">%   Usage:  ltfatmex;</span><span class="w"></span>
+<span class="c">%           ltfatmex(...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   LTFATMEX compiles the C backend in order to speed up the execution of</span><span class="w"></span>
+<span class="c">%   the toolbox. The C backend is linked to Matlab and Octave through Mex</span><span class="w"></span>
+<span class="c">%   and Octave C++ interfaces.</span><span class="w"></span>
+<span class="c">%   Please see INSTALL-Matlab or INSTALL-Octave for the requirements.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The action of LTFATMEX is determined by one of the following flags:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;compile&#39;  Compile stuff. This is the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;clean&#39;    Removes the compiled functions.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;test&#39;     Run some small tests that verify that the compiled</span><span class="w"></span>
+<span class="c">%                functions work.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   The target to work on is determined by on of the following flags.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   General LTFAT:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;lib&#39;      Perform action on the LTFAT C library.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;mex&#39;      Perform action on the mex / oct interfaces.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;pbc&#39;      Perform action on the PolyBoolClipper code for use with MULACLAB</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;auto&#39;     Choose automatically which targets to work on from the </span><span class="w"></span>
+<span class="c">%                previous ones based on the operation system etc. This is </span><span class="w"></span>
+<span class="c">%                the default.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Block-processing framework related:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;playrec&#39;  Perform action on the playrec code for use with real-time</span><span class="w"></span>
+<span class="c">%                block streaming framework.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%     &#39;java&#39;     Perform compilation of JAVA classes into the bytecode.</span><span class="w"></span>
+<span class="c">%                The classes makes the GUI for the blockproc. framework.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Other:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      &#39;verbose&#39; Print action details. </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%      &#39;debug&#39;   Build a debug version. This will disable compiler </span><span class="w"></span>
+<span class="c">%                optimizations and include debug symbols.</span><span class="w"></span>
+<span class="c">%                </span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Url: http://ltfat.github.io/doc/ltfatmex.html</span><span class="w"></span>
+
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span><span class="w"></span>
+<span class="c">% (at your option) any later version.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span><span class="w"></span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span><span class="w"></span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span><span class="w"></span>
+<span class="c">% GNU General Public License for more details.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">% You should have received a copy of the GNU General Public License</span><span class="w"></span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span><span class="w"></span>
+
+<span class="c">%   AUTHOR : Peter L. Søndergaard.</span><span class="w"></span>
+<span class="c">%   TESTING: NA</span><span class="w"></span>
+<span class="c">%   REFERENCE: NA</span><span class="w"></span>
+
+<span class="c">% Verify that comp_pgauss is in path</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">exist</span><span class="p">(</span><span class="s">&#39;comp_pgauss&#39;</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;--- LTFAT - The Linear Time Frequency Analysis toolbox. ---&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;To start the toolbox, call LTFATSTART as the first command.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">bp</span><span class="p">=</span><span class="nb">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">bp</span><span class="p">=</span><span class="n">bp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="nb">length</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+
+
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">target</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;lib&#39;</span><span class="p">,</span><span class="s">&#39;mex&#39;</span><span class="p">,</span><span class="s">&#39;pbc&#39;</span><span class="p">,</span><span class="s">&#39;playrec&#39;</span><span class="p">,</span><span class="s">&#39;java&#39;</span><span class="p">,</span><span class="s">&#39;blockproc&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="c">% This has to be also defined </span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">comptarget</span><span class="p">={</span><span class="s">&#39;release&#39;</span><span class="p">,</span><span class="s">&#39;debug&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">command</span><span class="p">={</span><span class="s">&#39;compile&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;test&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">={</span><span class="s">&#39;noverbose&#39;</span><span class="p">,</span><span class="s">&#39;verbose&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">mexapi</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;legacy&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">mexfile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">jobs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+
+<span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">which</span><span class="p">(</span><span class="s">&#39;ltfatarghelper&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">strcmpi</span><span class="p">(</span><span class="nb">mexext</span><span class="p">,</span><span class="n">s</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="nb">numel</span><span class="p">(</span><span class="nb">mexext</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="c">% We must avoid calling corrupt ltfatarghelper.mexext</span><span class="w"></span>
+<span class="w">   </span><span class="c">% The following must not fail </span><span class="w"></span>
+<span class="w">   </span><span class="k">try</span><span class="w"></span>
+<span class="w">       </span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="nb">struct</span><span class="p">(),{});</span><span class="w"></span>
+<span class="w">   </span><span class="k">catch</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">strcmpi</span><span class="p">(</span><span class="s">&#39;verbose&#39;</span><span class="p">,</span><span class="nb">varargin</span><span class="p">))</span><span class="w"></span>
+<span class="w">           </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Removing corrupt ltfatarghelper.%s&#39;</span><span class="p">,</span><span class="nb">mexext</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="nb">delete</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="c">% Now there is just a ltfatarghelper.m</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">% Remember the current directory.</span><span class="w"></span>
+<span class="n">curdir</span><span class="p">=</span><span class="nb">pwd</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Compile backend lib?</span><span class="w"></span>
+<span class="n">do_lib</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_lib</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span><span class="p">;</span><span class="w"></span>
+<span class="c">% Compile MEX/OCT interfaces?</span><span class="w"></span>
+<span class="n">do_mex</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_mex</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span><span class="p">;</span><span class="w"></span>
+<span class="c">% Compile MEX PolyBoolClipper.mex</span><span class="w"></span>
+<span class="n">do_pbc</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_pbc</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_auto</span><span class="p">;</span><span class="w"></span>
+<span class="c">% Compile MEX playrec.mex... using Portaudio library.</span><span class="w"></span>
+<span class="c">% (relevant only for the bloc processing framework)</span><span class="w"></span>
+<span class="n">do_playrec</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_playrec</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_blockproc</span><span class="p">;</span><span class="w"></span>
+<span class="c">% Compile Java classes containing GUI for the bloc proc. framework.</span><span class="w"></span>
+<span class="n">do_java</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_java</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_blockproc</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">	</span><span class="n">extname</span><span class="p">=</span><span class="s">&#39;oct&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ext</span><span class="p">=</span><span class="s">&#39;oct&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">extname</span><span class="p">=</span><span class="s">&#39;mex&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ext</span><span class="p">=</span><span class="nb">mexext</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">fftw_lib_names</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;fftw3&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;fftw3f&#39;</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+
+<span class="c">% Check if we are on Windows</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">ispc</span><span class="w"></span>
+<span class="w">    </span><span class="n">makefilename</span><span class="p">=</span><span class="s">&#39;Makefile_mingw&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">make_exe</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;mingw32-make&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">sharedExt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;dll&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="c">%fftw_lib_names = {&#39;fftw3&#39;, &#39;fftw3f&#39; };</span><span class="w"></span>
+<span class="w">    </span><span class="c">% The pre-compiled Octave for Windows comes only in 32bit version (3.6.4)</span><span class="w"></span>
+<span class="w">    </span><span class="c">% We use different Makefiles</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">      </span><span class="n">makefilename</span><span class="p">=</span><span class="s">&#39;Makefile_mingwoct&#39;</span><span class="p">;</span><span class="w">      </span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Check if we are on Unix-type system</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">isunix</span><span class="w"></span>
+<span class="w">   </span><span class="n">makefilename</span><span class="p">=</span><span class="s">&#39;Makefile_unix&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">make_exe</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;make&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">sharedExt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;so&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Check if we are on Mac</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="nb">ismac</span><span class="w"></span>
+<span class="w">   </span><span class="n">makefilename</span><span class="p">=</span><span class="s">&#39;Makefile_mac&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">make_exe</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;make&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">sharedExt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;dylib&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+
+<span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"></span>
+<span class="c">% -------------- Handle cleaning --------------------------------</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_clean</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_lib</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Cleaning libltfat ===============&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;lib&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;ltfatcompat&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">%[status,result]=system([make_exe, &#39; -f &#39;,makefilename,&#39; clean&#39;]);</span><span class="w"></span>
+<span class="w">    </span><span class="c">%disp(&#39;Done.&#39;);    </span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_mex</span><span class="w"></span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;========= Cleaning %s interfaces =========\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="n">extname</span><span class="p">));</span><span class="w"></span>
+<span class="w">     </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">extname</span><span class="p">]);</span><span class="w"></span>
+<span class="w">     </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="n">ext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="c">%[status,result]=system([make_exe, &#39; -f &#39;,makefilename,&#39; clean&#39;,...</span><span class="w"></span>
+<span class="w">     </span><span class="c">%                &#39; EXT=&#39;,ext]); </span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_pbc</span><span class="w"></span>
+<span class="w">     </span><span class="c">% Use the correct makefile </span><span class="w"></span>
+<span class="w">     </span><span class="n">makefilename_pbc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">makefilename</span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">makefilename</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">ext</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="n">makefilename_pbc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">makefilename</span><span class="p">,</span><span class="n">ext</span><span class="p">];</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span>
+<span class="w">      </span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Cleaning PolyBoolClipper ====================&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;polyboolclipper&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename_pbc</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="nb">mexext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">%[status,result]=system([make_exe, &#39; -f &#39;,makefilename,&#39; clean&#39;,&#39; EXT=&#39;,mexext]);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_playrec</span><span class="w"></span>
+<span class="w">     </span><span class="c">% Use the correct makefile </span><span class="w"></span>
+<span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">makefilename</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">ext</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="n">makefilename</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">makefilename</span><span class="p">,</span><span class="n">ext</span><span class="p">];</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span>
+<span class="w">      </span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Cleaning PLAYREC ================&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;Playrec&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="c">%[status,result]=system([make_exe, &#39; -f &#39;,makefilename,&#39; clean&#39;,&#39; EXT=&#39;,mexext]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="nb">mexext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_java</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Cleaning JAVA ================&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;blockproc&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;java&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="c">%[status,result]=system([make_exe,&#39; clean&#39;]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,[],</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="s">&#39;clean&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nb">cd</span><span class="p">(</span><span class="n">curdir</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% -------------- Handle compiling  --------------------------------</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_compile</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_lib</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Compiling libltfat ==============&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;lib&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;ltfatcompat&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">dfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l&#39;</span><span class="p">,</span><span class="n">fftw_lib_names</span><span class="p">{</span><span class="mi">1</span><span class="p">}];</span><span class="w"></span>
+<span class="w">    </span><span class="n">sfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l&#39;</span><span class="p">,</span><span class="n">fftw_lib_names</span><span class="p">{</span><span class="mi">2</span><span class="p">}];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">ispc</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">        </span><span class="n">fftw_lib_found_names</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">searchfor</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span><span class="n">fftw_lib_names</span><span class="p">,</span><span class="n">sharedExt</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">fftw_lib_found_names</span><span class="p">)</span><span class="w"></span>
+<span class="w">           </span><span class="n">dfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l:&#39;</span><span class="p">,</span><span class="n">fftw_lib_found_names</span><span class="p">{</span><span class="mi">1</span><span class="p">}];</span><span class="w"></span>
+<span class="w">           </span><span class="n">sfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l:&#39;</span><span class="p">,</span><span class="n">fftw_lib_found_names</span><span class="p">{</span><span class="mi">2</span><span class="p">}];</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">      </span><span class="c">% DFFTW and SFFTW are not used in the unix_makefile</span><span class="w"></span>
+<span class="w">      </span><span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                       </span><span class="s">&#39;dfftw&#39;</span><span class="p">,</span><span class="n">dfftw</span><span class="p">,</span><span class="s">&#39;sfftw&#39;</span><span class="p">,</span><span class="n">sfftw</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                       </span><span class="s">&#39;comptarget&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">comptarget</span><span class="p">,</span><span class="s">&#39;jobs&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">status</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Done.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Failed to build LTFAT libs:\n %s&#39;</span><span class="p">,</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="c">%end;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_mex</span><span class="w"></span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;========= Compiling %s interfaces ========\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">upper</span><span class="p">(</span><span class="n">extname</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">extname</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">dfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l&#39;</span><span class="p">,</span><span class="n">fftw_lib_names</span><span class="p">{</span><span class="mi">1</span><span class="p">}];</span><span class="w"></span>
+<span class="w">    </span><span class="n">sfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l&#39;</span><span class="p">,</span><span class="n">fftw_lib_names</span><span class="p">{</span><span class="mi">2</span><span class="p">}];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">        </span><span class="n">fftw_lib_found_names</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">searchfor</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span><span class="n">fftw_lib_names</span><span class="p">,</span><span class="n">sharedExt</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">fftw_lib_found_names</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">ismac</span><span class="w"></span>
+<span class="w">               </span><span class="n">dfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l:&#39;</span><span class="p">,</span><span class="n">fftw_lib_found_names</span><span class="p">{</span><span class="mi">1</span><span class="p">}];</span><span class="w"></span>
+<span class="w">               </span><span class="n">sfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l:&#39;</span><span class="p">,</span><span class="n">fftw_lib_found_names</span><span class="p">{</span><span class="mi">2</span><span class="p">}];</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">                </span><span class="c">% We need a full path here.</span><span class="w"></span>
+<span class="w">               </span><span class="n">dfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">binDirPath</span><span class="p">(),</span><span class="nb">filesep</span><span class="p">,</span><span class="n">fftw_lib_found_names</span><span class="p">{</span><span class="mi">1</span><span class="p">}];</span><span class="w"></span>
+<span class="w">               </span><span class="n">sfftw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">binDirPath</span><span class="p">(),</span><span class="nb">filesep</span><span class="p">,</span><span class="n">fftw_lib_found_names</span><span class="p">{</span><span class="mi">2</span><span class="p">}];</span><span class="w">               </span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="n">ext</span><span class="p">,</span><span class="s">&#39;dfftw&#39;</span><span class="p">,</span><span class="n">dfftw</span><span class="p">,</span><span class="s">&#39;sfftw&#39;</span><span class="p">,</span><span class="n">sfftw</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">,</span><span class="s">&#39;target&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">mexfile</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="s">&#39;comptarget&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">comptarget</span><span class="p">,</span><span class="s">&#39;jobs&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="n">flags</span><span class="p">.</span><span class="n">mexapi</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">status</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Done.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Failed to build %s interfaces: %s \n&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="n">extname</span><span class="p">),</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_pbc</span><span class="w"></span>
+<span class="w">    </span><span class="n">makefilename_pbc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">makefilename</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">makefilename</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">ext</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="n">makefilename_pbc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">makefilename</span><span class="p">,</span><span class="n">ext</span><span class="p">];</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w">  </span>
+<span class="w">      </span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Compiling PolyBoolClipper ===================&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Compile PolyBoolClipper mex file for use with mulaclab</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;polyboolclipper&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename_pbc</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="n">ext</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">status</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Done.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Failed to build PlyBoolClipper:\n %s&#39;</span><span class="p">,</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_playrec</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Compiling PLAYREC ===============&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;Playrec&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="c">% Compile the Playrec (interface to portaudio) for the real-time block-</span><span class="w"></span>
+<span class="w">    </span><span class="c">% stream processing</span><span class="w"></span>
+
+<span class="w">     </span><span class="n">portaudioLib</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;-lportaudio&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">     </span><span class="n">binArchPath</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">binDirPath</span><span class="p">();</span><span class="w"></span>
+<span class="w">       </span><span class="n">playrecRelPath</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;thirdparty&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;Playrec&#39;</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">       </span><span class="n">foundPAuser</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="nb">ispc</span><span class="w"></span>
+<span class="w">          </span><span class="n">foundPAuser</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dir</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="n">playrecRelPath</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;*portaudio*&#39;</span><span class="p">,</span><span class="n">sharedExt</span><span class="p">,</span><span class="s">&#39;*&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span>
+<span class="w">       </span><span class="n">foundPAmatlab</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">          </span><span class="c">% Check if portaudio library is present in the Matlab installation</span><span class="w"></span>
+<span class="w">          </span><span class="n">foundPAmatlab</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dir</span><span class="p">([</span><span class="n">binArchPath</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;*portaudio*&#39;</span><span class="p">,</span><span class="n">sharedExt</span><span class="p">,</span><span class="s">&#39;*&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">foundPAuser</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">foundPAuser</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">             </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Ambiguous portaudio libraries in %s. Please leave just one.&#39;</span><span class="p">,</span><span class="n">playrecRelPath</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="k">end</span><span class="w"></span>
+<span class="w">          </span><span class="n">foundPAuser</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foundPAuser</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">       </span><span class="k">elseif</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">foundPAmatlab</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">foundPAmatlab</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"></span>
+<span class="w">             </span><span class="k">if</span><span class="w"> </span><span class="nb">ispc</span><span class="w"> </span>
+<span class="w">                </span><span class="c">%This should not happen on Windows</span><span class="w"></span>
+<span class="w">                </span><span class="c">%Use the first one on Linux</span><span class="w"></span>
+<span class="w">                </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Ambiguous portaudio libraries in %s.&#39;</span><span class="p">,</span><span class="n">binArchPath</span><span class="p">);</span><span class="w"></span>
+<span class="w">             </span><span class="k">end</span><span class="w"></span>
+<span class="w">          </span><span class="k">end</span><span class="w"></span>
+<span class="w">             </span><span class="n">foundPAmatlab</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foundPAmatlab</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="w">       </span><span class="k">else</span><span class="w"></span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="nb">ispc</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">isoctave</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">ispc</span><span class="w"></span>
+<span class="w">          </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;Portaudio not found. Please download Portaudio http://www.portaudio.com\n&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;and build it as a shared library and copy it to the\n&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&#39;%s directory. \n&#39;</span><span class="p">],</span><span class="n">playrecPath</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">makefilename</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">ext</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="n">makefilename</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">makefilename</span><span class="p">,</span><span class="n">ext</span><span class="p">];</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">doPAuser</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">foundPAuser</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">doPAmatlab</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">foundPAmatlab</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">doPAuser</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">doPAmatlab</span><span class="w"> </span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="nb">ismac</span><span class="w"></span>
+<span class="w">          </span><span class="c">% Full path is needed on MAC since </span><span class="w"></span>
+<span class="w">          </span><span class="c">% clang does not understand -l: prefix.</span><span class="w"></span>
+<span class="w">          </span><span class="n">portaudioLib</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">binArchPath</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="n">foundPAmatlab</span><span class="p">];</span><span class="w">    </span>
+<span class="w">       </span><span class="k">else</span><span class="w"></span>
+<span class="w">          </span><span class="n">portaudioLib</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l:&#39;</span><span class="p">,</span><span class="n">foundPAmatlab</span><span class="p">];</span><span class="w"> </span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;    ...using %s from Matlab installation.\n&#39;</span><span class="p">,</span><span class="n">foundPAmatlab</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">doPAuser</span><span class="w"></span>
+<span class="w">        </span><span class="n">portaudioLib</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-l:&#39;</span><span class="p">,</span><span class="n">foundPAuser</span><span class="p">];</span><span class="w"> </span>
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;   ...using %s from ltfat%s%s.\n&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                  </span><span class="n">foundPAuser</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="n">playrecRelPath</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="n">makefilename</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="s">&#39;ext&#39;</span><span class="p">,</span><span class="nb">mexext</span><span class="p">,</span><span class="s">&#39;portaudio&#39;</span><span class="p">,</span><span class="n">portaudioLib</span><span class="p">,</span><span class="s">&#39;extra&#39;</span><span class="p">,</span><span class="s">&#39;HAVE_PORTAUDIO&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">status</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Done.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Failed to build PLAYREC:\n %s&#39;</span><span class="p">,</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_java</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;========= Compiling JAVA classes ===================&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Compile the JAVA classes</span><span class="w"></span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;blockproc&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;java&#39;</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">mex</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">callmake</span><span class="p">(</span><span class="n">make_exe</span><span class="p">,</span><span class="s">&#39;Makefile&#39;</span><span class="p">,</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">status</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;Done.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Failed to build JAVA classes:\n %s&#39;</span><span class="p">,</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% -------------- Handle testing ---------------------------------------</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_test</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">do_mex</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;========= Testing %s interfaces ==========\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">extname</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;1.: Test if comp_pgauss.%s was compiled: &#39;</span><span class="p">,</span><span class="n">ext</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">fname</span><span class="p">=[</span><span class="s">&#39;comp_pgauss.&#39;</span><span class="p">,</span><span class="n">ext</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;SUCCESS.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;FAILED.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;2.: Test if pgauss executes:              &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">pgauss</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c">% If the execution of the script makes it here, we know that pgauss</span><span class="w"></span>
+<span class="w">    </span><span class="c">% did not crash the system, so we can just print success. Same story</span><span class="w"></span>
+<span class="w">    </span><span class="c">% with the following entries.</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;SUCCESS.&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;3.: Test if fftreal executes:             &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">fftreal</span><span class="p">(</span><span class="nb">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;SUCCESS.&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;4.: Test if dgt executes:                 &#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">dgt</span><span class="p">(</span><span class="nb">randn</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">randn</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">disp</span><span class="p">(</span><span class="s">&#39;SUCCESS.&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span>
+<span class="w">  </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span>
+<span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">% Jump back to the original directory.</span><span class="w"></span>
+<span class="nb">cd</span><span class="p">(</span><span class="n">curdir</span><span class="p">);</span><span class="w"></span>
+
+
+<span class="k">function</span><span class="w"> </span>status<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">filesExist</span><span class="p">(</span>filenames<span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="nb">iscell</span><span class="p">(</span><span class="n">filenames</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">filenames</span><span class="p">={</span><span class="n">filenames</span><span class="p">};</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">filename</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filenames</span><span class="p">{</span><span class="n">ii</span><span class="p">};</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="nb">exist</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">&#39;file&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: File %s not found.&#39;</span><span class="p">,</span><span class="nb">mfilename</span><span class="p">,</span><span class="n">filename</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="w"> </span>
+<span class="k">function</span><span class="w"> </span>found_files<span class="p">=</span><span class="nf">searchfor</span><span class="p">(</span>bp,files,sharedExt<span class="p">)</span><span class="w"></span>
+
+<span class="n">found_names</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="nb">ispc</span><span class="w"> </span>
+<span class="w">         </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">files</span><span class="p">)</span><span class="w"> </span>
+<span class="w">            </span><span class="c">% Search the ltfat/mex lib</span><span class="w"></span>
+<span class="w">            </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dir</span><span class="p">([</span><span class="n">bp</span><span class="p">,</span><span class="s">&#39;mex&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;*&#39;</span><span class="p">,</span><span class="n">files</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;*.&#39;</span><span class="p">,</span><span class="n">sharedExt</span><span class="p">]);</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;%s: %s could not be found in ltfat/mex subdir.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                       </span><span class="s">&#39; Please download the FFTW dlls and install them.&#39;</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">),</span><span class="n">files</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="n">found_files</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;   ...using %s from ltfat/mex.\n&#39;</span><span class="p">,</span><span class="n">L</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="w">         </span><span class="k">end</span><span class="w"></span>
+<span class="w">      </span><span class="k">elseif</span><span class="w"> </span><span class="nb">isunix</span><span class="w"></span>
+<span class="w">          </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">files</span><span class="p">)</span><span class="w"></span>
+<span class="w">             </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dir</span><span class="p">([</span><span class="n">binDirPath</span><span class="p">(),</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;*&#39;</span><span class="p">,</span><span class="n">files</span><span class="p">{</span><span class="n">ii</span><span class="p">},</span><span class="s">&#39;*.&#39;</span><span class="p">,</span><span class="n">sharedExt</span><span class="p">,</span><span class="s">&#39;*&#39;</span><span class="p">]);</span><span class="w"> </span>
+<span class="w">             </span>
+<span class="w">             </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="w"></span>
+<span class="w">                 </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: Matlab FFTW libs were not found. Strange.&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                      </span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
+<span class="w">             </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">             </span><span class="n">found_files</span><span class="p">{</span><span class="n">ii</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">             </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;   ...using %s from Matlab installation.\n&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">                     </span><span class="n">found_files</span><span class="p">{</span><span class="n">ii</span><span class="p">});</span><span class="w"></span>
+<span class="w">          </span><span class="k">end</span><span class="w"></span>
+<span class="w">          </span>
+<span class="w">      </span><span class="k">end</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">function</span><span class="w"> </span>path<span class="p">=</span><span class="nf">binDirPath</span><span class="p">()</span><span class="w"></span>
+<span class="nb">path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">matlabroot</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="s">&#39;bin&#39;</span><span class="p">,</span><span class="nb">filesep</span><span class="p">,</span><span class="nb">computer</span><span class="p">(</span><span class="s">&#39;arch&#39;</span><span class="p">)];</span><span class="w"></span>
+<span class="w">   </span>
+<span class="k">function</span><span class="w"> </span>[status,result]<span class="p">=</span><span class="nf">callmake</span><span class="p">(</span>make_exe,makefilename,varargin<span class="p">)</span><span class="w"></span>
+<span class="c">%CALLMAKE   </span><span class="w"></span>
+<span class="c">%   Usage:  callmake(make_exe,makefilename);</span><span class="w"></span>
+<span class="c">%           callmake(make_exe,makefilename,&#39;matlabroot&#39;,matlabroot,...);</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   `callmake(make_exe,makefilename)` is a platform independent wrapper for</span><span class="w"></span>
+<span class="c">%   calling the make command `make_exe` on `makefilename` file. When </span><span class="w"></span>
+<span class="c">%   `makefilename` is missing or is empty, the default `Makefile` file is</span><span class="w"></span>
+<span class="c">%   used.</span><span class="w"></span>
+<span class="c">%   </span><span class="w"></span>
+<span class="c">%   `callmake(...,&#39;target&#39;,target)` used `target` from the makefile.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Flags:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       matlabroot:   Pass MATLABROOT=matlabroot variable to the makefile.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       arch:         Pass ARCH=computer(&#39;arch&#39;) variable to the makefile.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%   Key-value parameters:</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       ext:          Pass EXT variable to the makefile.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       portaudio:    Pass PORTAUDIO variable to the makefile.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       dfftw:        Pass DFFTW variable to the makefile.</span><span class="w"></span>
+<span class="c">%</span><span class="w"></span>
+<span class="c">%       sfftw:        Pass SFFTW variable to the makefile.</span><span class="w"></span>
+<span class="w">  </span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">makefilename</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_exe</span><span class="p">;</span><span class="w"> </span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">make_exe</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; -f &#39;</span><span class="p">,</span><span class="n">makefilename</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">matlabroot</span><span class="p">={</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;matlabroot&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">arch</span><span class="p">={</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;arch&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">ext</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">dfftw</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">sfftw</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">target</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">comptarget</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">portaudio</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">extra</span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">keyvals</span><span class="p">.</span><span class="n">jobs</span><span class="w"> </span><span class="p">=[];</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">targetapi</span><span class="p">={</span><span class="s">&#39;auto&#39;</span><span class="p">,</span><span class="s">&#39;legacy&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">verbosity</span><span class="p">={</span><span class="s">&#39;noverbose&#39;</span><span class="p">,</span><span class="s">&#39;verbose&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="n">flags</span><span class="p">,</span><span class="n">kv</span><span class="p">]=</span><span class="n">ltfatarghelper</span><span class="p">({},</span><span class="n">definput</span><span class="p">,</span><span class="nb">varargin</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_matlabroot</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; MATLABROOT=&#39;</span><span class="p">,</span><span class="s">&#39;&quot;&#39;</span><span class="p">,</span><span class="nb">matlabroot</span><span class="p">,</span><span class="s">&#39;&quot;&#39;</span><span class="p">];</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_arch</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; ARCH=&#39;</span><span class="p">,</span><span class="nb">computer</span><span class="p">(</span><span class="s">&#39;arch&#39;</span><span class="p">)];</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">ext</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; EXT=&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">ext</span><span class="p">];</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">dfftw</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; DFFTW=&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">dfftw</span><span class="p">];</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">sfftw</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; SFFTW=&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">sfftw</span><span class="p">];</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">portaudio</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; PORTAUDIO=&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">portaudio</span><span class="p">];</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">comptarget</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmpi</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">comptarget</span><span class="p">,</span><span class="s">&#39;release&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; COMPTARGET=&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">comptarget</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">extra</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">extra</span><span class="p">,</span><span class="s">&#39;=1&#39;</span><span class="p">];</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39; -j%d&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)];</span><span class="w"></span>
+<span class="w">      </span><span class="k">elseif</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39; -j%s&#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">jobs</span><span class="p">)];</span><span class="w">  </span>
+<span class="w">      </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w"> </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">isoctave</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_legacy</span><span class="w"></span>
+<span class="w">      </span><span class="n">matlabversion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">version</span><span class="p">(</span><span class="s">&#39;-release&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="nb">str2double</span><span class="p">(</span><span class="n">matlabversion</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2018</span><span class="w"></span>
+<span class="w">          </span><span class="n">systemCommand</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">systemCommand</span><span class="p">,</span><span class="s">&#39; POST2018a=1&#39;</span><span class="p">];</span><span class="w"> </span>
+<span class="w">      </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_verbose</span><span class="w"></span>
+<span class="w">      </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Calling:\n    %s\n\n&#39;</span><span class="p">,</span><span class="n">systemCommand</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">)</span><span class="w"></span>
+<span class="w">       </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">iscell</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">),</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">};</span><span class="w"> </span><span class="k">end</span><span class="w"></span>
+<span class="w">       </span><span class="k">for</span><span class="w"> </span><span class="n">ii</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">)</span><span class="w"></span>
+<span class="w">           </span><span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]=</span><span class="nb">system</span><span class="p">([</span><span class="n">systemCommand</span><span class="p">,</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="n">kv</span><span class="p">.</span><span class="n">target</span><span class="p">{</span><span class="n">ii</span><span class="p">}]);</span><span class="w"></span>
+<span class="w">       </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="n">status</span><span class="p">,</span><span class="n">result</span><span class="p">]=</span><span class="nb">system</span><span class="p">(</span><span class="n">systemCommand</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_verbose</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">isoctave</span><span class="w"></span>
+<span class="w">     </span><span class="nb">disp</span><span class="p">(</span><span class="n">result</span><span class="p">);</span><span class="w"> </span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span>
+<span class="w">  </span>
+
+
+<span class="w">      </span>
+</pre></div>
+
+
+        <div class="include" file="../../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<script src="../../js/ltfat.js" type="text/javascript"></script>
+<script src="../include/lookup.js" type="text/javascript"></script>
+<script src="../include/jumplist.js" type="text/javascript"></script>
+</body>
+</html>
+

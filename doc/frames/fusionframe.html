@@ -62,8 +62,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">'',<var>frametypes</var></span></kbd></td>
-<td>Cell array with the desired frame types. For
-supported frames, see below.</td></tr>
+<td>Cell array with the desired frame types. For supported frames, see below.</td></tr>
 </tbody>
 </table>
 </div>
@@ -84,17 +83,19 @@ supported frames, see below.</td></tr>
 <p><tt class="docutils literal">fusionframe</tt> facilitates the construction of fusion frames by allowing
 for their programmatic instantiation via the frame type of the local frames.
 Further specification of the frames is optionally ppossible. For a
-list of supported frames as well as their defaults, see <a href="#system-message-1"><span class="problematic" id="problematic-1">|arg_fusionframe|</span></a>.
+list of supported frames as well as their defaults, see arg_fusionframe.
 Currently, only one set of optional parameters per fusion frame type is
 possible.
 The common frame length is calculated as the lowest common multiple of
 the frame lengths of the local frames.</p>
-<p>Optional parameters:
-'weights=weights      the fusion frame weights; per default set to one'</p>
+<p>Additional parameters:</p>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">'weights',<var>weights</var></span></kbd></td>
+<td>the fusion frame weights; per default set to one</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">'frametype',<var>ftype</var></span></kbd></td>
 <td>further parameters for one or more specific

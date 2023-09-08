@@ -89,13 +89,13 @@ f=idgtreal(c,g,a,M,Ls);
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">idgtreal(c,g,a,M)</tt> computes the Gabor expansion of the input coefficients
-<em>c</em> with respect to the real-valued window <em>g</em>, time shift <em>a</em> and number of
-channels <em>M</em>. <em>c</em> is assumed to be the positive frequencies of the Gabor
-expansion of a real-valued signal.</p>
-<p>It must hold that <tt class="docutils literal"><span class="pre">size(c,1)==floor(M/2)+1</span></tt>. Note that since the
-correct number of channels cannot be deduced from the input, <tt class="docutils literal">idgtreal</tt>
-takes an additional parameter as opposed to <span class="linkrole"><a href="#BASEURL#/doc/gabor/idgt.html">idgt</a></span>.</p>
+<p><tt class="docutils literal">idgtreal(c,g,a,M)</tt> computes the inverse discrete Gabor transform of the
+input coefficients <em>c</em> with respect to the real-valued window <em>g</em>, time
+shift <em>a</em> and number of channels <em>M</em>.
+<em>c</em> is assumed to be the positive frequencies of the Gabor
+expansion of a real-valued signal. It must hold that <tt class="docutils literal"><span class="pre">size(c,1)==floor(M/2)+1</span></tt>.</p>
+<p>Note that since the correct number of channels cannot be deduced from
+the input, <tt class="docutils literal">idgtreal</tt> takes an additional parameter as opposed to <span class="linkrole"><a href="#BASEURL#/doc/gabor/idgt.html">idgt</a></span>.</p>
 <p>The window <em>g</em> may be a vector of numerical values, a text string or a
 cell array. See the help of <span class="linkrole"><a href="#BASEURL#/doc/gabor/gabwin.html">gabwin</a></span> for more details.</p>
 <p><tt class="docutils literal">idgtreal(c,g,a,M,Ls)</tt> does as above but cuts or extends <em>f</em> to length <em>Ls</em>.</p>
@@ -145,10 +145,6 @@ r=idgtreal(c,gs,a,M,Ls); % synthesis
 
 norm(f-r)                % test
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =    5.6688e-15
-</pre>
 <p>The following example does the same as the previous one, with an
 explicit construction of the analysis and synthesis windows:</p>
 <pre class="literal-block">
@@ -171,10 +167,6 @@ c=dgtreal(f,ga,a,M);  % analysis
 r=idgtreal(c,gs,a,M,Ls); % synthesis
 
 norm(f-r)       % test
-</pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =    5.9308e-15
 </pre>
 </div>
 

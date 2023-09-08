@@ -62,8 +62,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   Url: http://ltfat.github.io/doc/demos/demo_dgt_parametrize.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2022 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
@@ -80,19 +80,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="p">[</span><span class="n">insig</span><span class="p">,</span><span class="w"> </span><span class="n">fs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gspi</span><span class="p">;</span><span class="w"></span>
 <span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">insig</span><span class="p">);</span><span class="w"></span>
-<span class="c">%specify the parameters</span><span class="w"></span>
-<span class="c">%analyze the signal in segments of roughly 40 ms</span><span class="w"></span>
-<span class="c">%length of the time segment in samples should be a power of 2:</span><span class="w"></span>
-<span class="n">N</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span>^<span class="nb">nextpow2</span><span class="p">(</span><span class="mf">0.04</span><span class="o">*</span><span class="n">fs</span><span class="p">);</span><span class="w"></span>
-<span class="c">%and, for simplicity, choose a window of the same length</span><span class="w"></span>
-<span class="n">windowlength</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"></span>
-
-<span class="c">%hanning windows are a common choice in audio applications,</span><span class="w"></span>
-<span class="c">%but they need to overlap a bit</span><span class="w"></span>
+<span class="c">%specify the the parameters</span><span class="w"></span>
 <span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;hanning&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="n">windowlength</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2048</span><span class="p">;</span><span class="w"></span>
 <span class="n">overlap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">%calculate the minimum hopsize for the window length and overlap</span><span class="w"></span>
+<span class="c">%calculate the minimum hopsize for the given window length</span><span class="w"></span>
 <span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">windowlength</span><span class="o">/</span><span class="n">overlap</span><span class="p">);</span><span class="w"></span>
 
 <span class="c">%to exactly maintain the length of the input signal throughout calculations, select M, </span><span class="w"></span>
@@ -101,9 +94,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%select a roughly appropriate starting value</span><span class="w"></span>
 <span class="n">M</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">240</span><span class="p">;</span><span class="w"></span>
-<span class="c">%then successively increase it until L/lcm(a,M) yields an</span><span class="w"></span>
+<span class="c">%then successively increase it until length(insig)/lcm(a,M) yields an</span><span class="w"></span>
 <span class="c">%integer result</span><span class="w"></span>
-<span class="k">while</span><span class="w"> </span><span class="n">L</span><span class="o">/</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">))</span><span class="w"></span>
+<span class="k">while</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">insig</span><span class="p">)</span><span class="o">/</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">insig</span><span class="p">)</span><span class="o">/</span><span class="nb">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">))</span><span class="w"></span>
 <span class="w">    </span><span class="n">M</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 

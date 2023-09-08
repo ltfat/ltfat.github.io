@@ -90,9 +90,9 @@ f=idgt(c,g,a,Ls,lt);
 </div>
 <div class="section" id="xxxdescription">
 <h2>Description</h2>
-<p><tt class="docutils literal">idgt(c,g,a)</tt> computes the Gabor expansion of the input coefficients
-<em>c</em> with respect to the window <em>g</em> and time shift <em>a</em>. The number of
-channels is deduced from the size of the coefficients <em>c</em>.</p>
+<p><tt class="docutils literal">idgt(c,g,a)</tt> computes the inverste discrete Gabor transform of the
+input coefficients <em>c</em> with respect to the window <em>g</em> and time shift <em>a</em>.
+The number of  channels is deduced from the size of the coefficients <em>c</em>.</p>
 <p><tt class="docutils literal">idgt(c,g,a,Ls)</tt> does as above but cuts or extends <em>f</em> to length <em>Ls</em>.</p>
 <p><tt class="docutils literal"><span class="pre">[f,g]=idgt(...)</span></tt> additionally outputs the window used in the
 transform. This is useful if the window was generated from a description
@@ -171,10 +171,6 @@ r=idgt(c,gs,a,Ls); % synthesis
 
 norm(f-r)          % test
 </pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =    5.8439e-15
-</pre>
 <p>The following example does the same as the previous one, with an
 explicit construction of the analysis and synthesis windows:</p>
 <pre class="literal-block">
@@ -197,10 +193,6 @@ c=dgt(f,ga,a,M); % analysis
 r=idgt(c,gs,a,Ls);  % synthesis
 
 norm(f-r)  % test
-</pre>
-<p><em>This code produces the following output</em>:</p>
-<pre class="literal-block">
-ans =    6.0223e-15
 </pre>
 </div>
 

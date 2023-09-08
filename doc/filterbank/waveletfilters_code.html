@@ -36,6 +36,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <li><a href="#BASEURL#/doc/sigproc/freqwavelet.html">freqwavelet</a></li>
 <li><a href="#BASEURL#/doc/filterbank/filterbank.html">filterbank</a></li>
 <li><a href="#BASEURL#/doc/sigproc/setnorm.html">setnorm</a></li>
+<li><a href="#BASEURL#/doc/demos/demo_waveletfilters.html">demo_waveletfilters</a></li>
 </ul>
 </p></div>
     </div>
@@ -73,7 +74,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%   is mandatory, since we need to avoid too narrow frequency windows</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   [g,a,fc]=WAVELETFILTERS(Ls, &#39;linear&#39;, fs, fmin, fmax, channels) constructs </span><span class="w"></span>
-<span class="c">%   a set of wavelets g which cover the required frequency range</span><span class="w"></span>
+<span class="c">%    a set of wavelets g which cover the required frequency range</span><span class="w"></span>
 <span class="c">%   fmin-fmax with channels equidistantly spaced filters starting at fmin.</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   Wavelet types</span><span class="w"></span>
@@ -81,17 +82,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   The following wavelets can be passed as a flag:</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%     &#39;cauchy&#39;     Cauchy wavelet (default parameters [alpha beta gamma] = [300 0 3])</span><span class="w"></span>
+<span class="c">%   &#39;cauchy&#39;     Cauchy wavelet (default parameters [alpha beta gamma] = [300 0 3])</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%     &#39;morse&#39;      Generalized morse wavelet (default parameters [alpha beta gamma] = [300 0 3])</span><span class="w"></span>
+<span class="c">%   &#39;morse&#39;      Generalized morse wavelet (default parameters [alpha beta gamma] = [300 0 3])</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%     &#39;morlet&#39;     Morlet wavelet (default parameters sigma = [4])</span><span class="w"></span>
+<span class="c">%   &#39;morlet&#39;     Morlet wavelet (default parameters sigma = [4])</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%     &#39;fbsp&#39;       Frequency B-spline wavelet (default parameters [order fb] = [4 2])</span><span class="w"></span>
+<span class="c">%   &#39;fbsp&#39;       Frequency B-spline wavelet (default parameters [order fb] = [4 2])</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%     &#39;analyticsp&#39; Analytic spline wavelet (default parameters [order fb] = [4 2])</span><span class="w"></span>
+<span class="c">%   &#39;analyticsp&#39; Analytic spline wavelet (default parameters [order fb] = [4 2])</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%     &#39;cplxsp&#39;     Complex spline wavelet (default parameters [order fb] = [4 2])</span><span class="w"></span>
+<span class="c">%   &#39;cplxsp&#39;     Complex spline wavelet (default parameters [order fb] = [4 2])</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   A scale of 1 corresponds</span><span class="w"></span>
 <span class="c">%   to a wavelet filter with peak positioned at the frequency 0.1 relative</span><span class="w"></span>
@@ -155,8 +156,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span><span class="w"></span>
 <span class="c">%     &#39;redmul&#39;,redmul    Redundancy multiplier. Increasing the value of this</span><span class="w"></span>
 <span class="c">%                        will make the system more redundant by lowering the</span><span class="w"></span>
-<span class="c">%                        channel downsampling rates. It is only used if the</span><span class="w"></span>
-<span class="c">%                        filterbank is a non-uniform filterbank. Default</span><span class="w"></span>
+<span class="c">%                        channel downsampling rates. Default</span><span class="w"></span>
 <span class="c">%                        value is 1. If the value is less than one, the</span><span class="w"></span>
 <span class="c">%                        system may no longer be painless.</span><span class="w"></span>
 <span class="c">% </span><span class="w"></span>
@@ -203,54 +203,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%</span><span class="w"></span>
 <span class="c">%     [f,fs]=gspi;  % Get the test signal</span><span class="w"></span>
 <span class="c">%     Ls = length(f);</span><span class="w"></span>
-<span class="c">%     scales = linspace(10,0.1,100);</span><span class="w"></span>
+<span class="c">%     scales = 2.^linspace(5,-3.3,256);</span><span class="w"></span>
 <span class="c">%     [g,a,fc,L]=waveletfilters(Ls,scales, {&#39;fbsp&#39;, 4, 3}, &#39;repeat&#39;);</span><span class="w"></span>
 <span class="c">%     c=filterbank(f,g,a);</span><span class="w"></span>
 <span class="c">%     plotfilterbank(c,a,fc,fs,90);</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%   In the second example, we construct a wavelet filterbank with a</span><span class="w"></span>
-<span class="c">%   lowpass channels based on a Cauchy wavelet and verify it.</span><span class="w"></span>
-<span class="c">%   The plot shows the frequency responses of</span><span class="w"></span>
-<span class="c">%   filters used for analysis (top) and synthesis (bottom). :</span><span class="w"></span>
+<span class="c">%   In the second example, we do a constant-Q style analysis, the default is</span><span class="w"></span>
+<span class="c">%   a Cauchy wavelet, and plot its frequency bank response:</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
-<span class="c">%     [f,fs]=greasy;  % Get the test signal</span><span class="w"></span>
-<span class="c">%     Ls = length(f);</span><span class="w"></span>
-<span class="c">%     M0 = 511; %Desired number of channels (without 0 Hz-lowpass channel)</span><span class="w"></span>
-<span class="c">%     max_freqDiv10 = 10;  % 10 corresponds to the nyquist frequency</span><span class="w"></span>
-<span class="c">%     freq_step = max_freqDiv10/M0;</span><span class="w"></span>
-<span class="c">%     rate = 44100;</span><span class="w"></span>
-<span class="c">%     start_index = 1;</span><span class="w"></span>
-<span class="c">%     min_freqHz = rate/10*freq_step</span><span class="w"></span>
-<span class="c">%     min_scale_freq = min_freqHz*start_index</span><span class="w"></span>
-<span class="c">%     min_freqDiv10 = freq_step*start_index; %1/25; % By default, the reference scale for freqwavelet has center frequency 0.1</span><span class="w"></span>
-<span class="c">%     scales = 1./linspace(min_freqDiv10,max_freqDiv10,M0);</span><span class="w"></span>
-<span class="c">%     alpha = 1-2/(1+sqrt(5)); % 1-1/(goldenratio) delay sequence</span><span class="w"></span>
-<span class="c">%     delays = @(n,a) a*(mod(n*alpha+.5,1)-.5);</span><span class="w"></span>
-<span class="c">%     CauchyAlpha = 600;</span><span class="w"></span>
-<span class="c">%     [g, a,fc,L,info] = waveletfilters(Ls,scales,{&#39;cauchy&#39;,CauchyAlpha},&#39;uniform&#39;,&#39;single&#39;,&#39;energy&#39;, &#39;delay&#39;,delays, &#39;redtar&#39;, 8);</span><span class="w"></span>
-<span class="c">%</span><span class="w"></span>
-<span class="c">%     c=filterbank(f,{&#39;realdual&#39;,g},a);</span><span class="w"></span>
-<span class="c">%     r=2*real(ifilterbank(c,g,a));</span><span class="w"></span>
-<span class="c">%     if length(r) &gt; length(f)</span><span class="w"></span>
-<span class="c">%         norm(r(1:length(f))-f)</span><span class="w"></span>
-<span class="c">%     else</span><span class="w"></span>
-<span class="c">%         norm(r-f(1:length(r)))</span><span class="w"></span>
-<span class="c">%      end</span><span class="w"></span>
-<span class="c">%     % Plot frequency responses of individual filters</span><span class="w"></span>
-<span class="c">%     gd=filterbankrealdual(g,a,L);</span><span class="w"></span>
-<span class="c">%     figure(1);</span><span class="w"></span>
-<span class="c">%     subplot(2,1,1);</span><span class="w"></span>
-<span class="c">%     filterbankfreqz(gd,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span><span class="w"></span>
-<span class="c">%</span><span class="w"></span>
-<span class="c">%     subplot(2,1,2);</span><span class="w"></span>
-<span class="c">%     filterbankfreqz(g,a,L,fs,&#39;plot&#39;,&#39;linabs&#39;,&#39;posfreq&#39;);</span><span class="w"></span>
+<span class="c">%     fmin = 120;</span><span class="w"></span>
+<span class="c">%     fmax = fs/2;</span><span class="w"></span>
+<span class="c">%     bins = 8;</span><span class="w"></span>
+<span class="c">%     [g, a, fc, L, info] = waveletfilters(Ls,&#39;bins&#39;, fs, fmin, fmax, bins,&#39;repeat&#39;);</span><span class="w"></span>
+<span class="c">%     filterbankfreqz(g,a,Ls, &#39;plot&#39;, &#39;posfreq&#39;, &#39;dynrange&#39;, 60);</span><span class="w"></span>
 <span class="c">% </span><span class="w"></span>
-<span class="c">%   See also: freqwavelet, filterbank, setnorm</span><span class="w"></span>
+<span class="c">%   See also: freqwavelet, filterbank, setnorm, demo_waveletfilters</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">%   Url: http://ltfat.github.io/doc/filterbank/waveletfilters.html</span><span class="w"></span>
 
-<span class="c">% Copyright (C) 2005-2022 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
-<span class="c">% This file is part of LTFAT version 2.5.0</span><span class="w"></span>
+<span class="c">% Copyright (C) 2005-2023 Peter L. Soendergaard &lt;peter@sonderport.dk&gt; and others.</span><span class="w"></span>
+<span class="c">% This file is part of LTFAT version 2.6.0</span><span class="w"></span>
 <span class="c">%</span><span class="w"></span>
 <span class="c">% This program is free software: you can redistribute it and/or modify</span><span class="w"></span>
 <span class="c">% it under the terms of the GNU General Public License as published by</span><span class="w"></span>
@@ -278,11 +250,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">    </span><span class="n">channels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{</span><span class="mi">4</span><span class="p">};</span><span class="w"></span>
 <span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">scales</span><span class="w"></span>
 <span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;linear&#39;</span><span class="w"></span>
-<span class="w">            </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">inputmode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;linear&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;logarithmic&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bins&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;scales&#39;</span><span class="p">};</span><span class="w"></span>
-<span class="w">        </span><span class="c">%case &#39;logarithmic&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="c">%    definput.flags.inputmode = {&#39;logarithmic&#39;, &#39;bins&#39;, &#39;scales&#39;, &#39;linear&#39;};</span><span class="w"></span>
+<span class="w">            </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">inputmode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;linear&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bins&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;scales&#39;</span><span class="p">};</span><span class="w"></span>
 <span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;bins&#39;</span><span class="w"></span>
-<span class="w">            </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">inputmode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;bins&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;scales&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;linear&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;logarithmic&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">            </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">inputmode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;bins&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;scales&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;linear&#39;</span><span class="p">};</span><span class="w"></span>
 <span class="w">        </span><span class="k">otherwise</span><span class="w"></span>
 <span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: second argument must either be a scales vector or define the f-mapping.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">))</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
@@ -291,7 +261,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">    </span><span class="nb">varargin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">circshift</span><span class="p">(</span><span class="nb">varargin</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="nb">varargin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">varargin</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
 <span class="k">else</span><span class="w"></span>
-<span class="w">    </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">inputmode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;scales&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;linear&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;logarithmic&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bins&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="n">definput</span><span class="p">.</span><span class="n">flags</span><span class="p">.</span><span class="n">inputmode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;scales&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;linear&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bins&#39;</span><span class="p">};</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
 <span class="n">definput</span><span class="p">.</span><span class="n">import</span><span class="p">={</span><span class="s">&#39;setnorm&#39;</span><span class="p">};</span><span class="w"></span>
@@ -335,11 +305,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">        </span><span class="n">min_freq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fmin</span><span class="o">/</span><span class="n">nf</span><span class="w"> </span><span class="o">*</span><span class="mi">10</span><span class="p">;</span><span class="c">%map to freqwavelets nyquist f</span><span class="w"></span>
 <span class="w">        </span><span class="n">max_freq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fmax</span><span class="o">/</span><span class="n">nf</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="n">scales</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">./</span><span class="nb">linspace</span><span class="p">(</span><span class="n">min_freq</span><span class="p">,</span><span class="n">max_freq</span><span class="p">,</span><span class="n">channels</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="c">% elseif flags.do_logarithmic</span><span class="w"></span>
-<span class="c">%</span><span class="w"></span>
-<span class="c">%        fc = 2.^linspace(log2(fmin), log2(fmax), channels);    </span><span class="w"></span>
-<span class="c">%        fc = fc/nf * 10;   </span><span class="w"></span>
-<span class="c">%        scales = 1./fc;</span><span class="w"></span>
 <span class="w">        </span>
 <span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_bins</span><span class="w"></span>
 
@@ -361,7 +326,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">        </span><span class="k">end</span><span class="w"></span>
 
 <span class="w">        </span><span class="c">% Get rid of filters with frequency centers &gt;=fmax and nf</span><span class="w"></span>
-<span class="w">        </span><span class="c">% This will leave the first bigger than fmax it it is lower than nf</span><span class="w"></span>
+<span class="w">        </span><span class="c">% This will leave the first bigger than fmax if it is lower than nf</span><span class="w"></span>
 <span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">fc</span><span class="o">&gt;=</span><span class="n">fmax</span><span class="w"> </span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">fc</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">nf</span><span class="w"></span>
 <span class="w">            </span><span class="n">fc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
@@ -369,10 +334,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">            </span><span class="n">fc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fc</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">temp</span><span class="p">);</span><span class="w"></span>
 <span class="w">        </span><span class="k">end</span><span class="w"></span>
 
-<span class="w">        </span><span class="n">channels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">fc</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="n">min_freq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fmin</span><span class="o">/</span><span class="n">nf</span><span class="w"> </span><span class="o">*</span><span class="mi">10</span><span class="p">;</span><span class="c">%map to freqwavelets nyquist f</span><span class="w"></span>
-<span class="w">        </span><span class="n">max_freq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fmax</span><span class="o">/</span><span class="n">nf</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">scales</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">./</span><span class="nb">linspace</span><span class="p">(</span><span class="n">min_freq</span><span class="p">,</span><span class="n">max_freq</span><span class="p">,</span><span class="n">channels</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">fc_internal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fc</span><span class="o">./</span><span class="n">nf</span><span class="o">.*</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">scales</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">./</span><span class="n">fc_internal</span><span class="p">;</span><span class="w"></span>
+
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
 <span class="w">    </span><span class="n">scales_sorted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">scales</span><span class="p">,</span><span class="s">&#39;descend&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">startfreq</span><span class="p">)</span><span class="c">%set the start frequency</span><span class="w"></span>
@@ -436,7 +400,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">    </span><span class="n">lowpass_at_zero</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">M</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">M</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="c">%this is an estimated value</span><span class="w"></span>
-<span class="w">    </span><span class="n">aprecise</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.2</span><span class="o">./</span><span class="n">scales_sorted</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span><span class="o">*</span><span class="n">Ls</span><span class="p">;</span><span class="w"> </span><span class="c">% This depends on how single lowpass is called (l.195ff). Maybe automate. Adapt if necessary!!!</span><span class="w"></span>
+<span class="w">    </span><span class="n">aprecise</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">scales_sorted</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="mf">0.2</span><span class="p">;</span><span class="w"> </span><span class="c">% This depends on how single lowpass is called (l.195ff). Maybe automate. Adapt if necessary!!!</span><span class="w"></span>
+<span class="c">%    aprecise = (0.2./scales_sorted(4))*Ls; % This depends on how single lowpass is called (l.195ff). Maybe automate. Adapt if necessary!!!</span><span class="w"></span>
 <span class="k">else</span><span class="w"></span>
 <span class="w">    </span><span class="n">lowpass_number</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">lowpass_at_zero</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
@@ -458,36 +423,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 
 <span class="c">%% Compute the downsampling rate</span><span class="w"></span>
 <span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_regsampling</span><span class="w"></span>
-<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span>
-<span class="w">    </span><span class="p">[</span><span class="n">lower_scale</span><span class="p">,</span><span class="o">~</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">scales</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">[</span><span class="n">upper_scale</span><span class="p">,</span><span class="o">~</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">scales</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">lower_scale</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="nb">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">lower_scale</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="n">upper_scale</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="nb">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">upper_scale</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span>
-<span class="w">    </span><span class="c">% Find minimum a in each octave and floor23 it</span><span class="w"></span>
-<span class="w">    </span><span class="c">% to shrink &quot;a&quot; to the next composite number</span><span class="w"></span>
-<span class="w">    </span><span class="n">ct</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lower_scale</span><span class="p">:</span><span class="n">upper_scale</span><span class="w"></span>
-<span class="w">        </span><span class="n">tempidx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="nb">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">./</span><span class="n">scales</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">tempminidx</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">scales</span><span class="p">(</span><span class="n">tempidx</span><span class="p">));</span><span class="w"></span>
-<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tempidx</span><span class="p">(</span><span class="n">tempminidx</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span>
-<span class="w">        </span><span class="c">% Deal the integer subsampling factors</span><span class="w"></span>
-<span class="w">        </span><span class="n">a</span><span class="p">(</span><span class="n">tempidx</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">floor23</span><span class="p">(</span><span class="n">aprecise</span><span class="p">(</span><span class="n">idx</span><span class="p">));</span><span class="w"></span>
-<span class="w">        </span><span class="n">ct</span><span class="p">=</span><span class="n">ct</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">end</span><span class="w">   </span>
-<span class="w">    </span>
-<span class="w">    </span><span class="c">% Determine the minimal transform length lcm(a)</span><span class="w"></span>
-<span class="w">    </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span>
+<span class="w">    </span><span class="n">a</span><span class="p">=</span><span class="n">floor23</span><span class="p">(</span><span class="n">aprecise</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">% Determine the minimal transform length</span><span class="w"></span>
+<span class="w">    </span><span class="n">L</span><span class="p">=</span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+
 <span class="w">    </span><span class="c">% Heuristic trying to reduce lcm(a)</span><span class="w"></span>
-<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">L</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">*</span><span class="n">Ls</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span><span class="w"></span>
-<span class="w">        </span><span class="n">maxa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">maxa</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="k">while</span><span class="w"> </span><span class="n">L</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">*</span><span class="n">Ls</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span><span class="w"></span>
+<span class="w">       </span><span class="n">maxa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">maxa</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">       </span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
 
 <span class="k">elseif</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_fractional</span><span class="w"></span>
 <span class="w">    </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Ls</span><span class="p">;</span><span class="w"></span>
@@ -510,9 +458,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">% Get an expanded &quot;a&quot; / Convert &quot;a&quot; to LTFAT 2-column fractional format</span><span class="w"></span>
 <span class="n">afull</span><span class="p">=</span><span class="n">comp_filterbank_a</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="nb">struct</span><span class="p">());</span><span class="w"></span>
 
-<span class="c">%if flags.do_uniform</span><span class="w"></span>
-<span class="c">%    a = a(:,1);</span><span class="w"></span>
-<span class="c">%end</span><span class="w"></span>
 <span class="c">%==========================================================================</span><span class="w"></span>
 <span class="c">%% Adjust the downsampling rates in order to achieve &#39;redtar&#39;    </span><span class="w"></span>
 
@@ -531,19 +476,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">        </span><span class="n">org_red</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">./</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
 <span class="w">    </span>
+<span class="w">    </span><span class="c">%a_old = a;</span><span class="w"></span>
 <span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">org_red</span><span class="o">/</span><span class="n">kv</span><span class="p">.</span><span class="n">redtar</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_uniform</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_uniform</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">flags</span><span class="p">.</span><span class="n">do_regsampling</span><span class="w"></span>
 <span class="w">        </span><span class="n">N_new</span><span class="p">=</span><span class="nb">ceil</span><span class="p">(</span><span class="n">L</span><span class="o">./</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_complex</span><span class="w"></span>
-<span class="w">            </span><span class="n">N_new</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">N_new</span><span class="p">;</span><span class="n">N_new</span><span class="p">(</span><span class="k">end</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)];</span><span class="w"></span>
-<span class="w">        </span><span class="k">end</span><span class="w"></span>
 <span class="w">        </span><span class="n">a</span><span class="p">=[</span><span class="nb">repmat</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="nb">numel</span><span class="p">(</span><span class="n">N_new</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span><span class="n">N_new</span><span class="p">];</span><span class="w"></span>
 <span class="w">    </span><span class="k">else</span><span class="w"> </span>
 <span class="w">        </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
 <span class="w">        </span><span class="n">a</span><span class="p">=[</span><span class="n">a</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)];</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
+
 <span class="k">else</span><span class="w"></span>
 <span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">afull</span><span class="p">;</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
@@ -564,6 +508,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s: delay must be scaler or have enough elements to cover all channels.&#39;</span><span class="p">,</span><span class="nb">upper</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">));</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 <span class="n">scal</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">./</span><span class="n">a</span><span class="p">(:,</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+
+
+<span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_regsampling</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">redtar</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c">%another heuristic for reducing the filter bank length...</span><span class="w"></span>
+<span class="w">    </span><span class="c">%usually necessary when the redtar has been adjusted for regsampling</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="p">=</span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="k">while</span><span class="w"> </span><span class="n">L</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">*</span><span class="n">Ls</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span><span class="w"></span>
+<span class="w">      </span><span class="n">maxa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="n">maxa</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">filterbanklength</span><span class="p">(</span><span class="n">Ls</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="n">scal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
 <span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_complex</span><span class="w"></span>
 <span class="w">    </span>
@@ -598,7 +556,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="w">        </span><span class="c">% Scale the lowpass filters</span><span class="w"></span>
 <span class="w">        </span><span class="n">scal</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="n">scal</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
-<span class="w">    </span>
 <span class="w">    </span><span class="p">[</span><span class="n">gout</span><span class="p">,</span><span class="n">info</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">freqwavelet</span><span class="p">(</span><span class="n">winCell</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">scales</span><span class="p">,</span><span class="s">&#39;asfreqfilter&#39;</span><span class="p">,</span><span class="s">&#39;efsuppthr&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
 <span class="w">        </span><span class="n">kv</span><span class="p">.</span><span class="n">trunc_at</span><span class="p">,</span><span class="s">&#39;basefc&#39;</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="s">&#39;scal&#39;</span><span class="p">,</span><span class="n">scal</span><span class="p">(</span><span class="n">lowpass_number</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="p">),</span><span class="s">&#39;delay&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">delayvec</span><span class="p">(</span><span class="n">lowpass_number</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span><span class="p">),</span><span class="n">flags</span><span class="p">.</span><span class="n">norm</span><span class="p">);</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
@@ -606,13 +563,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstra
 <span class="c">%% Generate lowpass filters if desired</span><span class="w"></span>
 <span class="p">[</span><span class="n">gout</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">comp_fblowpassfilters</span><span class="p">(</span><span class="n">winCell</span><span class="p">,</span><span class="w"> </span><span class="n">gout</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="p">,</span><span class="w"> </span><span class="n">scal</span><span class="p">,</span><span class="w"> </span><span class="n">delayvec</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">lowpass_number</span><span class="p">),</span><span class="w"> </span><span class="n">lowpass_at_zero</span><span class="p">,</span><span class="w"> </span><span class="n">kv</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">info</span><span class="p">.</span><span class="n">lowpassstart</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lowpass_number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="c">%startindex of actual wavelets (tentative)</span><span class="w"></span>
+<span class="n">info</span><span class="p">.</span><span class="n">waveletstart</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lowpass_number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="c">%startindex of actual wavelets (tentative)</span><span class="w"></span>
 <span class="c">% Assign fc and adjust for sampling rate </span><span class="w"></span>
 <span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_scales</span><span class="w"></span>
 <span class="w">    </span><span class="n">fc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">fs</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.*</span><span class="n">info</span><span class="p">.</span><span class="n">fc</span><span class="p">;</span><span class="w"></span>
 <span class="k">else</span><span class="w"></span>
-<span class="w">    </span><span class="n">fc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nf</span><span class="o">.*</span><span class="n">info</span><span class="p">.</span><span class="n">fc</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">fc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nf</span><span class="o">.*</span><span class="n">info</span><span class="p">.</span><span class="n">fc</span><span class="p">;</span><span class="w">    </span>
 <span class="k">end</span><span class="w"></span>
+<span class="n">fc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fc</span><span class="p">(:);</span><span class="w"> </span><span class="c">%for compatibility with the filter bank framework</span><span class="w"></span>
 
 <span class="k">if</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_uniform</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">flags</span><span class="p">.</span><span class="n">do_regsampling</span><span class="w"></span>
 <span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">a</span><span class="p">(:,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
