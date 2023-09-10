@@ -4,8 +4,8 @@
 %% Set up the input signal and system
 % Gabor system parameters
 
-Lg = 384; % Window length
-g = firwin('hann',Lg); % Generate Hann window of length Lg
+Lg = 384; % Filter length
+g = firwin('hann',Lg); % Generate Hann filter of length Lg
 a = 128; % Hop size: 128 samples
 M = Lg; % Number of channels: 384 (Could also be larger or smaller than Lg
 

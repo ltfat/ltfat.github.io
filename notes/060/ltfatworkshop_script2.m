@@ -68,6 +68,7 @@ fprintf('Upper frame bound (Wavelet filters): B_wav = %.2f\n',B_wav);
 % the filter bank is for real-valued signals only. 
 figure(1);
 fbResp_aud = filterbankresponse(g_aud,a_aud,L_aud,'plot','real');
+title('Filter bank response whole FB')
 
 fprintf('Minimum of the filter bank response (ERB filters): %.2f\n',min(fbResp_aud));
 fprintf('Maximum of the filter bank response (ERB filters): %.2f\n',max(fbResp_aud));
@@ -89,6 +90,7 @@ fprintf('Upper frame bound (ERB filters 2): B_aud2 = %.2f\n',B_aud2);
 
 figure(2);
 fbResp_aud2 = filterbankresponse(g_audtight,a_aud,L_aud,'plot','real');
+title('Filter bank response whole FB')
 
 % We can compare the frequency response between the original filter bank
 % and the tight filter bank:
